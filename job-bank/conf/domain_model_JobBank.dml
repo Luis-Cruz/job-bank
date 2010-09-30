@@ -1,0 +1,275 @@
+package module.jobBank.domain; 
+
+
+valueType myorg.domain.util.ByteArray as ByteArray {
+    externalizeWith {
+        bytearray getBytes();
+    }
+}
+
+enum module.jobBank.domain.JobOfferType as JobOfferType;
+enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityType;
+
+class JobBankSystem {
+	Integer counterEnterprise;	
+}
+
+class EnterpriseProcess extends .module.workflow.domain.WorkflowProcess {
+}
+
+class Enterprise{
+	boolean canceled;
+	MultiLanguageString designation;
+	MultiLanguageString summary;
+	MultiLanguageString address;
+	MultiLanguageString area;
+	MultiLanguageString contactPerson;
+	String nif;
+	String phone;
+	String fax;
+	String email;
+	String areaCode;
+	ByteArray logo;
+}
+
+class JobBankYear {
+	Integer year;
+	Integer counter;
+}
+
+class JobOfferProcess extends .module.workflow.domain.WorkflowProcess {
+}
+
+
+
+class JobOffer {
+	DateTime creationDate;
+	DateTime beginDate;
+	DateTime endDate;
+	DateTime submittedForApprovalDate;
+	DateTime approvalDate;
+	Boolean canceled;
+	Boolean filled;
+	
+	MultiLanguageString reference;
+	MultiLanguageString function;
+	MultiLanguageString place;
+	MultiLanguageString descriptionOffer;
+	MultiLanguageString requirements;
+	String emailToSubmit;
+	JobOfferType jobOfferType;
+}
+
+class Student{
+
+}
+
+class Curriculum{
+	DateTime dateOfBirth;
+	MultiLanguageString nationality;
+	MultiLanguageString address;
+	MultiLanguageString area;
+	MultiLanguageString areaCode;
+	MultiLanguageString districtSubdivision;
+	String mobilePhone;
+	String phone;
+	String email;
+	MultiLanguageString professionalStatus;
+	MultiLanguageString geographicAvailability;
+	
+}
+class curriculumQualification.CurriculumQualification{
+	DateTime beginDate;
+	DateTime endDate;
+	MultiLanguageString institute;
+	MultiLanguageString city;
+}
+	class curriculumQualification.ProfissionalExperience extends curriculumQualification.CurriculumQualification{
+		MultiLanguageString businessArea;
+		MultiLanguageString function;
+		MultiLanguageString mainActivities;
+	}
+	class curriculumQualification.InternacionalExperience extends curriculumQualification.CurriculumQualification{
+		MultiLanguageString country;
+		MultiLanguageString program;
+		MultiLanguageString mainActivities;
+	}
+	class curriculumQualification.Extracurricular extends curriculumQualification.CurriculumQualification{
+	 	MultiLanguageString businessArea;
+		MultiLanguageString function;
+		MultiLanguageString mainActivities;
+	}
+	class curriculumQualification.Formation extends curriculumQualification.CurriculumQualification{
+	 	MultiLanguageString formationArea;
+		MultiLanguageString degree;
+		MultiLanguageString acquiredSkills;
+	}
+
+class CandidateOffer{
+	DateTime creationDate;
+	DateTime modifiedDate;
+	boolean selected;
+	boolean canceled;
+}
+
+class groups.NpeGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
+class groups.EnterpriseGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
+class groups.StudentGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
+class CurriculumProcess extends .module.workflow.domain.WorkflowProcess {
+}
+
+
+/*Relations With JobBankSystem */
+
+relation JobBankSystemWithMyOrg {
+	JobBankSystem playsRole jobBankSystem;
+	.myorg.domain.MyOrg playsRole myOrg;
+}
+relation JobBankSystemWithEnterprise {
+	JobBankSystem playsRole jobBankSystem;
+	Enterprise playsRole enterprises{
+		multiplicity *;
+	}
+}
+
+relation JobBankSystemWitJobOffer {
+	JobBankSystem playsRole jobBankSystem;
+	JobOffer playsRole JobOffers{
+		multiplicity *;
+	}
+}
+relation JobBankSystemWitCandidateOffer {
+	JobBankSystem playsRole jobBankSystem;
+	CandidateOffer playsRole candidateOffers{
+		multiplicity *;
+	}
+}
+
+
+relation JobBankSystemWithStudent {
+	JobBankSystem playsRole jobBankSystem;
+	Student playsRole students{
+		multiplicity *;
+	}
+}
+relation JobBankSystemWithJobBankYear {
+	JobBankSystem playsRole jobBankSystem;
+	JobBankYear playsRole jobBankYear{
+		multiplicity *;
+	}
+}
+
+relation JobBankSystemWithOrganizationalModel {
+	JobBankSystem playsRole jobBankSystem;
+	.module.organization.domain.OrganizationalModel playsRole organizationalModel;
+}
+relation JobBankSystemBackOfficeAccountabilityType {
+	JobBankSystem playsRole jobBankSystem;
+	.myorg.domain.User playsRole managementUsers{
+		multiplicity *;
+	}
+}
+
+/* Relations */
+
+relation EnterpriseWithUser{
+	Enterprise playsRole enterprise; 
+	.myorg.domain.User playsRole user;
+}
+
+relation EnterpriseWithUnit{
+	Enterprise playsRole enterprise; 
+	.module.organization.domain.Unit playsRole unit;
+}
+
+relation EnterpriseWithJobOffer{
+	Enterprise playsRole enterprise;
+	JobOffer playsRole jobOffer{
+		multiplicity *;
+	}
+}
+relation EnterpriseWithEnterpriseProcess{
+	Enterprise playsRole enterprise;
+	EnterpriseProcess playsRole enterpriseProcess;
+}
+relation EnterpriseWithAccountabilityTypeForApproval{
+	Enterprise playsRole enterprise{
+		multiplicity *;
+	}
+	.module.organization.domain.AccountabilityType playsRole accountabilityTypeForApproval; 
+}
+
+
+relation StudentWithPerson{
+	Student playsRole student;
+	.module.organization.domain.Person playsRole person;
+}
+
+relation JobOfferWithJobOfferProcess {
+	JobOffer playsRole jobOffer;
+	JobOfferProcess playsRole jobOfferProcess;
+	
+}
+relation JobOfferWithJobOffer{
+	JobOffer playsRole jobOffer;
+	CandidateOffer playsRole candidateOffer{
+		multiplicity *;
+	}	
+	
+}
+
+relation JobBankYearWithJobOffer {
+	JobBankYear playsRole jobBankYear;
+	JobOffer playsRole jobOffer {
+		multiplicity *;
+	}
+}
+relation JobBankYearWithCurriculum{
+	JobBankYear playsRole JobBankYear;
+	Curriculum playsRole curriculum{
+		multiplicity *;
+	}
+}
+
+relation StudentWithCurriculum{
+	Student playsRole student;
+	Curriculum playsRole curriculum;
+}
+
+relation StudentCandidateToffers{
+	Student playsRole student{
+		multiplicity *;
+	}
+	JobOffer playsRole jobOffer{
+		multiplicity *;
+	}
+}
+relation StudentWithCandidateOffer{
+	Student playsRole student;
+	CandidateOffer playsRole candidateOffer{
+		multiplicity *;
+	}	
+}
+relation CurriculumWithCurriculumProcess{
+	Curriculum playsRole curriculum;
+	CurriculumProcess playsRole curriculumProcess;
+	
+}
+
+relation CurriculumWithCurriculumQualification{
+	Curriculum playsRole curriculum;
+	curriculumQualification.CurriculumQualification playsRole curriculumQualification{
+		multiplicity *;
+	}	
+}
+
+
+
+
+
