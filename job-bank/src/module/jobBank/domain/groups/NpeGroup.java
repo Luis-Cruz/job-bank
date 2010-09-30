@@ -27,7 +27,7 @@ public class NpeGroup extends NpeGroup_Base {
 
     @Override
     public String getName() {
-	return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.jobBank.group.jobGroup.name");
+	return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.jobBank.group.jobBankGroup.name");
     }
 
     @Override

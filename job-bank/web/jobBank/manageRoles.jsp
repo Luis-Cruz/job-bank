@@ -12,7 +12,7 @@
 <bean:message bundle="JOB_BANK_RESOURCES" key="message.manager.npeGroup"/>
 
 <div class="mbottom15">
-<fr:form action="jobBank.do?method=addManagement"> 
+<fr:form action="/jobBank.do?method=addManagement"> 
 	<fr:edit id="searchUsers" name="searchUsers" >
 		<fr:schema type="module.jobBank.domain.beans.SearchUsers" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="person" layout="autoComplete" key="label.manager.person" bundle="JOB_BANK_RESOURCES">

@@ -1,7 +1,7 @@
 <schema name="jobBank.enterprise.registration"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.beans.EnterpriseBean">
-	<slot name="logoInputStream" key="label.application.logo" bundle="JOB_BANK_RESOURCES">
+	<slot name="logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
 		<property name="fileNameSlot" value="logoFilename" />
 		<property name="size" value="30"/>
 	</slot>

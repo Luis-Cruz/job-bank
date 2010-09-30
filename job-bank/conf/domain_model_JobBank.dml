@@ -121,6 +121,9 @@ class groups.EnterpriseGroup extends .myorg.domain.groups.PersistentGroup {
 class groups.StudentGroup extends .myorg.domain.groups.PersistentGroup {
 }
 
+class groups.FenixStudentGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
 class CurriculumProcess extends .module.workflow.domain.WorkflowProcess {
 }
 

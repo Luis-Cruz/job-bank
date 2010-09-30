@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.groups.EnterpriseGroup;
+import module.jobBank.domain.groups.FenixStudentGroup;
 import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.groups.StudentGroup;
 import myorg.domain.RoleType;
@@ -11,6 +12,7 @@ import myorg.domain.VirtualHost;
 import myorg.domain.contents.ActionNode;
 import myorg.domain.contents.Node;
 import myorg.domain.groups.AnyoneGroup;
+import myorg.domain.groups.IntersectionGroup;
 import myorg.domain.groups.NegationGroup;
 import myorg.domain.groups.PersistentGroup;
 import myorg.domain.groups.Role;
@@ -47,8 +49,13 @@ public class InterfaceCreationAction extends ContextBaseAction {
 		"link.sideBar.jobBank.manageRoles", Role.getRole(RoleType.MANAGER));
 
 	/* Student */
+
+	final PersistentGroup fenixStudentGroup = FenixStudentGroup.getInstance();
+	final NegationGroup candidateStudentsToJobBank = NegationGroup.createNegationGroup(IntersectionGroup
+		.createIntersectionGroup(studentGroup, fenixStudentGroup));
+
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "termsResponsibilityStudent",
-		"resources.JobBankResources", "link.sideBar.jobBank.createStudent", StudentGroup.getViewStudentGroup());
+		"resources.JobBankResources", "link.sideBar.jobBank.createStudent", candidateStudentsToJobBank);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "personalArea", "resources.JobBankResources",
 		"link.sideBar.jobBank.personalArea", studentGroup);
@@ -61,8 +68,8 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	/* Enterprise */
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "termsResponsibilityEnterprise",
-		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise", NegationGroup
-			.createNegationGroup(UserGroup.getInstance()));
+		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise",
+		NegationGroup.createNegationGroup(UserGroup.getInstance()));
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "enterprise", "resources.JobBankResources",
 		"link.sideBar.jobBank.enterprise", entrepriseGroup);
