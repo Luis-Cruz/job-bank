@@ -46,7 +46,7 @@ public class StudentGroup extends EnterpriseGroup_Base {
 	return users;
     }
 
-    // TODO: Alterar para verificar se é estudante do IST
+    // TODO: Alterar para verificar se e estudante do IST
     public static PersistentGroup getViewStudentGroup() {
 	User user = UserView.getCurrentUser();
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
