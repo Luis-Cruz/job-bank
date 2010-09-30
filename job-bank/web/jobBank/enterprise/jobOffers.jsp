@@ -18,7 +18,7 @@
 		<fr:layout name="tabular">
 			
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-			<fr:property name="link(view)" value="/enterprise.do?method=viewJobOfferProcessToManage" />
+			<fr:property name="link(view)" value="/jobBank.do?method=viewJobOfferProcessToManage" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="OID" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />

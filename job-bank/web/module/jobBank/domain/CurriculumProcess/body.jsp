@@ -84,6 +84,7 @@
 		</fr:schema>
 		
 	</fr:view>
+	
 </logic:present>
 <logic:empty name="candidatesOffersActive">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="message.curriculum.there.are.no.candidacies"/>

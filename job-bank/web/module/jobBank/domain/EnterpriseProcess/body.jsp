@@ -28,7 +28,7 @@
 	<p> 
 		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement"/>
 		<p>
-			<bean:write name="enterprise" property="agreement"/></p>
+			<bean:write name="enterprise" property="agreement"/>
 		</p>
 	</p>
 </logic:equal>

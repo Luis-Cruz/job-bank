@@ -47,6 +47,9 @@ public class InterfaceCreationAction extends ContextBaseAction {
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/jobBank", "manageRoles", "resources.JobBankResources",
 		"link.sideBar.jobBank.manageRoles", Role.getRole(RoleType.MANAGER));
+	
+	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "configuration", "resources.JobBankResources",
+		"link.sideBar.jobBank.configuration",  Role.getRole(RoleType.MANAGER));
 
 	/* Student */
 
@@ -87,8 +90,7 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "jobOffers", "resources.JobBankResources",
 		"link.sideBar.jobBank.offers", npeGroup);
 
-	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "configuration", "resources.JobBankResources",
-		"link.sideBar.jobBank.configuration", npeGroup);
+	
 
 	/* End Back Office */
 

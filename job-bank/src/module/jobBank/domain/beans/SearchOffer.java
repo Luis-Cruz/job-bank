@@ -74,7 +74,7 @@ public class SearchOffer implements Serializable {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 		JobOffer jobOffer = object.getJobOffer();
-		return isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer);
+		return  !jobOffer.isCanceled() && isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer);
 	    }
 	});
 	return jobOfferProcesses;

@@ -37,23 +37,35 @@
 	</slot>	
 </schema>
 
-<schema name="jobBank.enterprise.registration.edit"
-	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.beans.EnterpriseBean" extends="jobBank.enterprise.registration">
-	<remove name="jobBankAccountabilityType" key="label.jobBank.provider"/>  
-</schema>
-
-<schema name="jobBank.enterprise.registration.logo" bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">
-	
-</schema>
-
 <schema name="jobBank.enterprise.enterpriseProcess.view" 
 	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.registration">
-	<remove name="password"/>
-	<remove name="repeatPassword"/>
-	<remove name="jobBankAccountabilityType"/>
-	<remove name="logoInputStream"/>
+	type="module.jobBank.domain.Enterprise">
+	<slot name="name" key="label.enterprise.name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+		<property name="size" value="50" />
+	</slot>
+	<slot name="email" key="label.enterprise.email">
+		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
+		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+		<property name="size" value="50" />
+	</slot>
+	<slot name="contactPerson" key="label.enterprise.contactPerson"> 
+		<property name="size" value="50" />
+	 </slot>
+	 <slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>	
+	<slot name="password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
+	<slot name="repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
+	<slot name="designation" key="label.enterprise.designation" layout="area">  
+		<property name="columns" value="60" />
+		<property name="rows" value="6" />
+	</slot>
+	<slot name="summary" key="label.enterprise.summary"  layout="area">  
+		<property name="columns" value="60" />
+		<property name="rows" value="6" />
+	</slot>
+	<slot name="area" key="label.enterprise.area">  </slot>
+	<slot name="areaCode" key="label.enterprise.areaCode">  </slot>
+	<slot name="phone" key="label.enterprise.phone">  </slot>
+	<slot name="fax" key="label.enterprise.fax">  </slot>
 </schema>
 
 <schema name="jobBank.enterprise.registration.edit" 
@@ -109,12 +121,6 @@
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.beans.JobOfferBean">
 
-	<slot name="creationDate" key="label.enterprise.offer.creationDate">
-		<property name="readOnly" value="true" > </property>
-	</slot>    
-	<slot name="enterpriseName" key="label.enterprise.name">
-		<property name="readOnly" value="true" > </property>  
-	</slot>
 	<slot name="contactPerson" key="label.enterprise.contactPerson">
 		<property name="readOnly" value="true" > </property>  
 	</slot>
@@ -180,7 +186,7 @@
 </schema>
 
 
-<schema name="jobBank.activityInformation.CurriculumInfoActivity" type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES" extends="jobBank.enterprise.offer.create">
+<schema name="jobBank.activityInformation.CurriculumInfoActivity" type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">
 	<slot name="curriculumBean.email" key="label.curriculum.email"/> 
 	
 	<slot name="curriculumBean.dateOfBirth" key="label.curriculum.dateOfBirth" layout="picker">

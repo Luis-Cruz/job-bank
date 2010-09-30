@@ -60,7 +60,7 @@ public class Search implements Serializable {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 		JobOffer offer = object.getJobOffer();
-		return offer.isCandidancyPeriod() && isSatisfiedProcessNumber(offer) && isSatisfiedEnterprise(offer)
+		return !offer.isCanceled() && offer.isCandidancyPeriod() && isSatisfiedProcessNumber(offer) && isSatisfiedEnterprise(offer)
 			&& isSatisfiedFunction(offer) && isSatisfiedJobOfferType(offer);
 	    }
 	});
