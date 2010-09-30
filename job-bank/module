@@ -1,3 +1,2 @@
 name=jobBank
-depends=core, organization, organization-ist
-
+depends=core, workflow-module, organization, organization-ist
