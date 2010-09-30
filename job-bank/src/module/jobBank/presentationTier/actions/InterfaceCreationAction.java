@@ -51,8 +51,8 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	/* Student */
 
 	final PersistentGroup fenixStudentGroup = FenixStudentGroup.getInstance();
-	final NegationGroup candidateStudentsToJobBank = NegationGroup.createNegationGroup(IntersectionGroup
-		.createIntersectionGroup(studentGroup, fenixStudentGroup));
+	final IntersectionGroup candidateStudentsToJobBank = IntersectionGroup.createIntersectionGroup(
+		NegationGroup.createNegationGroup(studentGroup), fenixStudentGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "termsResponsibilityStudent",
 		"resources.JobBankResources", "link.sideBar.jobBank.createStudent", candidateStudentsToJobBank);
