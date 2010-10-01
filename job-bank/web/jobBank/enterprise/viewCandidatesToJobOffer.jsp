@@ -33,7 +33,7 @@
 			<fr:property name="key(remove)" value="link.jobBank.removeCandidate" />
 			<fr:property name="param(remove)" value="externalId/candidateOID" />
 			<fr:property name="bundle(remove)" value="JOB_BANK_RESOURCES" />
-			<fr:property name="visibleIfNot(remove)" value="selected" />
+			<fr:property name="visibleIf(remove)" value="selected" />
 			
 			
 		

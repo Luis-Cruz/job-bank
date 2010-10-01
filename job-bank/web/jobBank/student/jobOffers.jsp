@@ -17,8 +17,6 @@
 				key="label.enterprise.jobOfferProcess.processIdentification" />
 			<fr:slot name="enterprise" key="label.enterprise.name" />
 			<fr:slot name="function" key="label.enterprise.jobOffer.function" />
-			<fr:slot name="creationDate"
-				key="label.enterprise.offer.creationDate" layout="picker" />
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
 				<fr:property name="defaultText" value="label.jobOffer.jobType.all" />
 				<fr:property name="defaultTextBundle" value="JOB_BANK_RESOURCES" />

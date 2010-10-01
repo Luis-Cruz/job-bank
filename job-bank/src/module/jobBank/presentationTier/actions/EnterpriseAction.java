@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.CandidateOffer;
 import module.jobBank.domain.Enterprise;
+import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
@@ -41,8 +42,8 @@ public class EnterpriseAction extends ContextBaseAction {
 	    final HttpServletResponse response) {
 	JobOfferBean bean = getRenderedObject("jobOfferBean");
 	try {
-	    bean.create();
-	    return jobOffers(mapping, form, request, response);
+	    JobOffer newJobOffer = bean.create();
+	    return ProcessManagement.forwardToProcess(newJobOffer.getJobOfferProcess());
 	} catch (DomainException e) {
 	    addLocalizedMessage(request, e.getLocalizedMessage());
 	    return prepareToCreateOffer(mapping, form, request, response);

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import module.jobBank.domain.beans.JobOfferBean;
 import module.jobBank.domain.utils.IPredicate;
-import module.jobBank.domain.utils.MobilityProcessStageState;
+import module.jobBank.domain.utils.JobBankProcessStageState;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.exceptions.DomainException;
 
@@ -86,6 +86,10 @@ public class JobOffer extends JobOffer_Base {
 	setApprovalDate(new DateTime());
     }
 
+    public void unapprove() {
+	setApprovalDate(null);
+    }
+
     public boolean isEditable() {
 	return getSubmittedForApprovalDate() == null && !isCanceled() && !isApproved();
     }
@@ -122,14 +126,14 @@ public class JobOffer extends JobOffer_Base {
 	return isAfterCandidancyPeriod() && isApproved();
     }
 
-    public MobilityProcessStageState getState() {
+    public JobBankProcessStageState getState() {
 	if (isCandidancyPeriod()) {
-	    return MobilityProcessStageState.UNDER_WAY;
+	    return JobBankProcessStageState.UNDER_WAY;
 	}
 	if (isAfterCompletedCandidancyPeriod()) {
-	    return MobilityProcessStageState.COMPLETED;
+	    return JobBankProcessStageState.COMPLETED;
 	}
-	return MobilityProcessStageState.NOT_YET_UNDER_WAY;
+	return JobBankProcessStageState.NOT_YET_UNDER_WAY;
     }
 
     public Set<CandidateOffer> getActiveCandidateOffers() {

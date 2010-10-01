@@ -18,6 +18,11 @@ public class FenixStudentGroup extends FenixStudentGroup_Base {
 
     @Override
     public boolean isMember(User user) {
+	return isStudent(user);
+    }
+
+    @Service
+    private Boolean isStudent(User user) {
 	return user != null && user.getPerson() != null && user.getPerson().getRemotePerson() != null
 		&& user.getPerson().getRemotePerson().getStudent() != null;
     }

@@ -23,6 +23,24 @@
 
 <fr:form>
 		<fr:view name="student" property="curriculum">
+			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
+				<fr:slot name="email" key="label.curriculum.email"/> 
+				<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth" layout="picker"/>
+				<fr:slot name="nationality" key="label.curriculum.nationality"/>
+				<fr:slot name="address" key="label.curriculum.address"/>
+				<fr:slot name="area" key="label.curriculum.area"/>
+				<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
+				<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
+					<property name="nullOptionHidden" value="true"/>
+				</fr:slot>
+				<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
+				<fr:slot name="phone" key="label.curriculum.phone"/>  
+				<fr:slot name="professionalStatus" key="label.curriculum.professionalStatus" layout="area">  
+					<property name="columns" value="60" />
+					<property name="rows" value="6" />
+				</fr:slot>
+				<fr:slot name="geographicAvailability" key="label.curriculum.geographicAvailability"/>
+	</fr:schema>
 		</fr:view>
 	
 		<logic:present name="curriculumQualifications" >
@@ -39,16 +57,13 @@
 				</fr:layout>
 				<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOfferProcess">
 					<fr:slot name="class.simpleName"/>
-			<fr:slot name="beginDate"/>
-			<fr:slot name="endDate"/>
+					<fr:slot name="beginDate"/>
+				<fr:slot name="endDate"/>
 				</fr:schema>
 			</fr:view>
 		</logic:present>
-		
-		<logic:equal name="curriculumQualificationsSize" value="0">
-			<bean:message key="message.curriculum.no.have.curriculumQualifications" bundle="JOB_BANK_RESOURCES"/>
-		</logic:equal>
 </fr:form> 
+
 
 
 

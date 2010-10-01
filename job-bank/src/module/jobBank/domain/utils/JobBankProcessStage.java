@@ -4,12 +4,12 @@ import module.jobBank.domain.JobBankSystem;
 import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
-public enum MobilityProcessStage implements IPresentableEnum {
-    EDITABLE, PUBLISHED, CANDIDATED;
+public enum JobBankProcessStage implements IPresentableEnum {
+    UNDER_CONTRUCTION, APROVED, PUBLISHED, SELECTION;
 
     private static final String BUNDLE = JobBankSystem.JOB_BANK_RESOURCES;
-    private static final String KEY_PREFIX = "label.MobilityProcessStage.";
-    private static final String KEY_PREFIX_DESCRIPTION = "label.MobilityProcessStage.description.";
+    private static final String KEY_PREFIX = "label.JobBankProcessStage.";
+    private static final String KEY_PREFIX_DESCRIPTION = "label.JobBankProcessStage.description.";
 
     public String getLocalizedName() {
 	final String key = KEY_PREFIX + name();
