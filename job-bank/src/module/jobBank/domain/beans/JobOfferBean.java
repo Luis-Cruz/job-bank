@@ -20,14 +20,14 @@ public class JobOfferBean implements Serializable {
     private DateTime creationDate;
     private DateTime beginDate;
     private DateTime endDate;
-    private MultiLanguageString reference;
+    private String reference;
     private MultiLanguageString enterpriseName;
-    private MultiLanguageString contactPerson;
+    private String contactPerson;
     private MultiLanguageString function;
-    private MultiLanguageString place;
+    private String place;
     private MultiLanguageString descriptionOffer;
     private MultiLanguageString requirements;
-    private MultiLanguageString degree;
+    private String degree;
     private String emailToSubmit;
     private JobOfferType jobOfferType;
 
@@ -80,11 +80,11 @@ public class JobOfferBean implements Serializable {
 	this.endDate = endDate;
     }
 
-    public MultiLanguageString getReference() {
+    public String getReference() {
 	return reference;
     }
 
-    public void setReference(MultiLanguageString reference) {
+    public void setReference(String reference) {
 	this.reference = reference;
     }
 
@@ -96,11 +96,11 @@ public class JobOfferBean implements Serializable {
 	this.enterpriseName = enterpriseName;
     }
 
-    public MultiLanguageString getContactPerson() {
+    public String getContactPerson() {
 	return contactPerson;
     }
 
-    public void setContactPerson(MultiLanguageString contactPerson) {
+    public void setContactPerson(String contactPerson) {
 	this.contactPerson = contactPerson;
     }
 
@@ -112,11 +112,11 @@ public class JobOfferBean implements Serializable {
 	this.function = function;
     }
 
-    public MultiLanguageString getPlace() {
+    public String getPlace() {
 	return place;
     }
 
-    public void setPlace(MultiLanguageString place) {
+    public void setPlace(String place) {
 	this.place = place;
     }
 
@@ -144,11 +144,11 @@ public class JobOfferBean implements Serializable {
 	this.emailToSubmit = emailToSubmit;
     }
 
-    public MultiLanguageString getDegree() {
+    public String getDegree() {
 	return degree;
     }
 
-    public void setDegree(MultiLanguageString degree) {
+    public void setDegree(String degree) {
 	this.degree = degree;
     }
 

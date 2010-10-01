@@ -40,7 +40,7 @@ public class JobOffer extends JobOffer_Base {
 	return getEnterprise().getName();
     }
 
-    public MultiLanguageString getContactPerson() {
+    public String getContactPerson() {
 	return getEnterprise().getContactPerson();
     }
 

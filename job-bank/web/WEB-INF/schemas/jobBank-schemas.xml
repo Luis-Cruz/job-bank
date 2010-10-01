@@ -124,6 +124,11 @@
 	<slot name="contactPerson" key="label.enterprise.contactPerson">
 		<property name="readOnly" value="true" > </property>  
 	</slot>
+	<slot name="emailToSubmit" key="label.enterprise.jobOffer.emailToSubmit">
+		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
+		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+		<property name="size" value="50" />
+	</slot>
 	<slot name="reference" key="label.enterprise.jobOffer.reference"/>
 	<slot name="place" key="label.enterprise.jobOffer.place"/>
 	<slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
@@ -137,11 +142,6 @@
 	<slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />
-	</slot>
-	<slot name="emailToSubmit" key="label.enterprise.jobOffer.emailToSubmit">
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-		<property name="size" value="50" />
 	</slot>
 	<slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker">
 		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>

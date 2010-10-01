@@ -21,9 +21,9 @@ class Enterprise{
 	boolean canceled;
 	MultiLanguageString designation;
 	MultiLanguageString summary;
-	MultiLanguageString address;
-	MultiLanguageString area;
-	MultiLanguageString contactPerson;
+	String address;
+	String area;
+	String contactPerson;
 	String nif;
 	String phone;
 	String fax;
@@ -51,9 +51,9 @@ class JobOffer {
 	Boolean canceled;
 	Boolean filled;
 	
-	MultiLanguageString reference;
+	String reference;
 	MultiLanguageString function;
-	MultiLanguageString place;
+	String place;
 	MultiLanguageString descriptionOffer;
 	MultiLanguageString requirements;
 	String emailToSubmit;

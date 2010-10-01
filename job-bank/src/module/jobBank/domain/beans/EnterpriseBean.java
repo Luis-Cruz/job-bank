@@ -31,9 +31,9 @@ public class EnterpriseBean implements Serializable {
     private MultiLanguageString name;
     private MultiLanguageString designation;
     private MultiLanguageString summary;
-    private MultiLanguageString address;
-    private MultiLanguageString area;
-    private MultiLanguageString contactPerson;
+    private String address;
+    private String area;
+    private String contactPerson;
     private JobBankAccountabilityType jobBankAccountabilityType;
 
     public EnterpriseBean() {
@@ -148,27 +148,27 @@ public class EnterpriseBean implements Serializable {
 	this.summary = summary;
     }
 
-    public MultiLanguageString getAddress() {
+    public String getAddress() {
 	return address;
     }
 
-    public void setAddress(MultiLanguageString address) {
+    public void setAddress(String address) {
 	this.address = address;
     }
 
-    public MultiLanguageString getArea() {
+    public String getArea() {
 	return area;
     }
 
-    public void setArea(MultiLanguageString area) {
+    public void setArea(String area) {
 	this.area = area;
     }
 
-    public MultiLanguageString getContactPerson() {
+    public String getContactPerson() {
 	return contactPerson;
     }
 
-    public void setContactPerson(MultiLanguageString contactPerson) {
+    public void setContactPerson(String contactPerson) {
 	this.contactPerson = contactPerson;
     }
 
