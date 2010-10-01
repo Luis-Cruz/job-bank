@@ -112,7 +112,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	Set<JobOfferProcess> processes = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
-		return object.isProcessOwner(UserView.getCurrentUser()) && !object.getJobOffer().isActive();
+		return object.isProcessOwner(UserView.getCurrentUser()) && !object.getJobOffer().isCanceled();
 	    }
 	});
 	request.setAttribute("processes", processes);

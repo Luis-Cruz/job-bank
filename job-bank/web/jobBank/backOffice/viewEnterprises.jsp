@@ -19,9 +19,9 @@
 </html:link>
 </p>
 
-<h2>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.pending"/>
-</h2>
+<h3>
+	<bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.pending"/>
+</h3>
 
 	
 <fr:form>
