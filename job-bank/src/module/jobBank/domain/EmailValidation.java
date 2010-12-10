@@ -54,7 +54,7 @@ public class EmailValidation extends EmailValidation_Base {
 	body.append("Need to validate your e-mail. Click the URL below \n\n");
 	body.append(String.format("%s&checkEmail=%s&OID=%s", getJobBankSystem().getUrlEmailValidation(), checksum,
 		getExternalId()));
-	body.append(String.format("\n\n\n Instituto Superior Técnico"));
+	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
 	return body.toString();
     }
 
