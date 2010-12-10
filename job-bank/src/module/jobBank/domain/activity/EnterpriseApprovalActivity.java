@@ -32,7 +32,7 @@ public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProce
     private String getBody() {
 	StringBuilder body = new StringBuilder();
 	body.append("Welcome to Job Bank. Your registration was successfully approved");
-	body.append(String.format("\n\n\n Instituto Superior Técnico"));
+	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
 	return body.toString();
     }
 

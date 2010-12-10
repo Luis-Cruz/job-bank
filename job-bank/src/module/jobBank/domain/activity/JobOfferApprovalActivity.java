@@ -33,8 +33,8 @@ public class JobOfferApprovalActivity extends WorkflowActivity<JobOfferProcess, 
     private String getBody() {
 	StringBuilder body = new StringBuilder();
 	body
-		.append("Your request for registration was not approved. Contact Núcleo Parcerias Empresariais for more information.\n Thanks ");
-	body.append(String.format("\n\n\n Instituto Superior Técnico"));
+		.append("Your request for registration was not approved. Contact Nucleo Parcerias Empresariais for more information.\n Thanks ");
+	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
 	return body.toString();
     }
 
