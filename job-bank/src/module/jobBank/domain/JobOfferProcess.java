@@ -10,8 +10,9 @@ import module.jobBank.domain.activity.CancelJobOfferActivity;
 import module.jobBank.domain.activity.CancelJobOfferApprovalActivity;
 import module.jobBank.domain.activity.CancelJobOfferPublicationActivity;
 import module.jobBank.domain.activity.CancelJobOfferSubmitionForApprovalActivity;
-import module.jobBank.domain.activity.EditJobOfferActivity;
 import module.jobBank.domain.activity.JobOfferApprovalActivity;
+import module.jobBank.domain.activity.JobOfferConcludedActivity;
+import module.jobBank.domain.activity.JobOfferEditActivity;
 import module.jobBank.domain.activity.SubmitJobOfferForApprovalActivity;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageView;
@@ -26,13 +27,14 @@ public class JobOfferProcess extends JobOfferProcess_Base {
     private static final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activities;
     static {
 	final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activitiesAux = new ArrayList<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>>();
-	activitiesAux.add(new EditJobOfferActivity());
+	activitiesAux.add(new JobOfferEditActivity());
 	activitiesAux.add(new SubmitJobOfferForApprovalActivity());
 	activitiesAux.add(new JobOfferApprovalActivity());
 	activitiesAux.add(new CancelJobOfferActivity());
 	activitiesAux.add(new CancelJobOfferApprovalActivity());
 	activitiesAux.add(new CancelJobOfferSubmitionForApprovalActivity());
 	activitiesAux.add(new CancelJobOfferPublicationActivity());
+	activitiesAux.add(new JobOfferConcludedActivity());
 	activities = Collections.unmodifiableList(activitiesAux);
     }
 
@@ -62,7 +64,7 @@ public class JobOfferProcess extends JobOfferProcess_Base {
 
     @Override
     public boolean isAccessible(User user) {
-	return isProcessOwner(user) || JobBankSystem.getInstance().isManagementMember(user);
+	return isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user);
     }
 
     public boolean isAccessible() {
@@ -76,17 +78,17 @@ public class JobOfferProcess extends JobOfferProcess_Base {
     }
 
     public boolean getCanManageJobProcess() {
-	return isAccessible(UserView.getCurrentUser()) || JobBankSystem.getInstance().isManagementMember();
+	return isAccessible(UserView.getCurrentUser()) || JobBankSystem.getInstance().isNPEMember();
     }
 
     public boolean getCanViewJobProcess() {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.isManagementMember() || jobBankSystem.isEnterpriseMember() || jobBankSystem.isStudentMember();
+	return jobBankSystem.isNPEMember() || jobBankSystem.isEnterpriseActiveMember() || jobBankSystem.isStudentMember();
     }
 
     public boolean getCanManageCandidatesJobProcess() {
 	return isProcessOwner(UserView.getCurrentUser()) && getJobOffer().isCandidancyPeriod()
-		|| getJobOffer().isAfterCompletedCandidancyPeriod();
+		|| getJobOffer().isSelectionPeriod();
     }
 
     @Override
@@ -116,4 +118,21 @@ public class JobOfferProcess extends JobOfferProcess_Base {
     public boolean isTicketSupportAvailable() {
 	return false;
     }
+
+    @Override
+    public boolean isFileSupportAvailable() {
+	return false;
+    }
+
+    @Override
+    public boolean isCreatedByAvailable() {
+	return false;
+    }
+
+    /*
+     * @Override public List<Class<? extends ProcessFile>>
+     * getAvailableFileTypes() { final List<Class<? extends ProcessFile>> list =
+     * super.getAvailableFileTypes(); list.add(0, Curriculum.class); return
+     * list; }
+     */
 }

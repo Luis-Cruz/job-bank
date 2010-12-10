@@ -3,7 +3,9 @@ package module.jobBank.domain.beans;
 import java.io.InputStream;
 import java.io.Serializable;
 
+import module.jobBank.domain.EmailValidation;
 import module.jobBank.domain.Enterprise;
+import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankAccountabilityType;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
@@ -20,7 +22,9 @@ public class EnterpriseBean implements Serializable {
     private String nif;
     private String phone;
     private String fax;
-    private String email;
+    private String url;
+    private String loginEmail;
+    private String contactEmail;
     private String areaCode;
 
     private ByteArray logo;
@@ -36,19 +40,28 @@ public class EnterpriseBean implements Serializable {
     private String contactPerson;
     private JobBankAccountabilityType jobBankAccountabilityType;
 
+    private EnterpriseStateType enterpriseStateType;
+    private EmailValidation emailValidation;
+
     public EnterpriseBean() {
 	super();
     }
 
+    public EnterpriseBean(EmailValidation emailValidation) {
+	setEmailValidation(emailValidation);
+    }
+
     public EnterpriseBean(Enterprise enterprise) {
 	super();
-	setUsername(enterprise.getUser().getUsername());
+	setUsername(enterprise.getLoginEmail());
 	setPassword(enterprise.getUser().getPassword());
 	setRepeatPassword(enterprise.getUser().getPassword());
 	setNif(enterprise.getNif());
 	setPhone(enterprise.getPhone());
 	setFax(enterprise.getFax());
-	setEmail(enterprise.getEmail());
+	setUrl(enterprise.getUrl());
+	setLoginEmail(enterprise.getLoginEmail());
+	setContactEmail(enterprise.getContactEmail());
 	setAreaCode(enterprise.getAreaCode());
 	setName(enterprise.getName());
 	setDesignation(enterprise.getDesignation());
@@ -108,12 +121,12 @@ public class EnterpriseBean implements Serializable {
 	this.fax = fax;
     }
 
-    public String getEmail() {
-	return email;
+    public String getLoginEmail() {
+	return loginEmail;
     }
 
-    public void setEmail(String email) {
-	this.email = email;
+    public void setLoginEmail(String emailLogin) {
+	this.loginEmail = emailLogin;
     }
 
     public String getAreaCode() {
@@ -227,6 +240,43 @@ public class EnterpriseBean implements Serializable {
 	if (!getPassword().equals(getRepeatPassword())) {
 	    throw new DomainException("error.enterprise.password.mismatch");
 	}
+    }
+
+    public void setEnterpriseStateType(EnterpriseStateType enterpriseStateType) {
+	this.enterpriseStateType = enterpriseStateType;
+    }
+
+    public EnterpriseStateType getEnterpriseStateType() {
+	return enterpriseStateType;
+    }
+
+    public void setEmailValidation(EmailValidation emailValidation) {
+	this.emailValidation = emailValidation;
+    }
+
+    public EmailValidation getEmailValidation() {
+	return emailValidation;
+    }
+
+    @Service
+    public EmailValidation createEmailValidation() {
+	return new EmailValidation(getLoginEmail());
+    }
+
+    public void setContactEmail(String contactEmail) {
+	this.contactEmail = contactEmail;
+    }
+
+    public String getContactEmail() {
+	return contactEmail;
+    }
+
+    public void setUrl(String url) {
+	this.url = url;
+    }
+
+    public String getUrl() {
+	return url;
     }
 
 }

@@ -18,8 +18,7 @@
 
 	
 <fr:form action="/jobBank.do?method=frontPage">
-	<fr:view  name="enterprise" schema="jobBank.enterprise.registration.view">
-	</fr:view>
+	<fr:view  name="enterprise" schema="jobBank.enterprise.registration.view"/>
 </fr:form>
 <p> 
 <bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.registration.pending"/> 

@@ -9,23 +9,22 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.viewEnterprises"/>
 </h2>
 
-<p> 
-<html:link action="/backOffice.do?method=viewActiveEnterprises">
-			<bean:message key="link.backOffice.viewActiveEnterprises" bundle="JOB_BANK_RESOURCES"/>
-</html:link>
-<p> 
-<html:link action="/backOffice.do?method=viewRequestsToChangeEnterprises">
-			<bean:message key="link.backOffice.viewRequestsForChangeEnterpries" bundle="JOB_BANK_RESOURCES"/>
-</html:link>
-</p>
+<bean:define id="state" name="enterpriseState" property="enterpriseStateType.type"/>
 
-<h3>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.pending"/>
-</h3>
-
+<p> 
+<fr:form  action="/backOffice.do?method=enterprises" >
+	<fr:edit id="enterpriseState" name="enterpriseState" type="module.jobBank.domain.beans.EnterpriseBean">
+		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean" >
+			<fr:slot name="enterpriseStateType" key="label.enterpriseStateType.enterprises" />
+		</fr:schema>
+	</fr:edit>
+	<html:submit styleClass="inputbutton">
+		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
+	</html:submit>
+</fr:form>
 	
 <fr:form>
-	<fr:view name="pendingEnterprises" schema="jobBank.enterprise.view.pending">
+	<fr:view name="enterprises" schema="<%="jobBank.enterprise.view."+state%>">
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 			
@@ -35,11 +34,10 @@
 			<fr:property name="param(view)" value="enterpriseProcess.externalId/OID"/>
 			<fr:property name="order(view)" value="1"/>
 			
-			
 		</fr:layout>
 	</fr:view>		
 </fr:form> 
 
-<logic:empty name="pendingEnterprises">
-	<bean:message bundle="JOB_BANK_RESOURCES" key="message.backOffice.no.have.pending.entreprises.to.approve"/>
+<logic:empty name="enterprises">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found"/>
  </logic:empty>

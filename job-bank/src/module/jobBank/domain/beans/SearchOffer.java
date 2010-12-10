@@ -1,108 +1,111 @@
 package module.jobBank.domain.beans;
 
-import java.io.Serializable;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.utils.IPredicate;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
-import myorg.util.BundleUtil;
+import myorg.domain.util.Search;
+import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
+public class SearchOffer extends Search<JobOfferProcess> {
 
-public class SearchOffer implements Serializable {
-
-    public enum OfferSearchState implements IPresentableEnum {
-	ALL("all", "label.jobOfferSearch.all"), APPROVE("aprove", "label.jobOfferSearch.approve"), PENDING_TO_APPROVE(
-		"pendingToApprove", "label.jobOfferSearch.pendingToApprove"), OLD("old", "label.jobOfferSearch.old");
-
-	private final String nameKey;
-	private final String type;
-
-	private OfferSearchState(String type, String nameKey) {
-	    this.type = type;
-	    this.nameKey = nameKey;
-	}
-
-	public String getType() {
-	    return type;
-	}
-
-	@Override
-	public String getLocalizedName() {
-	    return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, nameKey);
-	}
-
-    }
-
-    private OfferSearchState offerSearchState;
-    private String processNumber;
-
-    public String getProcessNumber() {
-	return processNumber;
-    }
-
-    public void setProcessNumber(String processNumber) {
-	this.processNumber = processNumber;
-    }
-
-    public OfferSearchState getOfferSearchState() {
-	return offerSearchState;
-    }
-
-    public void setOfferSearchState(OfferSearchState offerSearchState) {
-	this.offerSearchState = offerSearchState;
-    }
+    private String query;
+    private JobOfferType jobOfferType;
+    private RemoteDegree remoteDegree;
 
     public SearchOffer() {
-	init();
+	setQuery(StringUtils.EMPTY);
     }
 
-    public void init() {
-	setOfferSearchState(OfferSearchState.ALL);
+    public JobOfferType getJobOfferType() {
+	return jobOfferType;
     }
 
-    public Set<JobOfferProcess> doSearch() {
+    public void setJobOfferType(JobOfferType jobOfferType) {
+	this.jobOfferType = jobOfferType;
+    }
+
+    public void setRemoteDegrees(RemoteDegree remoteDegree) {
+	this.remoteDegree = remoteDegree;
+    }
+
+    public RemoteDegree getRemoteDegrees() {
+	return remoteDegree;
+    }
+
+    @Override
+    public Set<JobOfferProcess> search() {
 	final User user = UserView.getCurrentUser();
-	final Set<JobOfferProcess> jobOfferProcesses = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
+	Set<JobOfferProcess> jobOfferProcesses = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
+
+	    @Override
+	    public boolean evaluate(JobOfferProcess object) {
+		JobOffer offer = object.getJobOffer();
+		return offer.isActive() && offer.isCandidancyPeriod() && isSatisfiedJobOfferType(offer)
+			&& isSatisfiedDegres(offer);
+	    }
+	});
+
+	// Search Query
+	StringTokenizer tokens = getTokens();
+	while (tokens.hasMoreElements()) {
+	    jobOfferProcesses = matchQuery(tokens.nextElement().toString(), jobOfferProcesses);
+	}
+
+	return jobOfferProcesses;
+    }
+
+    public void setQuery(String query) {
+	this.query = query;
+    }
+
+    public String getQuery() {
+	return query;
+    }
+
+    public StringTokenizer getTokens() {
+	String delim = " ";
+	return new StringTokenizer(getQuery() == null ? StringUtils.EMPTY : getQuery(), delim);
+    }
+
+    public boolean isEmptyQuery() {
+	return !getTokens().hasMoreElements();
+    }
+
+    private Set<JobOfferProcess> matchQuery(final String key, Set<JobOfferProcess> jobOfferProcesses) {
+	return JobBankSystem.getInstance().readValuesToSatisfiedPredicate(new IPredicate<JobOfferProcess>() {
 
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 		JobOffer jobOffer = object.getJobOffer();
-		return  !jobOffer.isCanceled() && isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer);
+		return isSatisfiedQuery(key, jobOffer);
 	    }
-	});
-	return jobOfferProcesses;
+	}, jobOfferProcesses);
+
     }
 
-    private boolean isSatisfiedProcessNumber(JobOffer offer) {
-	return StringUtils.isEmpty(getProcessNumber())
-		|| offer.getJobOfferProcess().getProcessIdentification().contains(getProcessNumber());
+    private boolean isSatisfiedQuery(String key, JobOffer offer) {
+	return isEmptyQuery() || match(key, offer.getEnterpriseName().getContent())
+		|| match(key, offer.getFunction().getContent()) || match(key, offer.getPlace());
     }
 
-    private boolean isSatisfiedState(JobOffer jobOffer, User user) {
-	return isJobOfferAll(jobOffer) || isJobOfferAproved(jobOffer) || isJobOfferPendingToAprove(jobOffer)
-		|| isJobOfferOld(jobOffer);
+    private boolean isSatisfiedJobOfferType(JobOffer offer) {
+	return getJobOfferType() == null || offer.getJobOfferType() == getJobOfferType();
     }
 
-    private boolean isJobOfferAll(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.ALL) && (jobOffer.isApproved() || jobOffer.isPendingToApproval());
+    private boolean isSatisfiedDegres(JobOffer offer) {
+	return getRemoteDegrees() == null || offer.getRemoteDegrees().equals(getRemoteDegrees());
     }
 
-    private boolean isJobOfferAproved(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.APPROVE) && jobOffer.isApproved();
-    }
-
-    private boolean isJobOfferPendingToAprove(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.PENDING_TO_APPROVE) && jobOffer.isPendingToApproval();
-    }
-
-    private boolean isJobOfferOld(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.OLD) && jobOffer.isAfterCompletedCandidancyPeriod();
+    private boolean match(String key, String value) {
+	return value.toLowerCase().contains(key.toLowerCase());
     }
 }

@@ -1,5 +1,6 @@
 package module.jobBank.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import module.jobBank.domain.beans.EnterpriseBean;
@@ -9,10 +10,12 @@ import module.organization.domain.AccountabilityType;
 import module.organization.domain.PartyType;
 import module.organization.domain.Unit;
 import module.organization.domain.UnitBean;
+import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 
 import pt.ist.fenixWebFramework.services.Service;
@@ -36,14 +39,36 @@ public class Enterprise extends Enterprise_Base {
     }
 
     @Service
-    public void approve() {
-	changeAgreement(getAccountabilityTypeForApproval());
+    public void edit(EnterpriseBean enterpriseBean) {
+	setForm(enterpriseBean);
+    }
+
+    @Service
+    public void setForm(EnterpriseBean enterpriseBean) {
+	getUser().setPassword(enterpriseBean.getPassword());
+	setNif(enterpriseBean.getNif());
+	setDesignation(enterpriseBean.getDesignation());
+	setSummary(enterpriseBean.getSummary());
+	setArea(enterpriseBean.getArea());
+	setAreaCode(enterpriseBean.getAreaCode());
+	setPhone(enterpriseBean.getPhone());
+	setFax(enterpriseBean.getFax());
+	setUrl(enterpriseBean.getUrl());
+	setContactEmail(enterpriseBean.getContactEmail());
+	setContactPerson(enterpriseBean.getContactPerson());
+	setLogo(enterpriseBean.getLogo());
+	setAgreementForApproval(enterpriseBean.getJobBankAccountabilityType().readAccountabilityType());
 
     }
 
     @Service
+    public void approve() {
+	changeAgreement(getAgreementForApproval());
+    }
+
+    @Service
     public void changeAgreement(AccountabilityType accountabilityType) {
-	setAccountabilityTypeForApproval(null);
+	setAgreementForApproval(null);
 	closeActiveAgreement();
 	Unit rootUnit = getJobBankSystem().getTopLevelUnit();
 	LocalDate now = new LocalDate();
@@ -52,12 +77,7 @@ public class Enterprise extends Enterprise_Base {
 
     @Service
     public void changeRequestAgreement(AccountabilityType accountabilityType) {
-	if (!isChangeToRequestAgreement()) {
-	    setAccountabilityTypeForApproval(accountabilityType);
-	} else {
-	    throw new DomainException("message.error.enterprise.pending.to.approve.change.request.agreement", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
-	}
+	setAgreementForApproval(accountabilityType);
     }
 
     @Service
@@ -75,6 +95,10 @@ public class Enterprise extends Enterprise_Base {
 	setCanceled(true);
     }
 
+    public void rejectChangeAgreement() {
+	setAgreementForApproval(null);
+    }
+
     @Override
     @Service
     public void setLogo(ByteArray logo) {
@@ -85,25 +109,78 @@ public class Enterprise extends Enterprise_Base {
 	return getCanceled();
     }
 
+    public boolean isEnable() {
+	return hasActiveAccountability() && !isBlocked();
+    }
+
+    public boolean isBlocked() {
+	return getBlocked();
+    }
+
+    public boolean isDisable() {
+	return hasActiveAccountability() && isBlocked();
+    }
+
     public boolean isActive() {
-	return (isJobProviderAccountabilityType() || isJobProviderWithPrivilegesAccountabilityType()) && !isCanceled()
+	return (isJobProviderAgreement() || isJobProviderWithPrivilegesAgreement()) && !isCanceled() && !isBlocked()
 		&& hasActiveAccountability();
     }
 
-    public boolean isPendingAccountabilityType() {
+    public boolean isPendingAgreementToApprove() {
 	return isAccountabilityType(JobBankAccountabilityType.PENDING.readAccountabilityType());
     }
 
-    public boolean isJobProviderAccountabilityType() {
+    public boolean isJobProviderAgreement() {
 	return isAccountabilityType(JobBankAccountabilityType.JOB_PROVIDER.readAccountabilityType());
     }
 
-    public boolean isJobProviderWithPrivilegesAccountabilityType() {
+    public boolean isJobProviderWithPrivilegesAgreement() {
 	return isAccountabilityType(JobBankAccountabilityType.JOB_PROVIDER_WITH_PRIVILEGES.readAccountabilityType());
     }
 
     public boolean isChangeToRequestAgreement() {
-	return !isPendingAccountabilityType() && hasAccountabilityTypeForApproval();
+	return !isPendingAgreementToApprove() && hasAgreementForApproval();
+    }
+
+    public boolean hasActiveAccountability() {
+	return getActiveAccountability() != null;
+    }
+
+    public boolean hasActiveAccountabilityType() {
+	return getActiveAccountabilityType() != null;
+    }
+
+    public String getAgreement() {
+	return hasActiveAccountability() ? getActiveAccountability().getDetailsString() : "";
+    }
+
+    public String getAgreementName() {
+	return hasActiveAccountabilityType() ? getActiveAccountabilityType().getName().getContent() : "";
+    }
+
+    public String getAgreementDuration() {
+	return hasActiveAccountability() ? String.format("%s : %s", getActiveAccountability().getBeginDate(),
+		getActiveAccountability().getEndDate()) : "";
+    }
+
+    public String getAgreementNameForApproval() {
+	return hasAgreementForApproval() ? getAgreementForApproval().getName().getContent() : "";
+    }
+
+    public boolean hasName() {
+	return getUnit() != null && getUnit().getPartyName() != null;
+    }
+
+    public boolean hasLoginName() {
+	return getUser() != null && getUser().getUsername() != null && StringUtils.isEmpty(getUser().getUsername());
+    }
+
+    public MultiLanguageString getName() {
+	return hasUnit() ? getUnit().getPartyName() : null;
+    }
+
+    public String getLoginEmail() {
+	return getUser() != null ? getUser().getUsername() : null;
     }
 
     public Accountability getActiveAccountability() {
@@ -121,61 +198,37 @@ public class Enterprise extends Enterprise_Base {
 	return null;
     }
 
-    public boolean hasActiveAccountability() {
-	return getActiveAccountability() != null;
+    public boolean isExpired() {
+	return !isActive() && !isCanceled();
     }
 
-    public String getAgreement() {
-	return getActiveAccountability().getDetailsString();
+    public void enable() {
+	setBlocked(false);
     }
 
-    public boolean hasName() {
-	return getUnit() != null && getUnit().getPartyName() != null;
-    }
-
-    public MultiLanguageString getName() {
-	return getUnit().getPartyName();
-    }
-
-    private boolean isAccountabilityType(AccountabilityType accountabilityType) {
-	if (hasActiveAccountability()) {
-	    return getActiveAccountabilityType().equals(accountabilityType);
-	}
-	return false;
-    }
-
-    public String generateUsername() {
-	return String.format("e%s", getJobBankSystem().nextNumber());
-    }
-
-    @Service
-    public void edit(EnterpriseBean enterpriseBean) {
-	setForm(enterpriseBean);
-    }
-
-    @Service
-    public void setForm(EnterpriseBean enterpriseBean) {
-	getUser().setPassword(enterpriseBean.getPassword());
-	setNif(enterpriseBean.getNif());
-	setDesignation(enterpriseBean.getDesignation());
-	setSummary(enterpriseBean.getSummary());
-	setArea(enterpriseBean.getArea());
-	setAreaCode(enterpriseBean.getAreaCode());
-	setPhone(enterpriseBean.getPhone());
-	setFax(enterpriseBean.getFax());
-	setEmail(enterpriseBean.getEmail());
-	setContactPerson(enterpriseBean.getContactPerson());
-	setLogo(enterpriseBean.getLogo());
-	setAccountabilityTypeForApproval(enterpriseBean.getJobBankAccountabilityType().readAccountabilityType());
-
+    public void disable() {
+	setBlocked(true);
     }
 
     public boolean isPendingToApproval() {
-	return !isCanceled() && isPendingAccountabilityType() || isChangeToRequestAgreement();
+	return !isCanceled() && isPendingAgreementToApprove();
+    }
+
+    public Set<JobOfferProcess> getJobOfferProcesses() {
+	final Set<JobOfferProcess> jobOfferProcesses = new HashSet<JobOfferProcess>();
+	getJobBankSystem().readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
+
+	    @Override
+	    public boolean evaluate(JobOffer jobOffer) {
+		boolean valid = !jobOffer.isCanceled();
+		return valid ? jobOfferProcesses.add(jobOffer.getJobOfferProcess()) : valid;
+
+	    }
+	}, getJobOfferSet());
+	return jobOfferProcesses;
     }
 
     /* Static Methods */
-
     public static Enterprise readEnterprise(User user) {
 	if (user != null && user.hasEnterprise()) {
 	    return user.getEnterprise();
@@ -183,19 +236,13 @@ public class Enterprise extends Enterprise_Base {
 	return null;
     }
 
+    public static Enterprise readCurrentEnterprise() {
+	return readEnterprise(UserView.getCurrentUser());
+    }
+
     public static Set<Enterprise> readAllEnterprises(IPredicate<Enterprise> predicate) {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
 	return jobBankSystem.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getEnterprisesSet());
-    }
-
-    public static Set<Enterprise> readAllActiveEnterprises() {
-	return readAllEnterprises(new IPredicate<Enterprise>() {
-	    @Override
-	    public boolean evaluate(Enterprise object) {
-		return object.isActive();
-	    }
-
-	});
     }
 
     public static Set<Enterprise> readAllRequestToChangeEnterprises() {
@@ -208,17 +255,43 @@ public class Enterprise extends Enterprise_Base {
 	});
     }
 
+    /* Static Methods */
+
+    public static boolean isLoginEmailAlreadyRegistered(String emailLogin) {
+	for (Enterprise enterprise : JobBankSystem.getInstance().getEnterprises()) {
+	    if (enterprise.getLoginEmail() != null) {
+		if (enterprise.getLoginEmail().equalsIgnoreCase(emailLogin)) {
+		    return true;
+		}
+	    }
+	}
+	return false;
+    }
+
+    public static boolean isNameAlreadyRegistered(String name) {
+	for (Enterprise enterprise : JobBankSystem.getInstance().getEnterprises()) {
+	    if (enterprise.getName() != null) {
+		if (name.equals(enterprise.getName())) {
+		    return true;
+		}
+	    }
+	}
+	return false;
+
+    }
+
     /* Private Methods */
 
-    private void createUser() {
-	String username = generateUsername();
-	User user = new User(username);
+    private void createUser(String email) {
+	User user = new User(email);
 	setUser(user);
     }
 
     private void closeActiveAgreement() {
-	Accountability accountability = getActiveAccountability();
-	accountability.editDates(accountability.getBeginDate(), new LocalDate());
+	if (hasActiveAccountability()) {
+	    Accountability accountability = getActiveAccountability();
+	    accountability.editDates(accountability.getBeginDate(), new LocalDate());
+	}
     }
 
     private void setFields(EnterpriseBean enterpriseBean) {
@@ -229,22 +302,30 @@ public class Enterprise extends Enterprise_Base {
 	unitBean.setName(enterpriseBean.getName());
 	unitBean.setAcronym(enterpriseBean.getName().getContent());
 	setUnit(Unit.create(unitBean));
-
-	createUser();
+	createUser(enterpriseBean.getEmailValidation().getEmail());
+	// Set basic agreement
+	enterpriseBean.setJobBankAccountabilityType(JobBankAccountabilityType.JOB_PROVIDER);
 	setForm(enterpriseBean);
-	new EnterpriseProcess(this);
+	setEnterpriseProcess(new EnterpriseProcess(this));
+    }
+
+    private boolean isAccountabilityType(AccountabilityType accountabilityType) {
+	if (hasActiveAccountability()) {
+	    return getActiveAccountabilityType().equals(accountabilityType);
+	}
+	return false;
     }
 
     private void checks(EnterpriseBean enterpriseBean) {
-	/*
-	 * for (Enterprise enterprise :
-	 * JobBankSystem.getInstance().getEnterprise()) { if
-	 * (enterprise.hasName() &&
-	 * enterprise.getName().equals(enterpriseBean.getName())) { throw new
-	 * DomainException("error.jobBank.enterprise.name.already.exists",
-	 * ResourceBundle.getBundle( JobBankSystem.JOB_BANK_RESOURCES,
-	 * Language.getLocale())); } }
-	 */
+	if (isLoginEmailAlreadyRegistered(enterpriseBean.getLoginEmail())) {
+	    throw new DomainException("message.error.enterprise.email.already.registered", DomainException
+		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	}
+	if (isNameAlreadyRegistered(enterpriseBean.getName().getContent())) {
+	    throw new DomainException("error.jobBank.enterprise.name.already.exists", DomainException
+		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	}
+
     }
 
 }

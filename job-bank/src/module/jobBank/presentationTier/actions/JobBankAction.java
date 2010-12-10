@@ -5,20 +5,26 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import module.jobBank.domain.CurriculumProcess;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.beans.SearchUsers;
 import module.organization.domain.Person;
+import module.workflow.activities.ActivityInformation;
+import module.workflow.domain.WorkflowProcess;
+import module.workflow.presentationTier.WorkflowLayoutContext;
 import module.workflow.presentationTier.actions.ProcessManagement;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
+import myorg.presentationTier.Context;
 import myorg.presentationTier.actions.ContextBaseAction;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/jobBank")
@@ -27,6 +33,16 @@ public class JobBankAction extends ContextBaseAction {
     public ActionForward frontPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	return forward(request, "/jobBank/frontPage.jsp");
+    }
+
+    public ActionForward viewJobOffer(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
+	if (jobOfferProcess.getCanManageJobProcess()) {
+	    return viewJobOfferProcessToManage(mapping, form, request, response);
+	}
+	request.setAttribute("process", jobOfferProcess);
+	return forward(request, "/jobBank/viewJobOffer.jsp");
     }
 
     public ActionForward viewJobOfferProcessToManage(final ActionMapping mapping, final ActionForm form,
@@ -85,5 +101,18 @@ public class JobBankAction extends ContextBaseAction {
 	    }
 	}
 	return null;
+    }
+
+    public ActionForward activityDefaultPostback(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	final CurriculumProcess curriculumProcess = getDomainObject(request, "processId");
+	final Context originalContext = getContext(request);
+	final WorkflowLayoutContext workflowLayoutContext = curriculumProcess.getLayout();
+	workflowLayoutContext.setElements(originalContext.getPath());
+	setContext(request, workflowLayoutContext);
+	ActivityInformation<WorkflowProcess> information = getRenderedObject("activityBean");
+	RenderUtils.invalidateViewState();
+	request.setAttribute("information", information);
+	return ProcessManagement.performActivityPostback(information, request);
     }
 }

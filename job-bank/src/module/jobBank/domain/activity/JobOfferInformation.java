@@ -16,7 +16,7 @@ public class JobOfferInformation extends ActivityInformation<JobOfferProcess> {
     public JobOfferInformation(final JobOfferProcess jobOfferProcess,
 	    WorkflowActivity<JobOfferProcess, ? extends ActivityInformation<JobOfferProcess>> activity) {
 	super(jobOfferProcess, activity);
-	setJobOfferBean(new JobOfferBean(jobOfferProcess.getJobOffer()));
+	setJobOfferBean(JobOfferBean.createJobOfferBean(jobOfferProcess.getJobOffer()));
     }
 
     @Override

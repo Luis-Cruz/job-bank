@@ -11,11 +11,11 @@ import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 public class CurriculumBean implements Serializable {
 
     private DateTime dateOfBirth;
-    private MultiLanguageString nationality;
-    private MultiLanguageString address;
-    private MultiLanguageString area;
-    private MultiLanguageString areaCode;
-    private MultiLanguageString districtSubdivision;
+    private String nationality;
+    private String address;
+    private String area;
+    private String areaCode;
+    private String districtSubdivision;
     private String mobilePhone;
     private String phone;
     private String email;
@@ -44,43 +44,43 @@ public class CurriculumBean implements Serializable {
 	this.dateOfBirth = dateOfBirth;
     }
 
-    public MultiLanguageString getNationality() {
+    public String getNationality() {
 	return nationality;
     }
 
-    public void setNationality(MultiLanguageString nationality) {
+    public void setNationality(String nationality) {
 	this.nationality = nationality;
     }
 
-    public MultiLanguageString getAddress() {
+    public String getAddress() {
 	return address;
     }
 
-    public void setAddress(MultiLanguageString address) {
+    public void setAddress(String address) {
 	this.address = address;
     }
 
-    public MultiLanguageString getArea() {
+    public String getArea() {
 	return area;
     }
 
-    public void setArea(MultiLanguageString area) {
+    public void setArea(String area) {
 	this.area = area;
     }
 
-    public MultiLanguageString getAreaCode() {
+    public String getAreaCode() {
 	return areaCode;
     }
 
-    public void setAreaCode(MultiLanguageString areaCode) {
+    public void setAreaCode(String areaCode) {
 	this.areaCode = areaCode;
     }
 
-    public MultiLanguageString getDistrictSubdivision() {
+    public String getDistrictSubdivision() {
 	return districtSubdivision;
     }
 
-    public void setDistrictSubdivision(MultiLanguageString districtSubdivision) {
+    public void setDistrictSubdivision(String districtSubdivision) {
 	this.districtSubdivision = districtSubdivision;
     }
 

@@ -6,10 +6,20 @@
 
 <bean:define id="processId" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
-<bean:define id="urlPostBack">/student.do?method=activityDefaultPostback&processId=<%=processId%>&activity=<%=activityName%></bean:define>
+<bean:define id="urlPostBack">/jobBank.do?method=activityDefaultPostback&processId=<%=processId%>&activity=<%=activityName%></bean:define>
 
 <bean:define id="className" name="information" property="curriculumQualficationBean.class.simpleName"/>
 <bean:define id="usedSchema" value="<%= "jobBank.curriculumQualification." + className %>"/>
+	
+	
+<logic:messagesPresent property="message" message="true">
+	<div class="error1">
+		<html:messages id="errorMessage" property="message" message="true"> 
+			<span><fr:view name="errorMessage"/></span>
+		</html:messages>
+	</div>
+</logic:messagesPresent>
+
 					
 <fr:form action='<%="/workflowProcessManagement.do?method=process&activity="+activityName+"&processId="+processId %>'> 
 
@@ -19,7 +29,7 @@
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 		</fr:schema>	
-		<fr:destination name="postback" path="<%= urlPostBack%>" ></fr:destination>
+		<fr:destination name="postback" path="<%= urlPostBack%>" />
 	</fr:edit>
 
 	<fr:edit id="innerBean" name="information" property="curriculumQualficationBean" schema="<%= usedSchema %>">

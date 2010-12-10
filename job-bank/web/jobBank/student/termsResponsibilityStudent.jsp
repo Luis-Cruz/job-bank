@@ -20,7 +20,16 @@
 <h3>
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.student"/>
 </h3>
-O Aluno aceita.....
+
+ 
+<logic:equal name="student" value="active">
+
+</logic:equal>
+
+Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
+Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
+
+<p><a href="">Download (.pdf)</a></p>
 
 <fr:form action="/student.do?method=prepareToCreateStudent">
 	<logic:notPresent name="student"> 

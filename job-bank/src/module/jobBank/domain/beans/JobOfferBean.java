@@ -1,14 +1,22 @@
 package module.jobBank.domain.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import module.jobBank.domain.Degree;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobOffer;
+import module.jobBank.domain.JobOfferExternal;
+import module.jobBank.domain.JobOfferInternal;
 import module.jobBank.domain.JobOfferType;
+import module.jobBank.domain.enums.CandidancyType;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
+import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -18,42 +26,36 @@ public class JobOfferBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private Enterprise enterprise;
     private DateTime creationDate;
-    private DateTime beginDate;
-    private DateTime endDate;
+    private LocalDate beginDate;
+    private LocalDate endDate;
+    private Integer vacancies;
     private String reference;
-    private MultiLanguageString enterpriseName;
     private String contactPerson;
     private MultiLanguageString function;
     private String place;
     private MultiLanguageString descriptionOffer;
     private MultiLanguageString requirements;
-    private String degree;
-    private String emailToSubmit;
     private JobOfferType jobOfferType;
+    private List<RemoteDegree> remoteDegrees;
+
+    private String externalLink;
+    private CandidancyType candidancyType;
 
     public JobOfferBean() {
-	final User currentUser = UserView.getCurrentUser();
-	Enterprise enterprise = Enterprise.readEnterprise(currentUser);
-	setEnterprise(enterprise);
-	setCreationDate(new DateTime());
-	setEnterpriseName(enterprise.getName());
-	setContactPerson(enterprise.getContactPerson());
+	setBasicFields();
+	setCandidancyType(CandidancyType.Internal);
+	setRemoteDegrees(Degree.readRemoteDegrees());
+	// min
+	setVacancies(1);
     }
 
-    public JobOfferBean(JobOffer jobOffer) {
-	setCreationDate(jobOffer.getCreationDate());
-	setBeginDate(jobOffer.getBeginDate());
-	setEndDate(jobOffer.getEndDate());
-	setEnterpriseName(jobOffer.getEnterpriseName());
-	setContactPerson(jobOffer.getContactPerson());
-	setReference(jobOffer.getReference());
-	setFunction(jobOffer.getFunction());
-	setPlace(jobOffer.getPlace());
-	setDescriptionOffer(jobOffer.getDescriptionOffer());
-	setRequirements(jobOffer.getRequirements());
-	setEmailToSubmit(jobOffer.getEmailToSubmit());
-	// setDegree(jobOffer.getDegree());
-	setJobOfferType(jobOffer.getJobOfferType());
+    public JobOfferBean(JobOfferInternal jobOffer) {
+	setForm(jobOffer);
+    }
+
+    public JobOfferBean(JobOfferExternal jobOffer) {
+	setForm(jobOffer);
+	setExternalLink(jobOffer.getExternalLink());
     }
 
     public DateTime getCreationDate() {
@@ -64,36 +66,20 @@ public class JobOfferBean implements Serializable {
 	this.creationDate = creationDate;
     }
 
-    public DateTime getBeginDate() {
+    public LocalDate getBeginDate() {
 	return beginDate;
     }
 
-    public void setBeginDate(DateTime beginDate) {
+    public void setBeginDate(LocalDate beginDate) {
 	this.beginDate = beginDate;
     }
 
-    public DateTime getEndDate() {
+    public LocalDate getEndDate() {
 	return endDate;
     }
 
-    public void setEndDate(DateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
 	this.endDate = endDate;
-    }
-
-    public String getReference() {
-	return reference;
-    }
-
-    public void setReference(String reference) {
-	this.reference = reference;
-    }
-
-    public MultiLanguageString getEnterpriseName() {
-	return enterpriseName;
-    }
-
-    public void setEnterpriseName(MultiLanguageString enterpriseName) {
-	this.enterpriseName = enterpriseName;
     }
 
     public String getContactPerson() {
@@ -136,22 +122,6 @@ public class JobOfferBean implements Serializable {
 	this.requirements = requirements;
     }
 
-    public String getEmailToSubmit() {
-	return emailToSubmit;
-    }
-
-    public void setEmailToSubmit(String emailToSubmit) {
-	this.emailToSubmit = emailToSubmit;
-    }
-
-    public String getDegree() {
-	return degree;
-    }
-
-    public void setDegree(String degree) {
-	this.degree = degree;
-    }
-
     public JobOfferType getJobOfferType() {
 	return jobOfferType;
     }
@@ -168,8 +138,91 @@ public class JobOfferBean implements Serializable {
 	this.enterprise = enterprise;
     }
 
+    public void setCandidancyType(CandidancyType candidancyType) {
+	this.candidancyType = candidancyType;
+    }
+
+    public CandidancyType getCandidancyType() {
+	return candidancyType;
+    }
+
+    public void setExternalLink(String externalLink) {
+	this.externalLink = externalLink;
+    }
+
+    public String getExternalLink() {
+	return externalLink;
+    }
+
+    public void setRemoteDegrees(List<RemoteDegree> remoteDegrees) {
+	this.remoteDegrees = new ArrayList(remoteDegrees);
+    }
+
+    public List<RemoteDegree> getRemoteDegrees() {
+	return remoteDegrees;
+    }
+
     @Service
     public JobOffer create() {
-	return new JobOffer(this);
+	if (getCandidancyType() == null) {
+	    return new JobOfferInternal(this);
+	}
+	if (getCandidancyType() == CandidancyType.Internal) {
+	    return new JobOfferInternal(this);
+	}
+	if (getCandidancyType() == CandidancyType.External) {
+	    return new JobOfferExternal(this);
+	}
+	return null;
     }
+
+    protected void setForm(JobOffer jobOffer) {
+	setCreationDate(jobOffer.getCreationDate());
+	setBeginDate(jobOffer.getBeginDate());
+	setEndDate(jobOffer.getEndDate());
+	setVacancies(jobOffer.getVacancies());
+	setContactPerson(jobOffer.getContactPerson());
+	setReference(jobOffer.getReference());
+	setFunction(jobOffer.getFunction());
+	setPlace(jobOffer.getPlace());
+	setDescriptionOffer(jobOffer.getDescriptionOffer());
+	setRequirements(jobOffer.getRequirements());
+	setRemoteDegrees(jobOffer.getRemoteDegrees());
+	setJobOfferType(jobOffer.getJobOfferType());
+    }
+
+    protected void setBasicFields() {
+	final User currentUser = UserView.getCurrentUser();
+	Enterprise enterprise = Enterprise.readEnterprise(currentUser);
+	setEnterprise(enterprise);
+	setCreationDate(new DateTime());
+	setContactPerson(enterprise.getContactPerson());
+    }
+
+    public static JobOfferBean createJobOfferBean(JobOffer jobOffer) {
+	if (jobOffer instanceof JobOfferInternal) {
+	    return new JobOfferBean((JobOfferInternal) jobOffer);
+	}
+	if (jobOffer instanceof JobOfferExternal) {
+	    return new JobOfferBean((JobOfferExternal) jobOffer);
+	}
+	return null;
+    }
+
+    public void setVacancies(Integer vacancies) {
+	this.vacancies = vacancies;
+    }
+
+    public Integer getVacancies() {
+	return vacancies;
+    }
+
+    public void setReference(String reference) {
+	this.reference = reference;
+    }
+
+    public String getReference() {
+	return reference;
+    }
+
 }

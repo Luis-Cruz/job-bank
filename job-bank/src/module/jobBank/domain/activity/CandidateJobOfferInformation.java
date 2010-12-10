@@ -3,8 +3,8 @@ package module.jobBank.domain.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import module.jobBank.domain.CandidateOffer;
 import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.OfferCandidacy;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 
@@ -18,8 +18,8 @@ public class CandidateJobOfferInformation extends ActivityInformation<JobOfferPr
 	    WorkflowActivity<JobOfferProcess, ? extends ActivityInformation<JobOfferProcess>> activity) {
 
 	super(jobOfferProcess, activity);
-	for (CandidateOffer candidateOffer : jobOfferProcess.getJobOffer().getCandidateOffer()) {
-	    holder.add(new CandidateJobOfferHolder(candidateOffer));
+	for (OfferCandidacy offerCandidacy : jobOfferProcess.getJobOffer().getOfferCandidacy()) {
+	    holder.add(new CandidateJobOfferHolder(offerCandidacy));
 	}
 
     }
@@ -27,9 +27,9 @@ public class CandidateJobOfferInformation extends ActivityInformation<JobOfferPr
     public static class CandidateJobOfferHolder {
 	private DateTime creationDate;
 
-	public CandidateJobOfferHolder(CandidateOffer candidateOffer) {
+	public CandidateJobOfferHolder(OfferCandidacy offerCandidacy) {
 	    super();
-	    setCreationDate(candidateOffer.getCreationDate());
+	    setCreationDate(offerCandidacy.getCreationDate());
 	}
 
 	public void setCreationDate(DateTime creationDate) {

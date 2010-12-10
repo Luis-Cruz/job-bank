@@ -9,10 +9,10 @@
 <%@page import="myorg.domain.MyOrg"%>
 
 
-<%@page import="module.jobBank.domain.CandidateOffer"%>
+<%@page import="module.jobBank.domain.OfferCandidacy"%>
 <bean:define id="student" name="process" property="curriculum.student"/>
 <bean:define id="person" name="student" property="person"/>
-<bean:define id="candidatesOffersActive" name="student" property="activeCandidateOffers"></bean:define>
+<bean:define id="activeOfferCandidacies" name="student" property="activeOfferCandidacies"></bean:define>
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.curriculum.personal.information"/>
 </h3>
@@ -30,11 +30,15 @@
 						<fr:view name="student">
 							<fr:schema type="module.jobBank.domain.Student" bundle="JOB_BANK_RESOURCES">
 								<fr:slot name="person.name" key="label.curriculum.name"/>
-								<fr:slot name="curriculum.email" key="label.curriculum.email"/>
-								<fr:slot name="curriculum.dateOfBirth" key="label.curriculum.dateOfBirth"/>
-								<fr:slot name="curriculum.nationality" key="label.curriculum.nationality"/>
-								<fr:slot name="curriculum.address" key="label.curriculum.address"/>
-								<fr:slot name="curriculum.mobilePhone" key="label.curriculum.mobilePhone"/>
+										<fr:slot name="curriculum.email" key="label.curriculum.email"/>
+										<fr:slot name="curriculum.dateOfBirth" key="label.curriculum.dateOfBirth"/> 
+										<fr:slot name="curriculum.nationality" key="label.curriculum.nationality"/> 
+										<fr:slot name="curriculum.address" key="label.curriculum.address"/> 
+										<fr:slot name="curriculum.area" key="label.curriculum.area"/> 
+										<fr:slot name="curriculum.areaCode" key="label.curriculum.areaCode"/> 
+										<fr:slot name="curriculum.districtSubdivision" key="label.curriculum.districtSubdivision"/> 
+										<fr:slot name="curriculum.mobilePhone" key="label.curriculum.mobilePhone"/> 
+										<fr:slot name="curriculum.phone" key="label.curriculum.mobilePhone"/>   
 							</fr:schema>
 						</fr:view>
 					</tr>
@@ -49,17 +53,18 @@
 	</table>
 </div>
 
-
+<P> 
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/>
 </h3>
+</p>
 
-<logic:present name ="candidatesOffersActive">
-	<fr:view name="candidatesOffersActive">
+<logic:present name ="activeOfferCandidacies">
+	<fr:view name="activeOfferCandidacies">
 		<fr:layout name="tabular">
 			
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-			<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
+			<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="jobOffer.jobOfferProcess.externalId/OID" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
@@ -77,16 +82,16 @@
 		</fr:layout>
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOfferProcess">
 			<fr:slot name="jobOffer.jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification" />
-			<fr:slot name="jobOffer.place" key="label.enterprise.jobOffer.place" />
-			<fr:slot name="jobOffer.beginDate" key="label.enterprise.offer.beginDate" />
-			<fr:slot name="jobOffer.endDate" key="label.enterprise.offer.endDate" />
+			<fr:slot name="jobOffer.enterprise.name" key="label.enterprise.name" />
+			<fr:slot name="jobOffer.function" key="label.enterprise.jobOffer.function" />
+			<fr:slot name="jobOffer.presentationPeriod" key="label.enterprise.jobOffer.candidacyPeriod" />
 			<fr:slot name="jobOffer.state" key="label.enterprise.offer.state" />
 		</fr:schema>
 		
 	</fr:view>
 	
 </logic:present>
-<logic:empty name="candidatesOffersActive">
+<logic:empty name="activeOfferCandidacies">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="message.curriculum.there.are.no.candidacies"/>
 </logic:empty> 
 

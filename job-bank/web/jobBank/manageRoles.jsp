@@ -15,7 +15,7 @@
 <fr:form action="/jobBank.do?method=addManagement"> 
 	<fr:edit id="searchUsers" name="searchUsers" >
 		<fr:schema type="module.jobBank.domain.beans.SearchUsers" bundle="JOB_BANK_RESOURCES">
-			<fr:slot name="person" layout="autoComplete" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
+			<fr:slot name="person" layout="autoComplete" key="label.manager.person" bundle="JOB_BANK_RESOURCES" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 		        <fr:property name="labelField" value="name"/>
 				<fr:property name="format" value="${name} (${user.username})"/>
 				<fr:property name="minChars" value="3"/>		

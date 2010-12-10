@@ -1,51 +1,15 @@
-<schema name="jobBank.enterprise.registration"
-	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.beans.EnterpriseBean">
-	<slot name="logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
-		<property name="fileNameSlot" value="logoFilename" />
-		<property name="size" value="30"/>
-	</slot>
-	<slot name="name" key="label.enterprise.name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
-		<property name="size" value="50" />
-	</slot>
-	<slot name="email" key="label.enterprise.email">
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-		<property name="size" value="50" />
-	</slot>
-	<slot name="contactPerson" key="label.enterprise.contactPerson"> 
-		<property name="size" value="50" />
-	 </slot>
-	 <slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>	
-	<slot name="password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
-	<slot name="repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
-	<slot name="designation" key="label.enterprise.designation" layout="area">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-	<slot name="summary" key="label.enterprise.summary"  layout="area">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-	<slot name="area" key="label.enterprise.area">  </slot>
-	<slot name="areaCode" key="label.enterprise.areaCode">  </slot>
-	<slot name="phone" key="label.enterprise.phone">  </slot>
-	<slot name="fax" key="label.enterprise.fax">  </slot>
-	<slot name="jobBankAccountabilityType" key="label.jobBank.provider">  
-		<property name="excludedValues" value="PENDING" />
-		<property name="defaultOptionHidden" value="true"/> 
-	</slot>	
-</schema>
-
 <schema name="jobBank.enterprise.enterpriseProcess.view" 
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">
 	<slot name="name" key="label.enterprise.name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 		<property name="size" value="50" />
 	</slot>
-	<slot name="email" key="label.enterprise.email">
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+	<slot name="loginEmail" key="label.enterprise.loginEmail">
+		<property name="size" value="50" />
+	</slot>
+	<slot name="contactEmail" key="label.enterprise.contactEmail">
+		<validator class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
+		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 		<property name="size" value="50" />
 	</slot>
 	<slot name="contactPerson" key="label.enterprise.contactPerson"> 
@@ -68,13 +32,6 @@
 	<slot name="fax" key="label.enterprise.fax">  </slot>
 </schema>
 
-<schema name="jobBank.enterprise.registration.edit" 
-	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.beans.EnterpriseBean" extends="jobBank.enterprise.registration">
-	<remove name="accountabilityTypeForApproval.name.content" key="label.enterprise.status"/>
-	<slot name="activeAccountabilityType.name.content" key="label.enterprise.status"/>
-	<slot name="changedAccountabilityType" key="label.jobBank.changedAccountabilityType"/>
-</schema>
 
 <schema name="jobBank.enterprise.view.pending"
 	bundle="JOB_BANK_RESOURCES"
@@ -83,25 +40,36 @@
 		<property name="size" value="50" />
 	</slot>
 	<slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>
-	<slot name="email" key="label.enterprise.email">  </slot>  
-	<slot name="accountabilityTypeForApproval.name.content" key="label.enterprise.status">  </slot>		
+	<slot name="contactEmail" key="label.enterprise.contactEmail">  </slot>  
+	<slot name="agreementNameForApproval" key="label.enterprise.status">  </slot>		
 </schema>
 
 <schema name="jobBank.enterprise.view.active"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
-	<remove name="accountabilityTypeForApproval.name.content" key="label.enterprise.status"/>
-	<slot name="activeAccountabilityType.name.content" key="label.enterprise.status"/>
+	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
+	<slot name="agreementName" key="label.enterprise.status"/>
 </schema>
 
-<schema name="jobBank.enterprise.view.requestsToChangeEnterprises"
+<schema name="jobBank.enterprise.view.requestChangeAgreement"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
-	<remove name="accountabilityTypeForApproval.name.content" key="label.enterprise.status"/>
-	<slot name="activeAccountabilityType.name.content" key="label.enterprise.status"/>
-	<slot name="accountabilityTypeForApproval.name.content" key="label.enterprise.requestAccountabilityType"/>
+	<slot name="agreementName" key="label.enterprise.status"/>
+	<slot name="agreementNameForApproval" key="label.enterprise.requestAccountabilityType"/>
 </schema>
 
+<schema name="jobBank.enterprise.view.inactive"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
+	<slot name="agreementName" key="label.enterprise.status"/>
+</schema>
+
+<schema name="jobBank.enterprise.view.expired"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
+</schema>
 
 <schema name="jobBank.enterprise.registration.view"
 	bundle="JOB_BANK_RESOURCES"
@@ -117,24 +85,27 @@
 
 
 
-<schema name="jobBank.enterprise.offer.create"
+<schema name="jobBank.enterprise.jobOffer"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.beans.JobOfferBean">
-
-	<slot name="contactPerson" key="label.enterprise.contactPerson">
-		<property name="readOnly" value="true" > </property>  
+	<slot name="candidancyType" key="label.enterprise.jobOffer.candidancyType" layout="menu-postback">
+		<property name="defaultOptionHidden" value="true"/>
 	</slot>
-	<slot name="emailToSubmit" key="label.enterprise.jobOffer.emailToSubmit">
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
-		<validador class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-		<property name="size" value="50" />
+	<slot name="vacancies" key="label.enterprise.jobOffer.vacancies"> 
+		<validator class="pt.ist.fenixWebFramework.renderers.validators.NumberValidator"/>
+		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/> 
 	</slot>
-	<slot name="reference" key="label.enterprise.jobOffer.reference"/>
+	<slot name="function" key="label.enterprise.jobOffer.function"/>
 	<slot name="place" key="label.enterprise.jobOffer.place"/>
 	<slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
 		<property name="defaultOptionHidden" value="true"/>
 	</slot>
-	<slot name="degree" key="label.enterprise.offer.degree"/>
+	<slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
+		<property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
+		<property name="eachLayout" value="values" />
+		<property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
+		<property name="sortBy" value="presentatioName=asc"/>
+	</slot>
 	<slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="area">  
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />
@@ -144,73 +115,74 @@
 		<property name="rows" value="6" />
 	</slot>
 	<slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker">
-		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>
 		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 	</slot> 
 	<slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" >
-		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>
-		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+				<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+	</slot>	
+</schema>
+<schema name="jobBank.enterprise.jobOffer.internal"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.beans.JobOfferBean" extends="jobBank.enterprise.jobOffer">
+</schema>
+
+<schema name="jobBank.enterprise.jobOffer.external"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.beans.JobOfferBean" extends="jobBank.enterprise.jobOffer">
+	<slot name="externalLink" key="label.enterprise.JobofferExternal.externalLink" validator="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/>	
+</schema>	
+
+<schema name="jobBank.jobOfferProcess.jobOffer.viewJobOffer"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.JobOfferProcess">
+		<slot name="jobOffer.jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification" />
+		<slot name="jobOffer.enterprise.name" key="label.enterprise.name" />
+		<slot name="jobOffer.function" key="label.enterprise.jobOffer.function" />
+		<slot name="jobOffer.place" key="label.enterprise.jobOffer.place" />
+		<slot name="jobOffer.presentationPeriod" key="label.enterprise.jobOffer.candidacyPeriod" />
+		<slot name="jobOffer.vacancies" key="label.enterprise.jobOffer.vacancies" />
+		<slot name="jobOffer.state" key="label.enterprise.jobOffer.state" />
+		<slot name="jobOffer.externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy" />
+</schema>
+
+<schema name="jobBank.jobOfferProcess.jobOffer.viewJobOffer.enterprise"
+	bundle="JOB_BANK_RESOURCES" extends="jobBank.jobOfferProcess.jobOffer.viewJobOffer" 
+	type="module.jobBank.domain.JobOfferProcess">
+	<remove name="jobOffer.enterprise.name"/> 
+</schema>
+<schema name="jobBank.jobOfferProcess.jobOffer.viewJobOffer.student"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.JobOfferProcess" extends="jobBank.jobOfferProcess.jobOffer.viewJobOffer"> 
+	<remove name="jobOffer.state"/> 
+	<remove name="jobOffer.state"/>
+</schema>
+
+<schema name="jobBank.enterprise.jobOffer.remoteDegree"
+	bundle="JOB_BANK_RESOURCES"
+	type="net.sourceforge.fenixedu.domain.RemoteDegree">
+	<slot name="presentationName" key="label.enterprise.jobOffer.remoteDegree.name" />	
+</schema>
+
+
+<schema name="addFile-CurriculumProcessFile" type="module.workflow.util.WorkflowFileUploadBean" bundle="WORKFLOW_RESOURCES">
+	<slot name="selectedInstance" layout="menu-select-postback" key="label.selectedInstance">
+		<property name="providerClass" value="module.workflow.presentationTier.renderers.providers.AvailableFileClassesProvider"/>
+		<property name="eachLayout" value="name-resolver"/>
+		<property name="nullOptionHidden" value="true"/>
+		<property name="saveOptions" value="true"/>
+	</slot>
+	<slot name="displayName" key="label.filename">
+		<property name="size" value="50"/>
+	</slot>
+	<slot name="inputStream" key="label.document">
+		<property name="fileNameSlot" value="filename" />
+		<property name="size" value="50"/>
 	</slot>	
 </schema>
 
+<schema name="addFile-CoverLetterProcessFile" type="module.workflow.util.WorkflowFileUploadBean" bundle="WORKFLOW_RESOURCES" extends="addFile-CurriculumProcessFile"/>
+
 <!--Activities  -->
-
-<schema name="jobBank.activityInformation.EditJobOfferActivity" type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">
-		<slot name="jobOfferBean.beginDate" key="label.enterprise.offer.beginDate" layout="picker">
-		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>
-		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-	</slot> 
-	<slot name="jobOfferBean.endDate" key="label.enterprise.offer.endDate" layout="picker" >
-		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>
-		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-	</slot>	    
-	<slot name="jobOfferBean.contactPerson" key="label.enterprise.contactPerson" layout="text" >
-		<property name="readOnly" value="true" > </property>  
-	</slot>
-	<slot name="jobOfferBean.reference" key="label.enterprise.jobOffer.reference"/>
-	<slot name="jobOfferBean.place" key="label.enterprise.jobOffer.place"/>
-	<slot name="jobOfferBean.jobOfferType" key="label.enterprise.jobOffer.jobType">
-		<property name="nullOptionHidden" value="true"/>
-	</slot>
-	<slot name="jobOfferBean.degree" key="label.enterprise.offer.degree"/>
-	<slot name="jobOfferBean.descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-	<slot name="jobOfferBean.requirements" key="label.enterprise.jobOffer.requirements" layout="longText">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-	<slot name="jobOfferBean.emailToSubmit" key="label.enterprise.jobOffer.emailToSubmit"/>
-		
-</schema>
-
-
-<schema name="jobBank.activityInformation.CurriculumInfoActivity" type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">
-	<slot name="curriculumBean.email" key="label.curriculum.email"/> 
-	
-	<slot name="curriculumBean.dateOfBirth" key="label.curriculum.dateOfBirth" layout="picker">
-		<property name="readOnly" value="true" > </property>
-	</slot>    
-	<slot name="curriculumBean.nationality" key="label.curriculum.nationality">
-		<property name="readOnly" value="true" > </property>  
-	</slot>
-	<slot name="curriculumBean.address" key="label.curriculum.address">
-		<property name="readOnly" value="true" > </property>  
-	</slot>
-	<slot name="curriculumBean.area" key="label.curriculum.area"/>
-	<slot name="curriculumBean.areaCode" key="label.curriculum.areaCode"/>
-	<slot name="curriculumBean.districtSubdivision" key="label.curriculum.districtSubdivision">
-		<property name="nullOptionHidden" value="true"/>
-	</slot>
-	<slot name="curriculumBean.mobilePhone" key="label.curriculum.mobilePhone"/>
-	<slot name="curriculumBean.phone" key="label.curriculum.phone"/>  
-	<slot name="curriculumBean.professionalStatus" key="label.curriculum.professionalStatus" layout="area">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-	<slot name="curriculumBean.geographicAvailability" key="label.curriculum.geographicAvailability"/>
-</schema>
 
 
 <schema name="jobBank.activityInformation.EditEnterpriseActivity" type="module.jobBank.domain.activity.EnterpriseInformation"  bundle="JOB_BANK_RESOURCES">
@@ -237,20 +209,10 @@
 	<slot name="enterpriseBean.areaCode" key="label.enterprise.areaCode">  </slot>
 	<slot name="enterpriseBean.phone" key="label.enterprise.phone">  </slot>
 	<slot name="enterpriseBean.fax" key="label.enterprise.fax">  </slot>
-	<slot name="enterpriseBean.email" key="label.enterprise.email">  </slot>
+	<slot name="enterpriseBean.contactEmail" key="label.enterprise.contactEmail">  </slot>
 	<slot name="enterpriseBean.contactPerson" key="label.enterprise.contactPerson">  </slot>	
 </schema>
 
-<schema name="jobBank.activityInformation.ChangeContractEnterpriseActivity" type="module.jobBank.domain.activity.EnterpriseContractInformation"  bundle="JOB_BANK_RESOURCES">
-	<slot name="agreement" key="label.enterprise.status">
-		<property name="size" value="50" />
-		<property name="readOnly" value="true" />
-	</slot>
-	<slot name="enterpriseBean.jobBankAccountabilityType" key="label.enterprise.requestAccountabilityType">  
-		<property name="excludedValues" value="PENDING" />
-		<property name="defaultOptionHidden" value="true"/> 
-	</slot>	
-</schema>
 <schema name="jobBank.activityInformation.ViewCandidatesToJobOfferActivity" type="module.workflow.activities.ActivityInformation"  bundle="JOB_BANK_RESOURCES">
 	<slot name="process.enterprise.activeAccountabilityType.name.content" key="label.enterprise.accountabilityType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 		<property name="size" value="50" />
@@ -262,8 +224,8 @@
 <!-- End Activities  -->
 
 <schema name="jobBank.curriculumQualification.curriculumQualification" type="module.jobBank.domain.beans.curriculumQualification.CurriculumQualificationBean"  bundle="JOB_BANK_RESOURCES">
-	<slot name="beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"  key="label.curriculumQualification.beginDate"/>
-	<slot name="endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"  key="label.curriculumQualification.endDate"/>
+	<slot name="beginDate" layout="picker"   key="label.curriculumQualification.beginDate"/>
+	<slot name="endDate" layout="picker"  key="label.curriculumQualification.endDate"/>
 	<slot name="institute"  key="label.curriculumQualification.institute"/>
 	<slot name="city"  key="label.curriculumQualification.city"/>
 </schema>

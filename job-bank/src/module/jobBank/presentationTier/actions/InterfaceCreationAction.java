@@ -3,9 +3,11 @@ package module.jobBank.presentationTier.actions;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import module.jobBank.domain.groups.EnterpriseActiveGroup;
 import module.jobBank.domain.groups.EnterpriseGroup;
 import module.jobBank.domain.groups.FenixStudentGroup;
 import module.jobBank.domain.groups.NpeGroup;
+import module.jobBank.domain.groups.StudentActiveGroup;
 import module.jobBank.domain.groups.StudentGroup;
 import myorg.domain.RoleType;
 import myorg.domain.VirtualHost;
@@ -37,7 +39,9 @@ public class InterfaceCreationAction extends ContextBaseAction {
 
 	final PersistentGroup npeGroup = NpeGroup.getInstance();
 	final PersistentGroup entrepriseGroup = EnterpriseGroup.getInstance();
+	final PersistentGroup entrepriseActiveGroup = EnterpriseActiveGroup.getInstance();
 	final PersistentGroup studentGroup = StudentGroup.getInstance();
+	final StudentActiveGroup studentActiveGroup = StudentActiveGroup.getInstance();
 
 	ActionNode homeNode = ActionNode.createActionNode(virtualHost, node, "/jobBank", "frontPage",
 		"resources.JobBankResources", "link.sideBar.jobBank", AnyoneGroup.getInstance());
@@ -47,50 +51,51 @@ public class InterfaceCreationAction extends ContextBaseAction {
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/jobBank", "manageRoles", "resources.JobBankResources",
 		"link.sideBar.jobBank.manageRoles", Role.getRole(RoleType.MANAGER));
-	
+
 	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "configuration", "resources.JobBankResources",
-		"link.sideBar.jobBank.configuration",  Role.getRole(RoleType.MANAGER));
+		"link.sideBar.jobBank.configuration", Role.getRole(RoleType.MANAGER));
 
 	/* Student */
 
 	final PersistentGroup fenixStudentGroup = FenixStudentGroup.getInstance();
-	final IntersectionGroup candidateStudentsToJobBank = IntersectionGroup.createIntersectionGroup(
-		NegationGroup.createNegationGroup(studentGroup), fenixStudentGroup);
+	final IntersectionGroup candidateStudentsToJobBank = IntersectionGroup.createIntersectionGroup(NegationGroup
+		.createNegationGroup(studentGroup), NegationGroup.createNegationGroup(npeGroup), fenixStudentGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "termsResponsibilityStudent",
 		"resources.JobBankResources", "link.sideBar.jobBank.createStudent", candidateStudentsToJobBank);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "personalArea", "resources.JobBankResources",
-		"link.sideBar.jobBank.personalArea", studentGroup);
+		"link.sideBar.jobBank.personalArea", studentActiveGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "searchOffers", "resources.JobBankResources",
-		"link.sideBar.jobBank.offers", studentGroup);
+		"link.sideBar.jobBank.offers", studentActiveGroup);
 
 	/* End Student */
 
 	/* Enterprise */
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "termsResponsibilityEnterprise",
-		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise",
-		NegationGroup.createNegationGroup(UserGroup.getInstance()));
+		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise", NegationGroup
+			.createNegationGroup(UserGroup.getInstance()));
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "enterprise", "resources.JobBankResources",
 		"link.sideBar.jobBank.enterprise", entrepriseGroup);
 
-	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "jobOffers", "resources.JobBankResources",
-		"link.sideBar.jobBank.offers", entrepriseGroup);
+	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "viewAllJobOffers", "resources.JobBankResources",
+		"link.sideBar.jobBank.offers", entrepriseActiveGroup);
+
+	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "searchStudents", "resources.JobBankResources",
+		"link.sideBar.jobBank.searchStudents", entrepriseActiveGroup);
 
 	/* End Enterprise */
 
 	/* Back Office */
 
-	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "viewEnterprises", "resources.JobBankResources",
+	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "enterprises", "resources.JobBankResources",
 		"link.sideBar.jobBank.viewEnterprises", npeGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "jobOffers", "resources.JobBankResources",
 		"link.sideBar.jobBank.offers", npeGroup);
-
-	
 
 	/* End Back Office */
 

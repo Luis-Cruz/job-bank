@@ -6,8 +6,10 @@ import java.util.List;
 
 import module.jobBank.domain.activity.CurriculumInfoActivity;
 import module.jobBank.domain.activity.CurriculumQualificationActivity;
+import module.jobBank.domain.activity.CurriculumRefreshExternalDataActivity;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
+import module.workflow.domain.ProcessFile;
 import module.workflow.domain.WorkflowProcess;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
@@ -19,17 +21,13 @@ public class CurriculumProcess extends CurriculumProcess_Base {
 
 	activitiesAux.add(new CurriculumInfoActivity());
 	activitiesAux.add(new CurriculumQualificationActivity());
+	activitiesAux.add(new CurriculumRefreshExternalDataActivity());
 	activities = Collections.unmodifiableList(activitiesAux);
     }
 
     public CurriculumProcess(final Curriculum curriculum) {
 	super();
 	setCurriculum(curriculum);
-	setProcessNumber(curriculum.getJobBankYear().nextNumber().toString());
-    }
-
-    public String getProcessIdentification() {
-	return "CV" + getCurriculum().getJobBankYear().getYear() + "/" + getProcessNumber();
     }
 
     @Override
@@ -48,7 +46,7 @@ public class CurriculumProcess extends CurriculumProcess_Base {
 
     @Override
     public boolean isAccessible(User user) {
-	return isProcessOwner(user) || JobBankSystem.getInstance().isManagementMember(user);
+	return isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user);
     }
 
     public boolean isAccessible() {
@@ -73,6 +71,19 @@ public class CurriculumProcess extends CurriculumProcess_Base {
     @Override
     public boolean isTicketSupportAvailable() {
 	return false;
+    }
+
+    @Override
+    public boolean isCommentsSupportAvailable() {
+	return false;
+    }
+
+    @Override
+    public List<Class<? extends ProcessFile>> getAvailableFileTypes() {
+	final List<Class<? extends ProcessFile>> list = super.getAvailableFileTypes();
+	list.add(0, CurriculumProcessFile.class);
+	list.add(0, CoverLetterProcessFile.class);
+	return list;
     }
 
 }

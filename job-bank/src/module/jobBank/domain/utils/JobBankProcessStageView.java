@@ -33,42 +33,39 @@ public class JobBankProcessStageView {
     protected JobBankProcessStageState getEditable() {
 	if (offer.isPendingToApproval()) {
 	    return JobBankProcessStageState.COMPLETED;
-	} else {
-	    if (offer.isApproved()) {
-		return JobBankProcessStageState.COMPLETED;
-	    }
-	    return JobBankProcessStageState.UNDER_WAY;
 	}
-
+	if (offer.isApproved()) {
+	    return JobBankProcessStageState.COMPLETED;
+	}
+	return JobBankProcessStageState.UNDER_WAY;
     }
 
     private JobBankProcessStageState getAproved() {
 	if (offer.isPendingToApproval()) {
 	    return JobBankProcessStageState.UNDER_WAY;
-	} else {
-	    if (offer.isApproved()) {
-		return JobBankProcessStageState.COMPLETED;
-	    } else {
-		return JobBankProcessStageState.NOT_YET_UNDER_WAY;
-	    }
 	}
+	if (offer.isApproved()) {
+	    return JobBankProcessStageState.COMPLETED;
+	}
+	return JobBankProcessStageState.NOT_YET_UNDER_WAY;
+
     }
 
     private JobBankProcessStageState getPublishedState() {
 	if (offer.isCandidancyPeriod()) {
 	    return JobBankProcessStageState.UNDER_WAY;
-	} else {
-	    if (offer.isAfterCompletedCandidancyPeriod()) {
-		return JobBankProcessStageState.COMPLETED;
-	    } else {
-		return JobBankProcessStageState.NOT_YET_UNDER_WAY;
-	    }
 	}
-
+	if (offer.isAfterCompleteCandidancyPeriod()) {
+	    return JobBankProcessStageState.COMPLETED;
+	}
+	return JobBankProcessStageState.NOT_YET_UNDER_WAY;
     }
 
     private JobBankProcessStageState getCandidatedState() {
-	if (offer.isAfterCompletedCandidancyPeriod()) {
+	if (offer.isConclued()) {
+	    return JobBankProcessStageState.COMPLETED;
+	}
+	if (offer.isSelectionPeriod()) {
 	    return JobBankProcessStageState.UNDER_WAY;
 	}
 	return JobBankProcessStageState.NOT_YET_UNDER_WAY;

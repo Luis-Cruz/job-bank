@@ -24,19 +24,16 @@
 	<fr:view name="jobOffer">
 		<fr:schema type="module.jobBank.domain.JobOffer" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification"/>
+			<fr:slot name="externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy"/>
 			<fr:slot name="creationDate" key="label.enterprise.offer.creationDate"/>
 			<fr:slot name="enterpriseName" key="label.enterprise.name"/>
-			<fr:slot name="contactPerson" key="label.enterprise.contactPerson"/>
 			<fr:slot name="reference" key="label.enterprise.jobOffer.reference"/>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType"/>
 			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText"/>
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="longText"/>
-			<fr:slot name="emailToSubmit" key="label.enterprise.jobOffer.emailToSubmit"/>
 			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
-			
-		
 			
 			<fr:layout name="tabular-nonNullValues">
 				<fr:property name="classes" value="mvert05 thleft"/>

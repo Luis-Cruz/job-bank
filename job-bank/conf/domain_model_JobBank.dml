@@ -1,5 +1,6 @@
 package module.jobBank.domain; 
 
+external class .net.sourceforge.fenixedu.domain.RemoteDegree;
 
 valueType myorg.domain.util.ByteArray as ByteArray {
     externalizeWith {
@@ -7,18 +8,29 @@ valueType myorg.domain.util.ByteArray as ByteArray {
     }
 }
 
+
 enum module.jobBank.domain.JobOfferType as JobOfferType;
 enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityType;
 
-class JobBankSystem {
-	Integer counterEnterprise;	
+class task.CreateBootstrapJobBankTask extends .myorg.domain.scheduler.Task {
 }
+
+class JobBankSystem { 
+	String urlEmailValidation;
+}
+
+class CurriculumProcessFile extends .module.workflow.domain.ProcessFile {
+}
+class CoverLetterProcessFile extends .module.workflow.domain.ProcessFile {
+}
+
 
 class EnterpriseProcess extends .module.workflow.domain.WorkflowProcess {
 }
 
 class Enterprise{
 	boolean canceled;
+	boolean blocked;
 	MultiLanguageString designation;
 	MultiLanguageString summary;
 	String address;
@@ -27,7 +39,9 @@ class Enterprise{
 	String nif;
 	String phone;
 	String fax;
-	String email;
+	String url;
+	String contactEmail;
+	boolean confirmedEmail;
 	String areaCode;
 	ByteArray logo;
 }
@@ -44,21 +58,26 @@ class JobOfferProcess extends .module.workflow.domain.WorkflowProcess {
 
 class JobOffer {
 	DateTime creationDate;
-	DateTime beginDate;
-	DateTime endDate;
+	LocalDate beginDate;
+	LocalDate endDate;
 	DateTime submittedForApprovalDate;
 	DateTime approvalDate;
 	Boolean canceled;
-	Boolean filled;
+	Boolean conclued;
 	
-	String reference;
 	MultiLanguageString function;
 	String place;
 	MultiLanguageString descriptionOffer;
 	MultiLanguageString requirements;
-	String emailToSubmit;
 	JobOfferType jobOfferType;
+	Integer vacancies;
 }
+	class JobOfferInternal extends JobOffer {
+	
+	}
+	class JobOfferExternal extends JobOffer{
+		String externalLink;
+	}
 
 class Student{
 
@@ -66,11 +85,11 @@ class Student{
 
 class Curriculum{
 	DateTime dateOfBirth;
-	MultiLanguageString nationality;
-	MultiLanguageString address;
-	MultiLanguageString area;
-	MultiLanguageString areaCode;
-	MultiLanguageString districtSubdivision;
+	String nationality;
+	String address;
+	String area;
+	String areaCode;
+	String districtSubdivision;
 	String mobilePhone;
 	String phone;
 	String email;
@@ -79,8 +98,8 @@ class Curriculum{
 	
 }
 class curriculumQualification.CurriculumQualification{
-	DateTime beginDate;
-	DateTime endDate;
+	LocalDate beginDate;
+	LocalDate endDate;
 	MultiLanguageString institute;
 	MultiLanguageString city;
 }
@@ -105,11 +124,16 @@ class curriculumQualification.CurriculumQualification{
 		MultiLanguageString acquiredSkills;
 	}
 
-class CandidateOffer{
+class OfferCandidacy{
 	DateTime creationDate;
 	DateTime modifiedDate;
-	boolean selected;
 	boolean canceled;
+}
+
+class EmailValidation{
+	DateTime expiredDate;
+	String checksum;
+	String email;
 }
 
 class groups.NpeGroup extends .myorg.domain.groups.PersistentGroup {
@@ -118,7 +142,13 @@ class groups.NpeGroup extends .myorg.domain.groups.PersistentGroup {
 class groups.EnterpriseGroup extends .myorg.domain.groups.PersistentGroup {
 }
 
+class groups.EnterpriseActiveGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
 class groups.StudentGroup extends .myorg.domain.groups.PersistentGroup {
+}
+
+class groups.StudentActiveGroup extends .myorg.domain.groups.PersistentGroup {
 }
 
 class groups.FenixStudentGroup extends .myorg.domain.groups.PersistentGroup {
@@ -126,7 +156,6 @@ class groups.FenixStudentGroup extends .myorg.domain.groups.PersistentGroup {
 
 class CurriculumProcess extends .module.workflow.domain.WorkflowProcess {
 }
-
 
 /*Relations With JobBankSystem */
 
@@ -147,9 +176,9 @@ relation JobBankSystemWitJobOffer {
 		multiplicity *;
 	}
 }
-relation JobBankSystemWitCandidateOffer {
+relation JobBankSystemWitOfferCandidacy {
 	JobBankSystem playsRole jobBankSystem;
-	CandidateOffer playsRole candidateOffers{
+	OfferCandidacy playsRole offerCandidacies{
 		multiplicity *;
 	}
 }
@@ -179,6 +208,13 @@ relation JobBankSystemBackOfficeAccountabilityType {
 	}
 }
 
+relation JobBankSystemWithEmailValidation {
+	JobBankSystem playsRole jobBankSystem;
+	EmailValidation playsRole emailValidations{
+		multiplicity *;
+	}
+}
+
 /* Relations */
 
 relation EnterpriseWithUser{
@@ -201,14 +237,12 @@ relation EnterpriseWithEnterpriseProcess{
 	Enterprise playsRole enterprise;
 	EnterpriseProcess playsRole enterpriseProcess;
 }
-relation EnterpriseWithAccountabilityTypeForApproval{
+relation EnterpriseWithAgreementTypeForApproval{
 	Enterprise playsRole enterprise{
 		multiplicity *;
 	}
-	.module.organization.domain.AccountabilityType playsRole accountabilityTypeForApproval; 
+	.module.organization.domain.AccountabilityType playsRole agreementForApproval; 
 }
-
-
 relation StudentWithPerson{
 	Student playsRole student;
 	.module.organization.domain.Person playsRole person;
@@ -221,21 +255,29 @@ relation JobOfferWithJobOfferProcess {
 }
 relation JobOfferWithJobOffer{
 	JobOffer playsRole jobOffer;
-	CandidateOffer playsRole candidateOffer{
+	OfferCandidacy playsRole offerCandidacy{
 		multiplicity *;
 	}	
-	
+}
+relation JobOfferWithRemoteDegree{
+	JobOffer playsRole {
+ 		multiplicity *;
+	}
+	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegrees{
+		multiplicity *;
+	}	
+}
+
+relation JobOfferWithOfferCandidacySelectCandidacies{
+	JobOffer playsRole jobOfferSelectCandidacy;
+	OfferCandidacy playsRole selectCandidacies{
+		multiplicity *;
+	}	
 }
 
 relation JobBankYearWithJobOffer {
 	JobBankYear playsRole jobBankYear;
 	JobOffer playsRole jobOffer {
-		multiplicity *;
-	}
-}
-relation JobBankYearWithCurriculum{
-	JobBankYear playsRole JobBankYear;
-	Curriculum playsRole curriculum{
 		multiplicity *;
 	}
 }
@@ -253,9 +295,9 @@ relation StudentCandidateToffers{
 		multiplicity *;
 	}
 }
-relation StudentWithCandidateOffer{
+relation StudentWithOfferCandidacy{
 	Student playsRole student;
-	CandidateOffer playsRole candidateOffer{
+	OfferCandidacy playsRole offerCandidacy{
 		multiplicity *;
 	}	
 }
@@ -271,6 +313,7 @@ relation CurriculumWithCurriculumQualification{
 		multiplicity *;
 	}	
 }
+
 
 
 

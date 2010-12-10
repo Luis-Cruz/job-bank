@@ -13,8 +13,8 @@ public class CancelJobOfferSubmitionForApprovalActivity extends
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return !jobOffer.isApproved() && !jobOffer.isEditable()
-		&& (process.isProcessOwner(user) || JobBankSystem.getInstance().isManagementMember(user));
+	return jobOffer.isActive() && !jobOffer.isApproved() && !jobOffer.isEditable()
+		&& (process.isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user));
     }
 
     @Override

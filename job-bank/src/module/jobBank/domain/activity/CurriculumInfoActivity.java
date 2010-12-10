@@ -27,4 +27,9 @@ public class CurriculumInfoActivity extends WorkflowActivity<CurriculumProcess, 
     public String getUsedBundle() {
 	return JobBankSystem.JOB_BANK_RESOURCES;
     }
+
+    @Override
+    public boolean isDefaultInputInterfaceUsed() {
+	return false;
+    }
 }

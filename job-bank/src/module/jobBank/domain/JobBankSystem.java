@@ -4,28 +4,32 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.OrganizationalModel;
 import module.organization.domain.Party;
 import module.organization.domain.Unit;
 import myorg.applicationTier.Authenticate.UserView;
+import myorg.domain.ModuleInitializer;
 import myorg.domain.MyOrg;
 import myorg.domain.RoleType;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
+import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
+import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
+import pt.ist.fenixframework.plugins.remote.domain.RemoteSystem;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
-public class JobBankSystem extends JobBankSystem_Base {
+public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
 
     public static final String JOB_BANK_RESOURCES = "resources/JobBankResources";
     public static final String PARTY_TYPE_NAME = "Enterprise";
 
     private JobBankSystem() {
 	super();
-	if (!hasCounterEnterprise()) {
-	    super.setCounterEnterprise(Integer.valueOf(0));
-	}
     }
 
     private JobBankSystem(final MyOrg myOrg) {
@@ -50,31 +54,35 @@ public class JobBankSystem extends JobBankSystem_Base {
 	}
     }
 
-    public boolean isEnterpriseMember() {
+    public boolean isEnterpriseActiveMember() {
 	User user = UserView.getCurrentUser();
-	return isEnterpriseMember(user);
+	return isEnterpriseActiveMember(user);
+    }
+
+    public boolean isEnterpriseActiveMember(User user) {
+	return hasUser(user) && user.hasEnterprise() && user.getEnterprise().isActive();
     }
 
     public boolean isEnterpriseMember(User user) {
-	return hasUser(user) && user.hasEnterprise() && user.getEnterprise().isActive();
+	return hasUser(user) && user.hasEnterprise();
     }
 
     public boolean isManagementMember() {
 	User user = UserView.getCurrentUser();
-	return hasUser(user) && user.hasRoleType(RoleType.MANAGER);
+	return isManagementMember(user);
     }
 
     public boolean isManagementMember(User user) {
-	return hasUser(user) && getManagementUsers().contains(user);
+	return hasUser(user) && user.hasRoleType(RoleType.MANAGER);
     }
 
-    public boolean isManagementOrEnterpriseMember() {
+    public boolean isNPEMember() {
 	User user = UserView.getCurrentUser();
-	return isManagementMember(user) || isEnterpriseMember(user);
+	return isNPEMember(user);
     }
 
-    public boolean isManagementOrEnterpriseMember(User user) {
-	return isManagementMember(user) || isEnterpriseMember(user);
+    public boolean isNPEMember(User user) {
+	return hasUser(user) && getManagementUsers().contains(user);
     }
 
     public boolean isStudentMember() {
@@ -86,15 +94,19 @@ public class JobBankSystem extends JobBankSystem_Base {
 	return hasUser(user) && user.hasPerson() && user.getPerson().hasStudent();
     }
 
-    public boolean hasCounterEnterprise() {
-	return getCounterEnterprise() != null;
+    public boolean isActiveStudentMember(User user) {
+	return hasUser(user) && user.hasPerson() && user.getPerson().hasStudent() && user.getPerson().getStudent().isActive();
     }
 
-    @Service
-    public Integer nextNumber() {
-	Integer oldValue = getCounterEnterprise();
-	setCounterEnterprise(oldValue.intValue() + 1);
-	return getCounterEnterprise();
+    @Override
+    public void init(MyOrg root) {
+	RequestChecksumFilter.registerFilterRule(new ChecksumPredicate() {
+	    public boolean shouldFilter(HttpServletRequest httpServletRequest) {
+		return !(httpServletRequest.getRequestURI().endsWith("/enterprise.do")
+			&& httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().contains(
+			"method=emailValidation"));
+	    }
+	});
     }
 
     @Service
@@ -146,18 +158,29 @@ public class JobBankSystem extends JobBankSystem_Base {
     }
 
     public <T> Set<T> readValuesToSatisfiedPredicate(IPredicate<T> predicate, Set<T> setToRead) {
-	Set<T> objects = new HashSet<T>();
+	Set<T> results = new HashSet<T>();
 	for (T object : setToRead) {
 	    if (predicate.evaluate(object)) {
-		objects.add(object);
+		results.add(object);
 	    }
 	}
-	return objects;
+	return results;
 
     }
 
     private boolean hasUser(User user) {
 	return user != null;
+    }
+
+    /* Static Methods */
+    public static RemoteHost readRemoteHost() {
+	return RemoteSystem.getInstance().getRemoteHostsIterator().next();
+    }
+
+    @Override
+    @Service
+    public void setUrlEmailValidation(String urlEmailValidation) {
+	super.setUrlEmailValidation(urlEmailValidation);
     }
 
 }

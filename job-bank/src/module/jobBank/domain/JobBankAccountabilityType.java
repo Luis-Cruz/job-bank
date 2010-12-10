@@ -43,6 +43,9 @@ public enum JobBankAccountabilityType implements IPresentableEnum {
     }
 
     public static JobBankAccountabilityType readAccountabilityType(AccountabilityType activeAccountabilityType) {
+	if (activeAccountabilityType == null) {
+	    return null;
+	}
 	if (activeAccountabilityType.equals(JobBankAccountabilityType.PENDING.readAccountabilityType())) {
 	    return JobBankAccountabilityType.PENDING;
 	}

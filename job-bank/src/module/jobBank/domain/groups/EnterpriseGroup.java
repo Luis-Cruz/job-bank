@@ -37,9 +37,7 @@ public class EnterpriseGroup extends EnterpriseGroup_Base {
     public Set<User> getMembers() {
 	Set<User> users = new HashSet<User>();
 	for (Enterprise enterprise : JobBankSystem.getInstance().getEnterprises()) {
-	    if (enterprise.isActive()) {
-		users.add(enterprise.getUser());
-	    }
+	    users.add(enterprise.getUser());
 	}
 	return users;
     }

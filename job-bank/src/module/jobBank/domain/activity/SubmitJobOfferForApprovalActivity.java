@@ -14,7 +14,7 @@ public class SubmitJobOfferForApprovalActivity extends WorkflowActivity<JobOffer
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return jobOffer.isEditable() && process.isProcessOwner(user);
+	return jobOffer.isActive() && jobOffer.isEditable() && process.isProcessOwner(user);
     }
 
     @Override

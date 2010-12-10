@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import module.jobBank.domain.activity.ChangeContractEnterpriseActivity;
+import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
 import module.jobBank.domain.activity.EnterpriseApprovalActivity;
+import module.jobBank.domain.activity.EnterpriseApprovalChangeAgreementActivity;
+import module.jobBank.domain.activity.EnterpriseDisableActivity;
+import module.jobBank.domain.activity.EnterpriseEnableActivity;
 import module.jobBank.domain.activity.EnterpriseRejectActivity;
+import module.jobBank.domain.activity.EnterpriseRejectChangeAgreementActivity;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.WorkflowProcess;
@@ -20,9 +24,13 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activitiesAux = new ArrayList<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>>();
 
 	activitiesAux.add(new EditEnterpriseActivity());
-	activitiesAux.add(new ChangeContractEnterpriseActivity());
+	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
 	activitiesAux.add(new EnterpriseApprovalActivity());
 	activitiesAux.add(new EnterpriseRejectActivity());
+	activitiesAux.add(new EnterpriseRejectChangeAgreementActivity());
+	activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
+	activitiesAux.add(new EnterpriseEnableActivity());
+	activitiesAux.add(new EnterpriseDisableActivity());
 
 	activities = Collections.unmodifiableList(activitiesAux);
     }
@@ -40,7 +48,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 
     @Override
     public boolean isActive() {
-	return true;
+	return !getEnterprise().isCanceled();
     }
 
     @Override
@@ -49,7 +57,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 
     @Override
     public boolean isAccessible(User user) {
-	return isProcessOwner(user) || JobBankSystem.getInstance().isManagementMember(user);
+	return isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user);
     }
 
     public boolean isAccessible() {
@@ -62,7 +70,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
     }
 
     public boolean getCanManageJobProcess() {
-	return JobBankSystem.getInstance().isEnterpriseMember();
+	return JobBankSystem.getInstance().isEnterpriseActiveMember();
     }
 
     @Override
@@ -73,6 +81,26 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 
     @Override
     public boolean isTicketSupportAvailable() {
+	return false;
+    }
+
+    @Override
+    public boolean isUserCanViewLogs(User user) {
+	return JobBankSystem.getInstance().isNPEMember(user);
+    }
+
+    @Override
+    public boolean isCommentsSupportAvailable() {
+	return false;
+    }
+
+    @Override
+    public boolean isFileSupportAvailable() {
+	return false;
+    }
+
+    @Override
+    public boolean isCreatedByAvailable() {
 	return false;
     }
 }

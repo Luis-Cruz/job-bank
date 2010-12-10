@@ -7,12 +7,12 @@ import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
 
-public class EditJobOfferActivity extends WorkflowActivity<JobOfferProcess, JobOfferInformation> {
+public class JobOfferEditActivity extends WorkflowActivity<JobOfferProcess, JobOfferInformation> {
 
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return jobOffer.isEditable() && process.isProcessOwner(user);
+	return jobOffer.isActive() && jobOffer.isEditable() && process.isProcessOwner(user);
     }
 
     @Override
@@ -30,4 +30,8 @@ public class EditJobOfferActivity extends WorkflowActivity<JobOfferProcess, JobO
 	return JobBankSystem.JOB_BANK_RESOURCES;
     }
 
+    @Override
+    public boolean isDefaultInputInterfaceUsed() {
+	return false;
+    }
 }

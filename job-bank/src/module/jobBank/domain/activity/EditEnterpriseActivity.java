@@ -1,5 +1,6 @@
 package module.jobBank.domain.activity;
 
+import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.JobBankSystem;
 import module.workflow.activities.ActivityInformation;
@@ -10,7 +11,8 @@ public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, 
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
-	return process.isProcessOwner(user);
+	Enterprise enterprise = process.getEnterprise();
+	return (enterprise.isActive() || enterprise.isPendingToApproval()) && process.isProcessOwner(user);
 
     }
 
@@ -27,5 +29,10 @@ public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, 
     @Override
     public String getUsedBundle() {
 	return JobBankSystem.JOB_BANK_RESOURCES;
+    }
+
+    @Override
+    public boolean isDefaultInputInterfaceUsed() {
+	return false;
     }
 }

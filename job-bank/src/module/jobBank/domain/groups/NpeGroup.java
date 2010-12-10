@@ -16,7 +16,7 @@ public class NpeGroup extends NpeGroup_Base {
 
     @Override
     public boolean isMember(User user) {
-	return JobBankSystem.getInstance().isManagementMember(user);
+	return JobBankSystem.getInstance().isNPEMember(user);
     }
 
     @Service
