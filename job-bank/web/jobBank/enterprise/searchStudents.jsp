@@ -16,14 +16,14 @@
 				<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.StudentsAutoCompleteProvider"/>
 				<fr:property name="size" value="40"/>
 			</fr:slot>
-			<fr:slot name="completedDegree"/>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
 				<fr:property name="sortBy" value="presentationName=asc" />
-				
 			</fr:slot>
+			<fr:slot name="registrationConclued" key="label.enterprise.offer.degree" />
+			
 		</fr:schema>
 		
 		<fr:layout name="tabular">

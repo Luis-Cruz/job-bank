@@ -11,7 +11,8 @@ public class EnterpriseDisableActivity extends WorkflowActivity<EnterpriseProces
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
-	return process.getEnterprise().isEnable() && JobBankSystem.getInstance().isNPEMember(user);
+	Enterprise enterprise = process.getEnterprise();
+	return enterprise.isEnable() && !enterprise.isPendingToApproval() && JobBankSystem.getInstance().isNPEMember(user);
     }
 
     @Override

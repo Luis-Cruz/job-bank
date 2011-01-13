@@ -32,7 +32,7 @@ public class SearchStudents extends SearchUsers {
 	Student.readAllStudents(new IPredicate<Student>() {
 	    @Override
 	    public boolean evaluate(Student student) {
-		if (!isOptionsSelected() || isSatisfiedCompletedDegree(student) || isSatisfiedDegree(student)) {
+		if (isSatisfiedRegistrationProcess(student) && isSatisfiedDegree(student)) {
 		    results.add(student.getPerson());
 		    return true;
 		}
@@ -43,17 +43,13 @@ public class SearchStudents extends SearchUsers {
 
     }
 
-    private boolean isOptionsSelected() {
-	return isRegistrationConclued() || getDegree() != null;
-    }
-
-    private boolean isSatisfiedCompletedDegree(Student student) {
-	return isRegistrationConclued() && student.isRegistrationConcluded();
+    private boolean isSatisfiedRegistrationProcess(Student student) {
+	return !hasSelectedRegistrationConlued() || student.isConcludedProcessed();
     }
 
     private boolean isSatisfiedDegree(Student student) {
 	RemoteDegree degree = student.getDegree();
-	return degree != null && degree.equals(getDegree());
+	return !hasSelectedDegree() || degree != null && degree.equals(getDegree());
     }
 
     public boolean isRegistrationConclued() {
@@ -72,4 +68,11 @@ public class SearchStudents extends SearchUsers {
 	return degree;
     }
 
+    public boolean hasSelectedDegree() {
+	return getDegree() != null;
+    }
+
+    public boolean hasSelectedRegistrationConlued() {
+	return isRegistrationConclued();
+    }
 }

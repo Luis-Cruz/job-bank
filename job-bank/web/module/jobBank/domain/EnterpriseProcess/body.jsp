@@ -3,6 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
+<%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 <%@ taglib uri="/WEB-INF/workflow.tld" prefix="wf"%>
 
 <%@page import="module.organization.domain.OrganizationalModel"%>
@@ -14,7 +15,7 @@
 
 <logic:equal name="process" property="enterprise.pendingToApproval" value="true">
 	<div class="warning1">
-		O registo está pendente para aprovação. Nesta fase apenas pode...
+		<bean:message key="message.enterprise.pendingToApproval" bundle="JOB_BANK_RESOURCES"/>
 	</div>
 </logic:equal>
 
@@ -46,7 +47,7 @@
 				
 <table class="tview3"> 
 	<tr> 
-		<th>Tipo de contrato:</th> 
+		<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
 		<td>
 			<logic:equal name="enterprise" property="expired" value="true">
 				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/>
@@ -56,7 +57,8 @@
 			</logic:equal>	</td> 
 	</tr> 
 	<tr> 
-		<th>Duração:</th> 
+
+		<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 
 		<td><bean:write name="enterprise" property="agreementDuration"/></td> 
 	</tr> 
 </table> 
@@ -70,13 +72,14 @@
 <logic:present name="jobOfferProcesses">
 	<fr:view name="jobOfferProcesses" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer.enterprise">
 		<fr:layout name="tabular" >
-			
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 			<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="OID" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 			<fr:property name="order(view)" value="1" />
+			
+			<fr:property name="sortBy" value="creationDate=asc" />
 		</fr:layout>
 	</fr:view>
 </logic:present>

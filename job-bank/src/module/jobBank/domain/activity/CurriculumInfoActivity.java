@@ -10,7 +10,8 @@ public class CurriculumInfoActivity extends WorkflowActivity<CurriculumProcess, 
 
     @Override
     public boolean isActive(CurriculumProcess process, User user) {
-	return process.isProcessOwner(user);
+	return false;
+	// return process.isProcessOwner(user);
     }
 
     @Override

@@ -14,8 +14,8 @@
 	</div>
 </logic:messagesPresent>
 
-<bean:define id="classType" name="jobOfferBean" property="candidancyType.type"/>
-
+<bean:define id="classType" name="jobOfferBean" property="candidacyType.type"/>
+ 
 <fr:form action="/enterprise.do?method=createOffer">
 	<fr:edit id="jobOfferBean" name="jobOfferBean" > 
 		<fr:schema  type="module.jobBank.domain.beans.JobOfferBean"  bundle="JOB_BANK_RESOURCES">	    
@@ -24,12 +24,18 @@
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
-			<fr:slot name="candidancyType" key="label.enterprise.jobOffer.candidancyType" layout="menu-postback">
+			<fr:slot name="candidacyType" key="label.enterprise.jobOffer.candidancyType" layout="menu-postback">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
-			<fr:slot name="externalLink" key="label.enterprise.JobofferExternal.externalLink">
-			 <!-- validator="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
-			</fr:slot>  
+			<bean:define id="candidacyType" name="jobOfferBean" property="candidacyType"/>
+			<%= candidacyType%>
+			<logic:equal name="candidacyType" value="External"> 
+			
+				<fr:slot name="externalLink" key="label.enterprise.JobofferExternal.externalLink">
+					 <!-- <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
+				</fr:slot>
+			
+			</logic:equal>  
 			<fr:slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
@@ -54,7 +60,7 @@
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" >
-				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>	
 		</fr:schema>
 		<fr:layout name="tabular"> 

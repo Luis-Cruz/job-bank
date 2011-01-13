@@ -38,7 +38,8 @@
 										<fr:slot name="curriculum.areaCode" key="label.curriculum.areaCode"/> 
 										<fr:slot name="curriculum.districtSubdivision" key="label.curriculum.districtSubdivision"/> 
 										<fr:slot name="curriculum.mobilePhone" key="label.curriculum.mobilePhone"/> 
-										<fr:slot name="curriculum.phone" key="label.curriculum.mobilePhone"/>   
+										<fr:slot name="curriculum.phone" key="label.curriculum.mobilePhone"/>
+										<fr:slot name="remoteRegistration.average" key="label.curriculum.average"/>   
 							</fr:schema>
 						</fr:view>
 					</tr>
@@ -77,6 +78,8 @@
 			<fr:property name="bundle(delete)" value="JOB_BANK_RESOURCES" />
 			<fr:property name="visibleIf(delete)" value="jobOffer.candidancyPeriod" />
 			<fr:property name="order(delete)" value="2" />
+			
+			<fr:property name="sortBy" value="creationDate=asc" />
 	
 			
 		</fr:layout>

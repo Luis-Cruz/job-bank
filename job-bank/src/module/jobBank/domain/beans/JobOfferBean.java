@@ -10,7 +10,7 @@ import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferExternal;
 import module.jobBank.domain.JobOfferInternal;
 import module.jobBank.domain.JobOfferType;
-import module.jobBank.domain.enums.CandidancyType;
+import module.jobBank.domain.enums.CandidacyType;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import net.sourceforge.fenixedu.domain.RemoteDegree;
@@ -39,11 +39,11 @@ public class JobOfferBean implements Serializable {
     private List<RemoteDegree> remoteDegrees;
 
     private String externalLink;
-    private CandidancyType candidancyType;
+    private CandidacyType candidacyType;
 
     public JobOfferBean() {
 	setBasicFields();
-	setCandidancyType(CandidancyType.Internal);
+	setCandidacyType(CandidacyType.Internal);
 	setRemoteDegrees(Degree.readRemoteDegrees());
 	// min
 	setVacancies(1);
@@ -138,12 +138,12 @@ public class JobOfferBean implements Serializable {
 	this.enterprise = enterprise;
     }
 
-    public void setCandidancyType(CandidancyType candidancyType) {
-	this.candidancyType = candidancyType;
+    public void setCandidacyType(CandidacyType candidacyType) {
+	this.candidacyType = candidacyType;
     }
 
-    public CandidancyType getCandidancyType() {
-	return candidancyType;
+    public CandidacyType getCandidacyType() {
+	return candidacyType;
     }
 
     public void setExternalLink(String externalLink) {
@@ -164,13 +164,13 @@ public class JobOfferBean implements Serializable {
 
     @Service
     public JobOffer create() {
-	if (getCandidancyType() == null) {
+	if (getCandidacyType() == null) {
 	    return new JobOfferInternal(this);
 	}
-	if (getCandidancyType() == CandidancyType.Internal) {
+	if (getCandidacyType() == CandidacyType.Internal) {
 	    return new JobOfferInternal(this);
 	}
-	if (getCandidancyType() == CandidancyType.External) {
+	if (getCandidacyType() == CandidacyType.External) {
 	    return new JobOfferExternal(this);
 	}
 	return null;

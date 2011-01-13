@@ -24,9 +24,11 @@
 			<fr:slot name="jobOfferBean.jobOfferType" key="label.enterprise.jobOffer.jobType">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
-			<fr:slot name="jobOfferBean.externalLink" key="label.enterprise.JobofferExternal.externalLink">
-			 <!-- validator="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
-			</fr:slot>  
+			<logic:equal name="jobOfferBean.candidacyType" value="External"> 
+				<fr:slot name="jobOfferBean.externalLink" key="label.enterprise.JobofferExternal.externalLink">
+					 <!-- <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
+				</fr:slot>
+			</logic:equal>  
 			<fr:slot name="jobOfferBean.remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />

@@ -22,9 +22,11 @@ public class SearchUsers extends Search<Person> {
 
 	@Override
 	protected boolean matchesSearchCriteria(final Person person) {
+	    if (person == null) {
+		return false;
+	    }
 	    return matchCriteria(username, person.getUser().getUsername());
 	}
-
     }
 
     @Override

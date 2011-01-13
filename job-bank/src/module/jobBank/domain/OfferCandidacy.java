@@ -2,7 +2,10 @@ package module.jobBank.domain;
 
 import java.util.Set;
 
+import module.jobBank.domain.beans.OfferCandidacyBean;
 import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
+import module.workflow.domain.ProcessFile;
 import myorg.domain.exceptions.DomainException;
 
 import org.joda.time.DateTime;
@@ -19,6 +22,15 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 	setCreationDate(new DateTime());
 	setModifiedDate(new DateTime());
 	setCanceled(false);
+
+    }
+
+    private OfferCandidacy(OfferCandidacyBean bean) {
+	this(bean.getStudent(), bean.getJobOffer());
+	for (ProcessFile file : bean.getAttachFiles()) {
+	    addProcessFiles(file);
+	}
+
     }
 
     // If job offer is external then the application process is not managed by
@@ -36,6 +48,15 @@ public class OfferCandidacy extends OfferCandidacy_Base {
     public static void createOfferCandidacy(Student student, JobOffer jobOffer) {
 	if (canCreateOfferCandidacy(student, jobOffer)) {
 	    new OfferCandidacy(student.getPerson().getStudent(), jobOffer);
+	} else {
+	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer", DomainException
+		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	}
+    }
+
+    public static void createOfferCandidacy(OfferCandidacyBean bean) {
+	if (canCreateOfferCandidacy(bean.getStudent(), bean.getJobOffer())) {
+	    new OfferCandidacy(bean);
 	} else {
 	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer", DomainException
 		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
@@ -71,7 +92,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 
     public static Set<OfferCandidacy> readOfferCandidacies(IPredicate<OfferCandidacy> predicate) {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getOfferCandidaciesSet());
+	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getOfferCandidaciesSet());
     }
 
     public boolean getCanSelectCandidacy() {

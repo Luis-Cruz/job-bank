@@ -2,60 +2,92 @@ package module.jobBank.domain;
 
 import java.util.Set;
 
+import net.sourceforge.fenixedu.domain.RemoteStudentCurricularPlan;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 import net.sourceforge.fenixedu.domain.student.RemoteStudent;
+import net.sourceforge.fenixedu.domain.student.curriculum.RemoteConclusionProcess;
+import net.sourceforge.fenixedu.domain.studentCurriculum.RemoteCycleCurriculumGroup;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+
+import pt.ist.fenixWebFramework.services.Service;
 
 public class Registration {
 
     private static final int YEARS_SUBSCRIPTION_ACTIVE = 1;
 
-    public static RemoteRegistration getValidRegistration(Student student) {
+    public static RemoteRegistration getValidRegistrationOnProcessCreation(Student student) {
+	generateRemoteDomains(student);
 	RemoteStudent remoteStudent = student.getRemoteStudent();
 	Set<RemoteRegistration> remoteRegistrations = student.getRemoteStudent().getRegistrations();
 	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
-	    if (isValidRegistration(remoteStudent, remoteRegistration)) {
+	    if (isValidRegistrationOnProcessCreation(remoteStudent, remoteRegistration)) {
 		return remoteRegistration;
 	    }
 	}
 	return null;
     }
 
-    public static Boolean hasValidRegistrionsForStudent(Student student) {
-	return getValidRegistration(student) == null ? false : true;
+    public static Boolean isValidRegistrationOnProcessCreation(RemoteStudent remoteStudent, RemoteRegistration remoteRegistration) {
+	return remoteRegistration != null && Degree.readRemoteDegrees().contains(remoteRegistration.getDegree())
+		&& isValidRegistration(remoteStudent, remoteRegistration);
+    }
+
+    public static Boolean hasValidRegistrationsForStudent(Student student) {
+	return getValidRegistrationOnProcessCreation(student) == null ? false : true;
     }
 
     public static Boolean isValidRegistration(RemoteStudent remoteStudent, RemoteRegistration remoteRegistration) {
-	if (true) {
-	    return true;
+	if (remoteStudent == null || remoteRegistration == null) {
+	    return false;
 	}
-	DateTime conclusionDate = remoteRegistration.getConclusionProcessCreationDateTime();
-	DateTime now = new DateTime();
-	return Degree.readRemoteDegrees().contains(remoteRegistration.getDegree())
-		&& remoteStudent.isSeniorForCurrentExecutionYear()
-		|| (remoteRegistration.isConcluded() && conclusionDate != null && conclusionDate.plusYears(
-			YEARS_SUBSCRIPTION_ACTIVE).isBefore(now));
+	return remoteStudent.isSeniorForCurrentExecutionYear() || Student.hasCreditsToAccess(remoteRegistration)
+		|| isValidNow(remoteRegistration);
     }
+
+    public static RemoteConclusionProcess readConcluedProcess(RemoteRegistration remoteRegistration) {
+	if (remoteRegistration == null) {
+	    return null;
+	}
+	RemoteStudentCurricularPlan curricularPlan = remoteRegistration.getLastStudentCurricularPlan();
+	if (curricularPlan != null && curricularPlan.isConclusionProcessed()) {
+	    RemoteConclusionProcess conclusionProcess = remoteRegistration.getConclusionProcess();
+	    if (conclusionProcess == null) {
+		RemoteCycleCurriculumGroup remoteCycleCurriculumGroup = curricularPlan.getLastConcludedCycleCurriculumGroup();
+		return remoteCycleCurriculumGroup.getConclusionProcess();
+	    }
+	    return conclusionProcess;
+	}
+	return null;
+    }
+
+    public static Boolean isConcluedProcessed(RemoteRegistration remoteRegistration) {
+	if (remoteRegistration != null) {
+	    RemoteStudentCurricularPlan curricularPlan = remoteRegistration.getLastStudentCurricularPlan();
+	    ;
+	    return curricularPlan != null && curricularPlan.isConclusionProcessed();
+	}
+
+	return false;
+    }
+
+    private static Boolean isValidNow(RemoteRegistration remoteRegistration) {
+	RemoteConclusionProcess conclusionProcess = readConcluedProcess(remoteRegistration);
+	LocalDate now = new LocalDate();
+	return conclusionProcess != null
+		&& conclusionProcess.getConclusionDate().plusYears(YEARS_SUBSCRIPTION_ACTIVE).isAfter(now);
+
+    }
+
     /* private methods */
 
-    /*
-     * protected boolean hasConditionsToFinishMasterDegree(final
-     * RemoteRegistration remoteRegistration, final RemoteExecutionYear
-     * remoteExecutionYear) { Enrolment dissertationEnrolment =
-     * remoteRegistration.getStudentCurricularPlan(remoteExecutionYear)
-     * .getLatestDissertationEnrolment();
-     * 
-     * if (dissertationEnrolment == null) { return false; }
-     * 
-     * if (dissertationEnrolment.getExecutionYear() != remoteExecutionYear &&
-     * !dissertationEnrolment.isApproved()) { return false; }
-     * 
-     * Double dissContrib = dissertationEnrolment.isApproved() ? 0.0 :
-     * dissertationEnrolment.getEctsCredits(); Double threshold = 120.00 -
-     * (15.00 + dissContrib); return
-     * remoteRegistration.getStudentCurricularPlan(
-     * remoteExecutionYear).getApprovedEctsCredits(CycleType.SECOND_CYCLE) >=
-     * threshold; }
-     */
+    @Service
+    private static void generateRemoteDomains(Student student) {
+	student.getRemoteStudent();
+	student.getRemoteStudent().getRegistrations();
+	for (RemoteRegistration remoteRegistration : student.getRemoteStudent().getRegistrations()) {
+	    remoteRegistration.getLastStudentCurricularPlan();
+	}
+    }
+
 }

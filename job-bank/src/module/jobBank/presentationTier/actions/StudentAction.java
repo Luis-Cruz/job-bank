@@ -1,14 +1,22 @@
 package module.jobBank.presentationTier.actions;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.CurriculumProcess;
+import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
+import module.jobBank.domain.beans.OfferCandidacyBean;
 import module.jobBank.domain.beans.SearchOffer;
 import module.jobBank.domain.curriculumQualification.CurriculumQualification;
+import module.workflow.domain.WorkflowProcess;
+import module.workflow.domain.WorkflowProcessComment;
+import module.workflow.presentationTier.actions.CommentBean;
 import module.workflow.presentationTier.actions.ProcessManagement;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.exceptions.DomainException;
@@ -38,7 +46,7 @@ public class StudentAction extends ContextBaseAction {
 	    return ProcessManagement.forwardToProcess(process);
 	} catch (DomainException e) {
 	    addLocalizedMessage(request, e.getLocalizedMessage());
-	    return prepareToCreateStudent(mapping, form, request, response);
+	    return forward(request, "/jobBank/frontPage.jsp");
 	}
 
     }
@@ -83,10 +91,41 @@ public class StudentAction extends ContextBaseAction {
 	return personalArea(mapping, form, request, response);
     }
 
+    public ActionForward attachFilesToOfferCandidacy(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	OfferCandidacyBean bean = getRenderedObject("offerCandidacyBean");
+	if (bean == null) {
+	    bean = new OfferCandidacyBean();
+	    bean.setStudent(Student.readStudent(UserView.getCurrentUser()));
+	} else {
+	    bean.addAttachFiles(bean.getProcessFile());
+	}
+	request.setAttribute("offerCandidacyBean", bean);
+	request.setAttribute("jobOfferProcess", getDomainObject(request, "OID"));
+	return forward(request, "/jobBank/student/attachFilesToOfferCandidacy.jsp");
+    }
+
+    public ActionForward clearFilesToOfferCandidacy(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	OfferCandidacyBean bean = new OfferCandidacyBean();
+	bean.setStudent(Student.readStudent(UserView.getCurrentUser()));
+	request.setAttribute("offerCandidacyBean", bean);
+	request.setAttribute("jobOfferProcess", getDomainObject(request, "OID"));
+	return forward(request, "/jobBank/student/attachFilesToOfferCandidacy.jsp");
+    }
+
     public ActionForward candidateToJobOffer(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
-	OfferCandidacy.createOfferCandidacy(Student.readStudent(UserView.getCurrentUser()), jobOfferProcess.getJobOffer());
+	OfferCandidacyBean bean = getRenderedObject("offerCandidacyBean");
+	bean.setJobOffer(jobOfferProcess.getJobOffer());
+	try {
+	    OfferCandidacy.createOfferCandidacy(bean);
+	} catch (DomainException e) {
+	    addLocalizedMessage(request, e.getLocalizedMessage());
+	    return prepareToCreateStudent(mapping, form, request, response);
+	}
+
 	return searchOffers(mapping, form, request, response);
     }
 
@@ -96,5 +135,28 @@ public class StudentAction extends ContextBaseAction {
 	offerCandidacy.removeCandidacy();
 	CurriculumProcess process = offerCandidacy.getStudent().getCurriculum().getCurriculumProcess();
 	return ProcessManagement.forwardToProcess(process);
+    }
+
+    public ActionForward viewJobOfferComments(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+
+	final WorkflowProcess process = getDomainObject(request, "processId");
+	request.setAttribute("process", process);
+
+	Set<WorkflowProcessComment> comments = new TreeSet<WorkflowProcessComment>(WorkflowProcessComment.COMPARATOR);
+	comments.addAll(process.getComments());
+
+	process.markCommentsAsReadForUser(UserView.getCurrentUser());
+	request.setAttribute("comments", comments);
+	request.setAttribute("bean", new CommentBean(process));
+
+	return forward(request, "/jobBank/student/viewJobOfferComments.jsp");
+    }
+
+    public ActionForward viewEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	Enterprise enterprise = getDomainObject(request, "OID");
+	request.setAttribute("enterprise", enterprise);
+	return forward(request, "/jobBank/student/viewEnterprise.jsp");
     }
 }

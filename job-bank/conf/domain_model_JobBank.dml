@@ -1,6 +1,7 @@
 package module.jobBank.domain; 
 
 external class .net.sourceforge.fenixedu.domain.RemoteDegree;
+external class .net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 
 valueType myorg.domain.util.ByteArray as ByteArray {
     externalizeWith {
@@ -23,6 +24,9 @@ class CurriculumProcessFile extends .module.workflow.domain.ProcessFile {
 }
 class CoverLetterProcessFile extends .module.workflow.domain.ProcessFile {
 }
+class LetterRecomendationProcessFile extends .module.workflow.domain.ProcessFile {
+}
+
 
 
 class EnterpriseProcess extends .module.workflow.domain.WorkflowProcess {
@@ -300,6 +304,11 @@ relation StudentWithOfferCandidacy{
 	OfferCandidacy playsRole offerCandidacy{
 		multiplicity *;
 	}	
+}
+
+relation StudentWithRemoteRegistration{
+	Student playsRole ;
+	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
 }
 relation CurriculumWithCurriculumProcess{
 	Curriculum playsRole curriculum;

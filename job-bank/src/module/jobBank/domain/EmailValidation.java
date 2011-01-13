@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import myorg.util.BundleUtil;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 
@@ -46,15 +48,18 @@ public class EmailValidation extends EmailValidation_Base {
 	List<String> toAddress = new LinkedList<String>();
 	toAddress.add(emailToValidate);
 	new Email("Job Bank", "noreply@ist.utl.pt", new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
-		"Email Validation - Job Bank", getBody(getChecksum()));
+		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+			"message.enterprise.emailValidation.subject"), getBody(getChecksum()));
     }
 
     private String getBody(String checksum) {
 	StringBuilder body = new StringBuilder();
-	body.append("Need to validate your e-mail. Click the URL below \n\n");
+	body.append(String.format("%s \n\n", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.enterprise.emailValidation.body")));
 	body.append(String.format("%s&checkEmail=%s&OID=%s", getJobBankSystem().getUrlEmailValidation(), checksum,
 		getExternalId()));
-	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
+	body.append(String.format("\n\n\n %s", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.jobBank.ist")));
 	return body.toString();
     }
 

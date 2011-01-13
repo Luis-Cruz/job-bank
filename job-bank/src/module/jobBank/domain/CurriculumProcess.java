@@ -64,7 +64,6 @@ public class CurriculumProcess extends CurriculumProcess_Base {
 
     @Override
     public <T extends WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> List<T> getActivities() {
-
 	return (List<T>) activities;
     }
 
@@ -83,6 +82,7 @@ public class CurriculumProcess extends CurriculumProcess_Base {
 	final List<Class<? extends ProcessFile>> list = super.getAvailableFileTypes();
 	list.add(0, CurriculumProcessFile.class);
 	list.add(0, CoverLetterProcessFile.class);
+	list.add(0, LetterRecomendationProcessFile.class);
 	return list;
     }
 

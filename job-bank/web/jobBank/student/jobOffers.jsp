@@ -19,6 +19,7 @@
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
 				<fr:property name="eachLayout" value="values"/>
 				<fr:property name="saveOptions" value="true"/>
+				<fr:property name="sortBy" value="presentationName=asc"/>
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
 			</fr:slot>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
@@ -54,7 +55,7 @@
 				<fr:property name="classes"
 					value="tstyle3 mvert1 width100pc tdmiddle punits" />
 				<fr:property name="link(candidate)"
-					value="/student.do?method=candidateToJobOffer" />
+					value="/student.do?method=attachFilesToOfferCandidacy" />
 				<fr:property name="key(candidate)" value="link.jobOffer.candidate" />
 				<fr:property name="param(candidate)" value="OID" />
 				<fr:property name="bundle(candidate)" value="JOB_BANK_RESOURCES" />
@@ -76,12 +77,10 @@
        			<fr:property name="sortUrl" value="<%= "/student.do?method=searchOffers"%>" />
 		        <fr:property name="sortBy" value="<%= request.getParameter("sortBy") == null ? "jobOffer.function=asc" : request.getParameter("sortBy") %>"/>
 			    <fr:property name="sortIgnored" value="true"/>					
-			    <fr:property name="sortableSlots" value="jobOffer.reference, jobOffer.function, jobOffer.presentationPeriod" />
+			    <fr:property name="sortableSlots" value="jobOffer.reference, jobOffer.enterprise.name, jobOffer.reference, jobOffer.function, jobOffer.place,jobOffer.presentationPeriod"  />
+			    
 			</fr:layout>
 		</fr:view>
-		<cp:collectionPages url="/viewRCISTAnnouncements.do?method=viewRCIST" 
-			pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
-			
 	</logic:present>
 
 

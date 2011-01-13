@@ -18,6 +18,7 @@ import module.organization.presentationTier.actions.OrganizationModelAction.Orga
 import module.workflow.presentationTier.actions.ProcessManagement;
 import myorg.domain.MyOrg;
 import myorg.presentationTier.actions.ContextBaseAction;
+import myorg.util.VariantBean;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -101,8 +102,22 @@ public class BackOfficeAction extends ContextBaseAction {
 
     public ActionForward configuration(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-	request.setAttribute("jobBankSystem", JobBankSystem.getInstance());
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	VariantBean beanUrlEmailValidation = getUrlEmailValidationBean();
+	beanUrlEmailValidation.setString(jobBankSystem.getUrlEmailValidation());
+	request.setAttribute("beanUrlEmailValidation", beanUrlEmailValidation);
+	request.setAttribute("jobBankSystem", jobBankSystem);
 	return forward(request, "/jobBank/backOffice/configuration.jsp");
+    }
+
+    public ActionForward updateUrlEmailValidation(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	VariantBean variantBean = getRenderedObject("beanUrlEmailValidation");
+	if (variantBean != null) {
+	    jobBankSystem.setUrlEmailValidation(variantBean.getString());
+	}
+	return configuration(mapping, form, request, response);
     }
 
     public ActionForward prepareSelectOrganizationalModel(final ActionMapping mapping, final ActionForm form,
@@ -128,6 +143,13 @@ public class BackOfficeAction extends ContextBaseAction {
 	request.setAttribute("organizationalModelChart", organizationalModelChart);
     }
 
+    private VariantBean getUrlEmailValidationBean() {
+	VariantBean beanUrlEmailValidation = getRenderedObject("beanUrlEmailValidation");
+	if (beanUrlEmailValidation == null) {
+	    beanUrlEmailValidation = new VariantBean();
+	}
+	return beanUrlEmailValidation;
+    }
     /* End Configuration */
 
 }

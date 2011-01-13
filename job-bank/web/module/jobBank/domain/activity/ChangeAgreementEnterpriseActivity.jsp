@@ -21,8 +21,9 @@
 		
 <logic:equal name="process" property="enterprise.changeToRequestAgreement" value="true">
 	<div class="success1">
-		<span> 
-			Foi submetida uma alteração de contrato para: <bean:write name="process" property="enterprise.agreementNameForApproval"/> 1 ano. Esta alteração encontra-se pendente de aprovação por parte do NPE.
+		<span>
+			<bean:define id="agreement" name="process" property="enterprise.agreementNameForApproval"/> 
+		    <bean:message  key="message.enterprise.changeAgreement" bundle="JOB_BANK_RESOURCES" arg0="<%= agreement.toString() %>"/> 
 		</span>
 	</div>
 </logic:equal>		
@@ -35,7 +36,7 @@
 			<fr:property name="excludedValues" value="PENDING" />
 			<fr:property name="defaultOptionHidden" value="true"/> 
 		</fr:slot>
-		Duracção: 	1 Ano
+		<bean:message  key="message.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>
 	</fr:schema>
 </fr:edit>
 <html:submit styleClass="inputbutton">

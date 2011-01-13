@@ -18,7 +18,7 @@ public class StudentGroup extends StudentGroup_Base {
 
     @Override
     public boolean isMember(User user) {
-	return JobBankSystem.getInstance().isActiveStudentMember(user);
+	return JobBankSystem.getInstance().isStudentMember(user);
     }
 
     @Service
@@ -36,9 +36,7 @@ public class StudentGroup extends StudentGroup_Base {
     public Set<User> getMembers() {
 	Set<User> users = new HashSet<User>();
 	for (Student student : JobBankSystem.getInstance().getStudents()) {
-	    if (student.isActive()) {
-		users.add(student.getUser());
-	    }
+	    users.add(student.getUser());
 	}
 	return users;
     }

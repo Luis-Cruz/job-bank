@@ -7,6 +7,7 @@ import java.util.Set;
 import module.jobBank.domain.beans.JobOfferBean;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageState;
+import module.jobBank.domain.utils.Utils;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.exceptions.DomainException;
 import net.sourceforge.fenixedu.domain.RemoteDegree;
@@ -132,7 +133,7 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     public Set<OfferCandidacy> getActiveOfferCandidacies() {
-	return getJobBankSystem().readValuesToSatisfiedPredicate(new IPredicate<OfferCandidacy>() {
+	return Utils.readValuesToSatisfiedPredicate(new IPredicate<OfferCandidacy>() {
 	    @Override
 	    public boolean evaluate(OfferCandidacy object) {
 		return object.isActive();
@@ -154,7 +155,7 @@ public abstract class JobOffer extends JobOffer_Base {
 
     public static Set<JobOffer> readAllJobOffers(IPredicate<JobOffer> predicate) {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getJobOffersSet());
+	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getJobOffersSet());
     }
 
     private void setForm(JobOfferBean bean) {

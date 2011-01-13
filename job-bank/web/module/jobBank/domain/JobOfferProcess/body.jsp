@@ -45,7 +45,6 @@
 	<p>
 		Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.
 	</p>
-	<logic:equal name="jobOffer" property="afterCompleteCandidancyPeriod" value="true">
 		<table class="tview3 mtop5px"> 
 			<tr> 
 				<th>Vagas total:</th> 
@@ -61,23 +60,23 @@
 				<fr:layout name="tabular">
 				
 					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-					<fr:property name="link(view)" value="<%="/enterprise.do?method=viewStudentCurriculum&OID="+OID %>" />
+					<fr:property name="link(view)" value="<%="/enterprise.do?method=viewStudentCurriculumForOfferCandidacy&OID="+OID %>" />
 					<fr:property name="key(view)" value="link.jobBank.view" />
-					<fr:property name="param(view)" value="student.externalId/studentOID" />
+					<fr:property name="param(view)" value="externalId/candidateOID" />
 					<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 		
 					
 					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 					<fr:property name="link(select)" value="<%="/enterprise.do?method=selectCandidateToJobOffer&OID="+OID %>"/>
 					<fr:property name="key(select)" value="link.jobBank.selectCandidate" />
-					<fr:property name="param(select)" value="student.externalId/studentOID" />
+					<fr:property name="param(select)" value="externalId/candidateOID" />
 					<fr:property name="bundle(select)" value="JOB_BANK_RESOURCES" />
 					<fr:property name="visibleIf(select)" value="canSelectCandidacy" />
 					
 					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 					<fr:property name="link(remove)" value="<%="/enterprise.do?method=removeCandidateToJobOffer&OID="+OID %>"/>
 					<fr:property name="key(remove)" value="link.jobBank.removeCandidate" />
-					<fr:property name="param(remove)" value="student.externalId/studentOID" />
+					<fr:property name="param(remove)" value="externalId/candidateOID" />
 					<fr:property name="bundle(remove)" value="JOB_BANK_RESOURCES" />
 					<fr:property name="visibleIf(remove)" value="canRemoveCandidacy" />
 					
@@ -95,12 +94,6 @@
 		<logic:empty name="candidates">
 			<bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.candidates"/>
 		</logic:empty>
-	</logic:equal>
-	
-	
-	<logic:equal name="jobOffer" property="afterCompleteCandidancyPeriod" value="false">
-		Após o fecho das candidaturas poderá ver todos os candidatos
-	</logic:equal>
 </logic:equal>
 
 <logic:equal name="jobOffer" property="externalCandidacy" value="true">

@@ -29,7 +29,7 @@
 	</fr:edit>
 	<h3><bean:message key="label.enterprise.createEnterprise.enterprise" bundle="JOB_BANK_RESOURCES"/></h3>
 	
-	<fr:edit id="activityBean" name="information" >
+	<fr:edit id="activityBean2" name="information" >
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">	
 		<fr:slot name="inputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
 			<fr:property name="fileNameSlot" value="filename" />
@@ -61,7 +61,7 @@
 		</fr:layout>
 	</fr:edit>
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 
-	<fr:edit id="activityBean" name="information">
+	<fr:edit id="activityBean3" name="information">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 		<fr:slot name="enterpriseBean.contactEmail" key="label.enterprise.contactEmail">
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
@@ -71,7 +71,8 @@
 		<fr:slot name="enterpriseBean.area" key="label.enterprise.area"/>  
 		<fr:slot name="enterpriseBean.areaCode" key="label.enterprise.areaCode"/> 
 		<fr:slot name="enterpriseBean.phone" key="label.enterprise.phone"/> 
-		<fr:slot name="enterpriseBean.fax" key="label.enterprise.fax"/>  	
+		<fr:slot name="enterpriseBean.fax" key="label.enterprise.fax"/>
+		<fr:slot name="enterpriseBean.url" key="label.enterprise.url"/>  	
 	</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 

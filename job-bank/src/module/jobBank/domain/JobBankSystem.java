@@ -1,12 +1,9 @@
 package module.jobBank.domain;
 
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.OrganizationalModel;
 import module.organization.domain.Party;
 import module.organization.domain.Unit;
@@ -60,7 +57,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isEnterpriseActiveMember(User user) {
-	return hasUser(user) && user.hasEnterprise() && user.getEnterprise().isActive();
+	return isEnterpriseMember(user) && user.getEnterprise().isActive();
     }
 
     public boolean isEnterpriseMember(User user) {
@@ -91,11 +88,11 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isStudentMember(User user) {
-	return hasUser(user) && user.hasPerson() && user.getPerson().hasStudent();
+	return Student.hasStudent(user);
     }
 
     public boolean isActiveStudentMember(User user) {
-	return hasUser(user) && user.hasPerson() && user.getPerson().hasStudent() && user.getPerson().getStudent().isActive();
+	return isStudentMember(user) && user.getPerson().getStudent().isActive();
     }
 
     @Override
@@ -155,17 +152,6 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 	super.removeManagementUsers(user);
-    }
-
-    public <T> Set<T> readValuesToSatisfiedPredicate(IPredicate<T> predicate, Set<T> setToRead) {
-	Set<T> results = new HashSet<T>();
-	for (T object : setToRead) {
-	    if (predicate.evaluate(object)) {
-		results.add(object);
-	    }
-	}
-	return results;
-
     }
 
     private boolean hasUser(User user) {

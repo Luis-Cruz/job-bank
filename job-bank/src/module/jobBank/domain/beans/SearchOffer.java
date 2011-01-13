@@ -3,11 +3,11 @@ package module.jobBank.domain.beans;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.util.Search;
@@ -81,7 +81,7 @@ public class SearchOffer extends Search<JobOfferProcess> {
     }
 
     private Set<JobOfferProcess> matchQuery(final String key, Set<JobOfferProcess> jobOfferProcesses) {
-	return JobBankSystem.getInstance().readValuesToSatisfiedPredicate(new IPredicate<JobOfferProcess>() {
+	return Utils.readValuesToSatisfiedPredicate(new IPredicate<JobOfferProcess>() {
 
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {

@@ -12,7 +12,7 @@ import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
 import pt.ist.emailNotifier.domain.Email;
 
-public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProcess, ActivityInformation<EnterpriseProcess>> {
+public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProcess, MessageInformation> {
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
@@ -20,29 +20,29 @@ public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProce
     }
 
     @Override
-    protected void process(ActivityInformation<EnterpriseProcess> activityInformation) {
+    protected void process(MessageInformation activityInformation) {
 	Enterprise enterprise = activityInformation.getProcess().getEnterprise();
 	enterprise.approve();
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
 	new Email("Job Bank", "noreply@ist.utl.pt", new String[] {}, toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
-		"Registration Successfully - Job Bank", getBody());
-    }
-
-    private String getBody() {
-	StringBuilder body = new StringBuilder();
-	body.append("Welcome to Job Bank. Your registration was successfully approved");
-	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
-	return body.toString();
+		"Registration Successfully - Job Bank", activityInformation.getMessage());
     }
 
     @Override
     public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
-	return new ActivityInformation(process, this);
+	return new MessageInformation(process, this, getBody());
     }
 
     @Override
     public String getUsedBundle() {
 	return JobBankSystem.JOB_BANK_RESOURCES;
+    }
+
+    private String getBody() {
+	StringBuilder body = new StringBuilder();
+	body.append("Welcome to Job Bank. Your registration was successfully approved");
+	body.append(String.format("\n\n\nInstituto Superior Tecnico"));
+	return body.toString();
     }
 }

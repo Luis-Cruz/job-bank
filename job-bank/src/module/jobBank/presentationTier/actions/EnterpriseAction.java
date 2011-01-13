@@ -16,11 +16,13 @@ import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
 import module.jobBank.domain.beans.SearchStudents;
 import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
 import module.workflow.presentationTier.actions.ProcessManagement;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 import myorg.presentationTier.actions.ContextBaseAction;
+import myorg.util.VariantBean;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -148,13 +150,14 @@ public class EnterpriseAction extends ContextBaseAction {
 
     public ActionForward viewAllJobOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
+	int resultsPerPage = 50;
 	Set<JobOfferProcess> processes = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
-		return object.getJobOffer().isActive();
+		return object.getJobOffer().isActive() && object.getJobOffer().isCandidancyPeriod();
 	    }
 	});
-	request.setAttribute("processes", processes);
+	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
 	return forward(request, "/jobBank/enterprise/jobOffers.jsp");
     }
 
@@ -207,18 +210,45 @@ public class EnterpriseAction extends ContextBaseAction {
 
     public ActionForward viewStudentCurriculum(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
-	Student student = getDomainObject(request, "studentOID");
 	Enterprise enterprise = Enterprise.readCurrentEnterprise();
+	Student student = getDomainObject(request, "studentOID");
 	request.setAttribute("student", student);
 	request.setAttribute("enterprise", enterprise);
 	request.setAttribute("offerCandidacies", student.getOfferCandidaciesOfEnterprise(enterprise));
 	return forward(request, "/jobBank/enterprise/viewStudentCurriculum.jsp");
     }
 
+    public ActionForward viewStudentCurriculumForOfferCandidacy(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobOfferProcess process = getDomainObject(request, "OID");
+	Enterprise enterprise = process.getJobOffer().getEnterprise();
+	OfferCandidacy offerCandidacy = getDomainObject(request, "candidateOID");
+	request.setAttribute("offercandidacy", offerCandidacy);
+	request.setAttribute("enterprise", enterprise);
+	request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
+	return forward(request, "/jobBank/enterprise/viewStudentCurriculumForOfferCandidacy.jsp");
+    }
+
     public ActionForward processEditEnterprise(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	EnterpriseInformation information = getRenderedObject("activityBean");
 	return ProcessManagement.forwardToActivity(information.getProcess(), information.getActivity());
+    }
+
+    public ActionForward prepareToPasswordRecover(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	VariantBean email = new VariantBean();
+	request.setAttribute("passwordRecover", email);
+	return forward(request, "/jobBank/enterprise/passwordRecover.jsp");
+    }
+
+    public ActionForward passwordRecover(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	VariantBean email = getRenderedObject("passwordRecover");
+	boolean recoved = Enterprise.passwordRecover(email.getString());
+	request.setAttribute("passwordRecover", email);
+	request.setAttribute("recoved", recoved);
+	return forward(request, "/jobBank/enterprise/passwordRecover.jsp");
     }
 
     public ActionForward emailValidation(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,

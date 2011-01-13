@@ -1,10 +1,14 @@
 package module.jobBank.domain;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
 import module.organization.domain.Accountability;
 import module.organization.domain.AccountabilityType;
 import module.organization.domain.PartyType;
@@ -14,10 +18,12 @@ import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
+import myorg.util.BundleUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 
+import pt.ist.emailNotifier.domain.Email;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -110,7 +116,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     public boolean isEnable() {
-	return hasActiveAccountability() && !isBlocked();
+	return hasActiveAccountability() && !isBlocked() && !isCanceled();
     }
 
     public boolean isBlocked() {
@@ -199,7 +205,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     public boolean isExpired() {
-	return !isActive() && !isCanceled();
+	return !isActive() && !isPendingToApproval() && !isCanceled();
     }
 
     public void enable() {
@@ -214,9 +220,18 @@ public class Enterprise extends Enterprise_Base {
 	return !isCanceled() && isPendingAgreementToApprove();
     }
 
+    public Set<JobOffer> getPublicationsJobOffers() {
+	return Utils.readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
+	    @Override
+	    public boolean evaluate(JobOffer object) {
+		return object.isActive() && object.isCandidancyPeriod();
+	    }
+	}, getJobOfferSet());
+    }
+
     public Set<JobOfferProcess> getJobOfferProcesses() {
 	final Set<JobOfferProcess> jobOfferProcesses = new HashSet<JobOfferProcess>();
-	getJobBankSystem().readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
+	Utils.readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
 
 	    @Override
 	    public boolean evaluate(JobOffer jobOffer) {
@@ -242,7 +257,7 @@ public class Enterprise extends Enterprise_Base {
 
     public static Set<Enterprise> readAllEnterprises(IPredicate<Enterprise> predicate) {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getEnterprisesSet());
+	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getEnterprisesSet());
     }
 
     public static Set<Enterprise> readAllRequestToChangeEnterprises() {
@@ -258,14 +273,7 @@ public class Enterprise extends Enterprise_Base {
     /* Static Methods */
 
     public static boolean isLoginEmailAlreadyRegistered(String emailLogin) {
-	for (Enterprise enterprise : JobBankSystem.getInstance().getEnterprises()) {
-	    if (enterprise.getLoginEmail() != null) {
-		if (enterprise.getLoginEmail().equalsIgnoreCase(emailLogin)) {
-		    return true;
-		}
-	    }
-	}
-	return false;
+	return readEnterpriseByEmailLogin(emailLogin) != null;
     }
 
     public static boolean isNameAlreadyRegistered(String name) {
@@ -280,7 +288,46 @@ public class Enterprise extends Enterprise_Base {
 
     }
 
+    public static Enterprise readEnterpriseByEmailLogin(String emailLogin) {
+	for (Enterprise enterprise : JobBankSystem.getInstance().getEnterprises()) {
+	    if (enterprise.getLoginEmail() != null) {
+		if (enterprise.getLoginEmail().equalsIgnoreCase(emailLogin)) {
+		    return enterprise;
+		}
+	    }
+	}
+	return null;
+
+    }
+
+    @Service
+    public static Boolean passwordRecover(String emailLogin) {
+	Enterprise enterprise = Enterprise.readEnterpriseByEmailLogin(emailLogin);
+	if (enterprise != null) {
+	    final int lengthOfPassoword = 10;
+	    String password = Utils.getRandomString(lengthOfPassoword);
+	    enterprise.getUser().setPassword(password);
+	    List<String> toAddress = new LinkedList<String>();
+	    toAddress.add(emailLogin);
+	    new Email("Job Bank", "noreply@ist.utl.pt", new String[] {}, toAddress, Collections.EMPTY_LIST,
+		    Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+			    "message.enterprise.recoverPassword"), getBodyEmailPasswordRecover(enterprise.getUser()));
+	    return true;
+	}
+	return false;
+    }
+
     /* Private Methods */
+
+    private static String getBodyEmailPasswordRecover(User user) {
+	String body = new String();
+	body += String.format("%s \n\nUser: %s \nNew Password: %s", BundleUtil.getFormattedStringFromResourceBundle(
+		JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword.body"), user.getUsername(), user
+		.getPassword());
+	body += String.format("\n\n\n %s", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.jobBank.ist"));
+	return body.toString();
+    }
 
     private void createUser(String email) {
 	User user = new User(email);

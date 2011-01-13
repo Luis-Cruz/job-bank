@@ -18,5 +18,18 @@
 </logic:notPresent>
 
 
+<logic:present name="beanUrlEmailValidation" > 
+ <fr:edit id="beanUrlEmailValidation" name="beanUrlEmailValidation" action="/backOffice.do?method=updateUrlEmailValidation"> 
+ 	<fr:schema bundle="JOB_BANK_RESOURCES" type="myorg.util.VariantBean">
+ 		<fr:slot name="string" key="label.backOffice.urlEmailValidation" layout="longText">
+ 			<fr:property name="columns" value="60" />
+ 			<fr:property name="rows" value="5" />
+ 		</fr:slot>
+ 	</fr:schema>
+ 	<bean:message key="label.backOffice.urlEmailValidation.note" bundle="JOB_BANK_RESOURCES"/>
+ </fr:edit>
+</logic:present>
+
+
 
 

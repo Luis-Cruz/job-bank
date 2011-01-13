@@ -4,9 +4,10 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
+ 
+<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacy"/> </h2> 
 
-<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.student"/> </h2> 
-
+<bean:define id="student" name="offercandidacy" property="student"/>
 (<bean:write name="student" property="name"/>)
 
 
@@ -53,6 +54,23 @@
 	<bean:message key="message.enterprise.no.have.permissions" bundle="JOB_BANK_RESOURCES"/>
 </logic:equal>
 <p> 
+
+<logic:present name="offercandidacy" property="processFiles"> 
+	<logic:iterate id="file" name="offercandidacy" property="processFiles">
+		<tr>
+			<bean:define id="fileExternalId" name="file" property="externalId"/>
+			<bean:define id="processExternalId" name="student" property="curriculum.curriculumProcess.externalId"/>
+			<td>
+				
+				<html:link action='<%="/workflowProcessManagement.do?method=downloadFile&amp;fileId="+fileExternalId+"&amp;processId="+processExternalId %>'>
+					<bean:define id="filename" name="file" property="filename" />
+					<bean:write name="file" property="displayName" /> - <%= filename.toString() %>   		
+				</html:link> 
+			</td>
+		</tr>
+	</logic:iterate>
+	</p>
+</logic:present>
 
 <h3>
 	<bean:message key="label.enterprise.jobOffers" bundle="JOB_BANK_RESOURCES"/>
