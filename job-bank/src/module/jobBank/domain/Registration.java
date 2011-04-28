@@ -1,6 +1,6 @@
 package module.jobBank.domain;
 
-import java.util.Set;
+import java.util.Collection;
 
 import net.sourceforge.fenixedu.domain.RemoteStudentCurricularPlan;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
@@ -19,7 +19,7 @@ public class Registration {
     public static RemoteRegistration getValidRegistrationOnProcessCreation(Student student) {
 	generateRemoteDomains(student);
 	RemoteStudent remoteStudent = student.getRemoteStudent();
-	Set<RemoteRegistration> remoteRegistrations = student.getRemoteStudent().getRegistrations();
+	Collection<RemoteRegistration> remoteRegistrations = student.getRemoteStudent().getRegistrations();
 	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
 	    if (isValidRegistrationOnProcessCreation(remoteStudent, remoteRegistration)) {
 		return remoteRegistration;
