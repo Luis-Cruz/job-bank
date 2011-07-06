@@ -10,6 +10,7 @@ import module.jobBank.domain.JobOfferProcess;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
+import myorg.domain.VirtualHost;
 import pt.ist.emailNotifier.domain.Email;
 
 public class JobOfferApprovalActivity extends WorkflowActivity<JobOfferProcess, ActivityInformation<JobOfferProcess>> {
@@ -26,7 +27,9 @@ public class JobOfferApprovalActivity extends WorkflowActivity<JobOfferProcess, 
 	jobOffer.approve();
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(jobOffer.getEnterprise().getLoginEmail());
-	new Email("Job Bank", "noreply@ist.utl.pt", new String[] {}, toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
+	new Email(virtualHost.getApplicationSubTitle().getContent(),
+		    virtualHost.getSystemEmailAddress(), new String[] {}, toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
 		"Registration Failed - Job Bank", getBody());
     }
 

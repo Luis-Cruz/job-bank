@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -47,7 +48,9 @@ public class EmailValidation extends EmailValidation_Base {
 	setChecksum(generateChecksum());
 	List<String> toAddress = new LinkedList<String>();
 	toAddress.add(emailToValidate);
-	new Email("Job Bank", "noreply@ist.utl.pt", new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
+	new Email(virtualHost.getApplicationSubTitle().getContent(),
+		    virtualHost.getSystemEmailAddress(), new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
 		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
 			"message.enterprise.emailValidation.subject"), getBody(getChecksum()));
     }
