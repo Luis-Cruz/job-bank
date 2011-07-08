@@ -60,11 +60,11 @@
 			</fr:slot>
 			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker">
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.LocalDateValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 			</fr:slot> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" >
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.LocalDateValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 			</fr:slot>	
 			<fr:slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
