@@ -26,7 +26,7 @@
 
 
 <logic:present name="enterprise" property="logo">
-		<html:img action="<%= "/enterprise.do?method=viewlogo&enterpriseId="+ enterpriseId %>"/>
+		<html:img action="<%= "/enterprise.do?method=viewlogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
 </logic:present>
 
 <div class="infobox mvert1">
@@ -63,31 +63,3 @@
 	</tr> 
 </table> 
 				
-
-<h3> 
-	<p> 
-		<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/>
-	</p>
-</h3>
-<logic:present name="jobOfferProcesses">
-	<fr:view name="jobOfferProcesses" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer.enterprise">
-		<fr:layout name="tabular" >
-			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-			<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
-			<fr:property name="key(view)" value="link.jobBank.view" />
-			<fr:property name="param(view)" value="OID" />
-			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
-			<fr:property name="order(view)" value="1" />
-			
-			<fr:property name="sortBy" value="creationDate=asc" />
-		</fr:layout>
-	</fr:view>
-</logic:present>
-
-<logic:empty name="jobOfferProcesses">
-	<bean:message key="message.jobBank.not.have.offers"  bundle="JOB_BANK_RESOURCES"/>
-
-</logic:empty>
-
-
-

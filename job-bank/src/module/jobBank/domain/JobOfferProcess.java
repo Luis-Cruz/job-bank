@@ -129,6 +129,11 @@ public class JobOfferProcess extends JobOfferProcess_Base {
 	return false;
     }
 
+    @Override
+    public boolean isUserCanViewLogs(User user) {
+	return JobBankSystem.getInstance().isNPEMember(user);
+    }
+
     /*
      * @Override public List<Class<? extends ProcessFile>>
      * getAvailableFileTypes() { final List<Class<? extends ProcessFile>> list =

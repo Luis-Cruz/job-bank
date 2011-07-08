@@ -47,10 +47,11 @@ public class BackOfficeAction extends ContextBaseAction {
     public ActionForward enterprises(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	EnterpriseBean bean = getRenderedObject("enterpriseState");
-	if (bean == null) {
+	if (bean == null || bean.getEnterpriseStateType() == null) {
 	    bean = new EnterpriseBean();
 	    bean.setEnterpriseStateType(EnterpriseStateType.PENDING);
 	}
+
 	final EnterpriseStateType enterpriseStateType = bean.getEnterpriseStateType();
 	Set<Enterprise> enterprises = Enterprise.readAllEnterprises(new IPredicate<Enterprise>() {
 	    @Override
@@ -73,6 +74,7 @@ public class BackOfficeAction extends ContextBaseAction {
 		return object.isPendingToApproval();
 	    }
 	});
+	RenderUtils.invalidateViewState();
 	request.setAttribute("enterprises", enterprises);
 	request.setAttribute("enterpriseState", bean);
 	return forward(request, "/jobBank/backOffice/enterprises.jsp");

@@ -9,6 +9,7 @@ import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankAccountabilityType;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
+import myorg.util.InputStreamUtil;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -39,6 +40,8 @@ public class EnterpriseBean implements Serializable {
     private String area;
     private String contactPerson;
     private JobBankAccountabilityType jobBankAccountabilityType;
+    private JobBankAccountabilityType notActiveAccountabilityType;
+    private String message;
 
     private EnterpriseStateType enterpriseStateType;
     private EmailValidation emailValidation;
@@ -204,6 +207,10 @@ public class EnterpriseBean implements Serializable {
     }
 
     public ByteArray getLogo() {
+	if (getLogoInputStream() != null) {
+	    setLogo(new ByteArray(InputStreamUtil.consumeInputStream(getLogoInputStream())));
+	    setLogoInputStream(null);
+	}
 	return logo;
     }
 
@@ -277,6 +284,27 @@ public class EnterpriseBean implements Serializable {
 
     public String getUrl() {
 	return url;
+    }
+
+    public void setMessage(String message) {
+	this.message = message;
+    }
+
+    public String getMessage() {
+	return message;
+    }
+
+    public void setNotActiveAccountabilityType(JobBankAccountabilityType notActiveAccountabilityType) {
+	this.notActiveAccountabilityType = notActiveAccountabilityType;
+    }
+
+    public JobBankAccountabilityType getNotActiveAccountabilityType() {
+	if (jobBankAccountabilityType.equals(JobBankAccountabilityType.JOB_PROVIDER)) {
+	    notActiveAccountabilityType = JobBankAccountabilityType.JOB_PROVIDER_WITH_PRIVILEGES;
+	} else {
+	    notActiveAccountabilityType = JobBankAccountabilityType.JOB_PROVIDER;
+	}
+	return notActiveAccountabilityType;
     }
 
 }

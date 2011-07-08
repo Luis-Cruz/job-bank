@@ -13,16 +13,12 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.enterprise"/>
 </h3>
 	
-Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
-Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
+<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility.text"/>
 	
-	
-<p><a href="">Download (.pdf)</a></p>
+<p><a href=""><bean:message key="message.termsResponsibilityEnterprise.download" bundle="JOB_BANK_RESOURCES"/></a></p>
  
 <fr:form action="/enterprise.do?method=prepareToCreateEmailValidation">
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.acceptTerms"/>
 	</html:submit>
 </fr:form> 
-
-

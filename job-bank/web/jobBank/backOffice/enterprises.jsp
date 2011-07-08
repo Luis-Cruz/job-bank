@@ -15,9 +15,10 @@
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseState" name="enterpriseState" type="module.jobBank.domain.beans.EnterpriseBean">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean" >
-			<fr:slot name="enterpriseStateType" key="label.enterpriseStateType.enterprises" />
+			<fr:slot name="enterpriseStateType" key="label.enterpriseStateType.enterprises"/>
 		</fr:schema>
 	</fr:edit>
+	
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
 	</html:submit>
@@ -33,6 +34,7 @@
 			<fr:property name="key(view)" value="link.jobBank.view"/>
 			<fr:property name="param(view)" value="enterpriseProcess.externalId/OID"/>
 			<fr:property name="order(view)" value="1"/>
+			<fr:property name="sortBy" value="name=asc, contactEmail=asc, nif=asc"/>
 			
 		</fr:layout>
 	</fr:view>		

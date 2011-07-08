@@ -16,29 +16,29 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 
     private EnterpriseBean enterpriseBean;
 
-    public ByteArray getLogo() {
-	return logo;
-    }
-
-    public void setLogo(ByteArray logo) {
-	this.logo = logo;
-    }
-
-    public InputStream getInputStream() {
-	return inputStream;
-    }
-
-    public void setInputStream(InputStream inputStream) {
-	this.inputStream = inputStream;
-    }
-
-    public String getFilename() {
-	return filename;
-    }
-
-    public void setFilename(String filename) {
-	this.filename = filename;
-    }
+    // public ByteArray getLogo() {
+    // return logo;
+    // }
+    //
+    // public void setLogo(ByteArray logo) {
+    // this.logo = logo;
+    // }
+    //
+    // public InputStream getInputStream() {
+    // return inputStream;
+    // }
+    //
+    // public void setInputStream(InputStream inputStream) {
+    // this.inputStream = inputStream;
+    // }
+    //
+    // public String getFilename() {
+    // return filename;
+    // }
+    //
+    // public void setFilename(String filename) {
+    // this.filename = filename;
+    // }
 
     public String getLogoDisplayName() {
 	return logoDisplayName;

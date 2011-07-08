@@ -9,11 +9,13 @@ import module.jobBank.domain.EmailValidation;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.JobOfferState;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.activity.EnterpriseInformation;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
+import module.jobBank.domain.beans.JobOfferViewBean;
 import module.jobBank.domain.beans.SearchStudents;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
@@ -44,7 +46,6 @@ public class EnterpriseAction extends ContextBaseAction {
 	if (bean == null) {
 	    bean = new JobOfferBean();
 	}
-	RenderUtils.invalidateViewState();
 	request.setAttribute("jobOfferBean", bean);
 	return forward(request, "/jobBank/enterprise/createJobOffer.jsp");
     }
@@ -111,10 +112,6 @@ public class EnterpriseAction extends ContextBaseAction {
     public ActionForward createEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	EnterpriseBean bean = getRenderedObject("enterpriseBean");
-	if (bean.hasInputStreamLogo()) {
-	    byte[] logo = consumeInputStream(bean.getLogoInputStream());
-	    bean.setLogo(new ByteArray(logo));
-	}
 	Enterprise enterprise = bean.create();
 	request.setAttribute("enterprise", enterprise);
 	return forward(request, "/jobBank/enterprise/viewCredentialsEnterprise.jsp");
@@ -150,14 +147,46 @@ public class EnterpriseAction extends ContextBaseAction {
 
     public ActionForward viewAllJobOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
+
+	JobOfferViewBean bean = getRenderedObject("processesState");
+	if (bean == null || bean.getProcessesState() == null) {
+	    bean = new JobOfferViewBean();
+	    bean.setProcessesState(JobOfferState.ACTIVE);
+	}
+
 	int resultsPerPage = 50;
+
+	final JobOfferState jobOfferState = bean.getProcessesState();
 	Set<JobOfferProcess> processes = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
+
+		if (jobOfferState == JobOfferState.WAITING_FOR_APPROVAL) {
+		    return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
+			    && !object.getJobOffer().isEditable();
+		}
+		if (jobOfferState == JobOfferState.UNDER_CONSTRUCTION) {
+		    return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
+			    && object.getJobOffer().isEditable();
+		}
+		if (jobOfferState == JobOfferState.EXPIRED) {
+		    return object.getJobOffer().isApproved() && object.getJobOffer().hasExpired()
+			    && !object.getJobOffer().isCanceled();
+		}
+		if (jobOfferState == JobOfferState.CANCELED) {
+		    return object.getJobOffer().isCanceled();
+		}
+
+		// Default active
 		return object.getJobOffer().isActive() && object.getJobOffer().isCandidancyPeriod();
 	    }
 	});
-	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
+
+	RenderUtils.invalidateViewState();
+	bean.setProcesses(Utils.doPagination(request, processes, resultsPerPage));
+	bean.setProcessesCount(processes.size());
+	request.setAttribute("processesState", bean);
+
 	return forward(request, "/jobBank/enterprise/jobOffers.jsp");
     }
 
@@ -202,7 +231,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	if (search == null) {
 	    search = new SearchStudents();
 	}
-	RenderUtils.invalidateViewState();
+
 	request.setAttribute("searchStudents", search);
 	request.setAttribute("results", search.search());
 	return forward(request, "/jobBank/enterprise/searchStudents.jsp");

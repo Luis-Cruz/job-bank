@@ -104,6 +104,12 @@ public abstract class JobOffer extends JobOffer_Base {
 		&& (now.isBefore(getEndDate()) || now.equals(getEndDate()));
     }
 
+    public boolean hasExpired() {
+	LocalDate now = new LocalDate();
+	return !((now.isAfter(getBeginDate()) || now.equals(getBeginDate())) && (now.isBefore(getEndDate()) || now
+		.equals(getEndDate())));
+    }
+
     public boolean isBeforeCandidancyPeriod() {
 	LocalDate now = new LocalDate();
 	return now.isBefore(getBeginDate());

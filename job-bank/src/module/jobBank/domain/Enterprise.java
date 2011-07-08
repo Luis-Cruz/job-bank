@@ -53,6 +53,7 @@ public class Enterprise extends Enterprise_Base {
     @Service
     public void setForm(EnterpriseBean enterpriseBean) {
 	getUser().setPassword(enterpriseBean.getPassword());
+	setName(enterpriseBean.getName());
 	setNif(enterpriseBean.getNif());
 	setDesignation(enterpriseBean.getDesignation());
 	setSummary(enterpriseBean.getSummary());
@@ -70,21 +71,58 @@ public class Enterprise extends Enterprise_Base {
 
     @Service
     public void approve() {
-	changeAgreement(getAgreementForApproval());
+	if (getAgreementForApproval() != null) {
+	    changeAgreement(getAgreementForApproval());
+	}
+    }
+
+    @Service
+    public void acceptRegister() {
+	// Only get the first!! -> Registration
+	if (getUnit().getParentAccountabilities().size() == 1) {
+	    LocalDate now = new LocalDate();
+	   
+	    Accountability registerRequest = getActiveAccountability();
+	    registerRequest.editDates(registerRequest.getBeginDate(), now);
+	    
+	    if (getAgreementForApproval() != null) {
+		Unit rootUnit = getJobBankSystem().getTopLevelUnit();
+		rootUnit.addChild(getUnit(), getAgreementForApproval(), now, now.plusYears(VALID_CONTRACT));
+		setAgreementForApproval(null);
+	    }
+	}
     }
 
     @Service
     public void changeAgreement(AccountabilityType accountabilityType) {
-	setAgreementForApproval(null);
 	closeActiveAgreement();
 	Unit rootUnit = getJobBankSystem().getTopLevelUnit();
 	LocalDate now = new LocalDate();
 	rootUnit.addChild(getUnit(), accountabilityType, now, now.plusYears(VALID_CONTRACT));
+	setAgreementForApproval(null);
     }
 
     @Service
     public void changeRequestAgreement(AccountabilityType accountabilityType) {
-	setAgreementForApproval(accountabilityType);
+	if (!accountabilityType.equals(getActiveAccountability().getAccountabilityType())) {
+	    setAgreementForApproval(accountabilityType);
+	} else {
+	    setAgreementForApproval(null);
+	}
+    }
+
+    @Service
+    public Boolean changeRequestAgreementByNPE(AccountabilityType accountabilityType) {
+	if (accountabilityType != null && !getActiveAccountability().getAccountabilityType().equals(accountabilityType)) {
+	    LocalDate now = new LocalDate();
+	    Accountability registerRequest = getActiveAccountability();
+	    registerRequest.editDates(registerRequest.getBeginDate(), now);
+	    Unit rootUnit = getJobBankSystem().getTopLevelUnit();
+	    rootUnit.addChild(getUnit(), accountabilityType, now, now.plusYears(VALID_CONTRACT));
+	    return true;
+	}
+	
+	return false;
     }
 
     @Service

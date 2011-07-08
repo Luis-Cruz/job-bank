@@ -1,6 +1,8 @@
 package module.jobBank.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +16,9 @@ public class Degree {
     public static Set<RemoteDegree> readRemoteDegreesSet() {
 	JobBankSystem.getInstance();
 	RemoteHost remoteHost = JobBankSystem.readRemoteHost();
-	return RemoteAdministrativeOffice.readDegreeAdministrativeOffice(remoteHost).getAdministratedDegrees();
+	Collection<RemoteDegree> col = RemoteAdministrativeOffice.readDegreeAdministrativeOffice(remoteHost)
+		.getAdministratedDegrees();
+	return new HashSet<RemoteDegree>(col);
     }
 
     @Service

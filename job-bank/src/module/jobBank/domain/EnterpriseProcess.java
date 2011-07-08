@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
+import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
 import module.jobBank.domain.activity.EnterpriseApprovalActivity;
 import module.jobBank.domain.activity.EnterpriseApprovalChangeAgreementActivity;
@@ -31,6 +32,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
 	activitiesAux.add(new EnterpriseEnableActivity());
 	activitiesAux.add(new EnterpriseDisableActivity());
+	activitiesAux.add(new ChangeAgreementEnterpriseByNPEActivity());
 
 	activities = Collections.unmodifiableList(activitiesAux);
     }

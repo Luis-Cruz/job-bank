@@ -43,7 +43,7 @@ public class CreateBootstrapJobBankTask extends CreateBootstrapJobBankTask_Base 
 	final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
 	jobBankSystem.setOrganizationalModel(orgModel);
 
-	jobBankSystem.setUrlEmailValidation("http://localhost:8080/bennu/enterprise.do?method=emailValidation");
+	jobBankSystem.setUrlEmailValidation("http://localhost:8080/myorg/enterprise.do?method=emailValidation");
 
     }
 

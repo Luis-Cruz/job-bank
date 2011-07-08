@@ -23,7 +23,7 @@ public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProce
     @Override
     protected void process(MessageInformation activityInformation) {
 	Enterprise enterprise = activityInformation.getProcess().getEnterprise();
-	enterprise.approve();
+	enterprise.acceptRegister();
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
 	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
@@ -45,7 +45,7 @@ public class EnterpriseApprovalActivity extends WorkflowActivity<EnterpriseProce
     private String getBody() {
 	StringBuilder body = new StringBuilder();
 	body.append("Welcome to Job Bank. Your registration was successfully approved");
-	body.append(String.format("\n\n\nInstituto Superior Tecnico"));
+	body.append(String.format("\n\n\n---\nInstituto Superior Tecnico"));
 	return body.toString();
     }
 }
