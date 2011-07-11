@@ -3,6 +3,7 @@ package module.jobBank.domain.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
@@ -14,39 +15,55 @@ import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 
-public class EnterpriseDisableActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseEnableOrDisableInformation> {
+public class ApproveOrRejectEnterpriseChangeAgreementActivity extends
+	WorkflowActivity<EnterpriseProcess, EnterpriseAgreementApprovalInformation> {
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
 	Enterprise enterprise = process.getEnterprise();
-	return enterprise.isEnable() && !enterprise.isPendingToApproval() && JobBankSystem.getInstance().isNPEMember(user);
+	return JobBankSystem.getInstance().isNPEMember(user) && enterprise.hasAgreementForApproval()
+		&& enterprise.hasBeenAcceptedBefore();
     }
 
     @Override
-    protected void process(EnterpriseEnableOrDisableInformation activityInformation) {
+    protected void process(EnterpriseAgreementApprovalInformation activityInformation) {
 	Enterprise enterprise = activityInformation.getProcess().getEnterprise();
-	enterprise.disable();
+
+	if (activityInformation.isApprove()) {
+	    enterprise.approve();
+	} else {
+	    enterprise.rejectChangeAgreement();
+	}
+
 	sendEmail(enterprise, activityInformation);
     }
 
-    private void sendEmail(Enterprise enterprise, EnterpriseEnableOrDisableInformation eedi) {
+    private void sendEmail(Enterprise enterprise, EnterpriseAgreementApprovalInformation eaai) {
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
 	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
 	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(), eedi.getMessage());
+		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(eaai), eaai.getMessage());
     }
 
-    private String getEmailSubject() {
-	String bundle = "message.jobbank.message.jobbank.email.enterprise.disable.subject";
+    private String getEmailSubject(EnterpriseAgreementApprovalInformation eaai) {
+	String bundle = "message.jobbank.message.jobbank.email.agreement.approval.subject";
 
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle);
+	if (!eaai.isApprove()) {
+	    bundle = "message.jobbank.message.jobbank.email.agreement.rejection.subject";
+	}
+
+	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle);
+	StringTokenizer tokens = new StringTokenizer(message, "\"");
+
+	return tokens.nextToken() + "\"" + eaai.getNewAgreement().getLocalizedName() + "\"" + tokens.nextToken();
     }
 
     @Override
     public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
 	Enterprise enterprise = process.getEnterprise();
-	return new EnterpriseEnableOrDisableInformation(process, this, enterprise.getName(), !enterprise.isDisable());
+	return new EnterpriseAgreementApprovalInformation(process, this, enterprise.getName(),
+		enterprise.getAgreementForApproval());
     }
 
     @Override
@@ -58,4 +75,5 @@ public class EnterpriseDisableActivity extends WorkflowActivity<EnterpriseProces
     public boolean isDefaultInputInterfaceUsed() {
 	return false;
     }
+
 }

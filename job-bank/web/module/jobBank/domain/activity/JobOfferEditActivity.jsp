@@ -59,6 +59,15 @@
 			  <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
 			
+			<fr:slot name="jobOfferBean.beginDate" key="label.enterprise.offer.beginDate" layout="picker">
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
+			</fr:slot> 
+			
+			<fr:slot name="jobOfferBean.endDate" key="label.enterprise.offer.endDate" layout="picker" >
+				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
+			</fr:slot>	
 			
 			<fr:slot name="jobOfferBean.remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
@@ -78,29 +87,6 @@
 		</fr:schema>
 	</fr:edit>
 
-
-	<fr:edit name="information" id="activityBean"> 
-		<fr:schema  type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">
-			<b> <bean:message key="message.jobOffer.display.advertisement" bundle="JOB_BANK_RESOURCES"/></b> 
-			
-			<fr:slot name="jobOfferBean.beginDate" key="label.enterprise.offer.beginDate" layout="picker">
-				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
-			</fr:slot> 
-			
-			<fr:slot name="jobOfferBean.endDate" key="label.enterprise.offer.endDate" layout="picker" >
-				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
-			</fr:slot>	
-		
-		<fr:destination name="cancel" path='<%="/workflowProcessManagement.do?method=viewProcess&processId=" + processOID%>'/>
-		<fr:layout name="tabular"> 
-			<fr:property name="classes" value="height: 200px; overflow-y: scroll;"/>
-		</fr:layout>
-
-		</fr:schema>
-	</fr:edit>
-		
 	
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="label.jobBank.submit"/>

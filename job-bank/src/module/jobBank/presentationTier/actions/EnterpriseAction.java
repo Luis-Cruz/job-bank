@@ -161,34 +161,40 @@ public class EnterpriseAction extends ContextBaseAction {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 
-		if (jobOfferState == JobOfferState.WAITING_FOR_APPROVAL) {
-		    return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
-			    && !object.getJobOffer().isEditable();
-		}
-		if (jobOfferState == JobOfferState.UNDER_CONSTRUCTION) {
-		    return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
-			    && object.getJobOffer().isEditable();
-		}
-		if (jobOfferState == JobOfferState.CANCELED) {
-		    return object.getJobOffer().isCanceled();
-		}
+		if (object.getCanManageJobProcess()) {
+		    if (jobOfferState == JobOfferState.WAITING_FOR_APPROVAL) {
+			return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
+				&& !object.getJobOffer().isEditable();
+		    }
 
-		if (jobOfferState == JobOfferState.PUBLISHED) {
-		    return object.getJobOffer().isApproved() && object.getJobOffer().isCandidancyPeriod();
-		}
+		    if (jobOfferState == JobOfferState.UNDER_CONSTRUCTION) {
+			return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
+				&& object.getJobOffer().isEditable();
+		    }
 
-		if (jobOfferState == JobOfferState.UNDER_SELECTION) {
+		    if (jobOfferState == JobOfferState.CANCELED) {
+			return object.getJobOffer().isCanceled();
+		    }
+
+		    if (jobOfferState == JobOfferState.PUBLISHED) {
+			return object.getJobOffer().isApproved() && object.getJobOffer().isCandidancyPeriod();
+		    }
+
+		    if (jobOfferState == JobOfferState.UNDER_SELECTION) {
+			return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
+				&& object.getJobOffer().isSelectionPeriod();
+		    }
+
+		    if (jobOfferState == JobOfferState.ARCHIVED) {
+			return object.getJobOffer().isConclued();
+		    }
+
+		    // Default approved
 		    return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
-			    && object.getJobOffer().isSelectionPeriod();
+			    && !object.getJobOffer().isSelectionPeriod() && !object.getJobOffer().isConclued();
 		}
 
-		if (jobOfferState == JobOfferState.ARCHIVED) {
-		    return object.getJobOffer().isConclued();
-		}
-
-		// Default active
-		return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
-			&& !object.getJobOffer().isSelectionPeriod() && !object.getJobOffer().isConclued();
+		return false;
 	    }
 	});
 

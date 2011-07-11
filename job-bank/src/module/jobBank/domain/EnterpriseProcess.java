@@ -5,13 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseActivity;
+import module.jobBank.domain.activity.ApproveOrRejectEnterpriseChangeAgreementActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
-import module.jobBank.domain.activity.EnterpriseApprovalChangeAgreementActivity;
 import module.jobBank.domain.activity.EnterpriseDisableActivity;
 import module.jobBank.domain.activity.EnterpriseEnableActivity;
-import module.jobBank.domain.activity.EnterpriseRejectChangeAgreementActivity;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.WorkflowProcess;
@@ -23,16 +22,27 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
     static {
 	final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activitiesAux = new ArrayList<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>>();
 
+	// Enterprise Only
 	activitiesAux.add(new EditEnterpriseActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
+
 	// activitiesAux.add(new EnterpriseApprovalActivity());
 	// activitiesAux.add(new EnterpriseRejectActivity());
-	activitiesAux.add(new EnterpriseRejectChangeAgreementActivity());
-	activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
+	// activitiesAux.add(new EnterpriseRejectChangeAgreementActivity());
+	// activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
+
+	// NPE Only
+	// (enterprise)
 	activitiesAux.add(new ApproveOrRejectEnterpriseActivity());
+
+	// (agreements)
+	activitiesAux.add(new ApproveOrRejectEnterpriseChangeAgreementActivity());
+	activitiesAux.add(new ChangeAgreementEnterpriseByNPEActivity());
+
+	// (agreements)
 	activitiesAux.add(new EnterpriseEnableActivity());
 	activitiesAux.add(new EnterpriseDisableActivity());
-	activitiesAux.add(new ChangeAgreementEnterpriseByNPEActivity());
+
 
 	activities = Collections.unmodifiableList(activitiesAux);
     }

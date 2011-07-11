@@ -12,7 +12,7 @@ public class EnterpriseApprovalChangeAgreementActivity extends
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
-	return JobBankSystem.getInstance().isNPEMember(user) && process.getEnterprise().isPendingToApproval()
+	return JobBankSystem.getInstance().isNPEMember(user) && process.getEnterprise().hasAgreementForApproval()
 		&& process.getEnterprise().hasBeenAcceptedBefore();
     }
 
