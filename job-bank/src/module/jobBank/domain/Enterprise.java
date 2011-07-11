@@ -195,6 +195,10 @@ public class Enterprise extends Enterprise_Base {
 	return getActiveAccountabilityType() != null;
     }
 
+    public boolean hasBeenAcceptedBefore() {
+	return getUnit().getParentAccountabilities().size() > 1;
+    }
+
     public String getAgreement() {
 	return hasActiveAccountability() ? getActiveAccountability().getDetailsString() : "";
     }

@@ -263,4 +263,5 @@ public abstract class JobOffer extends JobOffer_Base {
     public abstract boolean isExternalCandidacy();
 
     public abstract JobOfferExternal getJobOfferExternal();
+
 }

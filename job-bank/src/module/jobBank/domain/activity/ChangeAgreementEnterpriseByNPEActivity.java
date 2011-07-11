@@ -12,6 +12,7 @@ import module.jobBank.domain.beans.EnterpriseBean;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
+import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
@@ -47,8 +48,9 @@ public class ChangeAgreementEnterpriseByNPEActivity extends WorkflowActivity<Ent
 	toAddresses.add(enterprise.getLoginEmail());
 	String newContract = bean.getNotActiveAccountabilityType().getLocalizedName();
 
-	new Email(getSenderName(), getSenderEmail(), new String[] {}, toAddresses, Collections.EMPTY_LIST,
-		Collections.EMPTY_LIST, getEmailSubject(newContract), bean.getMessage());
+	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
+	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(newContract), bean.getMessage());
     }
 
     @Override
@@ -77,14 +79,6 @@ public class ChangeAgreementEnterpriseByNPEActivity extends WorkflowActivity<Ent
 	body.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
 		"message.jobbank.ist.signature"));
 	return body.toString();
-    }
-
-    private String getSenderName() {
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobbank.sender.name");
-    }
-
-    private String getSenderEmail() {
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobbank.sender.email");
     }
 
     private String getEmailSubject(String newContract) {

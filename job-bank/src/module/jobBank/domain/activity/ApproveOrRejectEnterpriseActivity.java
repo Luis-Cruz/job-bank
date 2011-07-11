@@ -6,57 +6,57 @@ import java.util.List;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
-import module.jobBank.domain.JobBankAccountabilityType;
 import module.jobBank.domain.JobBankSystem;
-import module.jobBank.domain.beans.EnterpriseBean;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
+import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
-import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
-import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
-public class ApproveOrRejectEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseContractInformation> {
+public class ApproveOrRejectEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseApprovalInformation> {
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
 	Enterprise enterprise = process.getEnterprise();
-	return JobBankSystem.getInstance().isNPEMember(user) && !enterprise.isPendingAgreementToApprove()
-		&& !enterprise.hasAgreementForApproval();
-
+	return JobBankSystem.getInstance().isNPEMember(user) && enterprise.isPendingAgreementToApprove()
+		&& !enterprise.isCanceled();
     }
 
     @Override
-    protected void process(EnterpriseContractInformation activityInformation) {
+    protected void process(EnterpriseApprovalInformation activityInformation) {
 	Enterprise enterprise = activityInformation.getProcess().getEnterprise();
-	EnterpriseBean bean = activityInformation.getEnterpriseBean();
-	JobBankAccountabilityType jobBankAccountabilityType = bean.getNotActiveAccountabilityType();
 
-	if (enterprise.changeRequestAgreementByNPE(jobBankAccountabilityType.readAccountabilityType())) {
-	    bean.setJobBankAccountabilityType(jobBankAccountabilityType);
-	    // enterpriseContractInformation.getEnterpriseBean().setJobBankAccountabilityType(jobBankAccountabilityType);
-	    sendEmail(enterprise, bean);
+	if (activityInformation.isApprove()) {
+	    enterprise.acceptRegister();
+	} else {
+	    enterprise.reject();
 	}
 
-	RenderUtils.invalidateViewState();
+	sendEmail(enterprise, activityInformation);
     }
 
-    private void sendEmail(Enterprise enterprise, EnterpriseBean bean) {
+    private void sendEmail(Enterprise enterprise, EnterpriseApprovalInformation eai) {
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
-	String newContract = bean.getNotActiveAccountabilityType().getLocalizedName();
+	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
+	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(eai), eai.getMessage());
+    }
 
-	new Email(getSenderName(), getSenderEmail(), new String[] {}, toAddresses, Collections.EMPTY_LIST,
-		Collections.EMPTY_LIST, getEmailSubject(newContract), bean.getMessage());
+    private String getEmailSubject(EnterpriseApprovalInformation eai) {
+	String bundle = "message.jobbank.message.jobbank.email.approval.subject";
+
+	if (!eai.isApprove()) {
+	    bundle = "message.jobbank.message.jobbank.email.rejection.subject";
+	}
+
+	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle);
     }
 
     @Override
     public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
-	EnterpriseContractInformation eci = new EnterpriseContractInformation(process, this);
-	String message = getBody(eci.getEnterpriseBean().getName());
-	eci.getEnterpriseBean().setMessage(message);
-	return eci;
+	return new EnterpriseApprovalInformation(process, this, process.getEnterprise().getName());
     }
 
     @Override
@@ -69,27 +69,4 @@ public class ApproveOrRejectEnterpriseActivity extends WorkflowActivity<Enterpri
 	return false;
     }
 
-    private String getBody(MultiLanguageString enterpriseName) {
-	StringBuilder body = new StringBuilder();
-	body.append(enterpriseName);
-	body.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobbank.contract.change.body"));
-	body.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobbank.ist.signature"));
-	return body.toString();
-    }
-
-    private String getSenderName() {
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobbank.sender.name");
-    }
-
-    private String getSenderEmail() {
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobbank.sender.email");
-    }
-
-    private String getEmailSubject(String newContract) {
-	String beginning = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobbank.message.jobbank.contract.change.subject.email");
-	return beginning + " \"" + newContract + "\"";
-    }
 }

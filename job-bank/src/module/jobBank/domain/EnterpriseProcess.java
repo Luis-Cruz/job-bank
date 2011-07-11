@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import module.jobBank.domain.activity.ApproveOrRejectEnterpriseActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
-import module.jobBank.domain.activity.EnterpriseApprovalActivity;
 import module.jobBank.domain.activity.EnterpriseApprovalChangeAgreementActivity;
 import module.jobBank.domain.activity.EnterpriseDisableActivity;
 import module.jobBank.domain.activity.EnterpriseEnableActivity;
-import module.jobBank.domain.activity.EnterpriseRejectActivity;
 import module.jobBank.domain.activity.EnterpriseRejectChangeAgreementActivity;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
@@ -26,10 +25,11 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 
 	activitiesAux.add(new EditEnterpriseActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
-	activitiesAux.add(new EnterpriseApprovalActivity());
-	activitiesAux.add(new EnterpriseRejectActivity());
+	// activitiesAux.add(new EnterpriseApprovalActivity());
+	// activitiesAux.add(new EnterpriseRejectActivity());
 	activitiesAux.add(new EnterpriseRejectChangeAgreementActivity());
 	activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
+	activitiesAux.add(new ApproveOrRejectEnterpriseActivity());
 	activitiesAux.add(new EnterpriseEnableActivity());
 	activitiesAux.add(new EnterpriseDisableActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseByNPEActivity());

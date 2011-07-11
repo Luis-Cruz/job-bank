@@ -151,7 +151,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	JobOfferViewBean bean = getRenderedObject("processesState");
 	if (bean == null || bean.getProcessesState() == null) {
 	    bean = new JobOfferViewBean();
-	    bean.setProcessesState(JobOfferState.ACTIVE);
+	    bean.setProcessesState(JobOfferState.UNDER_CONSTRUCTION);
 	}
 
 	int resultsPerPage = 50;
@@ -169,16 +169,26 @@ public class EnterpriseAction extends ContextBaseAction {
 		    return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
 			    && object.getJobOffer().isEditable();
 		}
-		if (jobOfferState == JobOfferState.EXPIRED) {
-		    return object.getJobOffer().isApproved() && object.getJobOffer().hasExpired()
-			    && !object.getJobOffer().isCanceled();
-		}
 		if (jobOfferState == JobOfferState.CANCELED) {
 		    return object.getJobOffer().isCanceled();
 		}
 
+		if (jobOfferState == JobOfferState.PUBLISHED) {
+		    return object.getJobOffer().isApproved() && object.getJobOffer().isCandidancyPeriod();
+		}
+
+		if (jobOfferState == JobOfferState.UNDER_SELECTION) {
+		    return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
+			    && object.getJobOffer().isSelectionPeriod();
+		}
+
+		if (jobOfferState == JobOfferState.ARCHIVED) {
+		    return object.getJobOffer().isConclued();
+		}
+
 		// Default active
-		return object.getJobOffer().isActive() && object.getJobOffer().isCandidancyPeriod();
+		return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
+			&& !object.getJobOffer().isSelectionPeriod() && !object.getJobOffer().isConclued();
 	    }
 	});
 

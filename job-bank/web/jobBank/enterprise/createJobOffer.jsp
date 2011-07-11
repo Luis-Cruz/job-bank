@@ -34,25 +34,23 @@
 			
 			</logic:equal>  
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"> 
-				<fr:property name="size" value="60" />
+				<fr:property name="size" value="80" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
 			<fr:slot name="function" key="label.enterprise.jobOffer.function" layout="area">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
 			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="area">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
 			</fr:slot>
 			<fr:slot name="vacancies" key="label.enterprise.jobOffer.vacancies">
 			  <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.NumberValidator"/>
