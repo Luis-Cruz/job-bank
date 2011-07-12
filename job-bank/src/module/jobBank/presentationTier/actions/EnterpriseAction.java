@@ -9,13 +9,12 @@ import module.jobBank.domain.EmailValidation;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
-import module.jobBank.domain.JobOfferState;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.activity.EnterpriseInformation;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
-import module.jobBank.domain.beans.JobOfferViewBean;
+import module.jobBank.domain.beans.SearchOfferState;
 import module.jobBank.domain.beans.SearchStudents;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
@@ -148,61 +147,20 @@ public class EnterpriseAction extends ContextBaseAction {
     public ActionForward viewAllJobOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 
-	JobOfferViewBean bean = getRenderedObject("processesState");
-	if (bean == null || bean.getProcessesState() == null) {
-	    bean = new JobOfferViewBean();
-	    bean.setProcessesState(JobOfferState.UNDER_CONSTRUCTION);
+	SearchOfferState offerSearch = getRenderedObject("offerSearch");
+	if (offerSearch == null) {
+	    offerSearch = new SearchOfferState();
 	}
 
 	int resultsPerPage = 50;
+	RenderUtils.invalidateViewState();
+	Set<JobOfferProcess> processes = offerSearch.search();
+	offerSearch.setProcessesCount(processes.size());
 
-	final JobOfferState jobOfferState = bean.getProcessesState();
-	Set<JobOfferProcess> processes = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
-	    @Override
-	    public boolean evaluate(JobOfferProcess object) {
-
-		if (object.getCanManageJobProcess()) {
-		    if (jobOfferState == JobOfferState.WAITING_FOR_APPROVAL) {
-			return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
-				&& !object.getJobOffer().isEditable();
-		    }
-
-		    if (jobOfferState == JobOfferState.UNDER_CONSTRUCTION) {
-			return !object.getJobOffer().isApproved() && !object.getJobOffer().isCanceled()
-				&& object.getJobOffer().isEditable();
-		    }
-
-		    if (jobOfferState == JobOfferState.CANCELED) {
-			return object.getJobOffer().isCanceled();
-		    }
-
-		    if (jobOfferState == JobOfferState.PUBLISHED) {
-			return object.getJobOffer().isApproved() && object.getJobOffer().isCandidancyPeriod();
-		    }
-
-		    if (jobOfferState == JobOfferState.UNDER_SELECTION) {
-			return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
-				&& object.getJobOffer().isSelectionPeriod();
-		    }
-
-		    if (jobOfferState == JobOfferState.ARCHIVED) {
-			return object.getJobOffer().isConclued();
-		    }
-
-		    // Default approved
-		    return object.getJobOffer().isApproved() && !object.getJobOffer().isCandidancyPeriod()
-			    && !object.getJobOffer().isSelectionPeriod() && !object.getJobOffer().isConclued();
-		}
-
-		return false;
-	    }
-	});
+	request.setAttribute("offerSearch", offerSearch);
+	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
 
 	RenderUtils.invalidateViewState();
-	bean.setProcesses(Utils.doPagination(request, processes, resultsPerPage));
-	bean.setProcessesCount(processes.size());
-	request.setAttribute("processesState", bean);
-
 	return forward(request, "/jobBank/enterprise/jobOffers.jsp");
     }
 

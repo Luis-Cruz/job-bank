@@ -10,9 +10,11 @@ import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankSystem;
+import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.SearchOfferState;
 import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
 import module.organization.domain.OrganizationalModel;
 import module.organization.presentationTier.actions.OrganizationModelAction.OrganizationalModelChart;
 import module.workflow.presentationTier.actions.ProcessManagement;
@@ -37,8 +39,14 @@ public class BackOfficeAction extends ContextBaseAction {
 	if (offerSearch == null) {
 	    offerSearch = new SearchOfferState();
 	}
+
+	int resultsPerPage = 50;
+	RenderUtils.invalidateViewState();
+	Set<JobOfferProcess> processes = offerSearch.search();
+	offerSearch.setProcessesCount(processes.size());
+
 	request.setAttribute("offerSearch", offerSearch);
-	request.setAttribute("processes", offerSearch.search());
+	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
 
 	RenderUtils.invalidateViewState();
 	return forward(request, "/jobBank/backOffice/jobOffers.jsp");

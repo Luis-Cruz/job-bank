@@ -264,4 +264,28 @@ public abstract class JobOffer extends JobOffer_Base {
 
     public abstract JobOfferExternal getJobOfferExternal();
 
+    public boolean isUnderConstruction() {
+	return isEditable();
+    }
+
+    public boolean isWaitingForApproval() {
+	return !isApproved() && !isCanceled() && !isEditable();
+    }
+
+    public boolean isPublished() {
+	return isCandidancyPeriod();
+    }
+
+    public boolean isUnderSelection() {
+	return !isCandidancyPeriod() && isSelectionPeriod();
+    }
+
+    public boolean isApprovedAndOnlyApproved() {
+	return isApproved() && !isCandidancyPeriod() && !isSelectionPeriod() && !isConclued();
+    }
+
+    public boolean isArchived() {
+	return isConclued();
+    }
+
 }

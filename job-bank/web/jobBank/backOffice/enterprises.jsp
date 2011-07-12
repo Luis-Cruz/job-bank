@@ -15,7 +15,9 @@
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseState" name="enterpriseState" type="module.jobBank.domain.beans.EnterpriseBean">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean" >
-			<fr:slot name="enterpriseStateType" key="label.enterpriseStateType.enterprises"/>
+			<fr:slot name="enterpriseStateType" key="label.enterpriseStateType.enterprises">
+				<fr:property name="defaultOptionHidden" value="true"/>
+			</fr:slot>
 		</fr:schema>
 	</fr:edit>
 	

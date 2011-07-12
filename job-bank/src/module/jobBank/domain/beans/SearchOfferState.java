@@ -1,57 +1,31 @@
 package module.jobBank.domain.beans;
 
+import java.util.Collection;
 import java.util.Set;
 
-import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.JobOfferState;
 import module.jobBank.domain.utils.IPredicate;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.util.Search;
-import myorg.util.BundleUtil;
 
 import org.apache.commons.lang.StringUtils;
 
-import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
-
 public class SearchOfferState extends Search<JobOfferProcess> {
 
-    public enum OfferSearchState implements IPresentableEnum {
-	ALL("all", "label.jobOfferSearch.all"), APPROVE("aprove", "label.jobOfferSearch.approve"), PENDING_TO_APPROVE(
-		"pendingToApprove", "label.jobOfferSearch.pendingToApprove"), SELECTION("selection",
-		"label.jobOfferSearch.selection"), PUBLICATION("publication", "label.jobOfferSearch.publication"), OLD("old",
-		"label.jobOfferSearch.old"), CANCELED("canceled", "label.jobOfferSearch.canceled");
-
-	private final String nameKey;
-	private final String type;
-
-	private OfferSearchState(String type, String nameKey) {
-	    this.type = type;
-	    this.nameKey = nameKey;
-	}
-
-	public String getType() {
-	    return type;
-	}
-
-	@Override
-	public String getLocalizedName() {
-	    return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, nameKey);
-	}
-
-    }
-
-    private OfferSearchState offerSearchState;
+    private JobOfferState jobOfferState;
     private String processNumber;
     private String enterprise;
+    private int processesCount;
 
     public SearchOfferState() {
 	init();
     }
 
     public void init() {
-	setOfferSearchState(OfferSearchState.ALL);
+	setJobOfferState(JobOfferState.WAITING_FOR_APPROVAL);
     }
 
     public String getProcessNumber() {
@@ -60,14 +34,6 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 
     public void setProcessNumber(String processNumber) {
 	this.processNumber = processNumber;
-    }
-
-    public OfferSearchState getOfferSearchState() {
-	return offerSearchState;
-    }
-
-    public void setOfferSearchState(OfferSearchState offerSearchState) {
-	this.offerSearchState = offerSearchState;
     }
 
     public void setEnterprise(String enterprise) {
@@ -89,39 +55,37 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isSatisfiedState(JobOffer jobOffer, User user) {
-	return isJobOfferAll(jobOffer) || isJobOfferAproved(jobOffer) || isJobOfferPendingToAprove(jobOffer)
-		|| isJobOfferOld(jobOffer) || isJobOfferSelection(jobOffer) || isJobOfferCanceled(jobOffer)
-		|| isJobOfferPublication(jobOffer);
+	return isJobOfferUnderConstruction(jobOffer) || isJobOfferWaitingForApproval(jobOffer) || isJobOfferAproved(jobOffer)
+		|| isJobOfferPublished(jobOffer) || isJobOfferUnderSelection(jobOffer) || isJobOfferArchived(jobOffer)
+		|| isJobOfferCanceled(jobOffer);
     }
 
-    private boolean isJobOfferAll(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.ALL);
-    }
-
-    private boolean isJobOfferAproved(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.APPROVE) && jobOffer.isApproved();
-    }
-
-    private boolean isJobOfferPendingToAprove(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.PENDING_TO_APPROVE) && jobOffer.isPendingToApproval();
-    }
-
-    private boolean isJobOfferOld(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.OLD) && jobOffer.isConclued();
-
-    }
-
-    private boolean isJobOfferSelection(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.SELECTION) && jobOffer.isSelectionPeriod();
+    private boolean isJobOfferUnderConstruction(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.UNDER_CONSTRUCTION) && jobOffer.isUnderConstruction();
     }
 
     private boolean isJobOfferCanceled(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.CANCELED) && jobOffer.isCanceled();
-
+	return getJobOfferState().equals(JobOfferState.CANCELED) && jobOffer.isCanceled();
     }
 
-    private boolean isJobOfferPublication(JobOffer jobOffer) {
-	return getOfferSearchState().equals(OfferSearchState.PUBLICATION) && jobOffer.isCandidancyPeriod();
+    private boolean isJobOfferArchived(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.ARCHIVED) && jobOffer.isArchived();
+    }
+
+    private boolean isJobOfferUnderSelection(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.UNDER_SELECTION) && jobOffer.isUnderSelection();
+    }
+
+    private boolean isJobOfferPublished(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.PUBLISHED) && jobOffer.isPublished();
+    }
+
+    private boolean isJobOfferAproved(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.APPROVED) && jobOffer.isApprovedAndOnlyApproved();
+    }
+
+    private boolean isJobOfferWaitingForApproval(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.WAITING_FOR_APPROVAL) && jobOffer.isWaitingForApproval();
     }
 
     @Override
@@ -136,6 +100,22 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 	    }
 	});
 	return jobOfferProcesses;
+    }
+
+    public void setJobOfferState(JobOfferState jobOfferState) {
+	this.jobOfferState = jobOfferState;
+    }
+
+    public JobOfferState getJobOfferState() {
+	return jobOfferState;
+    }
+
+    public void setProcessesCount(int processesCount) {
+	this.processesCount = processesCount;
+    }
+
+    public int getProcessesCount() {
+	return processesCount;
     }
 
 }
