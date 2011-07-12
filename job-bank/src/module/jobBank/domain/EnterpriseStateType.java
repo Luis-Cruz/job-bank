@@ -4,9 +4,10 @@ import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
 public enum EnterpriseStateType implements IPresentableEnum {
-    PENDING("pending", "label.enterpriseStateType.pending"), ACTIVE("active", "label.enterpriseStateType.active"), INACTIVE(
-	    "inactive", "label.enterpriseStateType.inactive"), REQUEST_CHANGE_AGREEMENT("requestChangeAgreement",
-	    "label.enterpriseStateType.changeToRequestAgreement"), EXPIRED("expired", "label.enterpriseStateType.expired");
+    PENDING_REGISTER("pendingRegister", "label.enterpriseStateType.pendingRegister"), ACTIVE("active",
+	    "label.enterpriseStateType.active"), INACTIVE("inactive", "label.enterpriseStateType.inactive"), REQUEST_CHANGE_AGREEMENT(
+	    "requestChangeAgreement", "label.enterpriseStateType.changeToRequestAgreement"), REJECTED("rejected",
+	    "label.enterpriseStateType.rejected");
 
     private final String type;
     private final String nameKey;
@@ -26,6 +27,7 @@ public enum EnterpriseStateType implements IPresentableEnum {
 	return type;
     }
 
+    @Override
     public String getLocalizedName() {
 	return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
     }

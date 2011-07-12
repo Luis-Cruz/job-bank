@@ -49,7 +49,7 @@ public class BackOfficeAction extends ContextBaseAction {
 	EnterpriseBean bean = getRenderedObject("enterpriseState");
 	if (bean == null || bean.getEnterpriseStateType() == null) {
 	    bean = new EnterpriseBean();
-	    bean.setEnterpriseStateType(EnterpriseStateType.PENDING);
+	    bean.setEnterpriseStateType(EnterpriseStateType.PENDING_REGISTER);
 	}
 
 	final EnterpriseStateType enterpriseStateType = bean.getEnterpriseStateType();
@@ -66,8 +66,8 @@ public class BackOfficeAction extends ContextBaseAction {
 		if (enterpriseStateType == EnterpriseStateType.REQUEST_CHANGE_AGREEMENT) {
 		    return object.isChangeToRequestAgreement();
 		}
-		if (enterpriseStateType == EnterpriseStateType.EXPIRED) {
-		    return object.isExpired();
+		if (enterpriseStateType == EnterpriseStateType.REJECTED) {
+		    return object.isCanceled();
 		}
 
 		// Default pending

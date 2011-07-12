@@ -49,12 +49,13 @@
 	<tr> 
 		<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
 		<td>
-			<logic:equal name="enterprise" property="expired" value="true">
-				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/>
-			</logic:equal>	
-			<logic:equal name="enterprise" property="expired" value="false">
-				<bean:write name="enterprise" property="agreementName"/>
-			</logic:equal>	</td> 
+<%-- 			<logic:equal name="enterprise" property="expired" value="true"> --%>
+<%-- 				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/> --%>
+<%-- 			</logic:equal>	 --%>
+<%-- 			<logic:equal name="enterprise" property="expired" value="false"> --%>
+<%-- 				<bean:write name="enterprise" property="agreementName"/> --%>
+<%-- 			</logic:equal>	 --%>
+			</td> 
 	</tr> 
 	<tr> 
 

@@ -18,6 +18,7 @@ public class EnterpriseApprovalInformation extends ApprovalInformation {
 	    MultiLanguageString enterpriseName) {
 	super(process, activity);
 	setEnterpriseName(enterpriseName);
+	updateMessage();
     }
 
     @Override

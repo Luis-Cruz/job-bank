@@ -12,14 +12,14 @@ public class ChangeAgreementEnterpriseActivity extends WorkflowActivity<Enterpri
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
 	Enterprise enterprise = process.getEnterprise();
-	return process.isProcessOwner(user) && !enterprise.isPendingAgreementToApprove();
-
+	return process.isProcessOwner(user) && !enterprise.isPendingAgreementToApprove() && enterprise.isJobProviderAgreement()
+		&& !enterprise.hasAgreementForApproval();
     }
 
     @Override
     protected void process(EnterpriseContractInformation activityInformation) {
 	activityInformation.getProcess().getEnterprise().changeRequestAgreement(
-		activityInformation.getEnterpriseBean().getJobBankAccountabilityType().readAccountabilityType());
+			activityInformation.getEnterpriseBean().getNotActiveAccountabilityType().readAccountabilityType());
     }
 
     @Override

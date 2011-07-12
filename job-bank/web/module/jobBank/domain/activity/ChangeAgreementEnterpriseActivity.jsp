@@ -32,9 +32,10 @@
 	<fr:edit id="activityBean" name="information"> 					
 	<fr:schema type="module.jobBank.domain.activity.EnterpriseContractInformation"  bundle="JOB_BANK_RESOURCES">
 		
-		<fr:slot name="enterpriseBean.jobBankAccountabilityType" key="label.enterprise.requestAccountabilityType">  
+		<fr:slot name="enterpriseBean.notActiveAccountabilityType" key="label.enterprise.requestAccountabilityType">  
 			<fr:property name="excludedValues" value="PENDING" />
 			<fr:property name="defaultOptionHidden" value="true"/> 
+			<fr:property name="readOnly" value="true"/>
 		</fr:slot>
 		<bean:message  key="message.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>
 	</fr:schema>

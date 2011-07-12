@@ -32,7 +32,7 @@
 </schema>
 
 
-<schema name="jobBank.enterprise.view.pending"
+<schema name="jobBank.enterprise.view.pendingRegister"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">
 	<slot name="name" key="label.enterprise.name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
@@ -45,28 +45,28 @@
 
 <schema name="jobBank.enterprise.view.active"
 	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
 	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
 	<slot name="agreementName" key="label.enterprise.status"/>
 </schema>
 
 <schema name="jobBank.enterprise.view.requestChangeAgreement"
 	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
 	<slot name="agreementName" key="label.enterprise.status"/>
 	<slot name="agreementNameForApproval" key="label.enterprise.requestAccountabilityType"/>
 </schema>
 
 <schema name="jobBank.enterprise.view.inactive"
 	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
 	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
 	<slot name="agreementName" key="label.enterprise.status"/>
 </schema>
 
-<schema name="jobBank.enterprise.view.expired"
+<schema name="jobBank.enterprise.view.rejected"
 	bundle="JOB_BANK_RESOURCES"
-	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pending">
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
 	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
 </schema>
 

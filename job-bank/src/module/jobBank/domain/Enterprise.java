@@ -184,7 +184,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     public boolean isChangeToRequestAgreement() {
-	return !isPendingAgreementToApprove() && hasAgreementForApproval();
+	return !isPendingAgreementToApprove() && hasAgreementForApproval() && hasActiveAccountability();
     }
 
     public boolean hasActiveAccountability() {
@@ -245,10 +245,6 @@ public class Enterprise extends Enterprise_Base {
 	if (hasActiveAccountability())
 	    return getActiveAccountability().getAccountabilityType();
 	return null;
-    }
-
-    public boolean isExpired() {
-	return !isActive() && !isPendingToApproval() && !isCanceled();
     }
 
     public void enable() {
