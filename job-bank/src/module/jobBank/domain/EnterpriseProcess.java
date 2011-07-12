@@ -2,7 +2,9 @@ package module.jobBank.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseActivity;
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseChangeAgreementActivity;
@@ -11,6 +13,7 @@ import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
 import module.jobBank.domain.activity.EnterpriseDisableActivity;
 import module.jobBank.domain.activity.EnterpriseEnableActivity;
+import module.jobBank.domain.utils.IPredicate;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.WorkflowProcess;
@@ -114,5 +117,18 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
     @Override
     public boolean isCreatedByAvailable() {
 	return false;
+    }
+
+    public static Set<EnterpriseProcess> readEnterpriseProcess(IPredicate<EnterpriseProcess> predicate) {
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	Set<EnterpriseProcess> enterprises = new HashSet<EnterpriseProcess>();
+	for (Enterprise enterprise : jobBankSystem.getEnterprises()) {
+	    EnterpriseProcess process = enterprise.getEnterpriseProcess();
+	    if (predicate.evaluate(process)) {
+		enterprises.add(process);
+	    }
+	}
+	return enterprises;
+
     }
 }

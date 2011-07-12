@@ -12,9 +12,8 @@ import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
-import module.jobBank.domain.beans.EnterpriseBean;
+import module.jobBank.domain.beans.SearchEnterprise;
 import module.jobBank.domain.beans.SearchOfferState;
-import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.organization.domain.OrganizationalModel;
 import module.organization.presentationTier.actions.OrganizationModelAction.OrganizationalModelChart;
@@ -64,37 +63,29 @@ public class BackOfficeAction extends ContextBaseAction {
 
     public ActionForward enterprises(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-	EnterpriseBean bean = getRenderedObject("enterpriseState");
-	if (bean == null || bean.getEnterpriseStateType() == null) {
-	    bean = new EnterpriseBean();
-	    bean.setEnterpriseStateType(EnterpriseStateType.PENDING_REGISTER);
+
+	SearchEnterprise enterpriseSearch = getRenderedObject("enterpriseSearch");
+	if (enterpriseSearch == null) {
+	    enterpriseSearch = new SearchEnterprise();
+
+	    String enterpriseState = request.getParameter("enterpriseState");
+	    if (enterpriseState != null && EnterpriseStateType.getByLocalizedName(enterpriseState) != null) {
+		enterpriseSearch.setEnterpriseState(EnterpriseStateType.getByLocalizedName(enterpriseState));
+		final String pageParameter = request.getParameter("pageNumber");
+		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
+		request.setAttribute("pageNumber", page);
+	    }
 	}
 
-	final EnterpriseStateType enterpriseStateType = bean.getEnterpriseStateType();
-	Set<Enterprise> enterprises = Enterprise.readAllEnterprises(new IPredicate<Enterprise>() {
-	    @Override
-	    public boolean evaluate(Enterprise object) {
-
-		if (enterpriseStateType == EnterpriseStateType.ACTIVE) {
-		    return object.isActive();
-		}
-		if (enterpriseStateType == EnterpriseStateType.INACTIVE) {
-		    return object.isDisable();
-		}
-		if (enterpriseStateType == EnterpriseStateType.REQUEST_CHANGE_AGREEMENT) {
-		    return object.isChangeToRequestAgreement();
-		}
-		if (enterpriseStateType == EnterpriseStateType.REJECTED) {
-		    return object.isCanceled();
-		}
-
-		// Default pending
-		return object.isPendingToApproval();
-	    }
-	});
+	int resultsPerPage = 25;
 	RenderUtils.invalidateViewState();
-	request.setAttribute("enterprises", enterprises);
-	request.setAttribute("enterpriseState", bean);
+	Set<Enterprise> processes = enterpriseSearch.search();
+	enterpriseSearch.setEnterprisesCount(processes.size());
+
+	request.setAttribute("enterpriseSearch", enterpriseSearch);
+	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
+
+	RenderUtils.invalidateViewState();
 	return forward(request, "/jobBank/backOffice/enterprises.jsp");
     }
 

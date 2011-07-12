@@ -61,7 +61,3 @@
 	</logic:notEqual>
 </logic:present>
 
-
-<logic:empty name="processes">
-	<bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.offers"/>
-</logic:empty> 

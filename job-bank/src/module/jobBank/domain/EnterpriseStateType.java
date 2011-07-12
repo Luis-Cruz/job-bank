@@ -31,4 +31,13 @@ public enum EnterpriseStateType implements IPresentableEnum {
     public String getLocalizedName() {
 	return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
     }
+
+    public static EnterpriseStateType getByLocalizedName(String pattern) {
+	for (EnterpriseStateType est : EnterpriseStateType.values()) {
+	    if (est.getLocalizedName().equals(pattern)) {
+		return est;
+	    }
+	}
+	return null;
+    }
 }
