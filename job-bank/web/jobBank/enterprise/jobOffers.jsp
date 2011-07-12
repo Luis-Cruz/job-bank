@@ -21,6 +21,7 @@
 
 			<fr:slot name="jobOfferState" key="label.jobOfferSearch.state" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="menu-postback">
 				<fr:property name="defaultOptionHidden" value="true"/>
+				<fr:property name="excludedValues" value="ALL" />
 			</fr:slot>
 		</fr:schema>
 		

@@ -1,6 +1,5 @@
 package module.jobBank.domain.beans;
 
-import java.util.Collection;
 import java.util.Set;
 
 import module.jobBank.domain.JobOffer;
@@ -55,9 +54,13 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isSatisfiedState(JobOffer jobOffer, User user) {
-	return isJobOfferUnderConstruction(jobOffer) || isJobOfferWaitingForApproval(jobOffer) || isJobOfferAproved(jobOffer)
-		|| isJobOfferPublished(jobOffer) || isJobOfferUnderSelection(jobOffer) || isJobOfferArchived(jobOffer)
-		|| isJobOfferCanceled(jobOffer);
+	return isJobOfferAll(jobOffer) || isJobOfferUnderConstruction(jobOffer) || isJobOfferWaitingForApproval(jobOffer)
+		|| isJobOfferAproved(jobOffer) || isJobOfferPublished(jobOffer) || isJobOfferUnderSelection(jobOffer)
+		|| isJobOfferArchived(jobOffer) || isJobOfferCanceled(jobOffer);
+    }
+
+    private boolean isJobOfferAll(JobOffer jobOffer) {
+	return getJobOfferState().equals(JobOfferState.ALL);
     }
 
     private boolean isJobOfferUnderConstruction(JobOffer jobOffer) {

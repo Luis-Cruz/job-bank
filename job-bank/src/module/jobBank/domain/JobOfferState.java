@@ -4,7 +4,8 @@ import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
 public enum JobOfferState implements IPresentableEnum {
-    UNDER_CONSTRUCTION("underConstruction", "label.jobOfferState.underConstruction"), WAITING_FOR_APPROVAL("waitingForApproval",
+    ALL("all", "label.jobOfferState.all"), UNDER_CONSTRUCTION("underConstruction", "label.jobOfferState.underConstruction"), WAITING_FOR_APPROVAL(
+	    "waitingForApproval",
 	    "label.jobOfferState.waitingForApproval"), APPROVED("approved", "label.jobOfferState.approved"), PUBLISHED(
 	    "published", "label.jobOfferState.published"), UNDER_SELECTION("underselection", "label.jobOfferState.underselection"), ARCHIVED(
 	    "archived", "label.jobOfferState.archived"), CANCELED("canceled", "label.jobOfferState.canceled");
