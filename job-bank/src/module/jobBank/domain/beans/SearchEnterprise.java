@@ -56,10 +56,15 @@ public class SearchEnterprise extends Search<Enterprise> {
     }
 
     private boolean isSatisfiedEnterpriseState(Enterprise enterprise) {
-	return isEnterprisePendingRegister(enterprise) || isEnterpriseActive(enterprise) || isEnterpriseDisabled(enterprise)
+	return isEnterpriseAll(enterprise) || isEnterprisePendingRegister(enterprise) || isEnterpriseActive(enterprise)
+		|| isEnterpriseDisabled(enterprise)
 		|| isEnterpriseRequestChangeAgreement(enterprise) || isEnterpriseRejected(enterprise);
     }
 
+
+    private boolean isEnterpriseAll(Enterprise enterprise) {
+	return getEnterpriseState().equals(EnterpriseStateType.ALL);
+    }
 
     private boolean isEnterpriseDisabled(Enterprise enterprise) {
 	return getEnterpriseState().equals(EnterpriseStateType.INACTIVE) && enterprise.isDisable();

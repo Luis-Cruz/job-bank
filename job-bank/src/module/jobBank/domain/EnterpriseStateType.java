@@ -4,7 +4,8 @@ import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
 public enum EnterpriseStateType implements IPresentableEnum {
-    PENDING_REGISTER("pendingRegister", "label.enterpriseStateType.pendingRegister"), ACTIVE("active",
+    ALL("all", "label.enterpriseStateType.all"), PENDING_REGISTER("pendingRegister", "label.enterpriseStateType.pendingRegister"), ACTIVE(
+	    "active",
 	    "label.enterpriseStateType.active"), INACTIVE("inactive", "label.enterpriseStateType.inactive"), REQUEST_CHANGE_AGREEMENT(
 	    "requestChangeAgreement", "label.enterpriseStateType.changeToRequestAgreement"), REJECTED("rejected",
 	    "label.enterpriseStateType.rejected");

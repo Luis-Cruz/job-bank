@@ -154,11 +154,22 @@ public class EnterpriseAction extends ContextBaseAction {
 	    offerSearch = new SearchOfferState();
 
 	    String offerState = request.getParameter("offerState");
+	    String enterprise = request.getParameter("enterprise");
+	    String processNumber = request.getParameter("processNumber");
+
 	    if (offerState != null && JobOfferState.getByLocalizedName(offerState) != null) {
 		offerSearch.setJobOfferState(JobOfferState.getByLocalizedName(offerState));
 		final String pageParameter = request.getParameter("pageNumber");
 		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
 		request.setAttribute("pageNumber", page);
+	    }
+
+	    if (enterprise != null) {
+		offerSearch.setEnterprise(enterprise);
+	    }
+
+	    if (processNumber != null) {
+		offerSearch.setProcessNumber(processNumber);
 	    }
 	}
 

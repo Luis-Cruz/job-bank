@@ -42,7 +42,7 @@
 	
 	<logic:notEqual name="offerSearch" property="processesCount" value="0">	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params">&amp;offerState=<logic:present name="offerSearch" property="jobOfferState.localizedName"><bean:write name="offerSearch" property="jobOfferState.localizedName"/></logic:present></bean:define>
+			<bean:define id="params">&amp;offerState=<logic:present name="offerSearch" property="jobOfferState.localizedName"><bean:write name="offerSearch" property="jobOfferState.localizedName"/></logic:present>&amp;processNumber=<logic:present name="offerSearch" property="processNumber"><bean:write name="offerSearch" property="processNumber"/></logic:present>&amp;enterprise=<logic:present name="offerSearch" property="enterprise"><bean:write name="offerSearch" property="enterprise"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/enterprise.do?method=viewAllJobOffers" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 		

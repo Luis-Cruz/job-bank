@@ -3,6 +3,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
+<%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
 
 <h2>
@@ -35,12 +36,14 @@
 	</html:submit>
 </fr:form>
 
+
+<p><p>
 <fr:form>
 	<fr:view name="processes" schema="<%="jobBank.enterprise.view."+state%>">
 	
 	<logic:notEqual name="enterpriseSearch" property="enterprisesCount" value="0">	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params">&amp;enterpriseState=<logic:present name="enterpriseSearch" property="enterpriseState.localizedName"><bean:write name="enterpriseState" property="enterpriseState.localizedName"/></logic:present></bean:define>
+			<bean:define id="params">&amp;enterpriseState=<logic:present name="enterpriseSearch" property="enterpriseState.localizedName"><bean:write name="enterpriseSearch" property="enterpriseState.localizedName"/></logic:present>&amp;enterpriseName=<logic:present name="enterpriseSearch" property="enterpriseName"><bean:write name="enterpriseSearch" property="enterpriseName"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/backOffice.do?method=enterprises" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 	

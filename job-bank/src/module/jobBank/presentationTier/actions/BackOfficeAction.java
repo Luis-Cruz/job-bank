@@ -41,11 +41,22 @@ public class BackOfficeAction extends ContextBaseAction {
 	    offerSearch = new SearchOfferState();
 
 	    String offerState = request.getParameter("offerState");
+	    String enterprise = request.getParameter("enterprise");
+	    String processNumber = request.getParameter("processNumber");
+
 	    if (offerState != null && JobOfferState.getByLocalizedName(offerState) != null) {
 		offerSearch.setJobOfferState(JobOfferState.getByLocalizedName(offerState));
 		final String pageParameter = request.getParameter("pageNumber");
 		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
 		request.setAttribute("pageNumber", page);
+	    }
+
+	    if (enterprise != null) {
+		offerSearch.setEnterprise(enterprise);
+	    }
+
+	    if (processNumber != null) {
+		offerSearch.setProcessNumber(processNumber);
 	    }
 	}
 
@@ -69,11 +80,17 @@ public class BackOfficeAction extends ContextBaseAction {
 	    enterpriseSearch = new SearchEnterprise();
 
 	    String enterpriseState = request.getParameter("enterpriseState");
+	    String enterpriseName = request.getParameter("enterpriseName");
+
 	    if (enterpriseState != null && EnterpriseStateType.getByLocalizedName(enterpriseState) != null) {
 		enterpriseSearch.setEnterpriseState(EnterpriseStateType.getByLocalizedName(enterpriseState));
 		final String pageParameter = request.getParameter("pageNumber");
 		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
 		request.setAttribute("pageNumber", page);
+	    }
+
+	    if (enterpriseName != null) {
+		enterpriseSearch.setEnterpriseName(enterpriseName);
 	    }
 	}
 

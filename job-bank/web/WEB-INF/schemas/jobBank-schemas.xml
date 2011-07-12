@@ -64,6 +64,13 @@
 	<slot name="agreementName" key="label.enterprise.status"/>
 </schema>
 
+<schema name="jobBank.enterprise.view.all"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
+	<remove name="agreementNameForApproval" key="label.enterprise.status"/>
+	<slot name="agreementName" key="label.enterprise.status"/>
+</schema>
+
 <schema name="jobBank.enterprise.view.rejected"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise" extends="jobBank.enterprise.view.pendingRegister">
