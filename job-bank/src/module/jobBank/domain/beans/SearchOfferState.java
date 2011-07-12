@@ -48,6 +48,10 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 		&& offer.getEnterpriseName().getContent().toLowerCase().contains(getEnterprise().toLowerCase());
     }
 
+    private boolean isSatisfiedUser(JobOfferProcess proc) {
+	return proc.getCanManageJobProcess();
+    }
+
     private boolean isSatisfiedProcessNumber(JobOffer offer) {
 	return StringUtils.isEmpty(getProcessNumber())
 		|| offer.getJobOfferProcess().getProcessIdentification().contains(getProcessNumber());
@@ -99,7 +103,8 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 		JobOffer jobOffer = object.getJobOffer();
-		return isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer) && isSatisfiedEnterprise(jobOffer);
+		return isSatisfiedUser(object) && isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer)
+			&& isSatisfiedEnterprise(jobOffer);
 	    }
 	});
 	return jobOfferProcesses;
