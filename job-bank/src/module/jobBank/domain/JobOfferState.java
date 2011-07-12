@@ -27,6 +27,15 @@ public enum JobOfferState implements IPresentableEnum {
 	return type;
     }
 
+    public static JobOfferState getByLocalizedName(String pattern) {
+	for (JobOfferState jos : JobOfferState.values()) {
+	    if (jos.getLocalizedName().equals(pattern)) {
+		return jos;
+	    }
+	}
+	return null;
+    }
+
     @Override
     public String getLocalizedName() {
 	return BundleUtil.getStringFromResourceBundle(bundle, nameKey);

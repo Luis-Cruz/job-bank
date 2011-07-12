@@ -9,6 +9,7 @@ import module.jobBank.domain.EmailValidation;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.JobOfferState;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.activity.EnterpriseInformation;
@@ -25,6 +26,7 @@ import myorg.domain.util.ByteArray;
 import myorg.presentationTier.actions.ContextBaseAction;
 import myorg.util.VariantBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -150,9 +152,17 @@ public class EnterpriseAction extends ContextBaseAction {
 	SearchOfferState offerSearch = getRenderedObject("offerSearch");
 	if (offerSearch == null) {
 	    offerSearch = new SearchOfferState();
+
+	    String offerState = request.getParameter("offerState");
+	    if (offerState != null && JobOfferState.getByLocalizedName(offerState) != null) {
+		offerSearch.setJobOfferState(JobOfferState.getByLocalizedName(offerState));
+		final String pageParameter = request.getParameter("pageNumber");
+		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
+		request.setAttribute("pageNumber", page);
+	    }
 	}
 
-	int resultsPerPage = 50;
+	int resultsPerPage = 25;
 	RenderUtils.invalidateViewState();
 	Set<JobOfferProcess> processes = offerSearch.search();
 	offerSearch.setProcessesCount(processes.size());
