@@ -227,6 +227,9 @@
 	<slot name="enterpriseBean.contactPerson" key="label.enterprise.contactPerson"/>  	
 </schema>
 
+<schema name="jobBank.activityInformation.EditEnterpriseByNPEActivity" type="module.jobBank.domain.activity.EnterpriseInformation"  bundle="JOB_BANK_RESOURCES" extends="jobBank.activityInformation.EditEnterpriseActivity">
+</schema>
+
 <schema name="jobBank.activityInformation.ViewCandidatesToJobOfferActivity" type="module.workflow.activities.ActivityInformation"  bundle="JOB_BANK_RESOURCES">
 	<slot name="process.enterprise.activeAccountabilityType.name.content" key="label.enterprise.accountabilityType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="area">
 		<property name="size" value="50" />

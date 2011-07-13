@@ -16,6 +16,10 @@ enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityTyp
 class task.CreateBootstrapJobBankTask extends .myorg.domain.scheduler.Task {
 }
 
+class task.UpdateExpiredEnterpriseAgreementsTask extends .myorg.domain.scheduler.Task {
+}
+
+
 class JobBankSystem { 
 	String urlEmailValidation;
 }

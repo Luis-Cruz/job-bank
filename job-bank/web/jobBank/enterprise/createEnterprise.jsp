@@ -40,10 +40,12 @@
 		<fr:slot name="designation" key="label.enterprise.designation" layout="area">  
 			<fr:property name="columns" value="60" />
 			<fr:property name="rows" value="6" />
+			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
 		</fr:slot>
 		<fr:slot name="summary" key="label.enterprise.summary"  layout="area">  
 			<fr:property name="columns" value="60" />
 			<fr:property name="rows" value="6" />
+			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
 		</fr:slot>
 	</fr:schema>
 		<fr:layout name="tabular">

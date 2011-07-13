@@ -8,13 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
-import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankSystem;
-import module.jobBank.domain.JobOfferProcess;
-import module.jobBank.domain.JobOfferState;
-import module.jobBank.domain.beans.SearchEnterprise;
-import module.jobBank.domain.beans.SearchOfferState;
-import module.jobBank.domain.utils.Utils;
+import module.jobBank.domain.activity.EnterpriseInformation;
 import module.organization.domain.OrganizationalModel;
 import module.organization.presentationTier.actions.OrganizationModelAction.OrganizationalModelChart;
 import module.workflow.presentationTier.actions.ProcessManagement;
@@ -22,12 +17,10 @@ import myorg.domain.MyOrg;
 import myorg.presentationTier.actions.ContextBaseAction;
 import myorg.util.VariantBean;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/backOffice")
@@ -35,74 +28,15 @@ public class BackOfficeAction extends ContextBaseAction {
 
     public ActionForward jobOffers(final ActionMapping mapping, final ActionForm foStudentrm, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-
-	SearchOfferState offerSearch = getRenderedObject("offerSearch");
-	if (offerSearch == null) {
-	    offerSearch = new SearchOfferState();
-
-	    String offerState = request.getParameter("offerState");
-	    String enterprise = request.getParameter("enterprise");
-	    String processNumber = request.getParameter("processNumber");
-
-	    if (offerState != null && JobOfferState.getByLocalizedName(offerState) != null) {
-		offerSearch.setJobOfferState(JobOfferState.getByLocalizedName(offerState));
-		final String pageParameter = request.getParameter("pageNumber");
-		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
-		request.setAttribute("pageNumber", page);
-	    }
-
-	    if (enterprise != null) {
-		offerSearch.setEnterprise(enterprise);
-	    }
-
-	    if (processNumber != null) {
-		offerSearch.setProcessNumber(processNumber);
-	    }
-	}
-
-	int resultsPerPage = 25;
-	RenderUtils.invalidateViewState();
-	Set<JobOfferProcess> processes = offerSearch.search();
-	offerSearch.setProcessesCount(processes.size());
-
-	request.setAttribute("offerSearch", offerSearch);
-	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
-
-	RenderUtils.invalidateViewState();
+	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+	commons.processJobOffersSearch(request);
 	return forward(request, "/jobBank/backOffice/jobOffers.jsp");
     }
 
     public ActionForward enterprises(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-
-	SearchEnterprise enterpriseSearch = getRenderedObject("enterpriseSearch");
-	if (enterpriseSearch == null) {
-	    enterpriseSearch = new SearchEnterprise();
-
-	    String enterpriseState = request.getParameter("enterpriseState");
-	    String enterpriseName = request.getParameter("enterpriseName");
-
-	    if (enterpriseState != null && EnterpriseStateType.getByLocalizedName(enterpriseState) != null) {
-		enterpriseSearch.setEnterpriseState(EnterpriseStateType.getByLocalizedName(enterpriseState));
-		final String pageParameter = request.getParameter("pageNumber");
-		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
-		request.setAttribute("pageNumber", page);
-	    }
-
-	    if (enterpriseName != null) {
-		enterpriseSearch.setEnterpriseName(enterpriseName);
-	    }
-	}
-
-	int resultsPerPage = 25;
-	RenderUtils.invalidateViewState();
-	Set<Enterprise> processes = enterpriseSearch.search();
-	enterpriseSearch.setEnterprisesCount(processes.size());
-
-	request.setAttribute("enterpriseSearch", enterpriseSearch);
-	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
-
-	RenderUtils.invalidateViewState();
+	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+	commons.processEnterprisesSearch(request);
 	return forward(request, "/jobBank/backOffice/enterprises.jsp");
     }
 
@@ -124,6 +58,12 @@ public class BackOfficeAction extends ContextBaseAction {
 	Enterprise enterprise = getDomainObject(request, "enterpriseOID");
 	enterprise.reject();
 	return enterprises(mapping, form, request, response);
+    }
+
+    public ActionForward processEditEnterprise(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	EnterpriseInformation information = getRenderedObject("activityBean");
+	return ProcessManagement.forwardToActivity(information.getProcess(), information.getActivity());
     }
 
     /* Configuration */

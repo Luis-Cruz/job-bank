@@ -126,6 +126,16 @@ public class Enterprise extends Enterprise_Base {
     }
 
     @Service
+    public void renewAndChangeToBasicAgreement() {
+	if (!hasActiveAccountability()) {
+	    LocalDate now = new LocalDate();
+	    Unit rootUnit = getJobBankSystem().getTopLevelUnit();
+	    AccountabilityType basicAccountability = JobBankAccountabilityType.JOB_PROVIDER.readAccountabilityType();
+	    rootUnit.addChild(getUnit(), basicAccountability, now, now.plusYears(VALID_CONTRACT));
+	}
+    }
+
+    @Service
     public void renewContract() {
 	changeAgreement(getActiveAccountabilityType());
     }
@@ -414,6 +424,19 @@ public class Enterprise extends Enterprise_Base {
 		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 
+    }
+
+    public boolean expiresIn(int months) {
+	if (hasActiveAccountability()) {
+	    LocalDate now = new LocalDate();
+	    LocalDate nowPlusAMonth = now.plusMonths(months);
+
+	    if (getActiveAccountability().getEndDate().equals(nowPlusAMonth)) {
+		return true;
+	    }
+	}
+
+	return false;
     }
 
 }

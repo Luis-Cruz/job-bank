@@ -15,57 +15,13 @@
 	</div>
 </logic:messagesPresent>
 
-<fr:form action="/enterprise.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
+<fr:form action="/backOffice.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
 	<html:hidden property="activity" value="<%=activityName.toString()%>"/>
 	<html:hidden property="processId" value="<%=processOID.toString()%>"/>
 	
-	<h3><bean:message key="label.enterprise.createEnterprise.dataAccess" bundle="JOB_BANK_RESOURCES"/></h3> 
-	
-	<fr:edit id="activityBean" name="information">
-		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
-			
-			<fr:slot name="enterpriseBean.password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
-			
-			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>
-			
-			<logic:equal name="information" property="badConfirmation" value="true">
-						<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
-			</logic:equal>
-					
-		</fr:schema>
-		<fr:layout name="tabular">
-			<fr:property name="classes" value="thwidth150px"/> 
-			<fr:property name="requiredMarkShown" value="true" />
-		</fr:layout>
-	</fr:edit>
-	
-	<logic:equal name="information" property="requestOldPassword" value="true">
-		<p><p>
-		<fr:edit id="activityBean3" name="information">
-			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
-				
-					<fr:slot name="oldPassword" key="label.enterprise.old.password" layout="password"/>  
-					
-					<logic:equal name="information" property="badOldPassword" value="true">
-						<span class="error0"><bean:message key="message.error.bad.old.password" bundle="JOB_BANK_RESOURCES"/></span>
-					</logic:equal>
-					<logic:equal name="information" property="badOldPassword" value="false">
-						<span class="error0"><bean:message key="message.error.need.old.password" bundle="JOB_BANK_RESOURCES"/></span>
-					</logic:equal>
-				
-		
-			</fr:schema>
-			<fr:layout name="tabular">
-				<fr:property name="classes" value="thwidth150px"/> 
-				<fr:property name="requiredMarkShown" value="true" />
-			</fr:layout>
-		</fr:edit>
-	</logic:equal>
-	
-	
 	<h3><bean:message key="label.enterprise.createEnterprise.enterprise" bundle="JOB_BANK_RESOURCES"/></h3>
 	
-	<fr:edit id="activityBean2" name="information" >
+	<fr:edit id="activityBean" name="information" >
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">	
 		<fr:slot name="enterpriseBean.logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
 			<fr:property name="fileNameSlot" value="enterpriseBean.logoFilename" />
@@ -133,7 +89,7 @@
 		</th>
 		<th>
 			<td>
-				<fr:form action="/enterprise.do?method=enterprise">
+				<fr:form action='<%="/backOffice.do?method=Enterprise&OID="+processOID %>'>
 					<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
 				</fr:form>
 			</td>

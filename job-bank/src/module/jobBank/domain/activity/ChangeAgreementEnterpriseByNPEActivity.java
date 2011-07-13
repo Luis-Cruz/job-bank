@@ -24,7 +24,7 @@ public class ChangeAgreementEnterpriseByNPEActivity extends WorkflowActivity<Ent
     public boolean isActive(EnterpriseProcess process, User user) {
 	Enterprise enterprise = process.getEnterprise();
 	return JobBankSystem.getInstance().isNPEMember(user) && !enterprise.isPendingAgreementToApprove()
-		&& !enterprise.hasAgreementForApproval();
+		&& !enterprise.hasAgreementForApproval() && !enterprise.isDisable();
 
     }
 

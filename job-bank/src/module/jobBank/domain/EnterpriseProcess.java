@@ -11,6 +11,7 @@ import module.jobBank.domain.activity.ApproveOrRejectEnterpriseChangeAgreementAc
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EditEnterpriseActivity;
+import module.jobBank.domain.activity.EditEnterpriseByNPEActivity;
 import module.jobBank.domain.activity.EnterpriseDisableActivity;
 import module.jobBank.domain.activity.EnterpriseEnableActivity;
 import module.jobBank.domain.utils.IPredicate;
@@ -37,6 +38,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	// NPE Only
 	// (enterprise)
 	activitiesAux.add(new ApproveOrRejectEnterpriseActivity());
+	activitiesAux.add(new EditEnterpriseByNPEActivity());
 
 	// (agreements)
 	activitiesAux.add(new ApproveOrRejectEnterpriseChangeAgreementActivity());
