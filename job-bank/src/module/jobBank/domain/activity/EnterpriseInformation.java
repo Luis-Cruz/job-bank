@@ -3,9 +3,11 @@ package module.jobBank.domain.activity;
 import java.io.InputStream;
 
 import module.jobBank.domain.EnterpriseProcess;
+import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
+import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 
@@ -22,10 +24,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
     private final String realOldPassword;
 
     private boolean requestOldPassword;
-
-    private boolean badOldPassword;
-
-    private boolean badConfirmation;
 
     public String getLogoDisplayName() {
 	return logoDisplayName;
@@ -45,55 +43,41 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	super(process, activity);
 	setEnterpriseBean(new EnterpriseBean(process.getEnterprise()));
 	this.realOldPassword = process.getEnterprise().getUser().getPassword();
-	setBadConfirmation(false);
-	cleanPasswordChangeData();
+	cleanOldPasswordField();
+	setRequestOldPassword(false);
+	setOldPassword("");
     }
 
     @Override
     public boolean hasAllneededInfo() {
-	return isPasswordChangeValid() && isForwardedFromInput();
+	return isForwardedFromInput();
     }
 
-    private boolean isPasswordChangeValid() {
-	return isPasswordConfirmationValid() && isOldPasswordValid();
+    public void checkPasswords() {
+	enterpriseBean.checkPassword();
+	checkOldPassword();
     }
 
-    private boolean isOldPasswordValid() {
-	if(!enterpriseBean.getPassword().equals(getRealOldPassword()) && getOldPassword().isEmpty()) {
-	    setRequestOldPassword(true);
+    private void checkOldPassword() {
+	if (!enterpriseBean.getPassword().equals(getRealOldPassword()) && getOldPassword().isEmpty()) {
 	    cleanOldPasswordField();
-	    return false;
+	    throw new DomainException("message.error.need.old.password",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	} else if (!enterpriseBean.getPassword().equals(getRealOldPassword()) && !getOldPassword().equals(getRealOldPassword())) {
-	    setBadOldPassword(true);
 	    cleanOldPasswordField();
-	    return false;
+	    throw new DomainException("message.error.bad.old.password",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
-
-	cleanPasswordChangeData();
-
-	return true;
-    }
-
-    private void cleanPasswordChangeData() {
 	setRequestOldPassword(false);
-	setBadOldPassword(false);
-	cleanOldPasswordField();
     }
+
 
     private void cleanOldPasswordField() {
+	setRequestOldPassword(true);
 	setOldPassword("");
 	RenderUtils.invalidateViewState();
     }
 
-    private boolean isPasswordConfirmationValid() {
-	if (!enterpriseBean.getPassword().equals(enterpriseBean.getRepeatPassword())) {
-	    setBadConfirmation(true);
-	    return false;
-	}
-
-	setBadConfirmation(false);
-	return true;
-    }
 
     public EnterpriseBean getEnterpriseBean() {
 	return enterpriseBean;
@@ -124,24 +108,8 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	return oldPassword;
     }
 
-    public void setBadOldPassword(boolean badOldPassword) {
-	this.badOldPassword = badOldPassword;
-    }
-
-    public boolean isBadOldPassword() {
-	return badOldPassword;
-    }
-
     public String getRealOldPassword() {
 	return realOldPassword;
-    }
-
-    public void setBadConfirmation(boolean badConfirmation) {
-	this.badConfirmation = badConfirmation;
-    }
-
-    public boolean isBadConfirmation() {
-	return badConfirmation;
     }
 
 }

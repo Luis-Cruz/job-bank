@@ -251,6 +251,22 @@ public class Enterprise extends Enterprise_Base {
 	return null;
     }
 
+    public AccountabilityType getLastAccountabilityType() {
+	Integer mostRecent = null;
+	Accountability ret = null;
+
+	for (Accountability accountability : getUnit().getParentAccountabilities()) {
+	    if (mostRecent == null) {
+		mostRecent = accountability.getIdInternal();
+		ret = accountability;
+	    } else if (accountability.getIdInternal() > mostRecent) {
+		mostRecent = accountability.getIdInternal();
+		ret = accountability;
+	    }
+	}
+	return ret.getAccountabilityType();
+    }
+
     public AccountabilityType getActiveAccountabilityType() {
 	if (hasActiveAccountability())
 	    return getActiveAccountability().getAccountabilityType();
@@ -429,9 +445,9 @@ public class Enterprise extends Enterprise_Base {
     public boolean expiresIn(int months) {
 	if (hasActiveAccountability()) {
 	    LocalDate now = new LocalDate();
-	    LocalDate nowPlusAMonth = now.plusMonths(months);
+	    LocalDate nowPlusMonths = now.plusMonths(months);
 
-	    if (getActiveAccountability().getEndDate().equals(nowPlusAMonth)) {
+	    if (getActiveAccountability().getEndDate() != null && getActiveAccountability().getEndDate().isEqual(nowPlusMonths)) {
 		return true;
 	    }
 	}

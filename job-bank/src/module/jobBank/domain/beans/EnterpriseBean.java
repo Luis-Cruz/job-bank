@@ -244,7 +244,7 @@ public class EnterpriseBean implements Serializable {
 	return getLogoInputStream() != null;
     }
 
-    private void checkPassword() {
+    public void checkPassword() {
 	if (!getPassword().equals(getRepeatPassword())) {
 	    throw new DomainException("error.enterprise.password.mismatch",
 		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));

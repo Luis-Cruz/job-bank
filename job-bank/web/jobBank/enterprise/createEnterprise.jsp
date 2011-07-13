@@ -27,6 +27,7 @@
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 
 			<fr:property name="requiredMarkShown" value="true" />
+			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
 	<h3><bean:message key="label.enterprise.createEnterprise.enterprise" bundle="JOB_BANK_RESOURCES"/></h3>
@@ -62,6 +63,7 @@
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 
 			<fr:property name="requiredMarkShown" value="true" />
+			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 

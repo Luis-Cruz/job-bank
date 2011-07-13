@@ -8,27 +8,27 @@ import java.util.StringTokenizer;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobBankAccountabilityType;
 import module.jobBank.domain.JobBankSystem;
-import module.organization.domain.AccountabilityType;
 import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 
 public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpriseAgreementsTask_Base {
     
-    private final int months;
+    private int months;
 
     public  UpdateExpiredEnterpriseAgreementsTask() {
         super();
-	this.months = 1;
     }
     
     @Override
     public void executeTask() {
 
+	this.months = 1;
+
 	List<Enterprise> enterprises = JobBankSystem.getInstance().getEnterprises();
 
 	for (Enterprise enterprise : enterprises) {
-	    if (!enterprise.isCanceled() && !enterprise.isDisable()) {
+	    if (!enterprise.isCanceled() && !enterprise.isDisable() && !enterprise.isPendingAgreementToApprove()) {
 
 		// Send a warning Email
 		if (enterprise.expiresIn(months) && enterprise.isJobProviderWithPrivilegesAgreement()) {
@@ -37,7 +37,8 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 
 		// Send an expired Email
 		else if (!enterprise.hasActiveAccountability()) {
-		    AccountabilityType previousAccountability = enterprise.getActiveAccountabilityType();
+		    JobBankAccountabilityType previousAccountability = JobBankAccountabilityType
+			    .readAccountabilityType(enterprise.getLastAccountabilityType());
 		    enterprise.renewAndChangeToBasicAgreement();
 
 		    if (previousAccountability.equals(JobBankAccountabilityType.JOB_PROVIDER_WITH_PRIVILEGES)) {
@@ -52,7 +53,7 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 	sendEmail(enterprise, getWarningEmailSubject(), buildWarningEmailBody(enterprise));
     }
 
-    private void sendExpiredEmail(Enterprise enterprise, AccountabilityType previousAccountability) {
+    private void sendExpiredEmail(Enterprise enterprise, JobBankAccountabilityType previousAccountability) {
 	sendEmail(enterprise, getRejectedEmailSubject(), buildRejectedEmailBody(enterprise, previousAccountability));
     }
 
@@ -64,10 +65,18 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, emailSubject, buildBody);
     }
 
-    private String buildRejectedEmailBody(Enterprise enterprise, AccountabilityType previousAccountability) {
+    private String buildRejectedEmailBody(Enterprise enterprise, JobBankAccountabilityType previousAccountability) {
 	StringBuilder body = new StringBuilder();
 	body.append(enterprise.getName());
 	body.append(getRejectedBody(enterprise, previousAccountability));
+	body.append(getSignature());
+	return body.toString();
+    }
+
+    private String buildWarningEmailBody(Enterprise enterprise) {
+	StringBuilder body = new StringBuilder();
+	body.append(enterprise.getName());
+	body.append(buildWarningBody(enterprise));
 	body.append(getSignature());
 	return body.toString();
     }
@@ -81,17 +90,17 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 	return getMessageFromBundle(bundle);
     }
 
-    private Object getRejectedBody(Enterprise enterprise, AccountabilityType previousAccountability) {
+    private Object getRejectedBody(Enterprise enterprise, JobBankAccountabilityType previousAccountability) {
 	String bundle = "message.jobbank.enterprise.renew.to.basic.agreement.email.body";
 
 	String message = (String) getMessageFromBundle(bundle);
 	StringTokenizer tokens = new StringTokenizer(message, "\"");
 
-	return tokens.nextToken() + "\"" + previousAccountability + "\"" + tokens.nextToken() + " "
-		+ enterprise.getActiveAccountabilityType().getName();
+	return tokens.nextToken() + "\"" + previousAccountability.getLocalizedName() + "\"" + tokens.nextToken() + " \""
+		+ enterprise.getActiveAccountabilityType().getName() + "\"";
     }
 
-    private String buildWarningEmailBody(Enterprise enterprise) {
+    private String buildWarningBody(Enterprise enterprise) {
 	String bundle = "message.jobbank.enterprise.warning.expired.agreement.email.body";
 
 	String message = (String) getMessageFromBundle(bundle);

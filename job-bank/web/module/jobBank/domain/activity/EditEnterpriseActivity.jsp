@@ -7,13 +7,6 @@
 <bean:define id="processOID" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
 
-<logic:messagesPresent property="message" message="true">
-	<div class="error1">
-		<html:messages id="errorMessage" property="message" message="true"> 
-			<span><fr:view name="errorMessage"/></span>
-		</html:messages>
-	</div>
-</logic:messagesPresent>
 
 <fr:form action="/enterprise.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
 	<html:hidden property="activity" value="<%=activityName.toString()%>"/>
@@ -27,15 +20,12 @@
 			<fr:slot name="enterpriseBean.password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
 			
 			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>
-			
-			<logic:equal name="information" property="badConfirmation" value="true">
-				<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
-			</logic:equal>
 					
 		</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 
 			<fr:property name="requiredMarkShown" value="true" />
+			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
 	
@@ -44,20 +34,13 @@
 		<fr:edit id="activityBean3" name="information">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 				
-					<fr:slot name="oldPassword" key="label.enterprise.old.password" layout="password"/>  
+					<fr:slot name="oldPassword" key="label.enterprise.old.password" layout="password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
 					
-					<logic:equal name="information" property="badOldPassword" value="true">
-						<span class="error0"><bean:message key="message.error.bad.old.password" bundle="JOB_BANK_RESOURCES"/></span>
-					</logic:equal>
-					<logic:equal name="information" property="badOldPassword" value="false">
-						<span class="error0"><bean:message key="message.error.need.old.password" bundle="JOB_BANK_RESOURCES"/></span>
-					</logic:equal>
-				
-		
 			</fr:schema>
 			<fr:layout name="tabular">
 				<fr:property name="classes" value="thwidth150px"/> 
 				<fr:property name="requiredMarkShown" value="true" />
+				<fr:property name="requiredMessageShown" value="false" />
 			</fr:layout>
 		</fr:edit>
 	</logic:equal>
@@ -98,6 +81,7 @@
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 
 			<fr:property name="requiredMarkShown" value="true" />
+			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 

@@ -18,6 +18,7 @@ public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, 
 
     @Override
     protected void process(EnterpriseInformation activityInformation) {
+	activityInformation.checkPasswords();
 	activityInformation.getProcess().getEnterprise().edit(activityInformation.getEnterpriseBean());
     }
 
