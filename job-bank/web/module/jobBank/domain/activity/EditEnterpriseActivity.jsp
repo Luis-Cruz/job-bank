@@ -29,7 +29,7 @@
 			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>
 			
 			<logic:equal name="information" property="badConfirmation" value="true">
-						<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
+				<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
 			</logic:equal>
 					
 		</fr:schema>

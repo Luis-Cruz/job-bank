@@ -5,7 +5,12 @@
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createEnterprise"/></h2>
-<p class="mbottom20px">Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis.</p> 
+<p class="mbottom20px">Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis.</p>
+
+<logic:present name="passwordsDoNotMatch">
+	<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
+</logic:present>
+
 <fr:form action="/enterprise.do?method=createEnterprise" encoding="multipart/form-data"> 
 	<h3><bean:message key="label.enterprise.createEnterprise.dataAccess" bundle="JOB_BANK_RESOURCES"/></h3> 
 	<fr:edit id="enterpriseBean" name="enterpriseBean" >

@@ -108,6 +108,12 @@ public class EnterpriseAction extends ContextBaseAction {
     public ActionForward createEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	EnterpriseBean bean = getRenderedObject("enterpriseBean");
+
+	if (!bean.getPassword().equals(bean.getRepeatPassword())) {
+	    request.setAttribute("passwordsDoNotMatch", true);
+	    return prepareToCreateEnterprise(mapping, form, request, response);
+	}
+
 	Enterprise enterprise = bean.create();
 	request.setAttribute("enterprise", enterprise);
 	return forward(request, "/jobBank/enterprise/viewCredentialsEnterprise.jsp");
