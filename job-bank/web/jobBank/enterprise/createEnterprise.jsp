@@ -7,9 +7,15 @@
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createEnterprise"/></h2>
 <p class="mbottom20px">Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis.</p>
 
-<logic:present name="passwordsDoNotMatch">
-	<span class="error0"><bean:message key="message.error.bad.password.confirmation" bundle="JOB_BANK_RESOURCES"/></span>
-</logic:present>
+
+
+<logic:messagesPresent property="message" message="true">
+	<div class="error1">
+		<html:messages id="errorMessage" property="message" message="true"> 
+			<span><fr:view name="errorMessage"/></span>
+		</html:messages>
+	</div>
+</logic:messagesPresent>
 
 <fr:form action="/enterprise.do?method=createEnterprise" encoding="multipart/form-data"> 
 	<h3><bean:message key="label.enterprise.createEnterprise.dataAccess" bundle="JOB_BANK_RESOURCES"/></h3> 

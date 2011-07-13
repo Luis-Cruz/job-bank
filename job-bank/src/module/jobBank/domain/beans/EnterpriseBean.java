@@ -7,6 +7,7 @@ import module.jobBank.domain.EmailValidation;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.JobBankAccountabilityType;
+import module.jobBank.domain.JobBankSystem;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 import myorg.util.InputStreamUtil;
@@ -245,7 +246,8 @@ public class EnterpriseBean implements Serializable {
 
     private void checkPassword() {
 	if (!getPassword().equals(getRepeatPassword())) {
-	    throw new DomainException("error.enterprise.password.mismatch");
+	    throw new DomainException("error.enterprise.password.mismatch",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
     }
 
