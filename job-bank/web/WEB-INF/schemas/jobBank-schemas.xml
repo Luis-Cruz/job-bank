@@ -107,7 +107,7 @@
 		<property name="defaultOptionHidden" value="true"/>
 	</slot>
 	<slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
-		<property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
+		<property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 		<property name="eachLayout" value="values" />
 		<property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
 		<property name="sortBy" value="presentatioName=asc"/>

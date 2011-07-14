@@ -196,10 +196,11 @@ public class EnterpriseAction extends ContextBaseAction {
 	SearchStudents search = getRenderedObject("searchStudents");
 	if (search == null) {
 	    search = new SearchStudents();
+	} else {
+	    request.setAttribute("results", search.search());
 	}
 
 	request.setAttribute("searchStudents", search);
-	request.setAttribute("results", search.search());
 	return forward(request, "/jobBank/enterprise/searchStudents.jsp");
     }
 

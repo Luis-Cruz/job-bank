@@ -13,21 +13,21 @@ import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
 
 public class Degree {
     @Service
-    public static Set<RemoteDegree> readRemoteDegreesSet() {
+    public static Set<RemoteDegree> readRemoteBolonhaDegreesSet() {
 	JobBankSystem.getInstance();
 	RemoteHost remoteHost = JobBankSystem.readRemoteHost();
 	Collection<RemoteDegree> col = RemoteAdministrativeOffice.readDegreeAdministrativeOffice(remoteHost)
-		.getAdministratedDegrees();
+		.getAdministratedBolonhaDegrees();
 	return new HashSet<RemoteDegree>(col);
     }
 
     @Service
     public static List<RemoteDegree> readRemoteDegrees() {
-	return new ArrayList<RemoteDegree>(readRemoteDegreesSet());
+	return new ArrayList<RemoteDegree>(readRemoteBolonhaDegreesSet());
     }
 
     public static Boolean Contains(RemoteDegree remoteDegree) {
-	return readRemoteDegreesSet().contains(remoteDegree);
+	return readRemoteBolonhaDegreesSet().contains(remoteDegree);
     }
 
 }

@@ -65,7 +65,7 @@
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 			</fr:slot>	
 			<fr:slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
-				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllDegreesProvider" />
+				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
 				<fr:property name="saveOptions" value="true" />

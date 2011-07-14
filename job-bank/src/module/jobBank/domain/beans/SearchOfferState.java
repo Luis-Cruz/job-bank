@@ -64,7 +64,7 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isJobOfferAll(JobOffer jobOffer) {
-	return getJobOfferState().equals(JobOfferState.ALL);
+	return getJobOfferState().equals(JobOfferState.ALL) && !jobOffer.isUnderConstruction();
     }
 
     private boolean isJobOfferUnderConstruction(JobOffer jobOffer) {

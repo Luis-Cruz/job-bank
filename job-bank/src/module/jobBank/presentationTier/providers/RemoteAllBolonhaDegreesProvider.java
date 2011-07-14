@@ -4,11 +4,11 @@ import module.jobBank.domain.Degree;
 import pt.ist.fenixWebFramework.renderers.DataProvider;
 import pt.ist.fenixWebFramework.renderers.components.converters.Converter;
 
-public class RemoteAllDegreesProvider implements DataProvider {
+public class RemoteAllBolonhaDegreesProvider implements DataProvider {
 
     @Override
     public Object provide(final Object source, final Object currentValue) {
-	return Degree.readRemoteDegreesSet();
+	return Degree.readRemoteBolonhaDegreesSet();
     }
 
     @Override

@@ -10,6 +10,7 @@ import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.activity.EnterpriseInformation;
+import module.jobBank.domain.beans.SearchStudents;
 import module.organization.domain.OrganizationalModel;
 import module.organization.presentationTier.actions.OrganizationModelAction.OrganizationalModelChart;
 import module.workflow.presentationTier.actions.ProcessManagement;
@@ -64,6 +65,19 @@ public class BackOfficeAction extends ContextBaseAction {
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	EnterpriseInformation information = getRenderedObject("activityBean");
 	return ProcessManagement.forwardToActivity(information.getProcess(), information.getActivity());
+    }
+
+    public ActionForward searchStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	SearchStudents search = getRenderedObject("searchStudents");
+	if (search == null) {
+	    search = new SearchStudents();
+	} else {
+	    request.setAttribute("results", search.search());
+	}
+
+	request.setAttribute("searchStudents", search);
+	return forward(request, "/jobBank/backOffice/searchStudents.jsp");
     }
 
     /* Configuration */
