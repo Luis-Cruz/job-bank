@@ -43,16 +43,19 @@ public class EmailValidation extends EmailValidation_Base {
 	return getExpiredDate().compareTo(now) > 0 ? false : true;
     }
 
+    public boolean isEmailAlreadyValidated(String checksum) {
+	return Enterprise.readEnterpriseByEmailLogin(getEmail()) != null;
+    }
+
     private void generateValidation(String emailToValidate) {
 	setExpiredDate(generateExpiredDate());
 	setChecksum(generateChecksum());
 	List<String> toAddress = new LinkedList<String>();
 	toAddress.add(emailToValidate);
 	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	new Email(virtualHost.getApplicationSubTitle().getContent(),
-		    virtualHost.getSystemEmailAddress(), new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
-		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-			"message.enterprise.emailValidation.subject"), getBody(getChecksum()));
+	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+		toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
+			JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.emailValidation.subject"), getBody(getChecksum()));
     }
 
     private String getBody(String checksum) {
@@ -61,13 +64,23 @@ public class EmailValidation extends EmailValidation_Base {
 		"message.enterprise.emailValidation.body")));
 	body.append(String.format("%s&checkEmail=%s&OID=%s", getJobBankSystem().getUrlEmailValidation(), checksum,
 		getExternalId()));
-	body.append(String.format("\n\n\n %s", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobBank.ist")));
+	body.append(String.format("\n\n\n %s",
+		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobBank.ist")));
 	return body.toString();
     }
 
     private DateTime generateExpiredDate() {
 	return new DateTime().plusMinutes(30);
+    }
+
+    public static EmailValidation getValidEmailValidationForEmail(String email) {
+	for (EmailValidation emailValidation : JobBankSystem.getInstance().getEmailValidations()) {
+	    if (emailValidation.getEmail() != null && emailValidation.getEmail().equalsIgnoreCase(email)
+		    && !emailValidation.isExpired()) {
+		return emailValidation;
+	    }
+	}
+	return null;
     }
 
 }

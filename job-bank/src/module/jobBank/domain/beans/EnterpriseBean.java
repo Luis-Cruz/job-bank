@@ -269,7 +269,8 @@ public class EnterpriseBean implements Serializable {
 
     @Service
     public EmailValidation createEmailValidation() {
-	return new EmailValidation(getLoginEmail());
+	EmailValidation emailValidation = EmailValidation.getValidEmailValidationForEmail(getLoginEmail());
+	return emailValidation == null ? new EmailValidation(getLoginEmail()) : emailValidation;
     }
 
     public void setContactEmail(String contactEmail) {

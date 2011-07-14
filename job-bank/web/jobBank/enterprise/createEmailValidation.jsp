@@ -6,6 +6,22 @@
 
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createEnterprise"/></h2>
+
+<logic:messagesPresent property="error" message="true">
+	<div class="error1">
+		<html:messages id="errorMessage" property="error" message="true" bundle="JOB_BANK_RESOURCES"> 
+			<span><fr:view name="errorMessage"/></span>
+		</html:messages>
+	</div>
+</logic:messagesPresent>
+<logic:messagesPresent property="message" message="true">
+	<div class="warning1">
+		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES"> 
+			<span><fr:view name="errorMessage"/></span>
+		</html:messages>
+	</div>
+</logic:messagesPresent>
+
 <logic:present name="enterpriseBean"> 
 	<logic:notPresent name="enterpriseBean" property="emailValidation">
 		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation"/>  
@@ -20,20 +36,6 @@
 			<fr:destination name="cancel" path="/jobBank.do?method=frontPage" />
 		</fr:edit>
 	</logic:notPresent>
-	
-	<logic:present name="enterpriseBean" property="emailValidation">
-		<logic:notPresent name="invalidRegistration">
-			<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation.valid"/>
-		</logic:notPresent>
-	</logic:present>
-	
 </logic:present>
-
-<logic:notPresent name="enterpriseBean">
-	<logic:equal name="invalidRegistration" value="true">
-		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation.invalid"/>
-	</logic:equal>
-</logic:notPresent>	
-
 
 

@@ -78,6 +78,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	EmailValidation emailToValidate = enterpriseBean.createEmailValidation();
 	enterpriseBean.setEmailValidation(emailToValidate);
 	request.setAttribute("enterpriseBean", enterpriseBean);
+	addMessage(request, "message.enterprise.emailValidation.valid");
 	return forward(request, "/jobBank/enterprise/createEmailValidation.jsp");
     }
 
@@ -249,14 +250,14 @@ public class EnterpriseAction extends ContextBaseAction {
 	    final HttpServletResponse response) {
 	String checksum = getAttribute(request, "checkEmail");
 	EmailValidation emailValidation = getDomainObject(request, "OID");
-	if (emailValidation == null) {
-	    request.setAttribute("invalidRegistration", true);
-	    return forward(request, "/jobBank/enterprise/createEmailValidation.jsp");
-	}
-	if (emailValidation.isValidChecksum(checksum)) {
+	if (emailValidation != null && emailValidation.isValidChecksum(checksum)) {
+	    if (emailValidation.isEmailAlreadyValidated(checksum)) {
+		addMessage(request, "error", "message.error.enterprise.email.already.registered", new String[] {});
+		return forward(request, "/jobBank/enterprise/createEmailValidation.jsp");
+	    }
 	    return prepareToCreateEnterprise(mapping, form, request, response);
 	}
-	request.setAttribute("invalidRegistration", true);
+	addMessage(request, "error", "message.enterprise.emailValidation.invalid", new String[] {});
 	return forward(request, "/jobBank/enterprise/createEmailValidation.jsp");
     }
 

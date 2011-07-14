@@ -22,6 +22,7 @@ import myorg.domain.util.ByteArray;
 import myorg.util.BundleUtil;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import pt.ist.emailNotifier.domain.Email;
@@ -81,10 +82,8 @@ public class Enterprise extends Enterprise_Base {
 	// Only get the first!! -> Registration
 	if (getUnit().getParentAccountabilities().size() == 1) {
 	    LocalDate now = new LocalDate();
-	   
 	    Accountability registerRequest = getActiveAccountability();
 	    registerRequest.editDates(registerRequest.getBeginDate(), now);
-	    
 	    if (getAgreementForApproval() != null) {
 		Unit rootUnit = getJobBankSystem().getTopLevelUnit();
 		rootUnit.addChild(getUnit(), getAgreementForApproval(), now, now.plusYears(VALID_CONTRACT));
@@ -121,7 +120,6 @@ public class Enterprise extends Enterprise_Base {
 	    rootUnit.addChild(getUnit(), accountabilityType, now, now.plusYears(VALID_CONTRACT));
 	    return true;
 	}
-	
 	return false;
     }
 
@@ -375,10 +373,10 @@ public class Enterprise extends Enterprise_Base {
 	    List<String> toAddress = new LinkedList<String>();
 	    toAddress.add(emailLogin);
 	    final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	    new Email(virtualHost.getApplicationSubTitle().getContent(),
-			    virtualHost.getSystemEmailAddress(), new String[] {}, toAddress, Collections.EMPTY_LIST,
-		    Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-			    "message.enterprise.recoverPassword"), getBodyEmailPasswordRecover(enterprise.getUser()));
+	    new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+		    toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
+			    JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword"),
+		    getBodyEmailPasswordRecover(enterprise.getUser()));
 	    return true;
 	}
 	return false;
@@ -391,8 +389,8 @@ public class Enterprise extends Enterprise_Base {
 	body += String.format("%s \n\nUser: %s \nNew Password: %s", BundleUtil.getFormattedStringFromResourceBundle(
 		JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword.body"), user.getUsername(), user
 		.getPassword());
-	body += String.format("\n\n\n %s", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobBank.ist"));
+	body += String.format("\n\n\n %s",
+		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobBank.ist"));
 	return body.toString();
     }
 
@@ -417,6 +415,7 @@ public class Enterprise extends Enterprise_Base {
 	unitBean.setAcronym(enterpriseBean.getName().getContent());
 	setUnit(Unit.create(unitBean));
 	createUser(enterpriseBean.getEmailValidation().getEmail());
+	enterpriseBean.getEmailValidation().setExpiredDate(new DateTime());
 	// Set basic agreement
 	enterpriseBean.setJobBankAccountabilityType(JobBankAccountabilityType.JOB_PROVIDER);
 	setForm(enterpriseBean);
@@ -432,12 +431,12 @@ public class Enterprise extends Enterprise_Base {
 
     private void checks(EnterpriseBean enterpriseBean) {
 	if (isLoginEmailAlreadyRegistered(enterpriseBean.getLoginEmail())) {
-	    throw new DomainException("message.error.enterprise.email.already.registered", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.enterprise.email.already.registered",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 	if (isNameAlreadyRegistered(enterpriseBean.getName().getContent())) {
-	    throw new DomainException("error.jobBank.enterprise.name.already.exists", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("error.jobBank.enterprise.name.already.exists",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 
     }
