@@ -9,15 +9,31 @@
 <%@page import="module.organization.domain.OrganizationalModel"%>
 <%@page import="myorg.domain.MyOrg"%>
 
+
 <bean:define id="enterprise" name="process" property="enterprise"/>
 <bean:define id="jobOfferProcesses" name="process" property="enterprise.jobOfferProcesses"/>
 <bean:define id="enterpriseId" name="enterprise" property="externalId"/>
 
-<logic:equal name="process" property="enterprise.pendingToApproval" value="true">
-	<div class="warning1">
-		<bean:message key="message.enterprise.pendingToApproval" bundle="JOB_BANK_RESOURCES"/>
-	</div>
+<logic:equal name="process" property="isEnterpriseMember" value="true">
+	<p><p><p><p>
+	
+	<logic:equal name="process" property="enterprise.pendingToApproval" value="true">
+		<div class="warning1">
+			<bean:message key="message.enterprise.pendingToApproval" bundle="JOB_BANK_RESOURCES"/>
+		</div>
+	</logic:equal>
+
+	<logic:equal name="process" property="enterprise.pendingToApproval" value="false">
+		<logic:present name="process" property="enterprise.agreementForApproval">
+			<div class="warning1">
+				<bean:message key="message.enterprise.agreement.change.request.made" bundle="JOB_BANK_RESOURCES"/>
+			</div>
+		</logic:present>
+	</logic:equal>
+	
+	<p><p>
 </logic:equal>
+
 
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.information"/>

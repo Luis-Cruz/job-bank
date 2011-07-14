@@ -90,6 +90,11 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	return JobBankSystem.getInstance().isEnterpriseActiveMember();
     }
 
+    public boolean getIsEnterpriseMember() {
+	User user = UserView.getCurrentUser();
+	return JobBankSystem.getInstance().isEnterpriseMember(user);
+    }
+
     @Override
     public <T extends WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> List<T> getActivities() {
 
