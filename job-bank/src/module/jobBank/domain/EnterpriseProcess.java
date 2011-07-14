@@ -30,11 +30,6 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	activitiesAux.add(new EditEnterpriseActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
 
-	// activitiesAux.add(new EnterpriseApprovalActivity());
-	// activitiesAux.add(new EnterpriseRejectActivity());
-	// activitiesAux.add(new EnterpriseRejectChangeAgreementActivity());
-	// activitiesAux.add(new EnterpriseApprovalChangeAgreementActivity());
-
 	// NPE Only
 	// (enterprise)
 	activitiesAux.add(new ApproveOrRejectEnterpriseActivity());

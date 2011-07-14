@@ -236,19 +236,6 @@
 		<property name="readOnly" value="true" />
 	</slot>
 </schema>
-<schema name="jobBank.activityInformation.EnterpriseRejectActivity" type="module.workflow.activities.ActivityInformation"  bundle="JOB_BANK_RESOURCES">
-	<slot name="message" key="label.enterprise.rejectMessage" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="longText">
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-</schema>
-<schema name="jobBank.activityInformation.EnterpriseApprovalActivity" type="module.workflow.activities.ActivityInformation"  bundle="JOB_BANK_RESOURCES">
-	<slot name="message" key="label.enterprise.rejectMessage" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="longText">
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
-</schema>
-
 
 
 <!-- End Activities  -->
