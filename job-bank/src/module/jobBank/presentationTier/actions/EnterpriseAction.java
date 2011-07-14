@@ -241,9 +241,13 @@ public class EnterpriseAction extends ContextBaseAction {
     public ActionForward passwordRecover(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	VariantBean email = getRenderedObject("passwordRecover");
-	boolean recoved = Enterprise.passwordRecover(email.getString());
-	request.setAttribute("passwordRecover", email);
-	request.setAttribute("recoved", recoved);
+	try {
+	    Enterprise.passwordRecover(email.getString());
+	    addMessage(request, "message.enterprise.recoverPassword.sucess", new String[] { email.getString() });
+	} catch (DomainException e) {
+	    addMessage(request, "error", e.getKey(), new String[] {});
+	    request.setAttribute("passwordRecover", email);
+	}
 	return forward(request, "/jobBank/enterprise/passwordRecover.jsp");
     }
 

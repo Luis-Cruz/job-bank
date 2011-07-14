@@ -364,7 +364,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     @Service
-    public static Boolean passwordRecover(String emailLogin) {
+    public static void passwordRecover(String emailLogin) {
 	Enterprise enterprise = Enterprise.readEnterpriseByEmailLogin(emailLogin);
 	if (enterprise != null) {
 	    final int lengthOfPassoword = 10;
@@ -377,9 +377,11 @@ public class Enterprise extends Enterprise_Base {
 		    toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
 			    JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword"),
 		    getBodyEmailPasswordRecover(enterprise.getUser()));
-	    return true;
+	    return;
 	}
-	return false;
+	throw new DomainException("message.error.enterprise.recoverPassword",
+		DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+
     }
 
     /* Private Methods */
