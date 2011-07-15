@@ -10,7 +10,6 @@ import module.jobBank.domain.utils.JobBankProcessStageState;
 import module.jobBank.domain.utils.Utils;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.exceptions.DomainException;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -170,7 +169,7 @@ public abstract class JobOffer extends JobOffer_Base {
 	setFunction(bean.getFunction());
 	setJobOfferType(bean.getJobOfferType());
 	setVacancies(bean.getVacancies());
-	setRemoteDegrees(bean.getRemoteDegrees());
+	setRemoteDegrees(bean.getDegrees());
 	setDescriptionOffer(bean.getDescriptionOffer());
 	setRequirements(bean.getRequirements());
 	setBeginDate(bean.getBeginDate());
@@ -194,10 +193,10 @@ public abstract class JobOffer extends JobOffer_Base {
 	setJobOfferProcess(new JobOfferProcess(this));
     }
 
-    public void setRemoteDegrees(List<RemoteDegree> remoteDegrees) {
-	getRemoteDegrees().clear();
-	for (RemoteDegree remoteDegree : remoteDegrees) {
-	    addRemoteDegrees(remoteDegree);
+    public void setRemoteDegrees(List<FenixDegree> degrees) {
+	getDegree().clear();
+	for (FenixDegree degree : degrees) {
+	    addDegree(degree);
 	}
     }
 

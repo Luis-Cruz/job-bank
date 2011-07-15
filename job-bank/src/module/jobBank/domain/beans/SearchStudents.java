@@ -3,6 +3,7 @@ package module.jobBank.domain.beans;
 import java.util.HashSet;
 import java.util.Set;
 
+import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.Person;
@@ -11,7 +12,7 @@ import net.sourceforge.fenixedu.domain.RemoteDegree;
 public class SearchStudents extends SearchUsers {
 
     private boolean registrationConclued;
-    private RemoteDegree degree;
+    private FenixDegree degree;
 
     public SearchStudents() {
 	super();
@@ -60,11 +61,11 @@ public class SearchStudents extends SearchUsers {
 	this.registrationConclued = completedDegree;
     }
 
-    public void setDegree(RemoteDegree degree) {
+    public void setDegree(FenixDegree degree) {
 	this.degree = degree;
     }
 
-    public RemoteDegree getDegree() {
+    public FenixDegree getDegree() {
 	return degree;
     }
 

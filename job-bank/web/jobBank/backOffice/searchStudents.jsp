@@ -19,8 +19,8 @@
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
-				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
-				<fr:property name="sortBy" value="presentationName=asc" />
+				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
+				<fr:property name="sortBy" value="name=asc" />
 			</fr:slot>
 			<fr:slot name="registrationConclued" key="label.enterprise.degree.concluded" />
 			

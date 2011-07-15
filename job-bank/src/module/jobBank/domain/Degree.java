@@ -29,5 +29,10 @@ public class Degree {
     public static Boolean Contains(RemoteDegree remoteDegree) {
 	return readRemoteBolonhaDegreesSet().contains(remoteDegree);
     }
+    
+    public static Set<FenixDegree> readActiveFenixDegreeSet() {
+	JobBankSystem jobBank = JobBankSystem.getInstance();
+	return jobBank.getActiveFenixDegreeSet();
+	}
 
 }

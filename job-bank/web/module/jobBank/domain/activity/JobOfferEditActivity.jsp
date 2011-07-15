@@ -69,13 +69,13 @@
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 			</fr:slot>	
 			
-			<fr:slot name="jobOfferBean.remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
+			<fr:slot name="jobOfferBean.degrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
-				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
+				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="saveOptions" value="true" />
 				<fr:property name="selectAllShown" value="true" />
-				<fr:property name="sortBy" value="presentationName=asc"/>
+				<fr:property name="sortBy" value="name=asc"/>
 			</fr:slot>
 		
 		<fr:destination name="cancel" path='<%="/workflowProcessManagement.do?method=viewProcess&processId=" + processOID%>'/>

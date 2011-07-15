@@ -1,6 +1,8 @@
 package module.jobBank.domain;
 
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +15,7 @@ import myorg.domain.MyOrg;
 import myorg.domain.RoleType;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
+import net.sourceforge.fenixedu.domain.RemoteDegree;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
@@ -64,6 +67,16 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return hasUser(user) && user.hasEnterprise();
     }
 
+    public Set<RemoteDegree> getRemoteDegreesFromLocalDegrees() {
+	Set<RemoteDegree> ret = new HashSet<RemoteDegree>();
+
+	for (FenixDegree degree : getFenixDegree()) {
+	    ret.add(degree.getRemoteDegree());
+	}
+
+	return ret;
+    }
+
     public boolean isManagementMember() {
 	User user = UserView.getCurrentUser();
 	return isManagementMember(user);
@@ -98,6 +111,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     @Override
     public void init(MyOrg root) {
 	RequestChecksumFilter.registerFilterRule(new ChecksumPredicate() {
+	    @Override
 	    public boolean shouldFilter(HttpServletRequest httpServletRequest) {
 		return !(httpServletRequest.getRequestURI().endsWith("/enterprise.do")
 			&& httpServletRequest.getQueryString() != null && httpServletRequest.getQueryString().contains(
@@ -167,6 +181,28 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     @Service
     public void setUrlEmailValidation(String urlEmailValidation) {
 	super.setUrlEmailValidation(urlEmailValidation);
+    }
+
+    public FenixDegree getFenixDegreeFor(RemoteDegree remote) {
+	for (FenixDegree degree : getFenixDegree()) {
+	    if (degree.getRemoteDegree().equals(remote)) {
+		return degree;
+	    }
+	}
+	return null;
+    }
+
+    public Set<FenixDegree> getActiveFenixDegreeSet() {
+	HashSet<FenixDegree> ret = new HashSet<FenixDegree>();
+	Set<FenixDegree> allDegrees = getFenixDegreeSet();
+
+	for (FenixDegree degree : allDegrees) {
+	    if (degree.getActive()) {
+		ret.add(degree);
+	    }
+	}
+
+	return ret;
     }
 
 }

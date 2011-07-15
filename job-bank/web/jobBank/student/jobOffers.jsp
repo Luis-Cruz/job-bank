@@ -15,12 +15,12 @@
 		<fr:schema bundle="JOB_BANK_RESOURCES"
 			type="module.jobBank.domain.beans.SearchOffer">
 			<fr:slot name="query" key="label.enterprise.jobOffer.query" />
-			<fr:slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="menu-select">
+			<fr:slot name="degrees" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 				<fr:property name="eachLayout" value="values"/>
 				<fr:property name="saveOptions" value="true"/>
-				<fr:property name="sortBy" value="presentationName=asc"/>
-				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
+				<fr:property name="sortBy" value="name=asc"/>
+				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 			</fr:slot>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
 				<fr:property name="defaultText" value="label.jobOffer.jobType.all" />

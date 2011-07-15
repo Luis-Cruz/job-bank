@@ -6,6 +6,7 @@ import java.util.List;
 
 import module.jobBank.domain.Degree;
 import module.jobBank.domain.Enterprise;
+import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferExternal;
 import module.jobBank.domain.JobOfferInternal;
@@ -13,7 +14,6 @@ import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.enums.CandidacyType;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -36,7 +36,7 @@ public class JobOfferBean implements Serializable {
     private MultiLanguageString descriptionOffer;
     private MultiLanguageString requirements;
     private JobOfferType jobOfferType;
-    private List<RemoteDegree> remoteDegrees;
+    private List<FenixDegree> degrees;
 
     private String externalLink;
     private CandidacyType candidacyType;
@@ -44,7 +44,9 @@ public class JobOfferBean implements Serializable {
     public JobOfferBean() {
 	setBasicFields();
 	setCandidacyType(CandidacyType.Internal);
-	setRemoteDegrees(Degree.readRemoteDegrees());
+	ArrayList<FenixDegree> degrees = new ArrayList<FenixDegree>();
+	degrees.addAll(Degree.readActiveFenixDegreeSet());
+	setDegrees(degrees);
 	// min
 	setVacancies(1);
     }
@@ -154,14 +156,6 @@ public class JobOfferBean implements Serializable {
 	return externalLink;
     }
 
-    public void setRemoteDegrees(List<RemoteDegree> remoteDegrees) {
-	this.remoteDegrees = new ArrayList(remoteDegrees);
-    }
-
-    public List<RemoteDegree> getRemoteDegrees() {
-	return remoteDegrees;
-    }
-
     @Service
     public JobOffer create() {
 	if (getCandidacyType() == null) {
@@ -187,7 +181,7 @@ public class JobOfferBean implements Serializable {
 	setPlace(jobOffer.getPlace());
 	setDescriptionOffer(jobOffer.getDescriptionOffer());
 	setRequirements(jobOffer.getRequirements());
-	setRemoteDegrees(jobOffer.getRemoteDegrees());
+	setDegrees(jobOffer.getDegree());
 	setJobOfferType(jobOffer.getJobOfferType());
     }
 
@@ -223,6 +217,14 @@ public class JobOfferBean implements Serializable {
 
     public String getReference() {
 	return reference;
+    }
+
+    public void setDegrees(List<FenixDegree> degrees) {
+	this.degrees = new ArrayList(degrees);
+    }
+
+    public List<FenixDegree> getDegrees() {
+	return degrees;
     }
 
 }

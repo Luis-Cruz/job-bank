@@ -170,10 +170,10 @@
 	
 </schema>
 
-<schema name="jobBank.enterprise.jobOffer.remoteDegree"
+<schema name="jobBank.enterprise.jobOffer.fenixDegree"
 	bundle="JOB_BANK_RESOURCES"
-	type="net.sourceforge.fenixedu.domain.RemoteDegree">
-	<slot name="presentationName" key="label.enterprise.jobOffer.remoteDegree.name" />	
+	type="module.jobBank.domain.FenixDegree">
+	<slot name="name" key="label.enterprise.jobOffer.remoteDegree.name" />	
 </schema>
 
 

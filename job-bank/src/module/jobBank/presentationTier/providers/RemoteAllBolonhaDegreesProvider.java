@@ -8,7 +8,7 @@ public class RemoteAllBolonhaDegreesProvider implements DataProvider {
 
     @Override
     public Object provide(final Object source, final Object currentValue) {
-	return Degree.readRemoteBolonhaDegreesSet();
+	return Degree.readActiveFenixDegreeSet();
     }
 
     @Override

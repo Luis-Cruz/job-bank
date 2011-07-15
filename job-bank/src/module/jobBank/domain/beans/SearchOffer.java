@@ -3,6 +3,7 @@ package module.jobBank.domain.beans;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferType;
@@ -11,7 +12,6 @@ import module.jobBank.domain.utils.Utils;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.util.Search;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -19,7 +19,7 @@ public class SearchOffer extends Search<JobOfferProcess> {
 
     private String query;
     private JobOfferType jobOfferType;
-    private RemoteDegree remoteDegree;
+    private FenixDegree degree;
 
     public SearchOffer() {
 	setQuery(StringUtils.EMPTY);
@@ -33,12 +33,12 @@ public class SearchOffer extends Search<JobOfferProcess> {
 	this.jobOfferType = jobOfferType;
     }
 
-    public void setRemoteDegrees(RemoteDegree remoteDegree) {
-	this.remoteDegree = remoteDegree;
+    public void setDegrees(FenixDegree degree) {
+	this.degree = degree;
     }
 
-    public RemoteDegree getRemoteDegrees() {
-	return remoteDegree;
+    public FenixDegree getDegrees() {
+	return degree;
     }
 
     @Override
@@ -102,7 +102,7 @@ public class SearchOffer extends Search<JobOfferProcess> {
     }
 
     private boolean isSatisfiedDegres(JobOffer offer) {
-	return getRemoteDegrees() == null || offer.getRemoteDegrees().equals(getRemoteDegrees());
+	return getDegrees() == null || offer.getDegree().equals(getDegrees());
     }
 
     private boolean match(String key, String value) {

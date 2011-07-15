@@ -40,11 +40,13 @@
 			<fr:slot name="function" key="label.enterprise.jobOffer.function" layout="area">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
 			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="area">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
@@ -64,13 +66,13 @@
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 			</fr:slot>	
-			<fr:slot name="remoteDegrees" key="label.enterprise.offer.degree" layout="option-select">
+			<fr:slot name="degrees" key="label.enterprise.offer.degree" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
-				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
+				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="saveOptions" value="true" />
 				<fr:property name="selectAllShown" value="true" />
-				<fr:property name="sortBy" value="presentationName=asc"/>
+				<fr:property name="sortBy" value="name=asc"/>
 			</fr:slot>
 		</fr:schema>
 		<fr:layout name="tabular"> 

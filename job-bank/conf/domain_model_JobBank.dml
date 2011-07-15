@@ -19,6 +19,9 @@ class task.CreateBootstrapJobBankTask extends .myorg.domain.scheduler.Task {
 class task.UpdateExpiredEnterpriseAgreementsTask extends .myorg.domain.scheduler.Task {
 }
 
+class task.CreateOrUpdateFenixDegreesTask extends .myorg.domain.scheduler.Task {
+}
+
 
 class JobBankSystem { 
 	String urlEmailValidation;
@@ -144,6 +147,11 @@ class EmailValidation{
 	String email;
 }
 
+class FenixDegree {
+	MultiLanguageString name;
+	boolean active;
+}
+
 class groups.NpeGroup extends .myorg.domain.groups.PersistentGroup {
 }
 
@@ -177,7 +185,12 @@ relation JobBankSystemWithEnterprise {
 		multiplicity *;
 	}
 }
-
+relation JobBankSystemWithFenixDegrees {
+	JobBankSystem playsRole jobBankSystem;
+	FenixDegree playsRole fenixDegree{
+		multiplicity *;
+	}
+}
 relation JobBankSystemWitJobOffer {
 	JobBankSystem playsRole jobBankSystem;
 	JobOffer playsRole JobOffers{
@@ -271,7 +284,7 @@ relation JobOfferWithRemoteDegree{
 	JobOffer playsRole {
  		multiplicity *;
 	}
-	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegrees{
+	FenixDegree playsRole degree{
 		multiplicity *;
 	}	
 }
@@ -313,6 +326,10 @@ relation StudentWithOfferCandidacy{
 relation StudentWithRemoteRegistration{
 	Student playsRole ;
 	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
+}
+relation FenixDegreeWithRemoteDegree{
+	FenixDegree playsRole ;
+	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegree;
 }
 relation CurriculumWithCurriculumProcess{
 	Curriculum playsRole curriculum;
