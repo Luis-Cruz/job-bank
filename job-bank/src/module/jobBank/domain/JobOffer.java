@@ -49,7 +49,7 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     public boolean isCanCreateOfferCandidacy() {
-	Student student = Student.readStudent(UserView.getCurrentUser());
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
 	if (student == null) {
 	    return false;
 	}
@@ -179,8 +179,8 @@ public abstract class JobOffer extends JobOffer_Base {
     @Override
     public void setVacancies(Integer vacancies) {
 	if (vacancies <= 0) {
-	    throw new DomainException("message.error.jobOffer.min.vacancies", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.jobOffer.min.vacancies",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 	super.setVacancies(vacancies);
     }
@@ -201,7 +201,7 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     public boolean canCreateOfferCandidacy() {
-	return OfferCandidacy.canCreateOfferCandidacy(Student.readCurrentStudent(), this);
+	return OfferCandidacy.canCreateOfferCandidacy(UserView.getCurrentUser().getPerson().getStudent(), this);
     }
 
     public int getTotalNumberCandidacies() {
@@ -250,12 +250,12 @@ public abstract class JobOffer extends JobOffer_Base {
 	}
 	int days = Days.daysBetween(bean.getBeginDate(), bean.getEndDate()).getDays();
 	if (days < getMinNumberActiveDaysOffer()) {
-	    throw new DomainException("message.error.jobOffer.min.active.days.offer", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES), getMinNumberActiveDaysOffer().toString());
+	    throw new DomainException("message.error.jobOffer.min.active.days.offer",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES), getMinNumberActiveDaysOffer().toString());
 	}
 	if (days > getMaxNumberActiveDaysOffer()) {
-	    throw new DomainException("message.error.jobOffer.max.active.days.offer", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES), getMaxNumberActiveDaysOffer().toString());
+	    throw new DomainException("message.error.jobOffer.max.active.days.offer",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES), getMaxNumberActiveDaysOffer().toString());
 	}
     }
 

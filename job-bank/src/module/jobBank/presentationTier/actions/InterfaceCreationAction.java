@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.groups.EnterpriseActiveGroup;
 import module.jobBank.domain.groups.EnterpriseGroup;
-import module.jobBank.domain.groups.FenixStudentGroup;
 import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.groups.StudentActiveGroup;
 import module.jobBank.domain.groups.StudentGroup;
@@ -56,10 +55,8 @@ public class InterfaceCreationAction extends ContextBaseAction {
 		"link.sideBar.jobBank.configuration", Role.getRole(RoleType.MANAGER));
 
 	/* Student */
-
-	final PersistentGroup fenixStudentGroup = FenixStudentGroup.getInstance();
-	final IntersectionGroup candidateStudentsToJobBank = IntersectionGroup.createIntersectionGroup(NegationGroup
-		.createNegationGroup(studentGroup), NegationGroup.createNegationGroup(npeGroup), fenixStudentGroup);
+	final IntersectionGroup candidateStudentsToJobBank = IntersectionGroup.createIntersectionGroup(
+		NegationGroup.createNegationGroup(studentActiveGroup), NegationGroup.createNegationGroup(npeGroup), studentGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "termsResponsibilityStudent",
 		"resources.JobBankResources", "link.sideBar.jobBank.createStudent", candidateStudentsToJobBank);
@@ -75,8 +72,8 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	/* Enterprise */
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "termsResponsibilityEnterprise",
-		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise", NegationGroup
-			.createNegationGroup(UserGroup.getInstance()));
+		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise",
+		NegationGroup.createNegationGroup(UserGroup.getInstance()));
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "enterprise", "resources.JobBankResources",
 		"link.sideBar.jobBank.enterprise", entrepriseGroup);

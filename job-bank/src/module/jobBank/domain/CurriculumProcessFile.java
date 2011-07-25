@@ -1,5 +1,6 @@
 package module.jobBank.domain;
 
+import myorg.applicationTier.Authenticate.UserView;
 import myorg.util.ClassNameBundle;
 
 @ClassNameBundle(bundle = "resources/JobBankResources")
@@ -14,7 +15,7 @@ public class CurriculumProcessFile extends CurriculumProcessFile_Base {
 
     @Override
     public boolean isPossibleToArchieve() {
-	Student student = Student.readCurrentStudent();
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
 	if (student != null && student.canRemoveFile(this)) {
 	    return true;
 	}

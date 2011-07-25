@@ -34,14 +34,15 @@ public class StudentAction extends ContextBaseAction {
 
     public ActionForward termsResponsibilityStudent(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
-	request.setAttribute("student", Student.readStudent(UserView.getCurrentUser()));
+	request.setAttribute("student", UserView.getCurrentUser().getPerson().getStudent());
 	return forward(request, "/jobBank/student/termsResponsibilityStudent.jsp");
     }
 
-    public ActionForward prepareToCreateStudent(final ActionMapping mapping, final ActionForm form,
+    public ActionForward acceptResponsibilityTerms(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	try {
-	    Student student = Student.createStudent(UserView.getCurrentUser());
+	    Student student = UserView.getCurrentUser().getPerson().getStudent();
+	    student.acceptTermsResponsibility();
 	    CurriculumProcess process = student.getCurriculum().getCurriculumProcess();
 	    return ProcessManagement.forwardToProcess(process);
 	} catch (DomainException e) {
@@ -51,9 +52,23 @@ public class StudentAction extends ContextBaseAction {
 
     }
 
+    public ActionForward prepareToCreateStudent(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	return null;
+	// try {
+	// Student student = Student.createStudent(UserView.getCurrentUser());
+	// CurriculumProcess process =
+	// student.getCurriculum().getCurriculumProcess();
+	// return ProcessManagement.forwardToProcess(process);
+	// } catch (DomainException e) {
+	// addLocalizedMessage(request, e.getLocalizedMessage());
+	// return forward(request, "/jobBank/frontPage.jsp");
+	// }
+    }
+
     public ActionForward personalArea(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-	Student student = Student.readStudent(UserView.getCurrentUser());
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
 	CurriculumProcess process = student.getCurriculum().getCurriculumProcess();
 	return ProcessManagement.forwardToProcess(process);
     }
@@ -96,7 +111,7 @@ public class StudentAction extends ContextBaseAction {
 	OfferCandidacyBean bean = getRenderedObject("offerCandidacyBean");
 	if (bean == null) {
 	    bean = new OfferCandidacyBean();
-	    bean.setStudent(Student.readStudent(UserView.getCurrentUser()));
+	    bean.setStudent(UserView.getCurrentUser().getPerson().getStudent());
 	} else {
 	    bean.addAttachFiles(bean.getProcessFile());
 	}
@@ -108,7 +123,7 @@ public class StudentAction extends ContextBaseAction {
     public ActionForward clearFilesToOfferCandidacy(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	OfferCandidacyBean bean = new OfferCandidacyBean();
-	bean.setStudent(Student.readStudent(UserView.getCurrentUser()));
+	bean.setStudent(UserView.getCurrentUser().getPerson().getStudent());
 	request.setAttribute("offerCandidacyBean", bean);
 	request.setAttribute("jobOfferProcess", getDomainObject(request, "OID"));
 	return forward(request, "/jobBank/student/attachFilesToOfferCandidacy.jsp");

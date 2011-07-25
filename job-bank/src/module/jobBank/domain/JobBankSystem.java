@@ -101,7 +101,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isStudentMember(User user) {
-	return Student.hasStudent(user);
+	return user != null && user.getPerson() != null && user.getPerson().getStudent() != null;
     }
 
     public boolean isActiveStudentMember(User user) {
@@ -152,8 +152,8 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     @Service
     public void addManagementUsers(User user) {
 	if (getManagementUsers().contains(user)) {
-	    throw new DomainException("message.error.user.was.added.to.management", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.user.was.added.to.management",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 	super.addManagementUsers(user);
     }
@@ -162,8 +162,8 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     @Service
     public void removeManagementUsers(User user) {
 	if (!getManagementUsers().contains(user)) {
-	    throw new DomainException("message.error.user.was.not.exists", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.user.was.not.exists",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 	super.removeManagementUsers(user);
     }

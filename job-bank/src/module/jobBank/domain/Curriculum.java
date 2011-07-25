@@ -44,7 +44,7 @@ public class Curriculum extends Curriculum_Base {
     public void loadExternalData() {
 	RemotePerson remotePerson = getStudent().getRemotePerson();
 
-	setDateOfBirth(remotePerson.getDateOfBirthYearMonthDay().toDateTimeAtCurrentTime());
+	setDateOfBirth(remotePerson.getDateOfBirthYearMonthDay().toLocalDate());
 	setNationality(remotePerson.getNationality().getName());
 
 	for (RemotePartyContact remotePartyContact : remotePerson.getPartyContacts()) {

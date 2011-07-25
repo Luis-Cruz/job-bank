@@ -1,36 +1,28 @@
 package module.jobBank.domain;
 
-import java.math.BigDecimal;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.organization.domain.Person;
 import module.workflow.domain.ProcessFile;
-import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
-import myorg.domain.exceptions.DomainException;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
-import net.sourceforge.fenixedu.domain.RemoteEnrolment;
-import net.sourceforge.fenixedu.domain.RemoteExecutionYear;
 import net.sourceforge.fenixedu.domain.RemotePerson;
-import net.sourceforge.fenixedu.domain.RemoteStudentCurricularPlan;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 import net.sourceforge.fenixedu.domain.student.RemoteStudent;
-import net.sourceforge.fenixedu.domain.student.curriculum.RemoteConclusionProcess;
 
-import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 
 import pt.ist.fenixWebFramework.services.Service;
 
 public class Student extends Student_Base {
 
-    private Student(User user) {
+    public Student(User user) {
 	super();
 	setJobBankSystem(JobBankSystem.getInstance());
 	setPerson(user.getPerson());
 	setCurriculum(new Curriculum(this));
+	setHasPersonalDataAuthorization(false);
     }
 
     public User getUser() {
@@ -42,15 +34,7 @@ public class Student extends Student_Base {
     }
 
     public Integer getNumber() {
-	return getRemoteStudent().getNumber();
-    }
-
-    public BigDecimal getAverage() {
-	RemoteConclusionProcess conclusionProcess = Registration.readConcluedProcess(getRemoteRegistration());
-	if (conclusionProcess != null) {
-	    conclusionProcess.getFinalAverage();
-	}
-	return null;
+	return 0;
     }
 
     public Set<OfferCandidacy> getActiveOfferCandidacies() {
@@ -64,47 +48,14 @@ public class Student extends Student_Base {
     }
 
     public Boolean isActive() {
-	// If not active. Try to registration on Job Bank
-	RemoteRegistration remoteRegistration = getRemoteRegistration();
-	if (remoteRegistration == null) {
-	    remoteRegistration = Registration.getValidRegistrationOnProcessCreation(this);
-	    setRemoteRegistration(remoteRegistration);
-	    return remoteRegistration != null ? true : false;
+	if (getHasPersonalDataAuthorization() && getAcceptedTermsResponsibilityDate() != null) {
+	    for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+		if (studentRegistration.isActive()) {
+		    return true;
+		}
+	    }
 	}
-	return Registration.isValidRegistration(getRemoteStudent(), remoteRegistration);
-    }
-
-    public RemoteDegree getDegree() {
-	generateRemoteDegree();
-	return hasRemoteRegistration() ? getRemoteRegistration().getDegree() : null;
-    }
-
-    public String getPresentationDegreeName() {
-	return Registration.hasValidRegistrationsForStudent(this) ? getDegree().getPresentationName() : StringUtils.EMPTY;
-    }
-
-    @Service
-    private void generateRemoteDegree() {
-	if (hasRemoteRegistration())
-	    getRemoteRegistration().getDegree();
-    }
-
-    /* Static methods */
-    @Service
-    public static Student createStudent(User user) {
-	if (!canCreateStudent(user)) {
-	    throw new DomainException("message.error.student.cannot.be.created", ResourceBundle
-		    .getBundle(JobBankSystem.JOB_BANK_RESOURCES));
-	}
-	Student student = new Student(user);
-	if (!Registration.hasValidRegistrationsForStudent(student)) {
-	    throw new DomainException("message.error.student.cannot.valid.registrations", ResourceBundle
-		    .getBundle(JobBankSystem.JOB_BANK_RESOURCES));
-	}
-
-	student.setRemoteRegistration(Registration.getValidRegistrationOnProcessCreation(student));
-	return student;
-
+	return false;
     }
 
     public static boolean canCreateStudent(User user) {
@@ -131,10 +82,6 @@ public class Student extends Student_Base {
 	return getCurriculum().getCurriculumProcess().getFiles().contains(file);
     }
 
-    public boolean isConcludedProcessed() {
-	return Registration.isConcluedProcessed(getRemoteRegistration());
-    }
-
     public Set<OfferCandidacy> getOfferCandidaciesOfEnterprise(final Enterprise enterprise) {
 	return Utils.readValuesToSatisfiedPredicate(new IPredicate<OfferCandidacy>() {
 	    @Override
@@ -149,64 +96,35 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getStudentsSet());
     }
 
-    public static Student readCurrentStudent() {
-	return readStudent(UserView.getCurrentUser());
-    }
-
-    public static Student readStudent(User user) {
-	return hasStudent(user) ? user.getPerson().getStudent() : null;
-    }
-
-    public static boolean hasStudent(User user) {
-	return user != null && user.hasPerson() && user.getPerson().getStudent() != null;
-    }
-
-    public static boolean hasCreditsToAccess(final RemoteRegistration remoteRegistration) {
-	RemoteExecutionYear executionYear = RemoteExecutionYear.readCurrentExecutionYear(JobBankSystem.getInstance()
-		.readRemoteHost());
-	return hasCreditsToAccessForFirstCycle(remoteRegistration, executionYear)
-		|| hasCreditsToAccessForSecondCycle(remoteRegistration, executionYear);
-    }
-
-    /*
-     * public static Boolean hasCreditsToAccessForFirstCycle(final
-     * RemoteRegistration remoteRegistration, final RemoteExecutionYear
-     * executionYear) { Double floor = new Double(165.00); Double ceiling = new
-     * Double(180.00); RemoteStudentCurricularPlan remoteCurricularPlan =
-     * remoteRegistration.getStudentCurricularPlanForCurrentExecutionYear();
-     * return
-     * remoteCurricularPlan.getApprovedEctsCreditsForFirstCycle().compareTo
-     * (floor) >= 0 &&
-     * remoteCurricularPlan.getApprovedEctsCreditsForFirstCycle()
-     * .compareTo(ceiling) < 0; }
-     */
-
-    public static Boolean hasCreditsToAccessForFirstCycle(final RemoteRegistration remoteRegistration,
-	    final RemoteExecutionYear executionYear) {
-	Double floor = new Double(165.00);
-	Double ceiling = new Double(180.00);
-	RemoteStudentCurricularPlan remoteCurricularPlan = remoteRegistration.getStudentCurricularPlanForCurrentExecutionYear();
-	Double approvedEcts = remoteCurricularPlan.getApprovedEctsCredits();
-	return remoteCurricularPlan.isFirstCycle() && approvedEcts.compareTo(floor) >= 0 && approvedEcts.compareTo(ceiling) < 0;
-    }
-
-    public static Boolean hasCreditsToAccessForSecondCycle(final RemoteRegistration remoteRegistration,
-	    final RemoteExecutionYear remoteExecutionYear) {
-	RemoteStudentCurricularPlan remoteCurricularPlan = remoteRegistration.getStudentCurricularPlanForCurrentExecutionYear();
-	RemoteEnrolment dissertationEnrolment = remoteCurricularPlan.getLatestDissertationEnrolment();
-	Double master = 120d;
-	Double minimumEctsToFinished = 24d;
-	if (dissertationEnrolment == null) {
-	    return false;
+    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration) {
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)) {
+		return studentRegistration;
+	    }
 	}
+	return null;
+    }
 
-	if (dissertationEnrolment.getExecutionYear() != remoteExecutionYear && !dissertationEnrolment.isApproved()) {
-	    return false;
+    public boolean hasAnyConcludedRegistration() {
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	    if (studentRegistration.getIsConcluded()) {
+		return true;
+	    }
 	}
+	return false;
+    }
 
-	Double dissContrib = dissertationEnrolment.isApproved() ? 0.0 : dissertationEnrolment.getEctsCredits();
-	Double threshold = master - (minimumEctsToFinished + dissContrib);
-	return remoteCurricularPlan.isSecondCycle()
-		&& remoteRegistration.getStudentCurricularPlanForCurrentExecutionYear().getApprovedEctsCredits() >= threshold;
+    public boolean hasAnyRegistrationWithDegree(FenixDegree degree) {
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	    if (studentRegistration.getFenixDegree().equals(degree)) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    @Service
+    public void acceptTermsResponsibility() {
+	setAcceptedTermsResponsibilityDate(new DateTime());
     }
 }

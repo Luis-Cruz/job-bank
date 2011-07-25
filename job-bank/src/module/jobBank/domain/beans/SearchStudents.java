@@ -7,7 +7,6 @@ import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.Person;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
 
 public class SearchStudents extends SearchUsers {
 
@@ -45,12 +44,11 @@ public class SearchStudents extends SearchUsers {
     }
 
     private boolean isSatisfiedRegistrationProcess(Student student) {
-	return !hasSelectedRegistrationConlued() || student.isConcludedProcessed();
+	return !hasSelectedRegistrationConlued() || student.hasAnyConcludedRegistration();
     }
 
     private boolean isSatisfiedDegree(Student student) {
-	RemoteDegree degree = student.getDegree();
-	return !hasSelectedDegree() || degree != null && degree.equals(getDegree());
+	return !hasSelectedDegree() || student.hasAnyRegistrationWithDegree(getDegree());
     }
 
     public boolean isRegistrationConclued() {

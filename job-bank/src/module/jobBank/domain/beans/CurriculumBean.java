@@ -5,12 +5,13 @@ import java.io.Serializable;
 import module.jobBank.domain.Curriculum;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class CurriculumBean implements Serializable {
 
-    private DateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String nationality;
     private String address;
     private String area;
@@ -36,11 +37,11 @@ public class CurriculumBean implements Serializable {
 	setGeographicAvailability(curriculum.getGeographicAvailability());
     }
 
-    public DateTime getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
 	return dateOfBirth;
     }
 
-    public void setDateOfBirth(DateTime dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
 	this.dateOfBirth = dateOfBirth;
     }
 

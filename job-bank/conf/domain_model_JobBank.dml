@@ -22,6 +22,8 @@ class task.UpdateExpiredEnterpriseAgreementsTask extends .myorg.domain.scheduler
 class task.CreateOrUpdateFenixDegreesTask extends .myorg.domain.scheduler.Task {
 }
 
+class task.UpdateStudents extends .myorg.domain.scheduler.Task {
+}
 
 class JobBankSystem { 
 	String urlEmailValidation;
@@ -90,12 +92,21 @@ class JobOffer {
 		String externalLink;
 	}
 
-class Student{
+class Student {
+	DateTime acceptedTermsResponsibilityDate;
+	Boolean hasPersonalDataAuthorization;
+}
 
+class StudentRegistration {
+	Integer number;
+	BigDecimal average;
+	Boolean isConcluded;
+	DateTime activeBeginDate;
+	DateTime activeEndDate;
 }
 
 class Curriculum{
-	DateTime dateOfBirth;
+	LocalDate dateOfBirth;
 	String nationality;
 	String address;
 	String area;
@@ -236,6 +247,13 @@ relation JobBankSystemWithEmailValidation {
 	}
 }
 
+relation JobBankSystemStudentRegistrations {
+	JobBankSystem playsRole jobBankSystem;
+	StudentRegistration playsRole studentRegistration{
+		multiplicity *;
+	}
+}
+
 /* Relations */
 
 relation EnterpriseWithUser{
@@ -323,14 +341,11 @@ relation StudentWithOfferCandidacy{
 	}	
 }
 
-relation StudentWithRemoteRegistration{
-	Student playsRole ;
-	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
-}
 relation FenixDegreeWithRemoteDegree{
 	FenixDegree playsRole ;
 	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegree;
 }
+
 relation CurriculumWithCurriculumProcess{
 	Curriculum playsRole curriculum;
 	CurriculumProcess playsRole curriculumProcess;
@@ -351,9 +366,19 @@ relation OfferCandadicyWithProcessFile{
 	}
 }
 
+relation RegistrationDegree{
+	FenixDegree playsRole fenixDegree;
+	StudentRegistration playsRole studentRegistration;
+}
 
+relation StudentRegistrations{
+	Student playsRole student;
+	StudentRegistration playsRole studentRegistration{
+		multiplicity *;
+	}
+}
 
-
-
-
-
+relation StudentRegistrationWithRemoteRegistration{
+	StudentRegistration playsRole ;
+	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
+}
