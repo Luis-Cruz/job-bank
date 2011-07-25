@@ -5,39 +5,36 @@
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
 
-<h2>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility"/>
-</h2>
+<h2><bean:message bundle="JOB_BANK_RESOURCES"
+	key="title.jobBank.termsResponsibility" /></h2>
 
 <logic:messagesPresent property="message" message="true">
-	<div class="error1">
-		<html:messages id="errorMessage" property="message" message="true"> 
-			<span><fr:view name="errorMessage"/></span>
-		</html:messages>
-	</div>
+	<div class="error1"><html:messages id="errorMessage"
+		property="message" message="true">
+		<span><fr:view name="errorMessage" /></span>
+	</html:messages></div>
 </logic:messagesPresent>
 
-<h3>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.student"/>
-</h3>
+<h3><bean:message bundle="JOB_BANK_RESOURCES"
+	key="title.jobBank.student" /></h3>
 
- 
-<logic:equal name="student" value="active">
-
+<logic:equal name="student" property="hasPersonalDataAuthorization" value="false">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="message.personalDataAuthorizationChoice.notAuthorized" />
 </logic:equal>
 
-Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
-Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi, eget ornare velit pretium quis. Aliquam vitae metus ut nunc varius varius.
 
-<p><a href="">Download (.pdf)</a></p>
+<logic:equal name="student" property="hasPersonalDataAuthorization" value="true">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility.student.text"/>
+	
+	<p><a href="">Download (.pdf)</a></p>
 
-<fr:form action="/student.do?method=prepareToCreateStudent">
-	<logic:notPresent name="student"> 
+	<fr:form action="/student.do?method=acceptResponsibilityTerms">
 		<html:submit styleClass="inputbutton">
-			<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.acceptTerms"/>
+			<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.acceptTerms" />
 		</html:submit>
-	</logic:notPresent>
-</fr:form> 
+	</fr:form>
+</logic:equal>
+
 
 
 
