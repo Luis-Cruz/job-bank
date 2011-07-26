@@ -9,6 +9,11 @@ valueType myorg.domain.util.ByteArray as ByteArray {
     }
 }
 
+valueType java.math.BigDecimal as BigDecimal {
+    externalizeWith {
+        String toString();
+    }
+}
 
 enum module.jobBank.domain.JobOfferType as JobOfferType;
 enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityType;
