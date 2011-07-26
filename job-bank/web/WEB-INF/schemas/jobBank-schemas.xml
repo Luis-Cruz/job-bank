@@ -163,11 +163,8 @@
 </schema>
 
 
-<schema name="jobBank.enterprise.offerCandidacy.attachFiles"
-	bundle="JOB_BANK_RESOURCES"
-	type="module.workflow.domain.ProcessFile">
-	<slot name="displayName"/> 
-	
+<schema name="jobBank.enterprise.offerCandidacy.attachFiles" bundle="JOB_BANK_RESOURCES" type="module.workflow.domain.ProcessFile">
+	<slot name="presentationName"/> 
 </schema>
 
 <schema name="jobBank.enterprise.jobOffer.fenixDegree"

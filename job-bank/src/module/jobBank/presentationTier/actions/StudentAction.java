@@ -144,6 +144,14 @@ public class StudentAction extends ContextBaseAction {
 	return searchOffers(mapping, form, request, response);
     }
 
+    public ActionForward removeJobOfferCandidancy(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
+	OfferCandidacy candidacyForThisUser = jobOfferProcess.getJobOffer().getCandidacyForThisUser(UserView.getCurrentUser());
+	candidacyForThisUser.removeCandidacy();
+	return searchOffers(mapping, form, request, response);
+    }
+
     public ActionForward removeCandidancy(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	OfferCandidacy offerCandidacy = getDomainObject(request, "OID");

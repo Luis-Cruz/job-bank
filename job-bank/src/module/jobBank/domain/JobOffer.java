@@ -9,6 +9,7 @@ import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageState;
 import module.jobBank.domain.utils.Utils;
 import myorg.applicationTier.Authenticate.UserView;
+import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 
 import org.joda.time.DateTime;
@@ -202,6 +203,22 @@ public abstract class JobOffer extends JobOffer_Base {
 
     public boolean canCreateOfferCandidacy() {
 	return OfferCandidacy.canCreateOfferCandidacy(UserView.getCurrentUser().getPerson().getStudent(), this);
+    }
+
+    public boolean getCanRemoveOfferCandidacy() {
+	return isCandidancyPeriod() && getCandidacyForThisUser(UserView.getCurrentUser()) != null;
+    }
+
+    public OfferCandidacy getCandidacyForThisUser(User user) {
+	Student student = user.getPerson().getStudent();
+	if (student != null) {
+	    for (OfferCandidacy offerCandidacy : getOfferCandidacy()) {
+		if (offerCandidacy.getStudent().equals(student) && offerCandidacy.isActive()) {
+		    return offerCandidacy;
+		}
+	    }
+	}
+	return null;
     }
 
     public int getTotalNumberCandidacies() {

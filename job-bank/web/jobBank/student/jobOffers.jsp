@@ -52,16 +52,21 @@
 				<fr:property name="order(view)" value="1" />
 
 
-				<fr:property name="classes"
-					value="tstyle3 mvert1 width100pc tdmiddle punits" />
-				<fr:property name="link(candidate)"
-					value="/student.do?method=attachFilesToOfferCandidacy" />
+				<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits" />
+				<fr:property name="link(candidate)" value="/student.do?method=attachFilesToOfferCandidacy" />
 				<fr:property name="key(candidate)" value="link.jobOffer.candidate" />
 				<fr:property name="param(candidate)" value="OID" />
 				<fr:property name="bundle(candidate)" value="JOB_BANK_RESOURCES" />
-				<fr:property name="visibleIf(candidate)"
-					value="jobOffer.canCreateOfferCandidacy" />
+				<fr:property name="visibleIf(candidate)" value="jobOffer.canCreateOfferCandidacy" />
 				<fr:property name="order(candidate)" value="2" />
+				
+				<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+				<fr:property name="link(delete)" value="/student.do?method=removeJobOfferCandidancy" />
+				<fr:property name="key(delete)" value="link.jobBank.removeCandidancy" />
+				<fr:property name="param(delete)" value="OID" />
+				<fr:property name="bundle(delete)" value="JOB_BANK_RESOURCES" />
+				<fr:property name="visibleIf(delete)" value="jobOffer.canRemoveOfferCandidacy" />
+				<fr:property name="order(delete)" value="2" />
 				
 			
 				<fr:property name="linkFormat(externalCandidacy)" value="${jobOffer.jobOfferExternal.externalLink}"/>
