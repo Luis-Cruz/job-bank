@@ -12,16 +12,16 @@ public class StudentRegistration extends StudentRegistration_Base {
 	    Boolean isConcluded, BigDecimal average) {
 	super();
 	setStudent(student);
-	setFenixDegree(fenixDegree);
 	setRemoteRegistration(remoteRegistration);
 	setNumber(remoteRegistration.getNumber());
-	update(isConcluded, average);
+	update(isConcluded, average, fenixDegree);
 	setActiveBeginDate(new DateTime());
     }
 
-    public void update(Boolean isConcluded, BigDecimal average) {
+    public void update(Boolean isConcluded, BigDecimal average, FenixDegree fenixDegree) {
 	setIsConcluded(isConcluded);
 	setAverage(average);
+	setFenixDegree(fenixDegree);
     }
 
     public boolean isActive() {

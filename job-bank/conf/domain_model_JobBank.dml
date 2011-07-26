@@ -373,7 +373,9 @@ relation OfferCandadicyWithProcessFile{
 
 relation RegistrationDegree{
 	FenixDegree playsRole fenixDegree;
-	StudentRegistration playsRole studentRegistration;
+	StudentRegistration playsRole studentRegistration {
+		multiplicity *;
+	}
 }
 
 relation StudentRegistrations{

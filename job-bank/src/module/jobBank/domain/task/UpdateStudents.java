@@ -31,42 +31,55 @@ public class UpdateStudents extends UpdateStudents_Base {
 
     @Override
     public void executeTask() {
+
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
 	RemoteExecutionYear executionYear = RemoteExecutionYear.readCurrentExecutionYear(jobBankSystem.readRemoteHost());
 	System.out.println("ExecutionYear: " + executionYear.getName());
+
 	Collection<RemoteRegistration> seniorRegistrationsForExecutionYear = executionYear
 		.getSeniorRegistrationsForExecutionYear();
 	System.out.println("TOTAL registrations: " + seniorRegistrationsForExecutionYear == null ? "NULL"
 		: seniorRegistrationsForExecutionYear.size());
 	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
 
-	for (RemoteRegistration remoteRegistration : seniorRegistrationsForExecutionYear) {
-	    String userUId = remoteRegistration.getStudent().getPerson().getUser().getUserUId();
 
+	for (RemoteRegistration remoteRegistration : seniorRegistrationsForExecutionYear) {
+
+	    String userUId = remoteRegistration.getStudent().getPerson().getUser().getUserUId();
 	    User user = User.findByUsername(userUId);
+
 	    if (user != null && user.getPerson() != null) {
 		Student student = user.getPerson().getStudent();
+
 		try {
 		    Boolean hasPersonalDataAuthorization = remoteRegistration.getStudent()
 			    .hasPersonalDataAuthorizationForProfessionalPurposesAt();
+
 		    if (student == null) {
 			student = new Student(user);
 		    }
+
 		    student.setHasPersonalDataAuthorization(hasPersonalDataAuthorization == null ? false
 			    : hasPersonalDataAuthorization);
+
 		    if (student.getHasPersonalDataAuthorization()) {
 			FenixDegree fenixDegreeFor = jobBankSystem.getFenixDegreeFor(remoteRegistration.getDegree());
+
 			Boolean registrationConclusionProcessed = remoteRegistration.isRegistrationConclusionProcessed();
 			BigDecimal average = null;
-			if (registrationConclusionProcessed) {
+
+			if (registrationConclusionProcessed != null && registrationConclusionProcessed) {
 			    average = new BigDecimal(remoteRegistration.getFinalAverageOfLastConcludedCycle());
 			}
+
 			StudentRegistration registration = student.getRegistrationFor(remoteRegistration);
+
 			if (registration == null) {
 			    registration = new StudentRegistration(student, remoteRegistration, fenixDegreeFor,
 				    registrationConclusionProcessed, average);
 			}
-			registration.update(registrationConclusionProcessed, average);
+
+			registration.update(registrationConclusionProcessed, average, fenixDegreeFor);
 			updatedRegistrations.add(registration);
 		    }
 		} catch (RemoteException e) {
