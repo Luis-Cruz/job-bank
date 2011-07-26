@@ -1,5 +1,6 @@
 package module.jobBank.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
@@ -103,6 +104,16 @@ public class Student extends Student_Base {
 	    }
 	}
 	return null;
+    }
+
+    public Set<StudentRegistration> getActiveStudentRegistrationSet() {
+	Set<StudentRegistration> result = new HashSet<StudentRegistration>();
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	    if (studentRegistration.isActive()) {
+		result.add(studentRegistration);
+	    }
+	}
+	return result;
     }
 
     public boolean hasAnyConcludedRegistration() {
