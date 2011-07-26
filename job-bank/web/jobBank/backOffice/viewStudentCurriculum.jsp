@@ -46,7 +46,6 @@
 </fr:view>
 
 
-<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
 <fr:view name="student" property="activeStudentRegistrationSet">
 	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
 		<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
@@ -56,10 +55,6 @@
 		<fr:property name="classes" value="infobox3 mbottom5px"/>
 	</fr:layout>
 </fr:view>
-</logic:equal>
-<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="false">
-	<bean:message key="message.enterprise.no.have.permissions" bundle="JOB_BANK_RESOURCES"/>
-</logic:equal>
 
 <p> 
 
@@ -67,8 +62,7 @@
 	<bean:message key="label.enterprise.jobOffers" bundle="JOB_BANK_RESOURCES"/>
 </h3>
 <p> 
-<bean:define id="enterpriseName" name="enterprise" property="name"/>
-<bean:message  key="message.curriculum.list.offersCandidacies" bundle="JOB_BANK_RESOURCES" arg0="<%=enterpriseName.toString() %>"/>   
+<bean:message  key="message.backoffice.curriculum.list.offersCandidacies" bundle="JOB_BANK_RESOURCES"/>   
 
 </p>
 <fr:view name="offerCandidacies" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer">

@@ -117,7 +117,7 @@ public class Student extends Student_Base {
     }
 
     public boolean hasAnyConcludedRegistration() {
-	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	for (StudentRegistration studentRegistration : getActiveStudentRegistrationSet()) {
 	    if (studentRegistration.getIsConcluded()) {
 		return true;
 	    }
@@ -125,9 +125,13 @@ public class Student extends Student_Base {
 	return false;
     }
 
-    public boolean hasAnyRegistrationWithDegree(FenixDegree degree) {
-	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
-	    if (studentRegistration.getFenixDegree().equals(degree)) {
+    public boolean hasAnyRegistrationWithDegree(FenixDegree degree, boolean checkConclusion) {
+	for (StudentRegistration studentRegistration : getActiveStudentRegistrationSet()) {
+	    FenixDegree fenixDegree = studentRegistration.getFenixDegree();
+	    if (fenixDegree != null && fenixDegree.equals(degree)) {
+		if (checkConclusion && studentRegistration.getIsConcluded()) {
+		    continue;
+		}
 		return true;
 	    }
 	}

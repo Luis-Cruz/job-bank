@@ -66,8 +66,7 @@ public class Enterprise extends Enterprise_Base {
 	setContactEmail(enterpriseBean.getContactEmail());
 	setContactPerson(enterpriseBean.getContactPerson());
 	setLogo(enterpriseBean.getLogo());
-	setAgreementForApproval(enterpriseBean.getJobBankAccountabilityType().readAccountabilityType());
-
+	// setAgreementForApproval(enterpriseBean.getJobBankAccountabilityType().readAccountabilityType());
     }
 
     @Service

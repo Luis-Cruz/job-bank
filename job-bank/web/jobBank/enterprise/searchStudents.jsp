@@ -9,12 +9,7 @@
 <fr:form> 
 	<fr:edit id="searchStudents" name="searchStudents" >
 		<fr:schema type="module.jobBank.domain.beans.SearchStudents" bundle="JOB_BANK_RESOURCES">
-			<fr:slot name="person" layout="autoComplete" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
-		        <fr:property name="labelField" value="name"/>
-				<fr:property name="format" value="${name} (${user.username})"/>
-				<fr:property name="minChars" value="3"/>		
-				<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.StudentsAutoCompleteProvider"/>
-				<fr:property name="size" value="40"/>
+			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
 			</fr:slot>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
@@ -42,9 +37,9 @@
 <logic:present name="results">
 	<fr:view name="results">
 			<fr:schema type="myorg.domain.User" bundle="JOB_BANK_RESOURCES">
-				<fr:slot name="user.username" key="label.curriculum.id" bundle="JOB_BANK_RESOURCES"/>
+<%-- 				<fr:slot name="user.username" key="label.curriculum.id" bundle="JOB_BANK_RESOURCES"/> --%>
 				<fr:slot name="name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
-				<fr:slot name="student.presentationDegreeName" key="label.curriculumQualification.degree" bundle="JOB_BANK_RESOURCES"/>
+<%-- 				<fr:slot name="student.presentationDegreeName" key="label.curriculumQualification.degree" bundle="JOB_BANK_RESOURCES"/> --%>
 			</fr:schema>
 			<fr:layout name="tabular">
 				<fr:property name="classes" value="tstyle2"/>
