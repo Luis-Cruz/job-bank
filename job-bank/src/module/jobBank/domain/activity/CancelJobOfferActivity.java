@@ -12,9 +12,8 @@ public class CancelJobOfferActivity extends WorkflowActivity<JobOfferProcess, Ac
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return !jobOffer.isCanceled() && (jobOffer.isEditable() && process.isProcessOwner(user))
-		|| (jobOffer.isPendingToApproval() && JobBankSystem.getInstance().isNPEMember(user))
-		|| (!jobOffer.hasCandidacies() && JobBankSystem.getInstance().isManagementMember(user));
+	return !jobOffer.isCanceled() && (process.isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user))
+		&& (jobOffer.isPendingToApproval() || jobOffer.isUnderConstruction()) && !jobOffer.hasCandidacies();
     }
 
     @Override
