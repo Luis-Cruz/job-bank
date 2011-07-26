@@ -54,12 +54,20 @@
 	</table>
 </div>
 
-<P> 
-<h3 class="separator">
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/>
-</h3>
-</p>
 
+<p> <h3 class="separator"><bean:message bundle="JOB_BANK_RESOURCES" key="label.registrations"/></h3></p>
+<fr:view name="student" property="activeStudentRegistrationSet">
+	<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
+		<fr:slot name="fenixDegree.name" key="label.curriculumQualification.degree"/>
+		<fr:slot name="average" key="label.curriculum.average" layout="null-as-label"/>   
+	</fr:schema>
+	<fr:layout name="tabular">
+		<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+	</fr:layout>
+</fr:view>
+	
+						
+<p><h3 class="separator"><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/></h3></p>
 <logic:present name ="activeOfferCandidacies">
 	<fr:view name="activeOfferCandidacies">
 		<fr:layout name="tabular">

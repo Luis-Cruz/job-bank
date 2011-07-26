@@ -47,7 +47,7 @@
 
 <bean:message key="label.curriculum.average" bundle="JOB_BANK_RESOURCES"/>:
 <logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
- <bean:write name="student" property="remoteRegistration.average" />
+	<bean:write name="student" property="remoteRegistration.average" />
 </logic:equal>
 <logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="false">
 	<bean:message key="message.enterprise.no.have.permissions" bundle="JOB_BANK_RESOURCES"/>

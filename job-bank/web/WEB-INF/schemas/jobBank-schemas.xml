@@ -194,6 +194,7 @@
 </schema>
 
 <schema name="addFile-CoverLetterProcessFile" type="module.workflow.util.WorkflowFileUploadBean" bundle="WORKFLOW_RESOURCES" extends="addFile-CurriculumProcessFile"/>
+<schema name="addFile-LetterRecomendationProcessFile" type="module.workflow.util.WorkflowFileUploadBean" bundle="WORKFLOW_RESOURCES" extends="addFile-CurriculumProcessFile"/>
 
 <!--Activities  -->
 

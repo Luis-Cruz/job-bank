@@ -80,9 +80,9 @@ public class CurriculumProcess extends CurriculumProcess_Base {
     @Override
     public List<Class<? extends ProcessFile>> getAvailableFileTypes() {
 	final List<Class<? extends ProcessFile>> list = super.getAvailableFileTypes();
-	list.add(0, CurriculumProcessFile.class);
-	list.add(0, CoverLetterProcessFile.class);
-	list.add(0, LetterRecomendationProcessFile.class);
+	list.add(CurriculumProcessFile.class);
+	list.add(CoverLetterProcessFile.class);
+	list.add(LetterRecomendationProcessFile.class);
 	return list;
     }
 

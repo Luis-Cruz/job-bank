@@ -55,14 +55,14 @@ public class EmailValidation extends EmailValidation_Base {
 	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
 	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
 		toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-			JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.emailValidation.subject"), getBody(getChecksum()));
+			JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.emailValidation.subject"), getBody());
     }
 
-    private String getBody(String checksum) {
+    public String getBody() {
 	StringBuilder body = new StringBuilder();
 	body.append(String.format("%s \n\n", BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
 		"message.enterprise.emailValidation.body")));
-	body.append(String.format("%s&checkEmail=%s&OID=%s", getJobBankSystem().getUrlEmailValidation(), checksum,
+	body.append(String.format("%s&checkEmail=%s&OID=%s", getJobBankSystem().getUrlEmailValidation(), getChecksum(),
 		getExternalId()));
 	body.append(String.format("\n\n\n %s",
 		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobBank.ist")));

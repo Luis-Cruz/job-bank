@@ -22,7 +22,7 @@
 	</div>
 </logic:messagesPresent>
 
-<logic:present name="enterpriseBean"> 
+<logic:present name="enterpriseBean">
 	<logic:notPresent name="enterpriseBean" property="emailValidation">
 		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation"/>  
 		<fr:edit id="enterpriseBean"  action="/enterprise.do?method=createEmailValidation"  name="enterpriseBean">
@@ -36,6 +36,11 @@
 			<fr:destination name="cancel" path="/jobBank.do?method=frontPage" />
 		</fr:edit>
 	</logic:notPresent>
+	
+	<logic:notEmpty name="enterpriseBean" property="emailValidation">
+		<br/><br/>
+		<bean:write name="enterpriseBean" property="emailValidation.body"/>
+	</logic:notEmpty>
 </logic:present>
 
 
