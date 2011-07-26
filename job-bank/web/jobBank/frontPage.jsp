@@ -23,24 +23,23 @@
 				<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.introduction.text"/></p> 
 			</div> 
 			<logic:empty name="user"> 
-			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise"/></h3> 
-			<div> 
-				<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise.text"/></p> 
-				
-				<fr:form action="/enterprise.do">
-					<html:hidden property="method" value="termsResponsibilityEnterprise"/>
-					<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
-				</fr:form> 
-				
-			</div> 
+				<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise"/></h3> 
+				<div> 
+					<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise.text"/></p> 
+					
+					<fr:form action="/enterprise.do">
+						<html:hidden property="method" value="termsResponsibilityEnterprise"/>
+						<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
+					</fr:form> 
+					
+				</div>
+				<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.recover.password"/></h3> 
+				<div> 
+					<html:link action="/enterprise.do?method=prepareToPasswordRecover">
+						<bean:message key="link.enterprise.passwordRecover" bundle="JOB_BANK_RESOURCES"/>
+					</html:link>
+				</div> 
 			</logic:empty>
-			
-			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.recover.password"/></h3> 
-			<div> 
-				<html:link action="/enterprise.do?method=prepareToPasswordRecover">
-					<bean:message key="link.enterprise.passwordRecover" bundle="JOB_BANK_RESOURCES"/>
-				</html:link>
-			</div>
 			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.contacts"/></h3> 
 			<div> 
 				<p><bean:message key="message.frontPage.contacts.text" bundle="JOB_BANK_RESOURCES"/></p>
