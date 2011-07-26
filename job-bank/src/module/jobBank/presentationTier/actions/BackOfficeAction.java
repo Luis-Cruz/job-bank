@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.JobBankSystem;
+import module.jobBank.domain.JobOfferProcess;
+import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.activity.EnterpriseInformation;
 import module.jobBank.domain.beans.SearchStudents;
@@ -83,11 +85,21 @@ public class BackOfficeAction extends ContextBaseAction {
 
     public ActionForward viewStudentCurriculum(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
-	Enterprise enterprise = Enterprise.readCurrentEnterprise();
 	Student student = getDomainObject(request, "studentOID");
 	request.setAttribute("student", student);
 	request.setAttribute("offerCandidacies", student.getOfferCandidacySet());
 	return forward(request, "/jobBank/backOffice/viewStudentCurriculum.jsp");
+    }
+
+    public ActionForward viewStudentCurriculumForOfferCandidacy(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobOfferProcess process = getDomainObject(request, "OID");
+	Enterprise enterprise = process.getJobOffer().getEnterprise();
+	OfferCandidacy offerCandidacy = getDomainObject(request, "candidateOID");
+	request.setAttribute("offercandidacy", offerCandidacy);
+	request.setAttribute("enterprise", enterprise);
+	request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
+	return forward(request, "/jobBank/backOffice/viewStudentCurriculumForOfferCandidacy.jsp");
     }
 
     /* Configuration */
