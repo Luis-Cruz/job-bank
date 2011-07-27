@@ -43,7 +43,7 @@
 	
 	<logic:notEqual name="enterpriseSearch" property="enterprisesCount" value="0">	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params">&amp;enterpriseState=<logic:present name="enterpriseSearch" property="enterpriseState.localizedName"><bean:write name="enterpriseSearch" property="enterpriseState.localizedName"/></logic:present>&amp;enterpriseName=<logic:present name="enterpriseSearch" property="enterpriseName"><bean:write name="enterpriseSearch" property="enterpriseName"/></logic:present></bean:define>
+			<bean:define id="params">&amp;enterpriseState=<logic:present name="enterpriseSearch" property="enterpriseState"><bean:write name="enterpriseSearch" property="enterpriseState"/></logic:present>&amp;enterpriseName=<logic:present name="enterpriseSearch" property="enterpriseName"><bean:write name="enterpriseSearch" property="enterpriseName"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/backOffice.do?method=enterprises" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 	

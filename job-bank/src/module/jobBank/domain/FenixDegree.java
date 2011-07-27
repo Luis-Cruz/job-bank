@@ -25,5 +25,17 @@ public class FenixDegree extends FenixDegree_Base {
 	return getDegreeType().equals(FenixDegreeType.BOLONHA_MASTER_DEGREE)
 		|| getDegreeType().equals(FenixDegreeType.BOLONHA_INTEGRATED_MASTER_DEGREE);
     }
+
+    public static FenixDegree getFenixDegreeByIdInternal(int IdInternal) {
+	JobBankSystem jobBank = JobBankSystem.getInstance();
+
+	for (FenixDegree degree : jobBank.getActiveFenixDegreeSet()) {
+	    if (degree.getIdInternal() == IdInternal) {
+		return degree;
+	    }
+	}
+
+	return null;
+    }
     
 }

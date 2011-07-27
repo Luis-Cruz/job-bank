@@ -12,6 +12,8 @@ import myorg.domain.util.Search;
 
 import org.apache.commons.lang.StringUtils;
 
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
+
 public class SearchEnterprise extends Search<Enterprise> {
 
     private EnterpriseStateType enterpriseState;
@@ -52,7 +54,8 @@ public class SearchEnterprise extends Search<Enterprise> {
 
     private boolean isSatisfiedEnterpriseName(Enterprise enterprise) {
 	return (getEnterpriseName() == null || StringUtils.isEmpty(getEnterpriseName())) || enterprise.getName() != null
-		&& enterprise.getName().getContent().toLowerCase().contains(getEnterpriseName().toLowerCase());
+		&& StringNormalizer.normalize(enterprise.getName().getContent()).contains(
+			StringNormalizer.normalize(getEnterpriseName()));
     }
 
     private boolean isSatisfiedEnterpriseState(Enterprise enterprise) {

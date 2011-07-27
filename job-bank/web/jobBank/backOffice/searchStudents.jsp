@@ -3,10 +3,11 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
+<%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.searchStudents"/></h2>
 
-<fr:form> 
+<fr:form action="/backOffice.do?method=searchStudents"> 
 	<fr:edit id="searchStudents" name="searchStudents" >
 		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
@@ -34,26 +35,40 @@
 	</p>
 </fr:form>
 
+
 <logic:present name="results">
-	<fr:view name="results">
-			<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
-				<fr:slot name="student.name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
-				<fr:slot name="fenixDegree.name" key="label.curriculum.degree" bundle="JOB_BANK_RESOURCES"/>
-				<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES"/>
-				<fr:slot name="isConcluded" key="label.enterprise.degree.is.concluded" bundle="JOB_BANK_RESOURCES"/>
-			</fr:schema>
-			<fr:layout name="tabular">
-				<fr:property name="classes" value="tstyle2"/>
-				<fr:property name="columnClasses" value="aleft,,,,aright,"/>
-				<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
-				
-				<fr:property name="link(view)" value="/backOffice.do?method=viewStudentCurriculum"/>
-				<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES"/>
-				<fr:property name="key(view)" value="link.jobBank.view"/>
-				<fr:property name="param(view)" value="student.externalId/studentOID" />
-				<fr:property name="order(view)" value="1"/>
-			</fr:layout>
-	</fr:view>
+
+	<logic:equal name="resultsCount" value="0">
+		<p><bean:message bundle="JOB_BANK_RESOURCES" key="label.students.search.empty"/></p>
+	</logic:equal>
+	
+	<logic:notEqual name="resultsCount" value="0">	
+		<logic:notEqual name="numberOfPages" value="1">
+			<bean:define id="params"><logic:present name="searchStudents" property="username">&amp;username=<bean:write name="searchStudents" property="username"/></logic:present><logic:present name="searchStudents" property="degree">&amp;degree=<bean:write name="searchStudents" property="degree.idInternal"/></logic:present><logic:present name="searchStudents" property="registrationConclued">&amp;registrationConclued=<bean:write name="searchStudents" property="registrationConclued"/></logic:present></bean:define>
+			<cp:collectionPages url="<%= "/backOffice.do?method=searchStudents" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
+			<p><p>
+		</logic:notEqual>
+
+		<fr:view name="results">
+				<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
+					<fr:slot name="student.name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
+					<fr:slot name="fenixDegree.name" key="label.curriculum.degree" bundle="JOB_BANK_RESOURCES"/>
+					<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES"/>
+					<fr:slot name="isConcluded" key="label.enterprise.degree.is.concluded" bundle="JOB_BANK_RESOURCES"/>
+				</fr:schema>
+				<fr:layout name="tabular">
+					<fr:property name="classes" value="tstyle2"/>
+					<fr:property name="columnClasses" value="aleft,,,,aright,"/>
+					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
+					
+					<fr:property name="link(view)" value="/backOffice.do?method=viewStudentCurriculum"/>
+					<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES"/>
+					<fr:property name="key(view)" value="link.jobBank.view"/>
+					<fr:property name="param(view)" value="student.externalId/studentOID" />
+					<fr:property name="order(view)" value="1"/>
+				</fr:layout>
+		</fr:view>
+	</logic:notEqual>
 </logic:present>
 
 

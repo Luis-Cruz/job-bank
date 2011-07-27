@@ -15,6 +15,8 @@ import myorg.domain.util.Search;
 
 import org.apache.commons.lang.StringUtils;
 
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
+
 public class SearchOffer extends Search<JobOfferProcess> {
 
     private String query;
@@ -106,6 +108,6 @@ public class SearchOffer extends Search<JobOfferProcess> {
     }
 
     private boolean match(String key, String value) {
-	return value.toLowerCase().contains(key.toLowerCase());
+	return StringNormalizer.normalize(value).contains(StringNormalizer.normalize(key));
     }
 }

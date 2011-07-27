@@ -12,6 +12,8 @@ import myorg.domain.util.Search;
 
 import org.apache.commons.lang.StringUtils;
 
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
+
 public class SearchOfferState extends Search<JobOfferProcess> {
 
     private JobOfferState jobOfferState;
@@ -45,7 +47,8 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 
     private boolean isSatisfiedEnterprise(JobOffer offer) {
 	return StringUtils.isEmpty(getEnterprise()) || offer.getEnterpriseName() != null
-		&& offer.getEnterpriseName().getContent().toLowerCase().contains(getEnterprise().toLowerCase());
+		&& StringNormalizer.normalize(offer.getEnterpriseName().getContent()).contains(
+			StringNormalizer.normalize(getEnterprise()));
     }
 
     private boolean isSatisfiedUser(JobOfferProcess proc) {

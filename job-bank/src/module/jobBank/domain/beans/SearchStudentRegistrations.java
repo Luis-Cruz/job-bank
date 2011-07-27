@@ -10,6 +10,7 @@ import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.Person;
 import myorg.domain.util.Search;
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
 
 public class SearchStudentRegistrations extends Search<StudentRegistration> {
 
@@ -40,8 +41,12 @@ public class SearchStudentRegistrations extends Search<StudentRegistration> {
 	}
 
 	private boolean personMatchesSearch(Person person) {
-	    String[] result = username.toLowerCase().split(" ");
-	    String personName = person.getName().toLowerCase();
+	    if (username == null) {
+		return false;
+	    }
+
+	    String[] result = StringNormalizer.normalize(username).split(" ");
+	    String personName = StringNormalizer.normalize(person.getName());
 
 	    boolean ret = true;
 	    

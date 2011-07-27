@@ -6,16 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseStateType;
+import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
+import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.beans.SearchEnterprise;
 import module.jobBank.domain.beans.SearchOfferState;
+import module.jobBank.domain.beans.SearchStudentRegistrations;
 import module.jobBank.domain.utils.Utils;
 import myorg.presentationTier.actions.ContextBaseAction;
-
-import org.apache.commons.lang.StringUtils;
-
-import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 
 public class JobBankSearchActionCommons extends ContextBaseAction {
 
@@ -28,11 +27,8 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	    String enterprise = request.getParameter("enterprise");
 	    String processNumber = request.getParameter("processNumber");
 
-	    if (offerState != null && JobOfferState.getByLocalizedName(offerState) != null) {
-		offerSearch.setJobOfferState(JobOfferState.getByLocalizedName(offerState));
-		final String pageParameter = request.getParameter("pageNumber");
-		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
-		request.setAttribute("pageNumber", page);
+	    if (offerState != null && JobOfferState.getByName(offerState) != null) {
+		offerSearch.setJobOfferState(JobOfferState.getByName(offerState));
 	    }
 
 	    if (enterprise != null) {
@@ -45,15 +41,13 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	}
 
 	int resultsPerPage = 25;
-	RenderUtils.invalidateViewState();
 	Set<JobOfferProcess> processes = offerSearch.search();
 	offerSearch.setProcessesCount(processes.size());
 
 	request.setAttribute("offerSearch", offerSearch);
 	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
-
-	RenderUtils.invalidateViewState();
     }
+
 
     public void processEnterprisesSearch(HttpServletRequest request) {
 	SearchEnterprise enterpriseSearch = getRenderedObject("enterpriseSearch");
@@ -63,11 +57,8 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	    String enterpriseState = request.getParameter("enterpriseState");
 	    String enterpriseName = request.getParameter("enterpriseName");
 
-	    if (enterpriseState != null && EnterpriseStateType.getByLocalizedName(enterpriseState) != null) {
-		enterpriseSearch.setEnterpriseState(EnterpriseStateType.getByLocalizedName(enterpriseState));
-		final String pageParameter = request.getParameter("pageNumber");
-		final Integer page = StringUtils.isEmpty(pageParameter) ? Integer.valueOf(1) : Integer.valueOf(pageParameter);
-		request.setAttribute("pageNumber", page);
+	    if (enterpriseState != null && EnterpriseStateType.getByName(enterpriseState) != null) {
+		enterpriseSearch.setEnterpriseState(EnterpriseStateType.getByName(enterpriseState));
 	    }
 
 	    if (enterpriseName != null) {
@@ -76,14 +67,59 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	}
 
 	int resultsPerPage = 25;
-	RenderUtils.invalidateViewState();
 	Set<Enterprise> processes = enterpriseSearch.search();
 	enterpriseSearch.setEnterprisesCount(processes.size());
 
 	request.setAttribute("enterpriseSearch", enterpriseSearch);
 	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
+    }
 
-	RenderUtils.invalidateViewState();
+
+    public void processStudentsSearch(final HttpServletRequest request) {
+	SearchStudentRegistrations search = getRenderedObject("searchStudents");
+	boolean firstSearch = (search == null);
+
+	if (search == null) {
+	    search = new SearchStudentRegistrations();
+
+	    String username = request.getParameter("username");
+	    if (username != null) {
+		search.setUsername(username);
+	    }
+
+	    String degreeIdInternal = request.getParameter("degree");
+	    if (degreeIdInternal != null) {
+		try {
+		    int id = Integer.valueOf(degreeIdInternal);
+		    FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
+		    if (degree != null) {
+			search.setDegree(degree);
+		    }
+		} catch (NumberFormatException e) {
+		    // Do Nothing
+		}
+	    }
+
+	    Boolean registrationConclued = Boolean.valueOf(request.getParameter("registrationConclued"));
+	    if (registrationConclued != null) {
+		search.setRegistrationConclued(registrationConclued);
+	    }
+
+	    if (request.getParameter("pageNumber") != null) {
+		firstSearch = false;
+	    }
+	} else {
+	    request.setAttribute("pageNumber", Integer.valueOf(1));
+	}
+
+	if (!firstSearch) {
+	    int resultsPerPage = 25;
+	    Set<StudentRegistration> registrations = search.search();
+	    request.setAttribute("results", Utils.doPagination(request, registrations, resultsPerPage));
+	    request.setAttribute("resultsCount", registrations.size());
+	}
+
+	request.setAttribute("searchStudents", search);
     }
 
 }

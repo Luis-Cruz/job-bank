@@ -28,9 +28,9 @@ public enum JobOfferState implements IPresentableEnum {
 	return type;
     }
 
-    public static JobOfferState getByLocalizedName(String pattern) {
+    public static JobOfferState getByName(String pattern) {
 	for (JobOfferState jos : JobOfferState.values()) {
-	    if (jos.getLocalizedName().equals(pattern)) {
+	    if (jos.name().equals(pattern)) {
 		return jos;
 	    }
 	}

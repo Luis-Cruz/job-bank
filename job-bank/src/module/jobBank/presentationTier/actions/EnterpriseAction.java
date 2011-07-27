@@ -14,7 +14,6 @@ import module.jobBank.domain.Student;
 import module.jobBank.domain.activity.EnterpriseInformation;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
-import module.jobBank.domain.beans.SearchStudentRegistrations;
 import module.jobBank.domain.utils.IPredicate;
 import module.workflow.presentationTier.actions.ProcessManagement;
 import myorg.applicationTier.Authenticate.UserView;
@@ -193,14 +192,8 @@ public class EnterpriseAction extends ContextBaseAction {
 	    return forward(request, "/jobBank/notHavePermissions.jsp");
 	}
 
-	SearchStudentRegistrations search = getRenderedObject("searchStudents");
-	if (search == null) {
-	    search = new SearchStudentRegistrations();
-	} else {
-	    request.setAttribute("results", search.search());
-	}
-
-	request.setAttribute("searchStudents", search);
+	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+	commons.processStudentsSearch(request);
 	return forward(request, "/jobBank/enterprise/searchStudents.jsp");
     }
 
