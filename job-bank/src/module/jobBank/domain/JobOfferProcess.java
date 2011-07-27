@@ -13,6 +13,7 @@ import module.jobBank.domain.activity.CancelJobOfferSubmitionForApprovalActivity
 import module.jobBank.domain.activity.JobOfferApprovalActivity;
 import module.jobBank.domain.activity.JobOfferConcludedActivity;
 import module.jobBank.domain.activity.JobOfferEditActivity;
+import module.jobBank.domain.activity.JobOfferEditActivityByNPE;
 import module.jobBank.domain.activity.SubmitJobOfferForApprovalActivity;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageView;
@@ -27,6 +28,9 @@ public class JobOfferProcess extends JobOfferProcess_Base {
     private static final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activities;
     static {
 	final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activitiesAux = new ArrayList<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>>();
+	// NPE only
+	activitiesAux.add(new JobOfferEditActivityByNPE());
+
 	activitiesAux.add(new JobOfferEditActivity());
 	activitiesAux.add(new SubmitJobOfferForApprovalActivity());
 	activitiesAux.add(new JobOfferApprovalActivity());
@@ -35,6 +39,7 @@ public class JobOfferProcess extends JobOfferProcess_Base {
 	activitiesAux.add(new CancelJobOfferSubmitionForApprovalActivity());
 	activitiesAux.add(new CancelJobOfferPublicationActivity());
 	activitiesAux.add(new JobOfferConcludedActivity());
+
 	activities = Collections.unmodifiableList(activitiesAux);
     }
 

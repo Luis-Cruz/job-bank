@@ -53,7 +53,7 @@
 				<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
 					<fr:slot name="student.name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
 					<fr:slot name="fenixDegree.name" key="label.curriculum.degree" bundle="JOB_BANK_RESOURCES"/>
-					<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES"/>
+					<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES" layout="null-as-label" />
 					<fr:slot name="isConcluded" key="label.enterprise.degree.is.concluded" bundle="JOB_BANK_RESOURCES"/>
 				</fr:schema>
 				<fr:layout name="tabular">

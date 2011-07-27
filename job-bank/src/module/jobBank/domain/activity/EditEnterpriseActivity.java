@@ -13,7 +13,6 @@ public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, 
     public boolean isActive(EnterpriseProcess process, User user) {
 	Enterprise enterprise = process.getEnterprise();
 	return (enterprise.isActive() || enterprise.isPendingToApproval()) && process.isProcessOwner(user);
-
     }
 
     @Override

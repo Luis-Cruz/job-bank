@@ -165,7 +165,10 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     private void setForm(JobOfferBean bean) {
-	checkDates(bean);
+	if (!JobBankSystem.getInstance().isNPEMember()) {
+	    checkDates(bean);
+	}
+
 	setPlace(bean.getPlace());
 	setFunction(bean.getFunction());
 	setJobOfferType(bean.getJobOfferType());
