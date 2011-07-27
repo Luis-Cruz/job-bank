@@ -16,7 +16,7 @@
 			type="module.jobBank.domain.beans.SearchOffer">
 			<fr:slot name="query" key="label.enterprise.jobOffer.query" />
 			<fr:slot name="degrees" key="label.enterprise.offer.degree" layout="menu-select">
-				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
+				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values"/>
 				<fr:property name="saveOptions" value="true"/>
 				<fr:property name="sortBy" value="name=asc"/>

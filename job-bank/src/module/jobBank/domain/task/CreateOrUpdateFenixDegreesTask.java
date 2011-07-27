@@ -5,6 +5,7 @@ import java.util.Set;
 
 import module.jobBank.domain.Degree;
 import module.jobBank.domain.FenixDegree;
+import module.jobBank.domain.FenixDegreeType;
 import module.jobBank.domain.JobBankSystem;
 import myorg.util.BundleUtil;
 import net.sourceforge.fenixedu.domain.RemoteDegree;
@@ -37,6 +38,7 @@ public class CreateOrUpdateFenixDegreesTask extends UpdateExpiredEnterpriseAgree
 	    FenixDegree degree = jobBank.getFenixDegreeFor(remote);
 	    if (degree != null) {
 		degree.updateName(remote.getPresentationName());
+		degree.setDegreeType(FenixDegreeType.getByFenixDegreeTypeByName(remote.getDegreeTypeName()));
 		degree.setActive(true);
 	    }
 	}
@@ -62,7 +64,7 @@ public class CreateOrUpdateFenixDegreesTask extends UpdateExpiredEnterpriseAgree
 	inexistentFD.removeAll(localDegrees);
 
 	for (RemoteDegree remote : inexistentFD) {
-	    FenixDegree fenixDegree = new FenixDegree(remote.getPresentationName());
+	    FenixDegree fenixDegree = new FenixDegree(remote.getPresentationName(), remote.getDegreeTypeName());
 	    jobBank.addFenixDegree(fenixDegree);
 	    fenixDegree.setRemoteDegree(remote);
 	}

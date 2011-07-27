@@ -4,7 +4,7 @@ import module.jobBank.domain.Degree;
 import pt.ist.fenixWebFramework.renderers.DataProvider;
 import pt.ist.fenixWebFramework.renderers.components.converters.Converter;
 
-public class RemoteAllBolonhaDegreesProvider implements DataProvider {
+public class ActiveFenixDegreesProvider implements DataProvider {
 
     @Override
     public Object provide(final Object source, final Object currentValue) {

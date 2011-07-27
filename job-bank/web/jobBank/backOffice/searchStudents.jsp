@@ -12,7 +12,7 @@
 			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
 			</fr:slot>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
-				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
+				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="sortBy" value="name=asc" />

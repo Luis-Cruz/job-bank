@@ -70,7 +70,7 @@
 			</fr:slot>	
 			
 			<fr:slot name="jobOfferBean.degrees" key="label.enterprise.offer.degree" layout="option-select">
-				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.RemoteAllBolonhaDegreesProvider" />
+				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="saveOptions" value="true" />

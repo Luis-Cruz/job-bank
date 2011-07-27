@@ -217,4 +217,17 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return ret;
     }
 
+    public Set<FenixDegree> getActiveMasterFenixDegreeSet() {
+	HashSet<FenixDegree> ret = new HashSet<FenixDegree>();
+	Set<FenixDegree> activeDegrees = getActiveFenixDegreeSet();
+
+	for (FenixDegree degree : activeDegrees) {
+	    if (degree.isBolonhaMasterDegree()) {
+		ret.add(degree);
+	    }
+	}
+
+	return ret;
+    }
+
 }
