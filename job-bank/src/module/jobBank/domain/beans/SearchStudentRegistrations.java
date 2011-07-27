@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import module.jobBank.domain.FenixDegree;
+import module.jobBank.domain.FenixDegreeType;
 import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.Person;
@@ -78,7 +79,7 @@ public class SearchStudentRegistrations extends Search<StudentRegistration> {
 	if (hasSelectedDegree()) {
 	    return isSatisfiedRegistration(registration, hasSelectedRegistrationConlued());
 	} else {
-	    return isSatisfiedRegistrationProcess(registration);
+	    return isSatisfiedRegistrationProcess(registration) && checkBolonhaDegreeRestriction(registration.getFenixDegree());
 	}
     }
 
@@ -88,6 +89,10 @@ public class SearchStudentRegistrations extends Search<StudentRegistration> {
 
     private boolean isSatisfiedRegistration(StudentRegistration registration, boolean concluded) {
 	return registration.getFenixDegree().equals(getDegree()) && (!concluded || registration.getIsConcluded());
+    }
+
+    private boolean checkBolonhaDegreeRestriction(FenixDegree degree) {
+	return !degree.getDegreeType().equals(FenixDegreeType.BOLONHA_DEGREE);
     }
 
     public boolean isRegistrationConclued() {
