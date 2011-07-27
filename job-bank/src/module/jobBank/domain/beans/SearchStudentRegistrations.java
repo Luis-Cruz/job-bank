@@ -5,30 +5,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 import module.jobBank.domain.FenixDegree;
-import module.jobBank.domain.Student;
+import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.utils.IPredicate;
 import module.organization.domain.Person;
 import myorg.domain.util.Search;
 
-public class SearchStudents extends Search<Person> {
+public class SearchStudentRegistrations extends Search<StudentRegistration> {
 
     private boolean registrationConclued;
     private FenixDegree degree;
     private String username;
 
-    public SearchStudents() {
+    public SearchStudentRegistrations() {
 	super();
 	setRegistrationConclued(false);
     }
 
-    protected class SearchResult extends SearchResultSet<Person> {
+    protected class SearchResult extends SearchResultSet<StudentRegistration> {
 
-	public SearchResult(final Collection<? extends Person> c) {
+	public SearchResult(final Collection<? extends StudentRegistration> c) {
 	    super(c);
 	}
 
 	@Override
-	protected boolean matchesSearchCriteria(final Person person) {
+	protected boolean matchesSearchCriteria(final StudentRegistration registration) {
+	    Person person = registration.getStudent().getPerson();
+
 	    if (person == null) {
 		return false;
 	    }
@@ -53,17 +55,17 @@ public class SearchStudents extends Search<Person> {
     }
 
     @Override
-    public Set<Person> search() {
-	return new SearchResult(readPersonsToSatisfizedPredicate());
+    public Set<StudentRegistration> search() {
+	return new SearchResult(readStudentRegistrationsToSatisfizedPredicate());
     }
 
-    private Set<Person> readPersonsToSatisfizedPredicate() {
-	final Set<Person> results = new HashSet<Person>();
-	Student.readAllStudents(new IPredicate<Student>() {
+    private Set<StudentRegistration> readStudentRegistrationsToSatisfizedPredicate() {
+	final Set<StudentRegistration> results = new HashSet<StudentRegistration>();
+	StudentRegistration.readAllStudentRegistrations(new IPredicate<StudentRegistration>() {
 	    @Override
-	    public boolean evaluate(Student student) {
-		if (isSatisfiedConditions(student)) {
-		    results.add(student.getPerson());
+	    public boolean evaluate(StudentRegistration registration) {
+		if (isSatisfiedConditions(registration)) {
+		    results.add(registration);
 		    return true;
 		}
 		return false;
@@ -72,20 +74,20 @@ public class SearchStudents extends Search<Person> {
 	return results;
     }
 
-    private boolean isSatisfiedConditions(Student student) {
+    private boolean isSatisfiedConditions(StudentRegistration registration) {
 	if (hasSelectedDegree()) {
-	    return isSatisfiedDegree(student, hasSelectedRegistrationConlued());
+	    return isSatisfiedRegistration(registration, hasSelectedRegistrationConlued());
 	} else {
-	    return isSatisfiedRegistrationProcess(student);
+	    return isSatisfiedRegistrationProcess(registration);
 	}
     }
 
-    private boolean isSatisfiedRegistrationProcess(Student student) {
-	return !hasSelectedRegistrationConlued() || student.hasAnyConcludedRegistration();
+    private boolean isSatisfiedRegistrationProcess(StudentRegistration registration) {
+	return !hasSelectedRegistrationConlued() || registration.getIsConcluded();
     }
 
-    private boolean isSatisfiedDegree(Student student, boolean concluded) {
-	return student.hasAnyRegistrationWithDegree(getDegree(), concluded);
+    private boolean isSatisfiedRegistration(StudentRegistration registration, boolean concluded) {
+	return registration.getFenixDegree().equals(getDegree()) && (!concluded || registration.getIsConcluded());
     }
 
     public boolean isRegistrationConclued() {

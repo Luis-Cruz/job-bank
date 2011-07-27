@@ -129,7 +129,7 @@ public class Student extends Student_Base {
 	for (StudentRegistration studentRegistration : getActiveStudentRegistrationSet()) {
 	    FenixDegree fenixDegree = studentRegistration.getFenixDegree();
 	    if (fenixDegree != null && fenixDegree.equals(degree)) {
-		if (checkConclusion && studentRegistration.getIsConcluded()) {
+		if (checkConclusion && !studentRegistration.getIsConcluded()) {
 		    continue;
 		}
 		return true;

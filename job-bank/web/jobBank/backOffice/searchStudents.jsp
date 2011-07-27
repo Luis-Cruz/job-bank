@@ -8,7 +8,7 @@
 
 <fr:form> 
 	<fr:edit id="searchStudents" name="searchStudents" >
-		<fr:schema type="module.jobBank.domain.beans.SearchStudents" bundle="JOB_BANK_RESOURCES">
+		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
 			</fr:slot>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
@@ -36,15 +36,16 @@
 
 <logic:present name="results">
 	<fr:view name="results">
-			<fr:schema type="myorg.domain.User" bundle="JOB_BANK_RESOURCES">
-				<%--<fr:slot name="user.username" key="label.curriculum.id" bundle="JOB_BANK_RESOURCES"/> --%>
-				<fr:slot name="name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
-				<%--<fr:slot name="student.presentationDegreeName" key="label.curriculumQualification.degree" bundle="JOB_BANK_RESOURCES"/> --%>
+			<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
+				<fr:slot name="student.name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
+				<fr:slot name="fenixDegree.name" key="label.curriculum.degree" bundle="JOB_BANK_RESOURCES"/>
+				<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES"/>
+				<fr:slot name="isConcluded" key="label.enterprise.degree.is.concluded" bundle="JOB_BANK_RESOURCES"/>
 			</fr:schema>
 			<fr:layout name="tabular">
 				<fr:property name="classes" value="tstyle2"/>
 				<fr:property name="columnClasses" value="aleft,,,,aright,"/>
-				<fr:property name="sortBy" value="person=asc"/>
+				<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 				
 				<fr:property name="link(view)" value="/backOffice.do?method=viewStudentCurriculum"/>
 				<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES"/>

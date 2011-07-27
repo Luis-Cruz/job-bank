@@ -1,7 +1,10 @@
 package module.jobBank.domain;
 
 import java.math.BigDecimal;
+import java.util.Set;
 
+import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 
 import org.joda.time.DateTime;
@@ -22,10 +25,16 @@ public class StudentRegistration extends StudentRegistration_Base {
 	setIsConcluded(isConcluded);
 	setAverage(average);
 	setFenixDegree(fenixDegree);
+	setJobBankSystem(JobBankSystem.getInstance());
     }
 
     public boolean isActive() {
 	return getActiveEndDate() == null || getActiveEndDate().isAfterNow();
+    }
+
+    public static Set<StudentRegistration> readAllStudentRegistrations(IPredicate<StudentRegistration> predicate) {
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getActiveStudentRegistrationSet());
     }
 
 }
