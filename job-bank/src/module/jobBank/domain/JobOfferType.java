@@ -4,6 +4,7 @@ import myorg.util.BundleUtil;
 import pt.ist.fenixWebFramework.rendererExtensions.util.IPresentableEnum;
 
 public enum JobOfferType implements IPresentableEnum {
+    ALL("all", "label.jobOfferType.all"),
     PROFISSIONAL_STAGE("profissionalStage", "label.jobOfferType.profissionalStage"), EXTRACURRICULAR_STAGE(
 	    "extracurricularStage", "label.jobOfferType.extracurricularStage"), SUMMER_STAGE("summerStage",
 	    "label.jobOfferType.summerStage"), NATIONAL_EMPLOYMENT("nationalEmployment", "label.jobOfferType.nationalEmployment"), INTERNATIONAL_EMPLOYMENT(

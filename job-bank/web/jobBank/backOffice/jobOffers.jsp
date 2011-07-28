@@ -19,6 +19,9 @@
 				<fr:property name="defaultOptionHidden" value="true"/>
 				<fr:property name="excludedValues" value="UNDER_CONSTRUCTION" />
 			</fr:slot>
+			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+				<fr:property name="defaultOptionHidden" value="true"/>
+			</fr:slot>
 		</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="form" />
@@ -40,7 +43,7 @@
 	
 	<logic:notEqual name="offerSearch" property="processesCount" value="0">	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params">&amp;offerState=<logic:present name="offerSearch" property="jobOfferState"><bean:write name="offerSearch" property="jobOfferState"/></logic:present>&amp;processNumber=<logic:present name="offerSearch" property="processNumber"><bean:write name="offerSearch" property="processNumber"/></logic:present>&amp;enterprise=<logic:present name="offerSearch" property="enterprise"><bean:write name="offerSearch" property="enterprise"/></logic:present></bean:define>
+			<bean:define id="params">&amp;offerState=<logic:present name="offerSearch" property="jobOfferState"><bean:write name="offerSearch" property="jobOfferState"/></logic:present>&amp;processNumber=<logic:present name="offerSearch" property="processNumber"><bean:write name="offerSearch" property="processNumber"/></logic:present>&amp;enterprise=<logic:present name="offerSearch" property="enterprise"><bean:write name="offerSearch" property="enterprise"/></logic:present>&amp;offerType=<logic:present name="offerSearch" property="jobOfferType"><bean:write name="offerSearch" property="jobOfferType"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/backOffice.do?method=jobOffers" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 		

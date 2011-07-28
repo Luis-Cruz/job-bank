@@ -307,4 +307,27 @@ public abstract class JobOffer extends JobOffer_Base {
 	return isConclued();
     }
 
+    public boolean isProfessionalStage() {
+	return getJobOfferType().equals(JobOfferType.PROFISSIONAL_STAGE);
+    }
+
+    public boolean isExtracurricularStage() {
+	return getJobOfferType().equals(JobOfferType.EXTRACURRICULAR_STAGE);
+    }
+
+    public boolean isSummerStage() {
+	return getJobOfferType().equals(JobOfferType.SUMMER_STAGE);
+    }
+
+    public boolean isNationalEmployment() {
+	return getJobOfferType().equals(JobOfferType.NATIONAL_EMPLOYMENT);
+    }
+
+    public boolean isInternationalEmployment() {
+	return getJobOfferType().equals(JobOfferType.INTERNATIONAL_EMPLOYMENT);
+    }
+
+    public boolean isResearch() {
+	return getJobOfferType().equals(JobOfferType.RESEARCH);
+    }
 }

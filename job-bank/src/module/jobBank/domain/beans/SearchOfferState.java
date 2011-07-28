@@ -6,6 +6,7 @@ import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
+import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.utils.IPredicate;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
@@ -18,6 +19,7 @@ import pt.utl.ist.fenix.tools.util.StringNormalizer;
 public class SearchOfferState extends Search<JobOfferProcess> {
 
     private JobOfferState jobOfferState;
+    private JobOfferType jobOfferType;
     private String processNumber;
     private String enterprise;
     private int processesCount;
@@ -28,6 +30,7 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 
     public void init() {
 	setInitialState();
+	setJobOfferType(JobOfferType.ALL);
     }
 
     private void setInitialState() {
@@ -69,6 +72,41 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 		|| offer.getJobOfferProcess().getProcessIdentification().contains(getProcessNumber());
     }
 
+    private boolean isSatisfiedType(JobOffer jobOffer, User user) {
+	return isJobOfferTypeAll(jobOffer) || isJobOfferTypeProfissionalStage(jobOffer)
+		|| isJobOfferTypeExtracurricularStage(jobOffer) || isJobOfferTypeSummerStage(jobOffer)
+		|| isJobOfferTypeNationalEmployment(jobOffer) || isJobOfferTypeInternationalEmployment(jobOffer)
+		|| isJobOfferTypeResearch(jobOffer);
+    }
+
+    private boolean isJobOfferTypeAll(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.ALL);
+    }
+
+    private boolean isJobOfferTypeProfissionalStage(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.PROFISSIONAL_STAGE) && jobOffer.isProfessionalStage();
+    }
+
+    private boolean isJobOfferTypeExtracurricularStage(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.EXTRACURRICULAR_STAGE) && jobOffer.isExtracurricularStage();
+    }
+
+    private boolean isJobOfferTypeSummerStage(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.SUMMER_STAGE) && jobOffer.isSummerStage();
+    }
+
+    private boolean isJobOfferTypeNationalEmployment(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.NATIONAL_EMPLOYMENT) && jobOffer.isNationalEmployment();
+    }
+
+    private boolean isJobOfferTypeInternationalEmployment(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.INTERNATIONAL_EMPLOYMENT) && jobOffer.isInternationalEmployment();
+    }
+
+    private boolean isJobOfferTypeResearch(JobOffer jobOffer) {
+	return getJobOfferType().equals(JobOfferType.RESEARCH) && jobOffer.isResearch();
+    }
+
     private boolean isSatisfiedState(JobOffer jobOffer, User user) {
 	return isJobOfferAll(jobOffer) || isJobOfferUnderConstruction(jobOffer) || isJobOfferWaitingForApproval(jobOffer)
 		|| isJobOfferAproved(jobOffer) || isJobOfferPublished(jobOffer) || isJobOfferUnderSelection(jobOffer)
@@ -76,7 +114,8 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isJobOfferAll(JobOffer jobOffer) {
-	return getJobOfferState().equals(JobOfferState.ALL) && !jobOffer.isUnderConstruction();
+	return getJobOfferState().equals(JobOfferState.ALL)
+		&& (!JobBankSystem.getInstance().isNPEMember() || !jobOffer.isUnderConstruction());
     }
 
     private boolean isJobOfferUnderConstruction(JobOffer jobOffer) {
@@ -115,8 +154,8 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 	    @Override
 	    public boolean evaluate(JobOfferProcess object) {
 		JobOffer jobOffer = object.getJobOffer();
-		return isSatisfiedUser(object) && isSatisfiedState(jobOffer, user) && isSatisfiedProcessNumber(jobOffer)
-			&& isSatisfiedEnterprise(jobOffer);
+		return isSatisfiedUser(object) && isSatisfiedState(jobOffer, user) && isSatisfiedType(jobOffer, user)
+			&& isSatisfiedProcessNumber(jobOffer) && isSatisfiedEnterprise(jobOffer);
 	    }
 	});
 	return jobOfferProcesses;
@@ -136,6 +175,14 @@ public class SearchOfferState extends Search<JobOfferProcess> {
 
     public int getProcessesCount() {
 	return processesCount;
+    }
+
+    public void setJobOfferType(JobOfferType jobOfferType) {
+	this.jobOfferType = jobOfferType;
+    }
+
+    public JobOfferType getJobOfferType() {
+	return jobOfferType;
     }
 
 }

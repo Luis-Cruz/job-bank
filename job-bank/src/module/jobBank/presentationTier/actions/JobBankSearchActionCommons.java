@@ -27,11 +27,16 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	    offerSearch = new SearchOfferState();
 
 	    String offerState = request.getParameter("offerState");
+	    String offerType = request.getParameter("offerType");
 	    String enterprise = request.getParameter("enterprise");
 	    String processNumber = request.getParameter("processNumber");
 
 	    if (offerState != null && JobOfferState.getByName(offerState) != null) {
 		offerSearch.setJobOfferState(JobOfferState.getByName(offerState));
+	    }
+
+	    if (offerType != null && JobOfferType.getByName(offerType) != null) {
+		offerSearch.setJobOfferType(JobOfferType.getByName(offerType));
 	    }
 
 	    if (enterprise != null) {
