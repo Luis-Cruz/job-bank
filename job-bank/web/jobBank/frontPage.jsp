@@ -4,74 +4,52 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
+<div class="imagem-entrada"></div>
 
-<h2>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.home"/>
-</h2>
+<p class="intro grid_7"> O <strong>IST Job Bank</strong> é uma plataforma informática desenhada com o objectivo facilitar o encontro entre as necessidades de recursos humanos das empresas e as competências dos alunos do IST que se encontram a concluir os seus estudos.<br />
+	<span>Para além de permitir a colocação de ofertas das empresas, o IST Job Bank poderá também disponibilizar informação sobre os alunos que autorizaram explicitamente a divulgação dos seus dados. As informações académicas prestadas são certificadas pelos serviços de graduação do IST.</span> </p>
+<div class="clearthis"></div>
+<div id="botao" class="posicao-verde"> <a href="#" class="botao verde"><strong>Registar empresa</strong></a> </div>
+<!-- botão -->
 
-<logic:messagesPresent property="message" message="true">
-	<div class="error1">
-		<html:messages id="errorMessage" property="message" message="true"> 
-			<span><fr:view name="errorMessage"/></span>
-		</html:messages>
+<div class="hr">
+	<hr />
+</div>
+<div id="vantagens">
+	<h3>Algumas vantagens da plataforma</h3>
+	<div class="vantagens-linha">
+		<div class="vantagem">
+			<h2 class="oferta-de-empregos">Oferta de empregos</h2>
+			<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+		</div>
+		<div class="vantagem">
+			<h2 class="calendarizacao">Calendarização</h2>
+			<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+		</div>
 	</div>
-</logic:messagesPresent>
+	<!-- vantagens-linha -->
+	
+	<div class="vantagens-linha">
+		<div class="vantagem">
+			<h2 class="perfis-de-alunos">Perfis de alunos</h2>
+			<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+		</div>
+		<div class="vantagem">
+			<h2 class="confidencialidade">Confidencialidade</h2>
+			<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+		</div>
+	</div>
+	<!-- vantagens-linha --> 
+	
+</div>
+<!-- vantagens -->
 
-<div class="infobox4 col2-1"> 
-			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.introduction"/></h3> 
-			<div> 
-				<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.introduction.text"/></p> 
-			</div> 
-			<logic:empty name="user"> 
-				<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise"/></h3> 
-				<div> 
-					<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.howTo.registerEnterprise.text"/></p> 
-					
-					<fr:form action="/enterprise.do">
-						<html:hidden property="method" value="termsResponsibilityEnterprise"/>
-						<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
-					</fr:form> 
-					
-				</div>
-				<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.recover.password"/></h3> 
-				<div> 
-					<html:link action="/enterprise.do?method=prepareToPasswordRecover">
-						<bean:message key="link.enterprise.passwordRecover" bundle="JOB_BANK_RESOURCES"/>
-					</html:link>
-				</div> 
-			</logic:empty>
-			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.contacts"/></h3> 
-			<div> 
-				<p><bean:message key="message.frontPage.contacts.text" bundle="JOB_BANK_RESOURCES"/></p>
-			</div> 
-		</div> 
-		
-		<div class="infobox4 col2-2"> 
-			<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.news"/></h3> 
-			<div> 
-				<h4 style="margin-bottom: -15px;"><span style="font-weight: normal; padding-right: 5px;">20/10/2010</span> Proin porta massa ac nisl</h4> 
-				<p>Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi.</p> 
-				<h4 style="margin-bottom: -15px;"><span style="font-weight: normal; padding-right: 5px;">20/10/2010</span> Proin porta massa ac nisl</h4> 
-				<p>Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi.</p> 
-				<h4 style="margin-bottom: -15px;"><span style="font-weight: normal; padding-right: 5px;">20/10/2010</span> Proin porta massa ac nisl</h4> 
-				<p>Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis. Maecenas vitae dignissim quam. Quisque sodales viverra nisi.</p> 
-			</div> 
-		</div> 
- 
- 
-				<div class="clear"></div> 
-
-			</div> 
-		</div> 
-		<div id="footer"> 
-			<div class="c1"></div> 
-			<div class="c2"></div> 
-			<div class="c3"></div> 
-			<div class="c4"></div> 
-			<p> &copy;2010 Instituto Superior Técnico </p> 
-		</div> 
-	</div> 
-	<!-- #container2 --> 
-</div> 
-
-
+<div id="contactos">
+	<h2>Contactos</h2>
+	<h3>Núcleo de Parcerias Empresariais</h3>
+	<p>Dr.ª Carlota Santos Silva<br />
+		email: pe@ist.ut.pt<br />
+		tel.: 218 419 844<br />
+		http://tt.ist.utl.pt/parcerias-empresariais/
+	</p>
+</div>
