@@ -6,6 +6,8 @@
 <%@ taglib uri="/WEB-INF/workflow.tld" prefix="wf"%>
 <%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
+<%@page import="myorg.util.BundleUtil"%>
+<%@page import="module.jobBank.domain.JobBankSystem"%>
 
 <bean:define id="searchParameters"><c:out value="${search.requestParameters}" /></bean:define>
 
@@ -15,6 +17,8 @@
 			type="module.jobBank.domain.beans.SearchOffer">
 			<fr:slot name="query" key="label.enterprise.jobOffer.query" />
 			<fr:slot name="degrees" key="label.enterprise.offer.degree" layout="menu-select">
+				<fr:property name="defaultText" value="<%= BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.degree.all") %>"/>
+
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values"/>
 				<fr:property name="saveOptions" value="true"/>
@@ -22,6 +26,7 @@
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 			</fr:slot>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
+				<fr:property name="excludedValues" value="ALL" />
 				<fr:property name="defaultText" value="label.jobOffer.jobType.all" />
 				<fr:property name="defaultTextBundle" value="JOB_BANK_RESOURCES" />
 				<fr:property name="key" value="true" />

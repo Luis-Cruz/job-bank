@@ -6,6 +6,8 @@
 <%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.searchStudents"/></h2>
+<%@page import="myorg.util.BundleUtil"%>
+<%@page import="module.jobBank.domain.JobBankSystem"%>
 
 <fr:form action="/backOffice.do?method=searchStudents"> 
 	<fr:edit id="searchStudents" name="searchStudents" >
@@ -17,6 +19,8 @@
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="sortBy" value="name=asc" />
+				
+				<fr:property name="defaultText" value="<%= BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.degree.all") %>"/>
 			</fr:slot>
 			<fr:slot name="registrationConclued" key="label.enterprise.degree.concluded" />
 			

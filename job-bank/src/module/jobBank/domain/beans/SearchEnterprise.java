@@ -1,5 +1,8 @@
 package module.jobBank.domain.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.Enterprise;
@@ -104,6 +107,12 @@ public class SearchEnterprise extends Search<Enterprise> {
 	    }
 	});
 	return enterprises;
+    }
+
+    public List<Enterprise> sortedSearchByEnterpriseName() {
+	ArrayList<Enterprise> results = new ArrayList<Enterprise>(search());
+	Collections.sort(results, Enterprise.COMPARATOR_BY_ENTERPRISE_NAME);
+	return results;
     }
 
 }

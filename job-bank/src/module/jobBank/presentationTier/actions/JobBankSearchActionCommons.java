@@ -1,6 +1,6 @@
 package module.jobBank.presentationTier.actions;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,7 +49,7 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	}
 
 	int resultsPerPage = 25;
-	Set<JobOfferProcess> processes = offerSearch.search();
+	List<JobOfferProcess> processes = offerSearch.sortedSearchByRegistration();
 	offerSearch.setProcessesCount(processes.size());
 
 	request.setAttribute("offerSearch", offerSearch);
@@ -97,7 +97,7 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 
 	if (!firstSearch) {
 	    int resultsPerPage = 25;
-	    Set<JobOfferProcess> processes = search.search();
+	    List<JobOfferProcess> processes = search.sortedSearchByRegistration();
 	    request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
 	}
 
@@ -123,7 +123,7 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	}
 
 	int resultsPerPage = 25;
-	Set<Enterprise> processes = enterpriseSearch.search();
+	List<Enterprise> processes = enterpriseSearch.sortedSearchByEnterpriseName();
 	enterpriseSearch.setEnterprisesCount(processes.size());
 
 	request.setAttribute("enterpriseSearch", enterpriseSearch);
@@ -168,7 +168,7 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 
 	if (!firstSearch) {
 	    int resultsPerPage = 25;
-	    Set<StudentRegistration> registrations = search.search();
+	    List<StudentRegistration> registrations = search.sortedSearchByStudentName();
 	    request.setAttribute("results", Utils.doPagination(request, registrations, resultsPerPage));
 	    request.setAttribute("resultsCount", registrations.size());
 	}

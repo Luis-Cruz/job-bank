@@ -1,6 +1,7 @@
 package module.jobBank.domain;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,9 +28,22 @@ import org.joda.time.LocalDate;
 
 import pt.ist.emailNotifier.domain.Email;
 import pt.ist.fenixWebFramework.services.Service;
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Enterprise extends Enterprise_Base {
+
+    public static final Comparator<Enterprise> COMPARATOR_BY_ENTERPRISE_NAME = new Comparator<Enterprise>() {
+
+	@Override
+	public int compare(Enterprise o1, Enterprise o2) {
+	    final String n1 = o1.getName().getContent();
+	    final String n2 = o2.getName().getContent();
+
+	    return StringNormalizer.normalize(n1).compareTo(StringNormalizer.normalize(n2));
+	}
+
+    };
 
     // By default the accountabilityType is valid for one year
     private final int VALID_CONTRACT = 1;

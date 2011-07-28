@@ -1,5 +1,8 @@
 package module.jobBank.domain.beans;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -63,6 +66,12 @@ public class SearchOffer extends Search<JobOfferProcess> {
 	}
 
 	return jobOfferProcesses;
+    }
+
+    public List<JobOfferProcess> sortedSearchByRegistration() {
+	ArrayList<JobOfferProcess> results = new ArrayList<JobOfferProcess>(search());
+	Collections.sort(results, JobOfferProcess.COMPARATOR_BY_REGISTRATION);
+	return results;
     }
 
     public void setQuery(String query) {

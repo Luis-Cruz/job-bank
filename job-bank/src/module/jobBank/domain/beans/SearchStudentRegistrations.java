@@ -1,7 +1,10 @@
 package module.jobBank.domain.beans;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.FenixDegree;
@@ -63,6 +66,12 @@ public class SearchStudentRegistrations extends Search<StudentRegistration> {
     @Override
     public Set<StudentRegistration> search() {
 	return new SearchResult(readStudentRegistrationsToSatisfizedPredicate());
+    }
+
+    public List<StudentRegistration> sortedSearchByStudentName() {
+	ArrayList<StudentRegistration> results = new ArrayList<StudentRegistration>(search());
+	Collections.sort(results, StudentRegistration.COMPARATOR_BY_STUDENT_NAME);
+	return results;
     }
 
     private Set<StudentRegistration> readStudentRegistrationsToSatisfizedPredicate() {
