@@ -96,6 +96,7 @@ public class SearchEnterprise extends Search<Enterprise> {
 
     @Override
     public Set<Enterprise> search() {
+	normalizeStrings();
 	final User user = UserView.getCurrentUser();
 	final Set<Enterprise> enterprises = Enterprise.readAllEnterprises(new IPredicate<Enterprise>() {
 
@@ -107,6 +108,12 @@ public class SearchEnterprise extends Search<Enterprise> {
 	    }
 	});
 	return enterprises;
+    }
+
+    private void normalizeStrings() {
+	if (getEnterpriseName() != null) {
+	    setEnterpriseName(StringNormalizer.normalize(getEnterpriseName()));
+	}
     }
 
     public List<Enterprise> sortedSearchByEnterpriseName() {

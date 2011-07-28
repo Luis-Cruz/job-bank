@@ -65,7 +65,14 @@ public class SearchStudentRegistrations extends Search<StudentRegistration> {
 
     @Override
     public Set<StudentRegistration> search() {
+	normalizeStrings();
 	return new SearchResult(readStudentRegistrationsToSatisfizedPredicate());
+    }
+
+    private void normalizeStrings() {
+	if (getUsername() != null) {
+	    setUsername(StringNormalizer.normalize(getUsername()));
+	}
     }
 
     public List<StudentRegistration> sortedSearchByStudentName() {

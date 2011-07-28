@@ -48,6 +48,7 @@ public class SearchOffer extends Search<JobOfferProcess> {
 
     @Override
     public Set<JobOfferProcess> search() {
+	normalizeStrings();
 	final User user = UserView.getCurrentUser();
 	Set<JobOfferProcess> jobOfferProcesses = JobOfferProcess.readJobOfferProcess(new IPredicate<JobOfferProcess>() {
 
@@ -66,6 +67,12 @@ public class SearchOffer extends Search<JobOfferProcess> {
 	}
 
 	return jobOfferProcesses;
+    }
+
+    private void normalizeStrings() {
+	if (getQuery() != null) {
+	    setQuery(StringNormalizer.normalize(getQuery()));
+	}
     }
 
     public List<JobOfferProcess> sortedSearchByRegistration() {
