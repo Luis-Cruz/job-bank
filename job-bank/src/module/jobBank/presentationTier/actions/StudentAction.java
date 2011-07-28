@@ -12,7 +12,6 @@ import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.beans.OfferCandidacyBean;
-import module.jobBank.domain.beans.SearchOffer;
 import module.jobBank.domain.curriculumQualification.CurriculumQualification;
 import module.workflow.domain.WorkflowProcess;
 import module.workflow.domain.WorkflowProcessComment;
@@ -26,7 +25,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/student")
@@ -82,13 +80,8 @@ public class StudentAction extends ContextBaseAction {
 
     public ActionForward searchOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
-	SearchOffer search = getRenderedObject("search");
-	if (search == null) {
-	    search = new SearchOffer();
-	}
-	RenderUtils.invalidateViewState();
-	request.setAttribute("processes", search.search());
-	request.setAttribute("search", search);
+	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+	commons.processStudentJobOfferSearch(request);
 	return forward(request, "/jobBank/student/jobOffers.jsp");
     }
 

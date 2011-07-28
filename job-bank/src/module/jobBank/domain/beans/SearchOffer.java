@@ -104,7 +104,7 @@ public class SearchOffer extends Search<JobOfferProcess> {
     }
 
     private boolean isSatisfiedDegres(JobOffer offer) {
-	return getDegrees() == null || offer.getDegree().equals(getDegrees());
+	return getDegrees() == null || offer.getDegree().contains(getDegrees());
     }
 
     private boolean match(String key, String value) {

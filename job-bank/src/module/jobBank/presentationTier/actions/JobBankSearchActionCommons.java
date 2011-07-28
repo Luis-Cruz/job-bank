@@ -9,14 +9,17 @@ import module.jobBank.domain.EnterpriseStateType;
 import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
+import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.beans.SearchEnterprise;
+import module.jobBank.domain.beans.SearchOffer;
 import module.jobBank.domain.beans.SearchOfferState;
 import module.jobBank.domain.beans.SearchStudentRegistrations;
 import module.jobBank.domain.utils.Utils;
 import myorg.presentationTier.actions.ContextBaseAction;
 
 public class JobBankSearchActionCommons extends ContextBaseAction {
+
 
     public void processJobOffersSearch(final HttpServletRequest request) {
 	SearchOfferState offerSearch = getRenderedObject("offerSearch");
@@ -46,6 +49,54 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 
 	request.setAttribute("offerSearch", offerSearch);
 	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
+    }
+
+
+    public void processStudentJobOfferSearch(final HttpServletRequest request) {
+	SearchOffer search = getRenderedObject("search");
+	boolean firstSearch = (search == null);
+
+	if (search == null) {
+	    search = new SearchOffer();
+
+	    String query = request.getParameter("query");
+	    String degreeIdInternal = request.getParameter("degrees");
+	    String jobOfferType = request.getParameter("jobOfferType");
+
+	    if (query != null) {
+		search.setQuery(query);
+	    }
+
+	    if (degreeIdInternal != null) {
+		if (degreeIdInternal != null) {
+		    try {
+			int id = Integer.valueOf(degreeIdInternal);
+			FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
+			if (degree != null) {
+			    search.setDegrees(degree);
+			}
+		    } catch (NumberFormatException e) {
+			// Do Nothing
+		    }
+		}
+	    }
+
+	    if (jobOfferType != null && JobOfferType.getByName(jobOfferType) != null) {
+		search.setJobOfferType(JobOfferType.getByName(jobOfferType));
+	    }
+
+	    if (request.getParameter("pageNumber") != null) {
+		firstSearch = false;
+	    }
+	}
+
+	if (!firstSearch) {
+	    int resultsPerPage = 25;
+	    Set<JobOfferProcess> processes = search.search();
+	    request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
+	}
+
+	request.setAttribute("search", search);
     }
 
 
@@ -108,8 +159,6 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	    if (request.getParameter("pageNumber") != null) {
 		firstSearch = false;
 	    }
-	} else {
-	    request.setAttribute("pageNumber", Integer.valueOf(1));
 	}
 
 	if (!firstSearch) {

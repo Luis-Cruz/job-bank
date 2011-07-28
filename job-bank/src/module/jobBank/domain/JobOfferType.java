@@ -28,7 +28,17 @@ public enum JobOfferType implements IPresentableEnum {
 	return type;
     }
 
+    @Override
     public String getLocalizedName() {
 	return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
+    }
+
+    public static JobOfferType getByName(String pattern) {
+	for (JobOfferType jot : JobOfferType.values()) {
+	    if (jot.name().equals(pattern)) {
+		return jot;
+	    }
+	}
+	return null;
     }
 }

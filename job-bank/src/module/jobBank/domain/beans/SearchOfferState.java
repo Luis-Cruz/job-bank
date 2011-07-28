@@ -2,6 +2,7 @@ package module.jobBank.domain.beans;
 
 import java.util.Set;
 
+import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
@@ -26,7 +27,15 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     public void init() {
-	setJobOfferState(JobOfferState.WAITING_FOR_APPROVAL);
+	setInitialState();
+    }
+
+    private void setInitialState() {
+	if (JobBankSystem.getInstance().isNPEMember()) {
+	    setJobOfferState(JobOfferState.WAITING_FOR_APPROVAL);
+	} else {
+	    setJobOfferState(JobOfferState.UNDER_SELECTION);
+	}
     }
 
     public String getProcessNumber() {

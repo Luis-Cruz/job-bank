@@ -52,8 +52,7 @@
 				<fr:property name="param(view)" value="OID" />
 				<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 				<fr:property name="order(view)" value="1" />
-				
-				<fr:property name="sortBy" value="creationDate=asc" />
+				<fr:property name="sortBy" value="jobOffer.jobOfferProcess.processIdentification,jobOffer.presentationPeriod=asc"/>
 			</fr:layout>
 		</fr:view>
 	</logic:notEqual>
