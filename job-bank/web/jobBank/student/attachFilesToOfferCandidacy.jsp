@@ -21,12 +21,14 @@
 <bean:message bundle="JOB_BANK_RESOURCES" key="message.offerCandidacy.chooseFilesToAttach"/>
 
 
-<fr:form action='<%="/student.do?method=candidateToJobOffer&OID="+OID %>' >
+<fr:form action='<%= "/student.do?OID=" + OID %>' >
+	<input type="hidden" name="method" />
+	
 	<fr:edit id="offerCandidacyBean" name="offerCandidacyBean">
 		<fr:destination name="postback" path="/student.do?method=attachFilesToOfferCandidacy" />
 		<fr:destination name="cancel" path="/student.do?method=searchOffers" />
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.OfferCandidacyBean">
-			<fr:slot name="attachFiles" key="link.jobBank.view" layout="option-select">
+			<fr:slot name="attachFiles" key="title.jobBank.attachFileToOfferCandidacy" layout="option-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.OfferCandidacyAttachFilesProvider" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.offerCandidacy.attachFiles" />
 				<fr:property name="eachLayout" value="values" />
@@ -34,11 +36,11 @@
 		</fr:schema>
 	</fr:edit>
 	
-	<html:submit styleClass="inputbutton">
+	<html:submit styleClass="inputbutton" onclick="this.form.method.value='candidateToJobOffer';">
 		<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit" />
 	</html:submit>
 	
-	<html:cancel styleClass="inputbutton">
+	<html:submit styleClass="inputbutton" onclick="this.form.method.value='viewJobOffer';">
 		<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel" />
-	</html:cancel>
+	</html:submit>
 </fr:form>

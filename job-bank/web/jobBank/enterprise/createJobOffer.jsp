@@ -4,6 +4,8 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
+<%@page import="module.jobBank.domain.enums.CandidacyType"%>
+
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createOffer"/></h2>
 
 <logic:messagesPresent property="message" message="true">
@@ -25,14 +27,16 @@
 			<fr:slot name="candidacyType" key="label.enterprise.jobOffer.candidancyType" layout="menu-postback">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
-			<bean:define id="candidacyType" name="jobOfferBean" property="candidacyType"/>
-			<logic:equal name="candidacyType" value="External"> 
 			
+			<bean:define id="candidacyType" name="jobOfferBean" property="candidacyType" />
+			<logic:equal name="candidacyType" property="localizedName" value="<%= CandidacyType.External.getLocalizedName() %>"> 
 				<fr:slot name="externalLink" key="label.enterprise.JobofferExternal.externalLink">
-					 <!-- <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
+					<fr:property name="size" value="80" />
+					<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/>	
+					<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>			
 				</fr:slot>
-			
-			</logic:equal>  
+			</logic:equal> 
+			 
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"> 
 				<fr:property name="size" value="80" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>

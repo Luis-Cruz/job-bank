@@ -1,5 +1,6 @@
 package module.jobBank.domain;
 
+import java.util.Comparator;
 import java.util.Set;
 
 import module.jobBank.domain.beans.OfferCandidacyBean;
@@ -13,6 +14,18 @@ import org.joda.time.DateTime;
 import pt.ist.fenixWebFramework.services.Service;
 
 public class OfferCandidacy extends OfferCandidacy_Base {
+
+    public static final Comparator<OfferCandidacy> COMPARATOR_BY_OFFER_PROCESS_IDENTIFICATION = new Comparator<OfferCandidacy>() {
+
+	@Override
+	public int compare(OfferCandidacy o1, OfferCandidacy o2) {
+	    final JobOfferProcess p1 = o1.getJobOffer().getJobOfferProcess();
+	    final JobOfferProcess p2 = o2.getJobOffer().getJobOfferProcess();
+
+	    return JobOfferProcess.COMPARATOR_BY_REGISTRATION.compare(p1, p2);
+	}
+
+    };
 
     private OfferCandidacy(Student student, JobOffer jobOffer) {
 	super();
@@ -37,7 +50,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
     // system
     public static boolean canCreateOfferCandidacy(Student student, JobOffer jobOffer) {
 	for (OfferCandidacy offerCandidacy : student.getActiveOfferCandidacies()) {
-	    if (offerCandidacy.isCandidacyToOffer(jobOffer) || jobOffer.isExternalCandidacy()) {
+	    if (offerCandidacy.isCandidacyToOffer(jobOffer)) {
 		return false;
 	    }
 	}
@@ -55,12 +68,22 @@ public class OfferCandidacy extends OfferCandidacy_Base {
     }
 
     public static void createOfferCandidacy(OfferCandidacyBean bean) {
+	checkConstraints(bean);
+
 	if (canCreateOfferCandidacy(bean.getStudent(), bean.getJobOffer())) {
 	    new OfferCandidacy(bean);
 	} else {
 	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer", DomainException
 		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
+    }
+
+    private static void checkConstraints(OfferCandidacyBean bean) {
+	if (!bean.getJobOffer().isExternalCandidacy() && bean.getAttachFiles().size() == 0) {
+	    throw new DomainException("message.no.document.selected.on.joboffer.candidacy",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	}
+
     }
 
     public boolean isCandidacyToOffer(JobOffer jobOffer) {
@@ -101,6 +124,20 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 
     public boolean getCanRemoveCandidacy() {
 	return getJobOfferSelectCandidacy() != null && getJobOffer().isSelectionPeriod();
+    }
+
+    public static OfferCandidacy getOfferCandidacy(Student student, JobOffer jobOffer) {
+	for (OfferCandidacy offerCandidacy : student.getActiveOfferCandidacies()) {
+	    if (offerCandidacy.isCandidacyToOffer(jobOffer)) {
+		return offerCandidacy;
+	    }
+	}
+	return null;
+    }
+
+    public static Set<ProcessFile> getStudentFilesForJobOfferCandidacy(Student student, JobOffer jobOffer) {
+	OfferCandidacy candidacy = getOfferCandidacy(student, jobOffer);
+	return candidacy.getProcessFilesSet();
     }
 
 }

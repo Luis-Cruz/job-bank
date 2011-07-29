@@ -1,13 +1,16 @@
 package module.jobBank.domain;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import module.jobBank.domain.beans.JobOfferBean;
+import module.jobBank.domain.enums.CandidacyType;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageState;
 import module.jobBank.domain.utils.Utils;
+import module.workflow.domain.ProcessFile;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
@@ -21,6 +24,18 @@ import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public abstract class JobOffer extends JobOffer_Base {
+
+    public static final Comparator<JobOffer> COMPARATOR_BY_PROCESS_IDENTIFICATION = new Comparator<JobOffer>() {
+
+	@Override
+	public int compare(JobOffer o1, JobOffer o2) {
+	    final JobOfferProcess p1 = o1.getJobOfferProcess();
+	    final JobOfferProcess p2 = o2.getJobOfferProcess();
+
+	    return JobOfferProcess.COMPARATOR_BY_REGISTRATION.compare(p1, p2);
+	}
+
+    };
 
     private static final Integer MIN_ACTIVE_DAYS_OFFER = 15;
     private static final Integer MAX_ACTIVE_DAYS_OFFER = 365;
@@ -55,6 +70,18 @@ public abstract class JobOffer extends JobOffer_Base {
 	    return false;
 	}
 	return OfferCandidacy.canCreateOfferCandidacy(student, this);
+    }
+    
+    public CandidacyType getCandidacyType() {
+	return isExternalCandidacy() ? CandidacyType.External : CandidacyType.Internal;
+    }
+
+    public Set<ProcessFile> getStudentFilesForJobOfferCandidacy() {
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
+	if (student == null) {
+	    return null;
+	}
+	return OfferCandidacy.getStudentFilesForJobOfferCandidacy(student, this);
     }
 
     public boolean isApproved() {
@@ -178,6 +205,10 @@ public abstract class JobOffer extends JobOffer_Base {
 	setRequirements(bean.getRequirements());
 	setBeginDate(bean.getBeginDate());
 	setEndDate(bean.getEndDate());
+
+	if (getJobOfferExternal() != null) {
+	    getJobOfferExternal().setExternalLink(bean.getExternalLink());
+	}
     }
 
     @Override
@@ -209,7 +240,11 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     public boolean getCanRemoveOfferCandidacy() {
-	return isCandidancyPeriod() && getCandidacyForThisUser(UserView.getCurrentUser()) != null;
+	return !isExternalCandidacy() && isCandidancyPeriod() && getCandidacyForThisUser(UserView.getCurrentUser()) != null;
+    }
+
+    public boolean getHasCandidacyForThisUser() {
+	return getCandidacyForThisUser(UserView.getCurrentUser()) != null;
     }
 
     public OfferCandidacy getCandidacyForThisUser(User user) {

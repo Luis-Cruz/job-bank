@@ -84,4 +84,12 @@ public class Curriculum extends Curriculum_Base {
 	}
 
     }
+
+    public boolean hasAnyDocument() {
+	if (hasCurriculumProcess()) {
+	    CurriculumProcess process = getCurriculumProcess();
+	    return process.getFilesCount() > 0;
+	}
+	return false;
+    }
 }

@@ -195,10 +195,14 @@ public class JobOfferBean implements Serializable {
 
     public static JobOfferBean createJobOfferBean(JobOffer jobOffer) {
 	if (jobOffer instanceof JobOfferInternal) {
-	    return new JobOfferBean((JobOfferInternal) jobOffer);
+	    JobOfferBean bean = new JobOfferBean((JobOfferInternal) jobOffer);
+	    bean.setCandidacyType(CandidacyType.Internal);
+	    return bean;
 	}
 	if (jobOffer instanceof JobOfferExternal) {
-	    return new JobOfferBean((JobOfferExternal) jobOffer);
+	    JobOfferBean bean = new JobOfferBean((JobOfferExternal) jobOffer);
+	    bean.setCandidacyType(CandidacyType.External);
+	    return bean;
 	}
 	return null;
     }

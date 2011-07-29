@@ -1,5 +1,7 @@
 package module.jobBank.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,7 +47,18 @@ public class Student extends Student_Base {
 		return object.isActive();
 	    }
 	}, getOfferCandidacySet());
+    }
 
+    public ArrayList<OfferCandidacy> getSortedActiveOfferCandidacies() {
+	ArrayList<OfferCandidacy> results = new ArrayList<OfferCandidacy>(getActiveOfferCandidacies());
+	Collections.sort(results, OfferCandidacy.COMPARATOR_BY_OFFER_PROCESS_IDENTIFICATION);
+	return results;
+    }
+
+    public ArrayList<OfferCandidacy> getSortedOfferCandidacySet() {
+	ArrayList<OfferCandidacy> results = new ArrayList<OfferCandidacy>(getOfferCandidacySet());
+	Collections.sort(results, OfferCandidacy.COMPARATOR_BY_OFFER_PROCESS_IDENTIFICATION);
+	return results;
     }
 
     public Boolean isActive() {
@@ -87,9 +100,15 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(new IPredicate<OfferCandidacy>() {
 	    @Override
 	    public boolean evaluate(OfferCandidacy object) {
-		return object.getJobOffer().getEnterprise().equals(enterprise);
+		return object.isActive() && object.getJobOffer().getEnterprise().equals(enterprise);
 	    }
 	}, getActiveOfferCandidacies());
+    }
+
+    public ArrayList<OfferCandidacy> getSortedOfferCandidaciesOfEnterprise(final Enterprise enterprise) {
+	ArrayList<OfferCandidacy> results = new ArrayList<OfferCandidacy>(getOfferCandidaciesOfEnterprise(enterprise));
+	Collections.sort(results, OfferCandidacy.COMPARATOR_BY_OFFER_PROCESS_IDENTIFICATION);
+	return results;
     }
 
     public static Set<Student> readAllStudents(IPredicate<Student> predicate) {

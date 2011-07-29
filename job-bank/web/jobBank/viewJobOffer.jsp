@@ -10,40 +10,52 @@
 <bean:define id="jobOffer" name="process" property="jobOffer"/>
 <bean:define id="processId" name="process" property="externalId"/>
 
-
-
-
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>
 
 <p> 
-<bean:size id="comments"  name="process" property="comments"/>		 
-<span class="comments">
-	<html:link page="/student.do?method=viewJobOfferComments" paramId="processId" paramName="process" paramProperty="externalId">
-	<%= comments %>
-	<logic:equal name="comments" value="1">
-		<bean:message key="link.comment" bundle="WORKFLOW_RESOURCES"/>
-	</logic:equal>
-	<logic:notEqual name="comments" value="1">
-		<bean:message key="link.comments" bundle="WORKFLOW_RESOURCES"/>
-	</logic:notEqual>
+
+<!-- UNCOMMENT IF COMMENTS ARE REQUESTED! -->
+
+<%-- <bean:size id="comments"  name="process" property="comments"/>		  --%>
+<!-- <span class="comments"> -->
+<%-- 	<html:link page="/student.do?method=viewJobOfferComments" paramId="processId" paramName="process" paramProperty="externalId"> --%>
+<%-- 	<%= comments %> --%>
+<%-- 	<logic:equal name="comments" value="1"> --%>
+<%-- 		<bean:message key="link.comment" bundle="WORKFLOW_RESOURCES"/> --%>
+<%-- 	</logic:equal> --%>
+<%-- 	<logic:notEqual name="comments" value="1"> --%>
+<%-- 		<bean:message key="link.comments" bundle="WORKFLOW_RESOURCES"/> --%>
+<%-- 	</logic:notEqual> --%>
+<%-- 	</html:link> --%>
+<%-- 	<bean:define id="unreadComments" name="process" property="unreadCommentsForCurrentUser"/> --%>
+<%-- 	<logic:notEmpty name="unreadComments"> --%>
+<%-- 		<bean:size id="count" name="unreadComments"/> (<%= count.toString() %> novos)  --%>
+<%-- 	</logic:notEmpty> --%>
+<!-- </span> -->
+
+
+<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
+	<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
+		<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
 	</html:link>
-	<bean:define id="unreadComments" name="process" property="unreadCommentsForCurrentUser"/>
-	<logic:notEmpty name="unreadComments">
-		<bean:size id="count" name="unreadComments"/> (<%= count.toString() %> novos) 
-	</logic:notEmpty>
-</span>
+</logic:equal>
+
+<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
+	<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
+		<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+	</html:link>
+</logic:equal>
 
 </p>
 <div class="infobox mvert1">
-	<bean:message key="label.enterprise.name" bundle="JOB_BANK_RESOURCES"/>:
-	<html:link action="/student.do?method=viewEnterprise" paramId="OID" paramName="jobOffer" paramProperty="enterprise.externalId">
-		 <bean:write name="jobOffer" property="enterprise.name"/>
-	</html:link> 
-
 	<fr:view name="jobOffer">
 		<fr:schema type="module.jobBank.domain.JobOffer" bundle="JOB_BANK_RESOURCES">
+			<fr:slot name="enterprise.name" key="label.enterprise.name" layout="link">
+				<fr:property name="useParent" value="true"/>
+				<fr:property name="linkFormat" value="/student.do?method=viewEnterprise&OID=${enterprise.externalId}" />
+			</fr:slot>			
 			<fr:slot name="jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification"/>
 			<fr:slot name="externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy"/>
 			<fr:slot name="creationDate" key="label.enterprise.offer.creationDate"/>

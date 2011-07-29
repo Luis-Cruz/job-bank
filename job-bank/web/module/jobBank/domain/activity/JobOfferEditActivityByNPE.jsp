@@ -4,6 +4,8 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
+<%@page import="module.jobBank.domain.enums.CandidacyType"%>
+
 <bean:define id="processOID" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
 
@@ -16,9 +18,11 @@
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 			
-			<logic:equal name="jobOfferBean.candidacyType" value="External"> 
+			<logic:equal name="information" property="jobOfferBean.candidacyType.localizedName" value="<%= CandidacyType.External.getLocalizedName() %>"> 
 				<fr:slot name="jobOfferBean.externalLink" key="label.enterprise.JobofferExternal.externalLink">
-					 <!-- <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/> -->
+					<fr:property name="size" value="60" />
+					<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.UrlValidator"/>	
+					<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>			
 				</fr:slot>
 			</logic:equal>  
 			

@@ -72,19 +72,12 @@
 		<fr:layout name="tabular">
 			
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-			<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
+			<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="jobOffer.jobOfferProcess.externalId/OID" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 			<fr:property name="order(view)" value="1" />
 			
-			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-			<fr:property name="link(delete)" value="/student.do?method=removeCandidancy" />
-			<fr:property name="key(delete)" value="link.jobBank.removeCandidancy" />
-			<fr:property name="param(delete)" value="OID" />
-			<fr:property name="bundle(delete)" value="JOB_BANK_RESOURCES" />
-			<fr:property name="visibleIf(delete)" value="jobOffer.candidancyPeriod" />
-			<fr:property name="order(delete)" value="2" />
 			
 			<fr:property name="sortBy" value="creationDate=asc" />
 	

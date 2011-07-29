@@ -112,7 +112,8 @@ public class SearchOffer extends Search<JobOfferProcess> {
 
     private boolean isSatisfiedQuery(String key, JobOffer offer) {
 	return isEmptyQuery() || match(key, offer.getEnterpriseName().getContent())
-		|| match(key, offer.getFunction().getContent()) || match(key, offer.getPlace());
+		|| match(key, offer.getFunction().getContent()) || match(key, offer.getPlace())
+		|| match(key, offer.getJobOfferProcess().getProcessIdentification());
     }
 
     private boolean isSatisfiedJobOfferType(JobOffer offer) {

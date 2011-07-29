@@ -1,5 +1,6 @@
 package module.jobBank.domain;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -296,13 +297,17 @@ public class Enterprise extends Enterprise_Base {
 	return !isCanceled() && isPendingAgreementToApprove();
     }
 
-    public Set<JobOffer> getPublicationsJobOffers() {
-	return Utils.readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
+    public ArrayList<JobOffer> getPublicationsJobOffers() {
+	Set<JobOffer> offers = Utils.readValuesToSatisfiedPredicate(new IPredicate<JobOffer>() {
 	    @Override
 	    public boolean evaluate(JobOffer object) {
 		return object.isActive() && object.isCandidancyPeriod();
 	    }
 	}, getJobOfferSet());
+
+	ArrayList<JobOffer> ret = new ArrayList<JobOffer>(offers);
+	Collections.sort(ret, JobOffer.COMPARATOR_BY_PROCESS_IDENTIFICATION);
+	return ret;
     }
 
     public Set<JobOfferProcess> getJobOfferProcesses() {

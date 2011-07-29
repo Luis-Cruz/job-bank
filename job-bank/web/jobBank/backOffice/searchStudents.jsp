@@ -55,6 +55,7 @@
 
 		<fr:view name="results">
 				<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
+					<fr:slot name="student.person.user.username" key="label.enterprise.username" bundle="JOB_BANK_RESOURCES"/>
 					<fr:slot name="student.name" key="label.manager.person.name" bundle="JOB_BANK_RESOURCES"/>
 					<fr:slot name="fenixDegree.name" key="label.curriculum.degree" bundle="JOB_BANK_RESOURCES"/>
 					<fr:slot name="average" key="label.curriculum.average" bundle="JOB_BANK_RESOURCES" layout="null-as-label" />
@@ -62,7 +63,7 @@
 				</fr:schema>
 				<fr:layout name="tabular">
 					<fr:property name="classes" value="tstyle2"/>
-					<fr:property name="columnClasses" value="aleft,,,,aright,"/>
+					<fr:property name="columnClasses" value=",aleft,aleft,,,,"/>
 					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 					
 					<fr:property name="link(view)" value="/backOffice.do?method=viewStudentCurriculum"/>

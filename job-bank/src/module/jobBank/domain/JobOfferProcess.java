@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import module.jobBank.domain.activity.CancelJobOfferActivity;
 import module.jobBank.domain.activity.CancelJobOfferApprovalActivity;
@@ -24,7 +23,6 @@ import module.workflow.activities.WorkflowActivity;
 import module.workflow.domain.WorkflowProcess;
 import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
-import pt.utl.ist.fenix.tools.util.StringNormalizer;
 
 public class JobOfferProcess extends JobOfferProcess_Base {
 
@@ -32,28 +30,17 @@ public class JobOfferProcess extends JobOfferProcess_Base {
 
 	@Override
 	public int compare(JobOfferProcess o1, JobOfferProcess o2) {
-	    final String n1 = o1.getProcessIdentification();
-	    final String n2 = o2.getProcessIdentification();
+	    final Integer year1 = o1.getJobOffer().getJobBankYear().getYear();
+	    final Integer year2 = o2.getJobOffer().getJobBankYear().getYear();
 
-	    StringTokenizer t1 = new StringTokenizer(n1, "/");
-	    StringTokenizer t2 = new StringTokenizer(n2, "/");
+	    final Integer proc1 = Integer.valueOf(o1.getProcessNumber());
+	    final Integer proc2 = Integer.valueOf(o2.getProcessNumber());
 
-	    String year1 = t1.nextToken();
-	    String year2 = t2.nextToken();
-
-	    int yearCompareResult = StringNormalizer.normalize(year1).compareTo(StringNormalizer.normalize(year2));
-
-	    if (t1.hasMoreElements() && t2.hasMoreElements()) {
-
-		Integer id1 = Integer.valueOf(t1.nextToken());
-		Integer id2 = Integer.valueOf(t2.nextToken());
-
-		if (yearCompareResult == 0) {
-		    return id1.compareTo(id2);
-		}
+	    if (year1.compareTo(year2) == 0) {
+		return -1 * proc1.compareTo(proc2);
 	    }
 
-	    return yearCompareResult;
+	    return -1 * year1.compareTo(year2);
 	}
 
     };

@@ -10,13 +10,26 @@
 </h2>
 
 <h3>
-	Informação
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.information"/>
 </h3>
-<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view"/>
+
+<div style="float: left;">
+	<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view"/>
+</div>
+
+<div style="float: right;padding-right: 15em;">
+	<bean:define id="enterpriseId" name="enterprise" property="externalId"/>
+	<logic:present name="enterprise" property="logo">
+			<html:img action="<%= "/student.do?method=viewEnterpriseLogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
+	</logic:present>
+</div>
+
+<div style="clear:both;"></div>
 
 <h3>
-	Ofertas
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/>
 </h3>
+
 <fr:view name="enterprise" property="publicationsJobOffers" >
 <slot name="jobOffer.jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification" />
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOffer">
@@ -35,7 +48,7 @@
 				<fr:property name="param(view)" value="jobOfferProcess.externalId/OID" />
 				<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 				<fr:property name="order(view)" value="1" />
-				<fr:property name="sortBy(view)" value="creationDate=asc" />
+<%-- 				<fr:property name="sortBy" value="jobOfferProcess.processIdentification=asc" /> --%>
 			</fr:layout>
 		</fr:schema>
 		

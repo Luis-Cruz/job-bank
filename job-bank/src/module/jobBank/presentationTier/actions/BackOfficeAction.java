@@ -80,7 +80,7 @@ public class BackOfficeAction extends ContextBaseAction {
 	    final HttpServletRequest request, final HttpServletResponse response) {
 	Student student = getDomainObject(request, "studentOID");
 	request.setAttribute("student", student);
-	request.setAttribute("offerCandidacies", student.getOfferCandidacySet());
+	request.setAttribute("offerCandidacies", student.getSortedActiveOfferCandidacies());
 	return forward(request, "/jobBank/backOffice/viewStudentCurriculum.jsp");
     }
 

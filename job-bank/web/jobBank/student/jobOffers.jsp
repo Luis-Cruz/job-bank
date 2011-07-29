@@ -54,52 +54,18 @@
 		</logic:notEqual>
 		
 			<fr:view name="processes" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer.student" >
-	<%-- 			<fr:layout name="tabular-sortable"> --%>
 				<fr:layout name="tabular">
 	
 					<fr:property name="classes"
 						value="tstyle3 mvert1 width100pc tdmiddle punits" />
 	
-					<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
+					<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
 					<fr:property name="key(view)" value="link.jobBank.view" />
 					<fr:property name="param(view)" value="OID" />
 					<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 					<fr:property name="visibleIf(view)" value="canViewJobProcess" />
 					<fr:property name="order(view)" value="1" />
 	
-	
-					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits" />
-					<fr:property name="link(candidate)" value="/student.do?method=attachFilesToOfferCandidacy" />
-					<fr:property name="key(candidate)" value="link.jobOffer.candidate" />
-					<fr:property name="param(candidate)" value="OID" />
-					<fr:property name="bundle(candidate)" value="JOB_BANK_RESOURCES" />
-					<fr:property name="visibleIf(candidate)" value="jobOffer.canCreateOfferCandidacy" />
-					<fr:property name="order(candidate)" value="2" />
-					
-					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
-					<fr:property name="link(delete)" value="/student.do?method=removeJobOfferCandidancy" />
-					<fr:property name="key(delete)" value="link.jobBank.removeCandidancy" />
-					<fr:property name="param(delete)" value="OID" />
-					<fr:property name="bundle(delete)" value="JOB_BANK_RESOURCES" />
-					<fr:property name="visibleIf(delete)" value="jobOffer.canRemoveOfferCandidacy" />
-					<fr:property name="order(delete)" value="2" />
-					
-				
-					<fr:property name="linkFormat(externalCandidacy)" value="${jobOffer.jobOfferExternal.externalLink}"/>
-					<fr:property name="key(externalCandidacy)" value="link.jobOffer.externalCandidacy" />
-					<fr:property name="bundle(externalCandidacy)" value="JOB_BANK_RESOURCES" />
-					<fr:property name="visibleIf(externalCandidacy)" value="jobOffer.externalCandidacy" />
-					<fr:property name="hasContext(externalCandidacy)" value="false" />
-					<fr:property name="contextRelative(externalCandidacy)" value="false" />
-					<fr:property name="moduleRelative(externalCandidacy)" value="false" />
-					<fr:property name="order(externalCandidacy)" value="3" />
-					
-	<%-- 				<fr:property name="sortParameter" value="sortBy"/> --%>
-	<%--        			<fr:property name="sortUrl" value="<%= "/student.do?method=searchOffers"%>" /> --%>
-	<%-- 		        <fr:property name="sortBy" value="<%= request.getParameter("sortBy") == null ? "jobOffer.function=asc" : request.getParameter("sortBy") %>"/> --%>
-	<%-- 			    <fr:property name="sortIgnored" value="true"/>					 --%>
-	<%-- 			    <fr:property name="sortableSlots" value="jobOffer.reference, jobOffer.enterprise.name, jobOffer.reference, jobOffer.function, jobOffer.place,jobOffer.presentationPeriod"  /> --%>
-				    
 				</fr:layout>
 			</fr:view>
 	</logic:present>

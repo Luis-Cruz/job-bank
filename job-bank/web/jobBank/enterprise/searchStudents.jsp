@@ -61,7 +61,7 @@
 				</fr:schema>
 				<fr:layout name="tabular">
 					<fr:property name="classes" value="tstyle2"/>
-					<fr:property name="columnClasses" value="aleft,,,,aright,"/>
+					<fr:property name="columnClasses" value="aleft,aleft,,,"/>
 					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 					
 					<fr:property name="link(view)" value="/enterprise.do?method=viewStudentCurriculum"/>

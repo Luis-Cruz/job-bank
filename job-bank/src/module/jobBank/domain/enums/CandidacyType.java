@@ -24,6 +24,7 @@ public enum CandidacyType implements IPresentableEnum {
 	return type;
     }
 
+    @Override
     public String getLocalizedName() {
 	return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
     }
