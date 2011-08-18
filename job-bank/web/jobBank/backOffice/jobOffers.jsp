@@ -4,8 +4,8 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 <%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
-<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.offers"/></h2>
 
+<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.offers"/></h2>
 
 <fr:form action="/backOffice.do?method=jobOffers">
 	<fr:edit id="offerSearch" name="offerSearch">
@@ -34,7 +34,7 @@
 	</html:submit>
 </fr:form>
 
-<p><p>
+
 <logic:present name="processes">
 	
 	<logic:equal name="offerSearch" property="processesCount" value="0">

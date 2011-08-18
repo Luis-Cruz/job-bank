@@ -6,13 +6,11 @@
 <%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
 
-<h2>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.viewEnterprises"/>
-</h2>
+<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.viewEnterprises"/></h2>
 
 <bean:define id="state" name="enterpriseSearch" property="enterpriseState.type"/>
 
-<p> 
+
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseSearch" name="enterpriseSearch">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.SearchEnterprise" >
@@ -26,8 +24,8 @@
 	<fr:layout name="tabular">
 			<fr:property name="classes" value="form" />
 			<fr:property name="columnClasses" value=",,tderror" />
-		</fr:layout>
-	
+	</fr:layout>
+	ã
 	<fr:destination name="postback" path="/backOffice.do?method=enterprises"/>
 	</fr:edit>
 	
@@ -36,8 +34,6 @@
 	</html:submit>
 </fr:form>
 
-
-<p><p>
 <fr:form>
 	<fr:view name="processes" schema="<%="jobBank.enterprise.view."+state%>">
 	
@@ -63,5 +59,5 @@
 </fr:form> 
 
 <logic:empty name="processes">
-	<bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found"/>
- </logic:empty>
+	<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found"/></p>
+</logic:empty>

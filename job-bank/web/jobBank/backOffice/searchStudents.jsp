@@ -32,11 +32,9 @@
 		</fr:layout>
 	
 	</fr:edit>
-	<p> 
 		<html:submit styleClass="inputbutton">
 			<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
 		</html:submit>
-	</p>
 </fr:form>
 
 
@@ -50,7 +48,6 @@
 		<logic:notEqual name="numberOfPages" value="1">
 			<bean:define id="params"><logic:present name="searchStudents" property="username">&amp;username=<bean:write name="searchStudents" property="username"/></logic:present><logic:present name="searchStudents" property="degree">&amp;degree=<bean:write name="searchStudents" property="degree.idInternal"/></logic:present><logic:present name="searchStudents" property="registrationConclued">&amp;registrationConclued=<bean:write name="searchStudents" property="registrationConclued"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/backOffice.do?method=searchStudents" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
-			<p><p>
 		</logic:notEqual>
 
 		<fr:view name="results">
