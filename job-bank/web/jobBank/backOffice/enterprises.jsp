@@ -25,7 +25,7 @@
 			<fr:property name="classes" value="form" />
 			<fr:property name="columnClasses" value=",,tderror" />
 	</fr:layout>
-	ã
+	
 	<fr:destination name="postback" path="/backOffice.do?method=enterprises"/>
 	</fr:edit>
 	
