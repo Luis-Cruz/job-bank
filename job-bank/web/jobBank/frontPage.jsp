@@ -11,6 +11,7 @@
 	<p class="intro grid_7"> O <strong>IST Job Bank</strong> é uma plataforma informática desenhada com o objectivo facilitar o encontro entre as necessidades de recursos humanos das empresas e as competências dos alunos do IST que se encontram a concluir os seus estudos.<br />
 		<span>Para além de permitir a colocação de ofertas das empresas, o IST Job Bank poderá também disponibilizar informação sobre os alunos que autorizaram explicitamente a divulgação dos seus dados. As informações académicas prestadas são certificadas pelos serviços de graduação do IST.</span> </p>
 	<div class="clearthis"></div>
+	
 	<div id="botao" class="posicao-verde"> <a href="#" class="botao verde"><strong>Registar empresa</strong></a> </div>
 	<!-- botão -->
 
