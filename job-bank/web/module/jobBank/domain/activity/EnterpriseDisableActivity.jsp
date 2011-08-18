@@ -7,6 +7,7 @@
 <bean:define id="processOID" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
 
+
 <p> 
 	Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis.
 </p>
