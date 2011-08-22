@@ -27,7 +27,10 @@
 		</span>
 	</div>
 </logic:equal>		
-		
+
+
+<div class="forminline">
+	
 <fr:form action='<%="/workflowProcessManagement.do?method=process&activity="+activityName+"&processId="+processOID %>'>
 	<fr:edit id="activityBean" name="information"> 					
 	<fr:schema type="module.jobBank.domain.activity.EnterpriseContractInformation"  bundle="JOB_BANK_RESOURCES">
@@ -41,27 +44,15 @@
 	</fr:schema>
 </fr:edit>
 
-<table class="tstyle0">
-	<tr>
-		<th>
-			<td>
-				<html:submit styleClass="inputbutton">
-					<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
-				</html:submit>
-				</fr:form>
-			</td>
-		</th>
-		<th>
-			<td>
-				<fr:form action="/enterprise.do?method=enterprise">
-					<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
-				</fr:form>
-			</td>
-		</th> 
-	</tr>
-</table> 
 
+	<html:submit styleClass="inputbutton">
+		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
+	</html:submit>
 	
+</fr:form>
 
+<fr:form action="/enterprise.do?method=enterprise">
+	<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
+</fr:form>
 
-
+</div>

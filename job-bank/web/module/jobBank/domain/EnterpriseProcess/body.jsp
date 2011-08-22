@@ -14,8 +14,9 @@
 <bean:define id="jobOfferProcesses" name="process" property="enterprise.jobOfferProcesses"/>
 <bean:define id="enterpriseId" name="enterprise" property="externalId"/>
 
+
+
 <logic:equal name="process" property="isEnterpriseMember" value="true">
-	<p><p><p><p>
 	
 	<logic:equal name="process" property="enterprise.pendingToApproval" value="true">
 		<div class="warning1">
@@ -31,7 +32,6 @@
 		</logic:present>
 	</logic:equal>
 	
-	<p><p>
 </logic:equal>
 
 
@@ -61,20 +61,21 @@
 		
 <p>Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.</p> 
 				
-<table class="tview3"> 
+<table class="tview-horizontal"> 
 	<tr> 
 		<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
 		<td>
-<%-- 			<logic:equal name="enterprise" property="expired" value="true"> --%>
-<%-- 				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/> --%>
-<%-- 			</logic:equal>	 --%>
-<%-- 			<logic:equal name="enterprise" property="expired" value="false"> --%>
-<%-- 				<bean:write name="enterprise" property="agreementName"/> --%>
-<%-- 			</logic:equal>	 --%>
-			</td> 
+			<%--
+			<logic:equal name="enterprise" property="expired" value="true">
+				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/>
+			</logic:equal>
+			<logic:equal name="enterprise" property="expired" value="false">
+				<bean:write name="enterprise" property="agreementName"/>
+			</logic:equal>
+			--%>
+		</td> 
 	</tr> 
 	<tr> 
-
 		<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 
 		<td><bean:write name="enterprise" property="agreementDuration"/></td> 
 	</tr> 
