@@ -3,6 +3,7 @@ package module.jobBank.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
@@ -63,10 +64,8 @@ public class Student extends Student_Base {
 
     public Boolean isActive() {
 	if (getHasPersonalDataAuthorization() && getAcceptedTermsResponsibilityDate() != null) {
-	    for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
-		if (studentRegistration.isActive()) {
-		    return true;
-		}
+	    if (getStudentRegistrationSet().size() != 0) {
+		return true;
 	    }
 	}
 	return false;
@@ -117,7 +116,7 @@ public class Student extends Student_Base {
     }
 
     public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration, FenixCycleType cycleType) {
-	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
 	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)
 		    && cycleType.equals(studentRegistration.getCycleType())) {
 		return studentRegistration;
@@ -126,18 +125,28 @@ public class Student extends Student_Base {
 	return null;
     }
 
-    public Set<StudentRegistration> getActiveStudentRegistrationSet() {
+    @Override
+    public List<StudentRegistration> getStudentRegistration() {
+	return (List<StudentRegistration>) getStudentRegistrationSet();
+    }
+
+    @Override
+    public Set<StudentRegistration> getStudentRegistrationSet() {
 	Set<StudentRegistration> result = new HashSet<StudentRegistration>();
-	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
-	    if (studentRegistration.isActive()) {
+	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
+	    if (studentRegistration.hasJobBankSystem()) {
 		result.add(studentRegistration);
 	    }
 	}
 	return result;
     }
 
+    public Set<StudentRegistration> getAllStudentRegistrationSet() {
+	return super.getStudentRegistrationSet();
+    }
+
     public boolean hasAnyConcludedRegistration() {
-	for (StudentRegistration studentRegistration : getActiveStudentRegistrationSet()) {
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
 	    if (studentRegistration.getIsConcluded()) {
 		return true;
 	    }
@@ -146,7 +155,7 @@ public class Student extends Student_Base {
     }
 
     public boolean hasAnyRegistrationWithDegree(FenixDegree degree, boolean checkConclusion) {
-	for (StudentRegistration studentRegistration : getActiveStudentRegistrationSet()) {
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
 	    FenixDegree fenixDegree = studentRegistration.getFenixDegree();
 	    if (fenixDegree != null && fenixDegree.equals(degree)) {
 		if (checkConclusion && !studentRegistration.getIsConcluded()) {

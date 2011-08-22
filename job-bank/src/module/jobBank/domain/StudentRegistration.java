@@ -6,9 +6,6 @@ import java.util.Set;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
-
-import org.joda.time.DateTime;
-
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
 
 public class StudentRegistration extends StudentRegistration_Base {
@@ -33,7 +30,6 @@ public class StudentRegistration extends StudentRegistration_Base {
 	setFenixDegree(fenixDegree);
 	setCycleType(fenixCycleType);
 	update();
-	setActiveBeginDate(new DateTime());
     }
 
     public void update() {
@@ -41,19 +37,23 @@ public class StudentRegistration extends StudentRegistration_Base {
 	setIsConcluded(getRemoteRegistration().isRegistrationConclusionProcessed());
 	setAverage(getRemoteRegistration().getAverage(getCycleType().name()));
 	setCurricularYear(getRemoteRegistration().getCurricularYear());
-	if (getActiveEndDate() != null) {
-	    setActiveEndDate(null);
-	}
 	setJobBankSystem(JobBankSystem.getInstance());
-    }
-
-    public boolean isActive() {
-	return getActiveEndDate() == null || getActiveEndDate().isAfterNow();
+	if (getCycleType().equals(FenixCycleType.FIRST_CYCLE)) {
+	    setInactive();
+	}
     }
 
     public static Set<StudentRegistration> readAllStudentRegistrations(IPredicate<StudentRegistration> predicate) {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getActiveStudentRegistrationSet());
+    }
+
+    public void setInactive() {
+	removeJobBankSystem();
+    }
+
+    public boolean isActive() {
+	return hasJobBankSystem();
     }
 
 }

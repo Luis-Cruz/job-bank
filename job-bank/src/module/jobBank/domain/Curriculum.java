@@ -55,8 +55,14 @@ public class Curriculum extends Curriculum_Base {
 	if (concludedRegistrationsForCurrentExecutionYear != null && concludedRegistrationsForCurrentExecutionYear.size() != 0) {
 	    remoteRegistrations.addAll(concludedRegistrationsForCurrentExecutionYear);
 	}
+	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
 	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
-	    getStudent().addOrUpdateRegistration(remoteRegistration);
+	    updatedRegistrations.add(getStudent().addOrUpdateRegistration(remoteRegistration));
+	}
+	for (StudentRegistration studentRegistration : getStudent().getStudentRegistrationSet()) {
+	    if (!updatedRegistrations.contains(studentRegistration)) {
+		studentRegistration.setInactive();
+	    }
 	}
     }
 

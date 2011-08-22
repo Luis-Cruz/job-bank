@@ -108,8 +108,6 @@ class StudentRegistration {
 	Integer number;
 	BigDecimal average;
 	Boolean isConcluded;
-	DateTime activeBeginDate;
-	DateTime activeEndDate;
 	Integer curricularYear;
 	FenixCycleType cycleType;
 }

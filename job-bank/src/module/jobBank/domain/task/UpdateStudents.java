@@ -11,9 +11,6 @@ import myorg.domain.User;
 import myorg.util.BundleUtil;
 import net.sourceforge.fenixedu.domain.RemoteExecutionYear;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
-
-import org.joda.time.DateTime;
-
 import pt.ist.fenixframework.plugins.remote.domain.exception.RemoteException;
 
 public class UpdateStudents extends UpdateStudents_Base {
@@ -31,13 +28,12 @@ public class UpdateStudents extends UpdateStudents_Base {
     public void executeTask() {
 	RemoteExecutionYear executionYear = RemoteExecutionYear.readCurrentExecutionYear(JobBankSystem.readRemoteHost());
 	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
-	updatedRegistrations.addAll(updateRegistrations(executionYear.getRegistrationsOfSeniorStudentsForExecutionYear()));
+	updatedRegistrations.addAll(updateRegistrations(executionYear.getAllBolonhaRegistrationsForExecutionYear()));
 	RemoteExecutionYear previousExecutionYear = executionYear.getPreviousExecutionYear();
-	updatedRegistrations.addAll(updateRegistrations(previousExecutionYear
-		.getConcludedRegistrationsOfStudentsForExecutionYear()));
+	updatedRegistrations.addAll(updateRegistrations(previousExecutionYear.getConcludedRegistrationsForExecutionYear()));
 	for (StudentRegistration registration : JobBankSystem.getInstance().getStudentRegistration()) {
 	    if (registration.isActive() && !updatedRegistrations.contains(registration)) {
-		registration.setActiveEndDate(new DateTime());
+		registration.setInactive();
 	    }
 	}
     }

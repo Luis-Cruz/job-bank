@@ -55,9 +55,10 @@
 
 
 <p> <h3 class="separator"><bean:message bundle="JOB_BANK_RESOURCES" key="label.registrations"/></h3></p>
-<fr:view name="student" property="activeStudentRegistrationSet">
+<fr:view name="student" property="allStudentRegistrationSet">
 	<fr:schema type="module.jobBank.domain.StudentRegistration" bundle="JOB_BANK_RESOURCES">
 		<fr:slot name="fenixDegree.name" key="label.curriculumQualification.degree"/>
+		<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
 		<fr:slot name="average" key="label.curriculum.average" layout="null-as-label"/>   
 	</fr:schema>
 	<fr:layout name="tabular">

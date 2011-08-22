@@ -206,15 +206,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public Set<StudentRegistration> getActiveStudentRegistrationSet() {
-	Set<StudentRegistration> ret = new HashSet<StudentRegistration>();
-
-	for (StudentRegistration reg : getStudentRegistrationSet()) {
-	    if (reg.isActive()) {
-		ret.add(reg);
-	    }
-	}
-
-	return ret;
+	return getStudentRegistrationSet();
     }
 
     public Set<FenixDegree> getActiveMasterFenixDegreeSet() {

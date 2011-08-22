@@ -46,9 +46,10 @@
 </fr:view>
 
 
-<fr:view name="student" property="activeStudentRegistrationSet">
+<fr:view name="student" property="allStudentRegistrationSet">
 	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
 		<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
+		<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
 		<fr:slot name="average" key="label.curriculum.average"/>
 	</fr:schema>
 	<fr:layout name="tabular">

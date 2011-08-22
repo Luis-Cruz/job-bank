@@ -47,7 +47,7 @@
 </fr:view>
 
 <logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
-<fr:view name="student" property="activeStudentRegistrationSet">
+<fr:view name="student" property="studentRegistrationSet">
 	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
 		<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
 		<fr:slot name="average" key="label.curriculum.average"/>
