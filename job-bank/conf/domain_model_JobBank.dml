@@ -18,6 +18,7 @@ valueType java.math.BigDecimal as BigDecimal {
 enum module.jobBank.domain.JobOfferType as JobOfferType;
 enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityType;
 enum module.jobBank.domain.FenixDegreeType as FenixDegreeType;
+enum module.jobBank.domain.FenixCycleType as FenixCycleType;
 
 class task.CreateBootstrapJobBankTask extends .myorg.domain.scheduler.Task {
 }
@@ -109,9 +110,11 @@ class StudentRegistration {
 	Boolean isConcluded;
 	DateTime activeBeginDate;
 	DateTime activeEndDate;
+	Integer curricularYear;
+	FenixCycleType cycleType;
 }
 
-class Curriculum{
+class Curriculum {
 	LocalDate dateOfBirth;
 	String nationality;
 	String address;
@@ -388,6 +391,8 @@ relation StudentRegistrations{
 }
 
 relation StudentRegistrationWithRemoteRegistration{
-	StudentRegistration playsRole ;
+	StudentRegistration playsRole {
+		multiplicity *;
+	}
 	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
 }

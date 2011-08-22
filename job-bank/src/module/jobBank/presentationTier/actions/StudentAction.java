@@ -37,7 +37,11 @@ public class StudentAction extends ContextBaseAction {
 
     public ActionForward termsResponsibilityStudent(final ActionMapping mapping, final ActionForm form,
 	    final HttpServletRequest request, final HttpServletResponse response) {
-	request.setAttribute("student", UserView.getCurrentUser().getPerson().getStudent());
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
+	if (student != null && student.getCurriculum() != null) {
+	    student.getCurriculum().loadExternalData();
+	}
+	request.setAttribute("student", student);
 	return forward(request, "/jobBank/student/termsResponsibilityStudent.jsp");
     }
 
@@ -115,7 +119,7 @@ public class StudentAction extends ContextBaseAction {
 		    "message.no.curriculum.documents.available"));
 	    return viewJobOffer(mapping, form, request, response);
 	}
-	
+
 	if (bean == null) {
 	    bean = new OfferCandidacyBean();
 	    bean.setStudent(student);

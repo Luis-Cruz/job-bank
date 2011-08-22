@@ -1,5 +1,9 @@
 package module.jobBank.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import module.jobBank.domain.activity.CurriculumQualificationInformation;
 import module.jobBank.domain.beans.CurriculumBean;
 import net.sourceforge.fenixedu.domain.RemotePerson;
@@ -8,6 +12,7 @@ import net.sourceforge.fenixedu.domain.contacts.RemoteMobilePhone;
 import net.sourceforge.fenixedu.domain.contacts.RemotePartyContact;
 import net.sourceforge.fenixedu.domain.contacts.RemotePhone;
 import net.sourceforge.fenixedu.domain.contacts.RemotePhysicalAddress;
+import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 import pt.ist.fenixWebFramework.services.Service;
 
 public class Curriculum extends Curriculum_Base {
@@ -15,7 +20,7 @@ public class Curriculum extends Curriculum_Base {
     public Curriculum(Student student) {
 	super();
 	setStudent(student);
-	loadExternalData();
+	loadExternalPersonnalData();
 	setCurriculumProcess(new CurriculumProcess(this));
     }
 
@@ -42,6 +47,20 @@ public class Curriculum extends Curriculum_Base {
 
     @Service
     public void loadExternalData() {
+	loadExternalPersonnalData();
+	Set<RemoteRegistration> remoteRegistrations = new HashSet<RemoteRegistration>(getStudent().getRemoteStudent()
+		.getSeniorRegistrationsForCurrentExecutionYear());
+	Collection<RemoteRegistration> concludedRegistrationsForCurrentExecutionYear = getStudent().getRemoteStudent()
+		.getConcludedRegistrationsForCurrentExecutionYear();
+	if (concludedRegistrationsForCurrentExecutionYear != null && concludedRegistrationsForCurrentExecutionYear.size() != 0) {
+	    remoteRegistrations.addAll(concludedRegistrationsForCurrentExecutionYear);
+	}
+	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
+	    getStudent().addOrUpdateRegistration(remoteRegistration);
+	}
+    }
+
+    private void loadExternalPersonnalData() {
 	RemotePerson remotePerson = getStudent().getRemotePerson();
 
 	setDateOfBirth(remotePerson.getDateOfBirthYearMonthDay().toLocalDate());
@@ -65,7 +84,6 @@ public class Curriculum extends Curriculum_Base {
 		}
 		continue;
 	    }
-
 	    if (remotePartyContact.isMobile()) {
 		RemoteMobilePhone remoteMobilePhone = (RemoteMobilePhone) remotePartyContact;
 		if (remoteMobilePhone.getDefaultContact()) {
@@ -80,9 +98,7 @@ public class Curriculum extends Curriculum_Base {
 		}
 		continue;
 	    }
-
 	}
-
     }
 
     public boolean hasAnyDocument() {

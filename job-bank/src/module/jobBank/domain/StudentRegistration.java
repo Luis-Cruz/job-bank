@@ -1,6 +1,5 @@
 package module.jobBank.domain;
 
-import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Set;
 
@@ -27,19 +26,24 @@ public class StudentRegistration extends StudentRegistration_Base {
     };
 
     public StudentRegistration(Student student, RemoteRegistration remoteRegistration, FenixDegree fenixDegree,
-	    Boolean isConcluded, BigDecimal average) {
+	    FenixCycleType fenixCycleType) {
 	super();
 	setStudent(student);
 	setRemoteRegistration(remoteRegistration);
-	setNumber(remoteRegistration.getNumber());
-	update(isConcluded, average, fenixDegree);
+	setFenixDegree(fenixDegree);
+	setCycleType(fenixCycleType);
+	update();
 	setActiveBeginDate(new DateTime());
     }
 
-    public void update(Boolean isConcluded, BigDecimal average, FenixDegree fenixDegree) {
-	setIsConcluded(isConcluded);
-	setAverage(average);
-	setFenixDegree(fenixDegree);
+    public void update() {
+	setNumber(getRemoteRegistration().getNumber());
+	setIsConcluded(getRemoteRegistration().isRegistrationConclusionProcessed());
+	setAverage(getRemoteRegistration().getAverage(getCycleType().name()));
+	setCurricularYear(getRemoteRegistration().getCurricularYear());
+	if (getActiveEndDate() != null) {
+	    setActiveEndDate(null);
+	}
 	setJobBankSystem(JobBankSystem.getInstance());
     }
 

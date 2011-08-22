@@ -11,7 +11,7 @@ public class CurriculumRefreshExternalDataActivity extends
 
     @Override
     public boolean isActive(CurriculumProcess process, User user) {
-	return true;// return process.getCurriculum().getStudent().isActive();
+	return true;
     }
 
     @Override

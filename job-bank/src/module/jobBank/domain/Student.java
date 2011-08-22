@@ -116,9 +116,10 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getStudentsSet());
     }
 
-    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration) {
+    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration, FenixCycleType cycleType) {
 	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
-	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)) {
+	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)
+		    && cycleType.equals(studentRegistration.getCycleType())) {
 		return studentRegistration;
 	    }
 	}
@@ -160,5 +161,32 @@ public class Student extends Student_Base {
     @Service
     public void acceptTermsResponsibility() {
 	setAcceptedTermsResponsibilityDate(new DateTime());
+    }
+
+    public StudentRegistration addOrUpdateRegistration(RemoteRegistration remoteRegistration) {
+	Boolean hasPersonalDataAuthorization = remoteRegistration.getStudent()
+		.hasPersonalDataAuthorizationForProfessionalPurposesAt();
+	setHasPersonalDataAuthorization(hasPersonalDataAuthorization == null ? false : hasPersonalDataAuthorization);
+	FenixDegree fenixDegree = JobBankSystem.getInstance().getFenixDegreeFor(remoteRegistration.getDegree());
+	FenixCycleType fenixCycleType = FenixCycleType.getFenixCycleType(remoteRegistration.getCurrentCycleTypeName());
+	if (fenixDegree != null && fenixCycleType != null) {
+	    if (fenixDegree.getDegreeType().equals(FenixDegreeType.BOLONHA_INTEGRATED_MASTER_DEGREE)
+		    && fenixCycleType.equals(FenixCycleType.SECOND_CYCLE)) {
+		addOrUpdateRegistration(remoteRegistration, fenixDegree, FenixCycleType.FIRST_CYCLE);
+	    }
+	    return addOrUpdateRegistration(remoteRegistration, fenixDegree, fenixCycleType);
+	}
+	return null;
+    }
+
+    public StudentRegistration addOrUpdateRegistration(RemoteRegistration remoteRegistration, FenixDegree fenixDegree,
+	    FenixCycleType fenixCycleType) {
+	StudentRegistration studentRegistration = getRegistrationFor(remoteRegistration, fenixCycleType);
+	if (studentRegistration == null) {
+	    studentRegistration = new StudentRegistration(this, remoteRegistration, fenixDegree, fenixCycleType);
+	} else {
+	    studentRegistration.update();
+	}
+	return studentRegistration;
     }
 }
