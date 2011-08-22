@@ -12,7 +12,6 @@
 
 <bean:define id="state" name="enterpriseSearch" property="enterpriseState.type"/>
 
-
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseSearch" name="enterpriseSearch">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.SearchEnterprise" >
@@ -59,5 +58,5 @@
 
 
 <logic:empty name="processes">
-	<p class="mtop20px"><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found"/>.</em></p>
+	<p class="mtop15px"><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found"/>.</em></p>
 </logic:empty>

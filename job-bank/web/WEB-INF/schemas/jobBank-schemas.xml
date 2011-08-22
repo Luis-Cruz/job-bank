@@ -35,12 +35,10 @@
 <schema name="jobBank.enterprise.view.pendingRegister"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">
-	<slot name="name" key="label.enterprise.name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
-		<property name="size" value="50" />
-	</slot>
-	<slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>
-	<slot name="contactEmail" key="label.enterprise.contactEmail">  </slot>  
-	<slot name="agreementNameForApproval" key="label.enterprise.status">  </slot>		
+	<slot name="name" key="label.enterprise.name" />
+	<slot name="nif" key="label.enterprise.nif" />
+	<slot name="contactEmail" key="label.enterprise.contactEmail" />  
+	<slot name="agreementNameForApproval" key="label.enterprise.status" />		
 </schema>
 
 <schema name="jobBank.enterprise.view.active"

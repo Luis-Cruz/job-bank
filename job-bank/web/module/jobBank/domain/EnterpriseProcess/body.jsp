@@ -45,10 +45,10 @@
 		<html:img action="<%= "/enterprise.do?method=viewlogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
 </logic:present>
 
-<div class="infobox mvert1">
+<div class="infobox">
 	<fr:view name="enterprise" schema="jobBank.enterprise.enterpriseProcess.view">
 		<fr:layout name="tabular">
-			<fr:property name="classes" value="infobox3 mbottom5px"/>
+			<fr:property name="classes" value="tview-horizontal"/>
 		</fr:layout>
 	</fr:view>
 </div>
