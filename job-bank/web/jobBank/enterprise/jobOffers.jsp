@@ -41,7 +41,7 @@
 <logic:present name="processes">
 	
 	<logic:equal name="offerSearch" property="processesCount" value="0">
-		<p><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers.empty"/></p>
+		<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers.empty"/>.</em></p>
 	</logic:equal>
 	
 	<logic:notEqual name="offerSearch" property="processesCount" value="0">	

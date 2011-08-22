@@ -11,9 +11,11 @@
 	<fr:edit id="offerSearch" name="offerSearch">
 		<fr:schema type="module.jobBank.domain.beans.SearchOfferState" bundle="JOB_BANK_RESOURCES">
 
-			<fr:slot name="enterprise" key="label.enterprise.name" />
+			<fr:slot name="enterprise" key="label.enterprise.name">
+				<fr:property name="size" value="40"/>
+			</fr:slot>
 			<fr:slot name="processNumber" key="label.enterprise.jobOfferProcess.processIdentification">
-				<fr:property name="size" value="10"/>
+				<fr:property name="size" value="20"/>
 			</fr:slot>
 			<fr:slot name="jobOfferState" key="label.jobOfferSearch.state" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="defaultOptionHidden" value="true"/>
@@ -38,7 +40,7 @@
 <logic:present name="processes">
 	
 	<logic:equal name="offerSearch" property="processesCount" value="0">
-		<p><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers.empty"/></p>
+		<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers.empty"/>.</em></p>
 	</logic:equal>
 	
 	<logic:notEqual name="offerSearch" property="processesCount" value="0">	

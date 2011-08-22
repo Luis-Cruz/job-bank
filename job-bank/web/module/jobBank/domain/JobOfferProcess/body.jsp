@@ -37,7 +37,7 @@
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
 			
 			<fr:layout name="tabular-nonNullValues">
-				<fr:property name="classes" value="mvert05 thleft"/>
+				<fr:property name="classes" value="tview-horizontal"/>
 			</fr:layout>
 		</fr:schema>
 	</fr:view>
@@ -53,7 +53,9 @@
 	<p>
 		Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.
 	</p>
-		<table class="tview3 mtop5px"> 
+	
+	
+		<table class="tview-horizontal"> 
 			<tr> 
 				<th>Vagas total:</th> 
 				<td><bean:write name="jobOffer"  property="vacancies"/></td> 
@@ -63,17 +65,18 @@
 				<td><bean:write name="jobOffer"  property="numberOfFreeVacancies"/></td> 
 			</tr> 
 		</table> 
-		<logic:present name="candidates">
+		
+
+		<logic:notEmpty name="candidates">
 			<fr:view name="candidates">
 				<fr:layout name="tabular">
-				
+
 					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 					<fr:property name="link(view)" value="<%="/enterprise.do?method=viewStudentCurriculumForOfferCandidacy&OID="+OID %>" />
 					<fr:property name="key(view)" value="link.jobBank.view" />
 					<fr:property name="param(view)" value="externalId/candidateOID" />
 					<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 		
-					
 					<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
 					<fr:property name="link(select)" value="<%="/enterprise.do?method=selectCandidateToJobOffer&OID="+OID %>"/>
 					<fr:property name="key(select)" value="link.jobBank.selectCandidate" />
@@ -87,7 +90,6 @@
 					<fr:property name="param(remove)" value="externalId/candidateOID" />
 					<fr:property name="bundle(remove)" value="JOB_BANK_RESOURCES" />
 					<fr:property name="visibleIf(remove)" value="canRemoveCandidacy" />
-					
 		
 				</fr:layout>
 				<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOfferProcess">
@@ -97,15 +99,15 @@
 					<fr:slot name="selected" key="label.offerCandidacy.selected" />
 				</fr:schema>
 			</fr:view>
-		</logic:present>
+		</logic:notEmpty>
 		
 		<logic:empty name="candidates">
-			<bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.candidates"/>
+			<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.candidates"/>.</em></p>
 		</logic:empty>
 </logic:equal>
 
 <logic:equal name="jobOffer" property="externalCandidacy" value="true">
-	Os candidatos são geridos por uma candidatura externa
+	<p>Os candidatos são geridos por uma candidatura externa.</p>
 </logic:equal>
 	
 
