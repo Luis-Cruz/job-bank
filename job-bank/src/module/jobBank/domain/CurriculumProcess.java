@@ -41,6 +41,11 @@ public class CurriculumProcess extends CurriculumProcess_Base {
     }
 
     @Override
+    public boolean isUserCanViewLogs(User user) {
+	return JobBankSystem.getInstance().isNPEMember(user);
+    }
+
+    @Override
     public void notifyUserDueToComment(User user, String comment) {
     }
 

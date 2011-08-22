@@ -3,7 +3,6 @@ package module.jobBank.domain.task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobBankAccountabilityType;
@@ -67,7 +66,6 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 
     private String buildRejectedEmailBody(Enterprise enterprise, JobBankAccountabilityType previousAccountability) {
 	StringBuilder body = new StringBuilder();
-	body.append(enterprise.getName());
 	body.append(getRejectedBody(enterprise, previousAccountability));
 	body.append(getSignature());
 	return body.toString();
@@ -75,14 +73,13 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 
     private String buildWarningEmailBody(Enterprise enterprise) {
 	StringBuilder body = new StringBuilder();
-	body.append(enterprise.getName());
 	body.append(buildWarningBody(enterprise));
 	body.append(getSignature());
 	return body.toString();
     }
 
-    private Object getMessageFromBundle(String bundle) {
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle);
+    private Object getMessageFromBundle(String bundle, String... arguments) {
+	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle, arguments);
     }
 
     private Object getSignature() {
@@ -92,22 +89,16 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 
     private Object getRejectedBody(Enterprise enterprise, JobBankAccountabilityType previousAccountability) {
 	String bundle = "message.jobbank.enterprise.renew.to.basic.agreement.email.body";
-
-	String message = (String) getMessageFromBundle(bundle);
-	StringTokenizer tokens = new StringTokenizer(message, "\"");
-
-	return tokens.nextToken() + "\"" + previousAccountability.getLocalizedName() + "\"" + tokens.nextToken() + " \""
-		+ enterprise.getActiveAccountabilityType().getName() + "\"";
+	String message = (String) getMessageFromBundle(bundle, enterprise.getName().toString(),
+		previousAccountability.getLocalizedName(), enterprise.getActiveAccountabilityType().getName().toString());
+	return message;
     }
 
     private String buildWarningBody(Enterprise enterprise) {
 	String bundle = "message.jobbank.enterprise.warning.expired.agreement.email.body";
-
-	String message = (String) getMessageFromBundle(bundle);
-	StringTokenizer tokens = new StringTokenizer(message, "\"");
-
-	return tokens.nextToken() + "\"" + enterprise.getActiveAccountabilityType().getName() + "\"" + tokens.nextToken()
-		+ months + tokens.nextToken();
+	String message = (String) getMessageFromBundle(bundle, enterprise.getName().toString(), enterprise
+		.getActiveAccountabilityType().getName().toString(), String.valueOf(months));
+	return message;
     }
 
     private String getRejectedEmailSubject() {
@@ -117,11 +108,8 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
 
     private String getWarningEmailSubject() {
 	String bundle = "message.jobbank.message.jobbank.email.warning.expired.agreement.subject";
-
-	String message = (String) getMessageFromBundle(bundle);
-	StringTokenizer tokens = new StringTokenizer(message, "\"");
-
-	return tokens.nextToken() + months + tokens.nextToken();
+	String message = (String) getMessageFromBundle(bundle, String.valueOf(months));
+	return message;
     }
 
     @Override

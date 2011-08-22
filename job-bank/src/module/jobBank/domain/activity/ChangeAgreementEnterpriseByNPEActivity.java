@@ -73,17 +73,16 @@ public class ChangeAgreementEnterpriseByNPEActivity extends WorkflowActivity<Ent
 
     private String getBody(MultiLanguageString enterpriseName) {
 	StringBuilder body = new StringBuilder();
-	body.append(enterpriseName);
 	body.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobbank.contract.change.body"));
+		"message.jobbank.contract.change.body", enterpriseName.toString()));
 	body.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
 		"message.jobbank.ist.signature"));
 	return body.toString();
     }
 
     private String getEmailSubject(String newContract) {
-	String beginning = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobbank.message.jobbank.contract.change.subject.email");
-	return beginning + " \"" + newContract + "\"";
+	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.jobbank.message.jobbank.contract.change.subject.email", newContract);
+	return message;
     }
 }

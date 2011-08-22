@@ -98,11 +98,11 @@ public class Enterprise extends Enterprise_Base {
 	    LocalDate now = new LocalDate();
 	    Accountability registerRequest = getActiveAccountability();
 	    registerRequest.editDates(registerRequest.getBeginDate(), now);
-	    if (getAgreementForApproval() != null) {
-		Unit rootUnit = getJobBankSystem().getTopLevelUnit();
-		rootUnit.addChild(getUnit(), getAgreementForApproval(), now, now.plusYears(VALID_CONTRACT));
-		setAgreementForApproval(null);
-	    }
+	    // create a new (basic) contract!
+	    Unit rootUnit = getJobBankSystem().getTopLevelUnit();
+	    AccountabilityType basicAccountability = JobBankAccountabilityType.JOB_PROVIDER.readAccountabilityType();
+	    rootUnit.addChild(getUnit(), basicAccountability, now, now.plusYears(VALID_CONTRACT));
+	    setAgreementForApproval(null);
 	}
     }
 

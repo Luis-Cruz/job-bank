@@ -20,6 +20,13 @@
 		<fr:schema type="module.jobBank.domain.JobOffer" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification"/>
 			<fr:slot name="externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy"/>
+			<logic:equal name="jobOffer" property="externalCandidacy" value="true">
+				<fr:slot name="jobOfferExternal" key="label.enterprise.JobofferExternal.externalLink" layout="link">
+					<fr:property name="contextRelative" value="false"/>
+					<fr:property name="linkFormat" value="${externalLink}" />
+					<fr:property name="format" value="${externalLink}" />
+				</fr:slot>
+			</logic:equal>
 			<fr:slot name="creationDate" key="label.enterprise.offer.creationDate"/>
 			<fr:slot name="enterpriseName" key="label.enterprise.name"/>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
@@ -28,6 +35,7 @@
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="longText"/>
 			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
+			
 			<fr:layout name="tabular-nonNullValues">
 				<fr:property name="classes" value="mvert05 thleft"/>
 			</fr:layout>

@@ -29,20 +29,20 @@ public class EnterpriseAgreementApprovalInformation extends ApprovalInformation 
     @Override
     public void updateMessage() {
 	StringBuilder body = new StringBuilder();
-	body.append(enterpriseName);
-	body.append(getBody());
+	body.append(getBody(enterpriseName));
 	body.append(getSignature());
 	setMessage(body.toString());
     }
 
-    private String getBody() {
+    private String getBody(MultiLanguageString enterpriseName) {
 	String bundleName = "message.jobbank.enterprise.agreement.approval.email.body";
 
 	if (!isApprove()) {
 	    bundleName = "message.jobbank.enterprise.agreement.rejection.email.body";
 	}
 
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundleName);
+	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundleName,
+		enterpriseName.toString());
     }
     
     private String getSignature() {

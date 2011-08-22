@@ -72,20 +72,20 @@ public class EnterpriseEnableOrDisableInformation extends ActivityInformation<En
 
     public void updateMessage() {
 	StringBuilder body = new StringBuilder();
-	body.append(enterpriseName);
-	body.append(getBody());
+	body.append(getBody(enterpriseName));
 	body.append(getSignature());
 	setMessage(body.toString());
     }
 
-    private String getBody() {
+    private String getBody(MultiLanguageString enterpriseName) {
 	String bundleName = "message.jobbank.enterprise.disable.email.body";
 
 	if (option.equals(BlockOption.UNBLOCK)) {
 	    bundleName = "message.jobbank.enterprise.enable.email.body";
 	}
 
-	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundleName);
+	return BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundleName,
+		enterpriseName.toString());
     }
 
     @Override

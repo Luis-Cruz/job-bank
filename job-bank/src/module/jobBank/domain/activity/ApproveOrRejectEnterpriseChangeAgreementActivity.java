@@ -3,7 +3,6 @@ package module.jobBank.domain.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
@@ -53,10 +52,10 @@ public class ApproveOrRejectEnterpriseChangeAgreementActivity extends
 	    bundle = "message.jobbank.message.jobbank.email.agreement.rejection.subject";
 	}
 
-	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle);
-	StringTokenizer tokens = new StringTokenizer(message, "\"");
+	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle, eaai
+		.getNewAgreement().getLocalizedName());
 
-	return tokens.nextToken() + "\"" + eaai.getNewAgreement().getLocalizedName() + "\"" + tokens.nextToken();
+	return message;
     }
 
     @Override
