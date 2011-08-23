@@ -42,6 +42,7 @@
 </fr:edit>
 
 
+
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
 	</html:submit>

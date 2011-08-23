@@ -9,6 +9,13 @@
 <bean:define id="processOID" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
 
+<style>
+table.xpto ul {
+height: 300px;
+overflow-y: scroll;
+list-style: none;
+}
+</style>
 
 <fr:form action='<%="/workflowProcessManagement.do?method=process&activity="+activityName+"&processId="+processOID %>'>
 	<fr:edit name="information" id="activityBean"> 
@@ -77,19 +84,20 @@
 		<fr:destination name="cancel" path='<%="/workflowProcessManagement.do?method=viewProcess&processId=" + processOID%>'/>
 		
 		<fr:layout name="tabular"> 
-			<fr:property name="classes" value="height: 200px; overflow-y: scroll;"/>
+			<fr:property name="classes" value="xpto"/>
 		</fr:layout>
 		
 		</fr:schema>
 	</fr:edit>
 
+	<p>
+		<html:submit styleClass="inputbutton">
+			<bean:message  bundle="JOB_BANK_RESOURCES" key="label.jobBank.submit"/>
+	    </html:submit>
 	
-	<html:submit styleClass="inputbutton">
-		<bean:message  bundle="JOB_BANK_RESOURCES" key="label.jobBank.submit"/>
-    </html:submit>
-
-    <html:cancel styleClass="inputbutton">
-		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
-    </html:cancel>
+	    <html:cancel styleClass="inputbutton">
+			<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
+	    </html:cancel>
+    </p>
 
 </fr:form>

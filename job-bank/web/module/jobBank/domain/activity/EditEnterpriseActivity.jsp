@@ -8,6 +8,10 @@
 <bean:define id="activityName" name="information" property="activityName"/>
 
 
+
+
+<div class="forminline">
+
 <fr:form action="/enterprise.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
 	<html:hidden property="activity" value="<%=activityName.toString()%>"/>
 	<html:hidden property="processId" value="<%=processOID.toString()%>"/>
@@ -105,24 +109,15 @@
 	</fr:edit>	
 	
 	
-<table class="tstyle0">
-	<tr>
-		<th>
-			<td>
-				<html:submit styleClass="inputbutton">
-					<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
-				</html:submit>
-				</fr:form>
-			</td>
-		</th>
-		<th>
-			<td>
-				<fr:form action="/enterprise.do?method=enterprise">
-					<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
-				</fr:form>
-			</td>
-		</th> 
-	</tr>
-</table> 
 
+<html:submit styleClass="inputbutton">
+	<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
+</html:submit>
+</fr:form>
+
+<fr:form action="/enterprise.do?method=enterprise">
+	<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
+</fr:form>
+
+</div>
 

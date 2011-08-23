@@ -5,8 +5,8 @@
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 <%@ taglib uri="/WEB-INF/workflow.tld" prefix="wf"%>
 
-
 <jsp:include page="../processStageView.jsp"/>
+
 <bean:define id="jobOffer" name="process" property="jobOffer"/>
 <bean:define id="candidates" name="process" property="jobOffer.activeOfferCandidacies"/>
 <bean:define id="OID" name="process" property="externalId"/>
@@ -14,6 +14,7 @@
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>
+
 
 <div class="infobox mvert1">
 	<fr:view name="jobOffer">
@@ -61,7 +62,7 @@
 				<td><bean:write name="jobOffer"  property="vacancies"/></td> 
 			</tr> 
 			<tr> 
-				<th>Vagas Livres:</th> 
+				<th>Vagas livres:</th> 
 				<td><bean:write name="jobOffer"  property="numberOfFreeVacancies"/></td> 
 			</tr> 
 		</table> 
