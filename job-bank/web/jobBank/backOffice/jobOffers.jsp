@@ -7,6 +7,8 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.offers"/></h2>
 
+<br>
+
 <fr:form action="/backOffice.do?method=jobOffers">
 	<fr:edit id="offerSearch" name="offerSearch">
 		<fr:schema type="module.jobBank.domain.beans.SearchOfferState" bundle="JOB_BANK_RESOURCES">

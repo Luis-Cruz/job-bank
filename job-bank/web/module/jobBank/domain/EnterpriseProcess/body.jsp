@@ -59,21 +59,12 @@
 	
 <h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement"/></h3> 
 		
-<p>Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.</p> 
+<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement.information"/></p>
 				
 <table class="tview-horizontal"> 
 	<tr> 
 		<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
-		<td>
-			<%--
-			<logic:equal name="enterprise" property="expired" value="true">
-				<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.agreement.expired"/>
-			</logic:equal>
-			<logic:equal name="enterprise" property="expired" value="false">
-				<bean:write name="enterprise" property="agreementName"/>
-			</logic:equal>
-			--%>
-		</td> 
+		<td><bean:write name="enterprise" property="agreementName"/></td> 
 	</tr> 
 	<tr> 
 		<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 

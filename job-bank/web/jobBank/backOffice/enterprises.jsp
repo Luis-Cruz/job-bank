@@ -8,9 +8,9 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.viewEnterprises"/></h2>
 
-<p>Duis malesuada ullamcorper tincidunt. Donec quis mauris ut mauris commodo faucibus vel a tortor. Aliquam erat volutpat. Donec sed mollis massa. Integer hendrerit ligula cursus ipsum mattis sagittis. Integer ut cursus nulla.</p>
-
 <bean:define id="state" name="enterpriseSearch" property="enterpriseState.type"/>
+
+<br>
 
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseSearch" name="enterpriseSearch">

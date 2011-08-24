@@ -9,6 +9,8 @@
 <%@page import="myorg.util.BundleUtil"%>
 <%@page import="module.jobBank.domain.JobBankSystem"%>
 
+<br>
+
 <fr:form action="/backOffice.do?method=searchStudents"> 
 	<fr:edit id="searchStudents" name="searchStudents" >
 		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
