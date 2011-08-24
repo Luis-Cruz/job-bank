@@ -42,7 +42,7 @@
 <logic:present name="results">
 
 	<logic:equal name="resultsCount" value="0">
-		<p><bean:message bundle="JOB_BANK_RESOURCES" key="label.students.search.empty"/></p>
+		<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="label.students.search.empty"/>.</em></p>
 	</logic:equal>
 	
 	<logic:notEqual name="resultsCount" value="0">	

@@ -14,6 +14,7 @@
 		</html:messages>
 	</div>
 </logic:messagesPresent>
+
 <logic:messagesPresent property="message" message="true">
 	<div class="warning1">
 		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES"> 
@@ -22,25 +23,27 @@
 	</div>
 </logic:messagesPresent>
 
+
 <logic:present name="enterpriseBean">
 	<logic:notPresent name="enterpriseBean" property="emailValidation">
-		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation"/>  
+		
+		<p class="mtop30px mbottom5px"><strong><bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation"/></strong></p>
+		  
 		<fr:edit id="enterpriseBean"  action="/enterprise.do?method=createEmailValidation"  name="enterpriseBean">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">
 				<fr:slot name="loginEmail" key="label.enterprise.loginEmail">
 				 	<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				 	<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>
 				 	<fr:validator name="module.jobBank.presentationTier.validators.EmailNotDefinedValidator"/>
+				 	<fr:property name="size" value="40"/>
 				 </fr:slot>
 			</fr:schema>
 			<fr:destination name="cancel" path="/jobBank.do?method=frontPage" />
 		</fr:edit>
 	</logic:notPresent>
-	
+
 	<logic:notEmpty name="enterpriseBean" property="emailValidation">
-		<br/><br/>
-		<bean:write name="enterpriseBean" property="emailValidation.body"/>
+		<p><bean:write name="enterpriseBean" property="emailValidation.body"/></p>
 	</logic:notEmpty>
 </logic:present>
-
 

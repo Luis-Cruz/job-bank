@@ -9,7 +9,7 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility"/>
 </h2>
 
-<h3>
+<h3 style="margin-top: 30px;">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.enterprise"/>
 </h3>
 	
