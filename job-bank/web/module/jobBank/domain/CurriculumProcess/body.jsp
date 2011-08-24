@@ -30,15 +30,16 @@
 						<fr:view name="student">
 							<fr:schema type="module.jobBank.domain.Student" bundle="JOB_BANK_RESOURCES">
 								<fr:slot name="person.name" key="label.curriculum.name"/>
-										<fr:slot name="curriculum.email" key="label.curriculum.email"/>
-										<fr:slot name="curriculum.dateOfBirth" key="label.curriculum.dateOfBirth"/> 
-										<fr:slot name="curriculum.nationality" key="label.curriculum.nationality"/> 
-										<fr:slot name="curriculum.address" key="label.curriculum.address"/> 
-										<fr:slot name="curriculum.area" key="label.curriculum.area"/> 
-										<fr:slot name="curriculum.areaCode" key="label.curriculum.areaCode"/> 
-										<fr:slot name="curriculum.districtSubdivision" key="label.curriculum.districtSubdivision"/> 
-										<fr:slot name="curriculum.mobilePhone" key="label.curriculum.mobilePhone"/> 
-										<fr:slot name="curriculum.phone" key="label.curriculum.mobilePhone"/>
+								<fr:slot name="person.user.username" key="label.enterprise.username"/>
+								<fr:slot name="curriculum.email" key="label.curriculum.email"/>
+								<fr:slot name="curriculum.dateOfBirth" key="label.curriculum.dateOfBirth"/> 
+								<fr:slot name="curriculum.nationality" key="label.curriculum.nationality"/> 
+								<fr:slot name="curriculum.address" key="label.curriculum.address"/> 
+								<fr:slot name="curriculum.area" key="label.curriculum.area"/> 
+								<fr:slot name="curriculum.areaCode" key="label.curriculum.areaCode"/> 
+								<fr:slot name="curriculum.districtSubdivision" key="label.curriculum.districtSubdivision"/> 
+								<fr:slot name="curriculum.mobilePhone" key="label.curriculum.mobilePhone"/> 
+								<fr:slot name="curriculum.phone" key="label.curriculum.phone"/>
 							</fr:schema>
 						</fr:view>
 					</tr>

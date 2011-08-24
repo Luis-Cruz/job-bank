@@ -4,79 +4,83 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 
+ <%@page import="module.jobBank.domain.JobBankSystem"%>
  
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacy"/> </h2> 
 
-<bean:define id="student" name="offercandidacy" property="student"/>
-(<bean:write name="student" property="name"/>)
-
-
-<logic:messagesPresent property="message" message="true">
-	<div class="error1">
-		<html:messages id="errorMessage" property="message" message="true"> 
-			<span><fr:view name="errorMessage"/></span>
-		</html:messages>
-	</div>
-</logic:messagesPresent>
-
-
-<fr:view name="student" property="curriculum">
-	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
-		<fr:slot name="student.number" key="label.curriculum.id"/>
-		<fr:slot name="email" key="label.curriculum.email"/>
-		<%-- 		<fr:slot name="student.degree.presentationName" key="label.curriculum.degree"/>  --%>
-		<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
-		<fr:slot name="nationality" key="label.curriculum.nationality"/>
-		<fr:slot name="address" key="label.curriculum.address"/>
-		<fr:slot name="area" key="label.curriculum.area"/>
-		<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
-		<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
-			<fr:property name="nullOptionHidden" value="true"/>
-		</fr:slot>
-		<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
-		<fr:slot name="phone" key="label.curriculum.phone"/>  
-		<fr:slot name="professionalStatus" key="label.curriculum.professionalStatus" layout="area">  
-			<fr:property name="columns" value="60" />
-			<fr:property name="rows" value="6" />
-		</fr:slot>
-		<fr:slot name="geographicAvailability" key="label.curriculum.geographicAvailability"/>
-	</fr:schema>
-	<fr:layout name="tabular">
-		<fr:property name="classes" value="infobox3 mbottom5px"/>
-	</fr:layout>
-</fr:view>
-
-<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
+<div class="infobox mvert1">
+	<bean:define id="student" name="offercandidacy" property="student"/>
+	(<b><bean:write name="student" property="name"/></b>)
+	<br><br>
+	
+	<logic:messagesPresent property="message" message="true">
+		<div class="error1">
+			<html:messages id="errorMessage" property="message" message="true"> 
+				<span><fr:view name="errorMessage"/></span>
+			</html:messages>
+		</div>
+	</logic:messagesPresent>
+	
+	<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
+		<fr:view name="student" property="curriculum">
+			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
+				<%if (JobBankSystem.getInstance().isNPEMember()) { %>
+					<fr:slot name="student.person.user.username" key="label.enterprise.username"/>
+				<% } %>
+				<fr:slot name="email" key="label.curriculum.email"/>
+				<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
+				<fr:slot name="nationality" key="label.curriculum.nationality"/>
+				<fr:slot name="address" key="label.curriculum.address"/>
+				<fr:slot name="area" key="label.curriculum.area"/>
+				<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
+				<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
+					<fr:property name="nullOptionHidden" value="true"/>
+				</fr:slot>
+				<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
+				<fr:slot name="phone" key="label.curriculum.phone"/>  
+			</fr:schema>
+			<fr:layout name="tabular">
+				<fr:property name="classes" value="infobox3 mbottom5px"/>
+			</fr:layout>
+		</fr:view>
+		
 <fr:view name="student" property="studentRegistrationSet">
-	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
-		<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
-		<fr:slot name="average" key="label.curriculum.average"/>
-	</fr:schema>
-	<fr:layout name="tabular">
-		<fr:property name="classes" value="infobox3 mbottom5px"/>
-	</fr:layout>
-</fr:view>
-</logic:equal>
-<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="false">
-	<bean:message key="message.enterprise.no.have.permissions" bundle="JOB_BANK_RESOURCES"/>
-</logic:equal>
-
-<logic:present name="offercandidacy" property="processFiles"> 
-	<logic:iterate id="file" name="offercandidacy" property="processFiles">
-		<tr>
-			<bean:define id="fileExternalId" name="file" property="externalId"/>
-			<bean:define id="processExternalId" name="student" property="curriculum.curriculumProcess.externalId"/>
-			<td>
+			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
+				<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
+				<fr:slot name="average" key="label.curriculum.average"/>
+			</fr:schema>
+			<fr:layout name="tabular">
+				<fr:property name="classes" value="infobox3 mbottom5px"/>
+			</fr:layout>
+		</fr:view>
+	</logic:equal>
+	
+	<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="false">
+		<br><bean:message key="message.enterprise.no.have.permissions.to.see.student.curriculum" bundle="JOB_BANK_RESOURCES"/><br><br>
+	</logic:equal>
+	
+	<logic:present name="offercandidacy" property="processFiles"> 
+		<logic:notEqual name="offercandidacy" property="processFilesCount" value="0"> 
+			<br>
+			<p><b><bean:message key="lable.submited.files.by.student" bundle="JOB_BANK_RESOURCES"/></b></p>
+			
+			<logic:iterate id="file" name="offercandidacy" property="processFiles">
+				<bean:define id="fileExternalId" name="file" property="externalId"/>
+				<bean:define id="processExternalId" name="student" property="curriculum.curriculumProcess.externalId"/>
+				<li style="padding-left: 30px;">
+					<bean:write name="file" property="displayName" />   
+					<html:link action='<%="/workflowProcessManagement.do?method=downloadFile&amp;fileId="+fileExternalId+"&amp;processId="+processExternalId %>'>
+						<bean:define id="filename" name="file" property="filename" />
+						<bean:message key="link.file.download" bundle="JOB_BANK_RESOURCES"/><br> 		
+					</html:link> 
+				</li>
+			</logic:iterate>
+			
+			<p><em><font size="1.5"><bean:message key="warning.submited.files.by.student" bundle="JOB_BANK_RESOURCES"/></font></em></p>
+		</logic:notEqual>	
+	</logic:present>
 				
-				<html:link action='<%="/workflowProcessManagement.do?method=downloadFile&amp;fileId="+fileExternalId+"&amp;processId="+processExternalId %>'>
-					<bean:define id="filename" name="file" property="filename" />
-					<bean:write name="file" property="displayName" /> - <%= filename.toString() %>   		
-				</html:link> 
-			</td>
-		</tr>
-	</logic:iterate>
-	</p>
-</logic:present>
+</div>
 
 <h3>
 	<bean:message key="label.enterprise.jobOffers" bundle="JOB_BANK_RESOURCES"/>

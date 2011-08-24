@@ -7,7 +7,8 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.student"/> </h2> 
 
-(<bean:write name="student" property="name"/>)
+(<b><bean:write name="student" property="name"/></b>)
+<br><br>
 
 
 <logic:messagesPresent property="message" message="true">
@@ -21,9 +22,7 @@
 
 <fr:view name="student" property="curriculum">
 	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
-		<fr:slot name="student.number" key="label.curriculum.id"/>
 		<fr:slot name="email" key="label.curriculum.email"/>
-<%-- 		<fr:slot name="student.degree.presentationName" key="label.curriculum.degree"/>  --%>
 		<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
 		<fr:slot name="nationality" key="label.curriculum.nationality"/>
 		<fr:slot name="address" key="label.curriculum.address"/>
@@ -34,17 +33,13 @@
 		</fr:slot>
 		<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
 		<fr:slot name="phone" key="label.curriculum.phone"/>  
-		<fr:slot name="professionalStatus" key="label.curriculum.professionalStatus" layout="area">  
-			<fr:property name="columns" value="60" />
-			<fr:property name="rows" value="6" />
-		</fr:slot>
-		<fr:slot name="geographicAvailability" key="label.curriculum.geographicAvailability"/>
 	</fr:schema>
 	<fr:layout name="tabular">
 		<fr:property name="classes" value="infobox3 mbottom5px"/>
 	</fr:layout>
 </fr:view>
 
+<br>
 
 <logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
 <fr:view name="student" property="allStudentRegistrationSet">

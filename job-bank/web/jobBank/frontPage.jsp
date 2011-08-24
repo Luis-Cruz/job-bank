@@ -9,8 +9,7 @@
 <div class="homepage">
 
 	<p class="intro grid_7">
-		O <strong>IST Job Bank</strong> é uma plataforma informática desenhada com o objectivo facilitar o encontro entre as necessidades de recursos humanos das empresas e as competências dos alunos do IST que se encontram a concluir os seus estudos.<br />
-		<span>Para além de permitir a colocação de ofertas das empresas, o IST Job Bank poderá também disponibilizar informação sobre os alunos que autorizaram explicitamente a divulgação dos seus dados. As informações académicas prestadas são certificadas pelos serviços de graduação do IST.</span>
+		<bean:message key="message.frontPage.intro" bundle="JOB_BANK_RESOURCES" />
 	</p>
 
 	<div class="clearthis"></div>
@@ -23,34 +22,32 @@
 		<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
 	</fr:form>
 
-
-
 	<div class="hr">
 		<hr />
 	</div>
 	
 	<div id="vantagens">
-		<h3>Algumas vantagens da plataforma</h3>
+		<h3><bean:message key="title.frontPage.platform.advantages" bundle="JOB_BANK_RESOURCES" /></h3>
 		<div class="vantagens-linha">
 			<div class="vantagem">
-				<h2 class="oferta-de-empregos">Oferta de empregos</h2>
-				<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+				<h2 class="oferta-de-empregos"><bean:message key="title.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 			<div class="vantagem">
-				<h2 class="calendarizacao">Calendarização</h2>
-				<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+				<h2 class="calendarizacao"><bean:message key="title.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 		</div>
 		<!-- vantagens-linha -->
 	
 		<div class="vantagens-linha">
 			<div class="vantagem">
-				<h2 class="perfis-de-alunos">Perfis de alunos</h2>
-				<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+				<h2 class="perfis-de-alunos"><bean:message key="title.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 			<div class="vantagem">
-				<h2 class="confidencialidade">Confidencialidade</h2>
-				<p>Cras sollicitudin ipsum a diam placerat at lobortis libero ultricies. Mauris a orci quis neque posuere porttitor. Donec sit amet	quam nunc, a malesuada tortor.</p>
+				<h2 class="confidencialidade"><bean:message key="title.frontPage.confidentiality" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.confidentiality" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 		</div>
 		<!-- vantagens-linha --> 
@@ -59,13 +56,9 @@
 	<!-- vantagens -->
 
 	<div id="contactos">
-		<h2>Contactos</h2>
-		<h3>Núcleo de Parcerias Empresariais</h3>
-		<p>Dr.ª Carlota Santos Silva<br />
-			email: pe@ist.ut.pt<br />
-			tel.: 218 419 844<br />
-			http://tt.ist.utl.pt/parcerias-empresariais/
-		</p>
+		<h2><bean:message key="title.frontPage.contacts" bundle="JOB_BANK_RESOURCES" /></h2>
+		<h3><bean:message key="label.jobBank.group.jobBankGroup.name" bundle="JOB_BANK_RESOURCES" /></h3>
+		<p><bean:message key="message.frontPage.contacts.text" bundle="JOB_BANK_RESOURCES" /></p>
 	</div>
 
 </div>

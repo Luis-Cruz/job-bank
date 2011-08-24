@@ -6,14 +6,15 @@ import module.jobBank.domain.JobOfferProcess;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
+import myorg.util.BundleUtil;
 
 public class JobOfferConcludedActivity extends WorkflowActivity<JobOfferProcess, ActivityInformation<JobOfferProcess>> {
 
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return jobOffer.isActive() && jobOffer.isSelectionPeriod() && process.isProcessOwner(user)
-		|| JobBankSystem.getInstance().isNPEMember(user) && jobOffer.isSelectionPeriod();
+	return jobOffer.isActive() && jobOffer.isSelectionPeriod()
+		&& (process.isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user));
     }
 
     @Override
@@ -35,4 +36,20 @@ public class JobOfferConcludedActivity extends WorkflowActivity<JobOfferProcess,
     public boolean isConfirmationNeeded(JobOfferProcess process) {
 	return true;
     }
+
+    @Override
+    public String getLocalizedConfirmationMessage(JobOfferProcess process) {
+	JobOffer jobOffer = process.getJobOffer();
+	int selected = jobOffer.getVacancies() - jobOffer.getNumberOfFreeVacancies();
+	int toBeSelected = jobOffer.getActiveOfferCandidacies().size() - selected;
+
+	if (jobOffer.getNumberOfFreeVacancies() > 0 && toBeSelected > 0) {
+	    return BundleUtil.getFormattedStringFromResourceBundle(getUsedBundle(),
+		    "activity.confirmation.module.jobBank.domain.activity.JobOfferConcludedActivity.invalid");
+	} else {
+	    return BundleUtil.getFormattedStringFromResourceBundle(getUsedBundle(),
+		    "activity.confirmation.module.jobBank.domain.activity.JobOfferConcludedActivity.valid");
+	}
+    }
+
 }

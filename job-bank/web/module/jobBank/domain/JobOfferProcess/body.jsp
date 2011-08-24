@@ -50,7 +50,7 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/>
 </h3>
 
-<logic:equal name="jobOffer" property="externalCandidacy" value="false"> 
+<%-- <logic:equal name="jobOffer" property="externalCandidacy" value="false">  --%>
 	<p>
 		Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.
 	</p>
@@ -58,11 +58,11 @@
 	
 		<table class="tview-horizontal"> 
 			<tr> 
-				<th>Vagas total:</th> 
+				<th><bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.total.vacancies"/></th> 
 				<td><bean:write name="jobOffer"  property="vacancies"/></td> 
 			</tr> 
 			<tr> 
-				<th>Vagas livres:</th> 
+				<th><bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.total.free.vacancies"/></th> 
 				<td><bean:write name="jobOffer"  property="numberOfFreeVacancies"/></td> 
 			</tr> 
 		</table> 
@@ -94,9 +94,7 @@
 		
 				</fr:layout>
 				<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOfferProcess">
-					<fr:slot name="student.number" key="label.curriculum.id" />
 					<fr:slot name="student.name" key="label.curriculum.name" />
-					<fr:slot name="student.curriculum.email" key="label.curriculum.email" />
 					<fr:slot name="selected" key="label.offerCandidacy.selected" />
 				</fr:schema>
 			</fr:view>
@@ -105,11 +103,11 @@
 		<logic:empty name="candidates">
 			<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.candidates"/>.</em></p>
 		</logic:empty>
-</logic:equal>
+<%-- </logic:equal> --%>
 
-<logic:equal name="jobOffer" property="externalCandidacy" value="true">
-	<p>Os candidatos são geridos por uma candidatura externa.</p>
-</logic:equal>
+<%-- <logic:equal name="jobOffer" property="externalCandidacy" value="true"> --%>
+<!-- 	<p>Os candidatos são geridos por uma candidatura externa.</p> -->
+<%-- </logic:equal> --%>
 	
 
 
