@@ -278,9 +278,11 @@ public abstract class JobOffer extends JobOffer_Base {
 
     @Service
     public void selectCandidacy(OfferCandidacy offerCandidacy) {
-	checkVancacies();
-	addSelectCandidacies(offerCandidacy);
-	offerCandidacy.setJobOfferSelectCandidacy(this);
+	// checkVancacies();
+	if (hasVacancies()) {
+	    addSelectCandidacies(offerCandidacy);
+	    offerCandidacy.setJobOfferSelectCandidacy(this);
+	}
     }
 
     @Service

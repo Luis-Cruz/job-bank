@@ -119,11 +119,15 @@ public class OfferCandidacy extends OfferCandidacy_Base {
     }
 
     public boolean getCanSelectCandidacy() {
-	return getJobOffer().hasVacancies() && getJobOfferSelectCandidacy() == null && getJobOffer().isSelectionPeriod();
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	return jobBankSystem.isEnterpriseActiveMember() && getJobOffer().hasVacancies() && getJobOfferSelectCandidacy() == null
+		&& getJobOffer().isSelectionPeriod();
     }
 
     public boolean getCanRemoveCandidacy() {
-	return getJobOfferSelectCandidacy() != null && getJobOffer().isSelectionPeriod();
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	return jobBankSystem.isEnterpriseActiveMember() && getJobOfferSelectCandidacy() != null
+		&& getJobOffer().isSelectionPeriod();
     }
 
     public static OfferCandidacy getOfferCandidacy(Student student, JobOffer jobOffer) {
