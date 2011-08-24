@@ -278,7 +278,6 @@ public abstract class JobOffer extends JobOffer_Base {
 
     @Service
     public void selectCandidacy(OfferCandidacy offerCandidacy) {
-	// checkVancacies();
 	if (hasVacancies()) {
 	    addSelectCandidacies(offerCandidacy);
 	    offerCandidacy.setJobOfferSelectCandidacy(this);
@@ -289,13 +288,6 @@ public abstract class JobOffer extends JobOffer_Base {
     public void removeCandidacy(OfferCandidacy offerCandidacy) {
 	removeSelectCandidacies(offerCandidacy);
 	offerCandidacy.setJobOfferSelectCandidacy(null);
-    }
-
-    private void checkVancacies() {
-	if (!hasVacancies()) {
-	    throw new DomainException("message.error.jobOffer.there.are.no.vacancies.availables",
-		    JobBankSystem.JOB_BANK_RESOURCES);
-	}
     }
 
     private void checkDates(JobOfferBean bean) {
