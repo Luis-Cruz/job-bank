@@ -14,14 +14,16 @@
 
 	<div class="clearthis"></div>
 	
-	<div id="botao" class="posicao-verde"> <a href="#" class="botao verde"><strong><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></strong></a> </div>
-	<!-- botão -->
-
-	<fr:form action="/enterprise.do">
-		<html:hidden property="method" value="termsResponsibilityEnterprise"/>
-		<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
-	</fr:form>
-
+	<logic:empty name="user">
+		<div id="botao" class="posicao-verde"> <a href="#" class="botao verde"><strong><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></strong></a> </div>
+		<!-- botão -->
+	
+		<fr:form action="/enterprise.do">
+			<html:hidden property="method" value="termsResponsibilityEnterprise"/>
+			<html:submit styleClass="button"><bean:message bundle="JOB_BANK_RESOURCES" key="message.frontPage.registerEnterprise"/></html:submit></p>
+		</fr:form>
+	</logic:empty>
+	
 	<div class="hr">
 		<hr />
 	</div>
