@@ -49,16 +49,10 @@ public class Enterprise extends Enterprise_Base {
     // By default the accountabilityType is valid for one year
     private final int VALID_CONTRACT = 1;
 
-    protected Enterprise() {
-	super();
-	setJobBankSystem(JobBankSystem.getInstance());
-    }
-
     public Enterprise(EnterpriseBean enterpriseBean) {
-	this();
+	super();
 	checks(enterpriseBean);
 	setFields(enterpriseBean);
-
     }
 
     @Service
@@ -81,7 +75,6 @@ public class Enterprise extends Enterprise_Base {
 	setContactEmail(enterpriseBean.getContactEmail());
 	setContactPerson(enterpriseBean.getContactPerson());
 	setLogo(enterpriseBean.getLogo());
-	// setAgreementForApproval(enterpriseBean.getJobBankAccountabilityType().readAccountabilityType());
     }
 
     @Service
@@ -427,6 +420,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     private void setFields(EnterpriseBean enterpriseBean) {
+	setJobBankSystem(JobBankSystem.getInstance());
 	UnitBean unitBean = new UnitBean();
 	unitBean.setPartyType(PartyType.readBy(JobBankSystem.PARTY_TYPE_NAME));
 	unitBean.setParent(getJobBankSystem().getTopLevelUnit());

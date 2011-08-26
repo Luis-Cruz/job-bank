@@ -7,9 +7,11 @@ import java.util.Set;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.StudentRegistration;
+import module.organizationIst.domain.listner.LoginListner;
 import myorg.domain.User;
 import myorg.util.BundleUtil;
 import net.sourceforge.fenixedu.domain.RemoteExecutionYear;
+import net.sourceforge.fenixedu.domain.RemotePerson;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 import pt.ist.fenixframework.plugins.remote.domain.exception.RemoteException;
 
@@ -39,10 +41,12 @@ public class UpdateStudents extends UpdateStudents_Base {
     }
 
     private Set<StudentRegistration> updateRegistrations(Collection<RemoteRegistration> remoteRegistrations) {
-	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
-	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
-	    String userUId = remoteRegistration.getStudent().getPerson().getUser().getUserUId();
-	    User user = User.findByUsername(userUId);
+	final Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
+	for (final RemoteRegistration remoteRegistration : remoteRegistrations) {
+	    final RemotePerson remotePerson = remoteRegistration.getStudent().getPerson();
+	    final String userId = remotePerson.getUser().getUserUId();
+	    LoginListner.importUserInformation(userId);
+	    User user = User.findByUsername(userId);
 	    if (user != null && user.getPerson() != null) {
 		Student student = user.getPerson().getStudent();
 		try {
@@ -54,10 +58,10 @@ public class UpdateStudents extends UpdateStudents_Base {
 			updatedRegistrations.add(studentRegistration);
 		    }
 		} catch (RemoteException e) {
-		    System.out.println("ERROR: " + userUId + " " + e);
+		    System.out.println("ERROR: " + userId + " " + e);
 		}
 	    } else {
-		System.out.println("Invalid User: " + userUId);
+		System.out.println("Invalid User: " + userId);
 	    }
 	}
 	return updatedRegistrations;

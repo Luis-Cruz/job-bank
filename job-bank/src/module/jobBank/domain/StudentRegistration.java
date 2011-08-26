@@ -38,7 +38,7 @@ public class StudentRegistration extends StudentRegistration_Base {
 	setAverage(getRemoteRegistration().getAverage(getCycleType().name()));
 	setCurricularYear(getRemoteRegistration().getCurricularYear());
 	setJobBankSystem(JobBankSystem.getInstance());
-	if (getCycleType().equals(FenixCycleType.FIRST_CYCLE)) {
+	if ((!getStudent().getHasPersonalDataAuthorization()) || getCycleType().equals(FenixCycleType.FIRST_CYCLE)) {
 	    setInactive();
 	}
     }

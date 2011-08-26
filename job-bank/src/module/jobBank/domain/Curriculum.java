@@ -6,6 +6,7 @@ import java.util.Set;
 
 import module.jobBank.domain.activity.CurriculumQualificationInformation;
 import module.jobBank.domain.beans.CurriculumBean;
+import net.sourceforge.fenixedu.domain.RemoteCountry;
 import net.sourceforge.fenixedu.domain.RemotePerson;
 import net.sourceforge.fenixedu.domain.contacts.RemoteEmailAddress;
 import net.sourceforge.fenixedu.domain.contacts.RemoteMobilePhone;
@@ -13,6 +14,9 @@ import net.sourceforge.fenixedu.domain.contacts.RemotePartyContact;
 import net.sourceforge.fenixedu.domain.contacts.RemotePhone;
 import net.sourceforge.fenixedu.domain.contacts.RemotePhysicalAddress;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
+
+import org.joda.time.YearMonthDay;
+
 import pt.ist.fenixWebFramework.services.Service;
 
 public class Curriculum extends Curriculum_Base {
@@ -49,11 +53,12 @@ public class Curriculum extends Curriculum_Base {
     public void loadExternalData() {
 	loadExternalPersonnalData();
 	Set<RemoteRegistration> remoteRegistrations = new HashSet<RemoteRegistration>(getStudent().getRemoteStudent()
-		.getSeniorRegistrationsForCurrentExecutionYear());
-	Collection<RemoteRegistration> concludedRegistrationsForCurrentExecutionYear = getStudent().getRemoteStudent()
-		.getConcludedRegistrationsForCurrentExecutionYear();
-	if (concludedRegistrationsForCurrentExecutionYear != null && concludedRegistrationsForCurrentExecutionYear.size() != 0) {
-	    remoteRegistrations.addAll(concludedRegistrationsForCurrentExecutionYear);
+		.getActiveRegistrationsForCurrentExecutionYear());
+	Collection<RemoteRegistration> concludedRegistrationsForrPreviousExecutionYear = getStudent().getRemoteStudent()
+		.getConcludedRegistrationsForPreviousExecutionYear();
+	if (concludedRegistrationsForrPreviousExecutionYear != null
+		&& concludedRegistrationsForrPreviousExecutionYear.size() != 0) {
+	    remoteRegistrations.addAll(concludedRegistrationsForrPreviousExecutionYear);
 	}
 	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
 	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
@@ -68,42 +73,51 @@ public class Curriculum extends Curriculum_Base {
 
     private void loadExternalPersonnalData() {
 	RemotePerson remotePerson = getStudent().getRemotePerson();
+	if (remotePerson != null) {
+	    YearMonthDay dateOfBirth = remotePerson.getDateOfBirthYearMonthDay();
+	    if (dateOfBirth != null) {
+		setDateOfBirth(dateOfBirth.toLocalDate());
+	    }
+	    RemoteCountry nationality = remotePerson.getNationality();
+	    if (nationality != null) {
+		setNationality(nationality.getName());
+	    }
 
-	setDateOfBirth(remotePerson.getDateOfBirthYearMonthDay().toLocalDate());
-	setNationality(remotePerson.getNationality().getName());
-
-	for (RemotePartyContact remotePartyContact : remotePerson.getPartyContacts()) {
-	    if (remotePartyContact.isPhysicalAddress()) {
-		RemotePhysicalAddress remotePhysicalAddress = (RemotePhysicalAddress) remotePartyContact;
-		if (remotePhysicalAddress.getDefaultContact()) {
-		    setAddress(remotePhysicalAddress.getAddress());
-		    setArea(remotePhysicalAddress.getArea());
-		    setAreaCode(remotePhysicalAddress.getAreaCode());
-		    setDistrictSubdivision(remotePhysicalAddress.getDistrictSubdivisionOfResidence());
+	    for (RemotePartyContact remotePartyContact : remotePerson.getPartyContacts()) {
+		if (remotePartyContact.isPhysicalAddress()) {
+		    RemotePhysicalAddress remotePhysicalAddress = (RemotePhysicalAddress) remotePartyContact;
+		    if (remotePhysicalAddress.getDefaultContact()) {
+			setAddress(remotePhysicalAddress.getAddress());
+			setArea(remotePhysicalAddress.getArea());
+			setAreaCode(remotePhysicalAddress.getAreaCode());
+			setDistrictSubdivision(remotePhysicalAddress.getDistrictSubdivisionOfResidence());
+		    }
+		    continue;
 		}
-		continue;
-	    }
-	    if (remotePartyContact.isEmailAddress()) {
-		RemoteEmailAddress remoteEmailAddress = (RemoteEmailAddress) remotePartyContact;
-		if (remoteEmailAddress.getDefaultContact()) {
-		    setEmail(remoteEmailAddress.getValue());
+		if (remotePartyContact.isEmailAddress()) {
+		    RemoteEmailAddress remoteEmailAddress = (RemoteEmailAddress) remotePartyContact;
+		    if (remoteEmailAddress.getDefaultContact()) {
+			setEmail(remoteEmailAddress.getValue());
+		    }
+		    continue;
 		}
-		continue;
-	    }
-	    if (remotePartyContact.isMobile()) {
-		RemoteMobilePhone remoteMobilePhone = (RemoteMobilePhone) remotePartyContact;
-		if (remoteMobilePhone.getDefaultContact()) {
-		    setMobilePhone(remoteMobilePhone.getNumber());
+		if (remotePartyContact.isMobile()) {
+		    RemoteMobilePhone remoteMobilePhone = (RemoteMobilePhone) remotePartyContact;
+		    if (remoteMobilePhone.getDefaultContact()) {
+			setMobilePhone(remoteMobilePhone.getNumber());
+		    }
+		    continue;
 		}
-		continue;
-	    }
-	    if (remotePartyContact.isPhone()) {
-		RemotePhone remotePhone = (RemotePhone) remotePartyContact;
-		if (remotePhone.getDefaultContact()) {
-		    setPhone(remotePhone.getNumber());
+		if (remotePartyContact.isPhone()) {
+		    RemotePhone remotePhone = (RemotePhone) remotePartyContact;
+		    if (remotePhone.getDefaultContact()) {
+			setPhone(remotePhone.getNumber());
+		    }
+		    continue;
 		}
-		continue;
 	    }
+	} else {
+	    System.out.println("Não tem remotePerson: " + getStudent().getPerson().getUser().getUsername());
 	}
     }
 

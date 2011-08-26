@@ -261,6 +261,7 @@ public class EnterpriseBean implements Serializable {
 
     public void setEmailValidation(EmailValidation emailValidation) {
 	this.emailValidation = emailValidation;
+	setLoginEmail(emailValidation.getEmail());
     }
 
     public EmailValidation getEmailValidation() {
