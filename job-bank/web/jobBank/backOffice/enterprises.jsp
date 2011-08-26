@@ -5,12 +5,11 @@
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 <%@ taglib uri="/WEB-INF/collectionPager.tld" prefix="cp"%>
 
-
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.backOffice.viewEnterprises"/></h2>
+
 
 <bean:define id="state" name="enterpriseSearch" property="enterpriseState.type"/>
 
-<br>
 
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseSearch" name="enterpriseSearch">
@@ -20,29 +19,25 @@
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 		</fr:schema>
-	
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="form" />
 			<fr:property name="columnClasses" value=",,tderror" />
 		</fr:layout>
-
 		<fr:destination name="postback" path="/backOffice.do?method=enterprises"/>
 	</fr:edit>
-	
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
 	</html:submit>
 </fr:form>
 
+
 <fr:form>
 	<fr:view name="processes" schema="<%="jobBank.enterprise.view."+state%>">
-	
 	<logic:notEqual name="enterpriseSearch" property="enterprisesCount" value="0">
 		<logic:notEqual name="numberOfPages" value="1">
 			<bean:define id="params">&amp;enterpriseState=<logic:present name="enterpriseSearch" property="enterpriseState"><bean:write name="enterpriseSearch" property="enterpriseState"/></logic:present>&amp;enterpriseName=<logic:present name="enterpriseSearch" property="enterpriseName"><bean:write name="enterpriseSearch" property="enterpriseName"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/backOffice.do?method=enterprises" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
-	
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="tview-vertical mtop20px"/>
 			<fr:property name="link(view)" value="/backOffice.do?method=Enterprise"/>
