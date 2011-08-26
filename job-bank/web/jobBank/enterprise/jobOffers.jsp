@@ -9,9 +9,10 @@
 
 
 <p> 
-<html:link action="/enterprise.do?method=prepareToCreateOffer" >
+	+
+	<html:link action="/enterprise.do?method=prepareToCreateOffer" >
 		<bean:message bundle="JOB_BANK_RESOURCES" key="link.jobBank.createOffer" />
-</html:link>
+	</html:link>
 </p>
 
 

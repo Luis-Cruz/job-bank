@@ -13,7 +13,7 @@
 	<div class="highlightBox"><p class="mvert025"><bean:message key="message.jobBank.process.canceled" bundle="JOB_BANK_RESOURCES"/></p></div>
 </logic:equal>
 
-<table style="text-align: center; width: 100%;">
+<table style="text-align: center; width: 100%; margin-top: 20px;">
 	<tr>
 		<td align="center">
 			<table style="border-collapse: separate; border-spacing: 10px;">

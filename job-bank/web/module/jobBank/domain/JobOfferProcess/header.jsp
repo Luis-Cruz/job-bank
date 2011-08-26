@@ -7,7 +7,7 @@
 <bean:define id="jobOffer" name="process" property="jobOffer"/>
 
 <h2>
-	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOfferProcess.processIdentification"/>
+	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.offer"/>
 	<span class="processNumber">(<bean:write name="jobOffer" property="jobOfferProcess.processIdentification"/>)</span>	
 </h2>
 

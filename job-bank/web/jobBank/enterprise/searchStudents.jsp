@@ -9,7 +9,6 @@
 <%@page import="myorg.util.BundleUtil"%>
 <%@page import="module.jobBank.domain.JobBankSystem"%>
 
-<br>
 
 <fr:form action="/enterprise.do?method=searchStudents"> 
 	<fr:edit id="searchStudents" name="searchStudents" >
@@ -63,8 +62,8 @@
 					<fr:slot name="isConcluded" key="label.enterprise.degree.is.concluded" bundle="JOB_BANK_RESOURCES"/>
 				</fr:schema>
 				<fr:layout name="tabular">
-					<fr:property name="classes" value="tstyle2"/>
-					<fr:property name="columnClasses" value="aleft,aleft,,,"/>
+					<fr:property name="classes" value="tview-vertical"/>
+					<fr:property name="columnClasses" value=",,,nowrap,,,"/>
 					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 					
 					<fr:property name="link(view)" value="/enterprise.do?method=viewStudentCurriculum"/>

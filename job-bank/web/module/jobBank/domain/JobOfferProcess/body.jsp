@@ -5,7 +5,9 @@
 <%@ taglib uri="/WEB-INF/fenix-renderers.tld" prefix="fr"%>
 <%@ taglib uri="/WEB-INF/workflow.tld" prefix="wf"%>
 
+
 <jsp:include page="../processStageView.jsp"/>
+
 
 <bean:define id="jobOffer" name="process" property="jobOffer"/>
 <bean:define id="candidates" name="process" property="jobOffer.activeOfferCandidacies"/>

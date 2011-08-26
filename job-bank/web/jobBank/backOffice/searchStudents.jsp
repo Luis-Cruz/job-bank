@@ -66,7 +66,7 @@
 				</fr:schema>
 				<fr:layout name="tabular">
 					<fr:property name="classes" value="tview-vertical"/>
-					<fr:property name="columnClasses" value=",,,,,,"/>
+					<fr:property name="columnClasses" value=",,,nowrap,,,"/>
 					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 					
 					<fr:property name="link(view)" value="/backOffice.do?method=viewStudentCurriculum"/>

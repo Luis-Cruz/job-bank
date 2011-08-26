@@ -9,22 +9,18 @@
 
 
 
-
 <div class="forminline">
 
 <fr:form action="/enterprise.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
 	<html:hidden property="activity" value="<%=activityName.toString()%>"/>
 	<html:hidden property="processId" value="<%=processOID.toString()%>"/>
 	
-	<h3><bean:message key="label.enterprise.createEnterprise.dataAccess" bundle="JOB_BANK_RESOURCES"/></h3> 
+	<h3 class="mtop30px"><bean:message key="label.enterprise.createEnterprise.dataAccess" bundle="JOB_BANK_RESOURCES"/></h3> 
 	
 	<fr:edit id="activityBean" name="information">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
-			
 			<fr:slot name="enterpriseBean.password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
-			
-			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>
-					
+			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>		
 		</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 
@@ -34,7 +30,6 @@
 	</fr:edit>
 	
 	<logic:equal name="information" property="requestOldPassword" value="true">
-		<p><p>
 		<fr:edit id="activityBean3" name="information">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 				
@@ -88,7 +83,9 @@
 			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
+	
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 
+	
 	<fr:edit id="activityBean3" name="information">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 		<fr:slot name="enterpriseBean.contactEmail" key="label.enterprise.contactEmail">
@@ -108,7 +105,7 @@
 		</fr:layout>
 	</fr:edit>	
 	
-	
+	<br/>
 
 <html:submit styleClass="inputbutton">
 	<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>

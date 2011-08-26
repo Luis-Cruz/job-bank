@@ -10,11 +10,11 @@
 </h2>
 
 <p> 
-	Não tem permissões para visualizar o conteúdo desta página
+	Não tem permissões para visualizar o conteúdo desta página. 
 </p>
 
 <p> 
-	Para poder aceder contacte o núcleo de parcerias empresariais
+	Para obter acesso por favor contacte o Núcleo de Parcerias Empresariais.
 </p>
 
 

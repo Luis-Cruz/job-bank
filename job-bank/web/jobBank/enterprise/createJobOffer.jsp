@@ -16,7 +16,19 @@
 	</div>
 </logic:messagesPresent>
 
+
+<style>
+table.choose-degrees ul {
+height: 300px;
+overflow-y: scroll;
+list-style: none;
+}
+</style>
+
+
 <bean:define id="classType" name="jobOfferBean" property="candidacyType.type"/>
+
+<div class="forminline">
 
 <fr:form action="/enterprise.do?method=createOffer">
 	<fr:edit id="jobOfferBean" name="jobOfferBean" > 
@@ -80,32 +92,22 @@
 			</fr:slot>
 		</fr:schema>
 		<fr:layout name="tabular"> 
-			<fr:property name="classes" value="height: 200px; overflow-y: scroll;"/>
+			<fr:property name="classes" value="choose-degrees"/>
 			<fr:property name="requiredMarkShown" value="true" />
 		</fr:layout>
 		<fr:destination name="postback" path="/enterprise.do?method=prepareToCreateOffer"/>
 	</fr:edit>
 		
+	<br/>
 
-<table class="tstyle0">
-	<tr>
-		<th>
-			<td>
-				<html:submit styleClass="inputbutton">
-					<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
-				</html:submit>
-				</fr:form>
-			</td>
-		</th>
-		<th>
-			<td>
-				<fr:form action="/enterprise.do?method=viewAllJobOffers">
-					<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
-				</fr:form>
-			</td>
-		</th> 
-	</tr>
-</table>
+	<html:submit styleClass="inputbutton">
+		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
+	</html:submit>
+</fr:form>
 
+<fr:form action="/enterprise.do?method=viewAllJobOffers">
+	<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
+</fr:form>
 
+</div>
 

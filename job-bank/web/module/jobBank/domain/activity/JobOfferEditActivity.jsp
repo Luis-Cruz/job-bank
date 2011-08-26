@@ -18,6 +18,15 @@
 </logic:messagesPresent>
 
 
+<style>
+table.choose-degrees ul {
+height: 300px;
+overflow-y: scroll;
+list-style: none;
+}
+</style>
+
+
 <fr:form action='<%="/workflowProcessManagement.do?method=process&activity="+activityName+"&processId="+processOID %>'>
 	<fr:edit name="information" id="activityBean"> 
 		<fr:schema  type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">	    
@@ -85,7 +94,7 @@
 		<fr:destination name="cancel" path='<%="/workflowProcessManagement.do?method=viewProcess&processId=" + processOID%>'/>
 		
 		<fr:layout name="tabular"> 
-			<fr:property name="classes" value="height: 200px; overflow-y: scroll;"/>
+			<fr:property name="classes" value="choose-degrees"/>
 		</fr:layout>
 		
 		</fr:schema>

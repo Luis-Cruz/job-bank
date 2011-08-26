@@ -10,7 +10,7 @@
 <bean:define id="activityName" name="information" property="activityName"/>
 
 <style>
-table.xpto ul {
+table.choose-degrees ul {
 height: 300px;
 overflow-y: scroll;
 list-style: none;
@@ -84,7 +84,7 @@ list-style: none;
 		<fr:destination name="cancel" path='<%="/workflowProcessManagement.do?method=viewProcess&processId=" + processOID%>'/>
 		
 		<fr:layout name="tabular"> 
-			<fr:property name="classes" value="xpto"/>
+			<fr:property name="classes" value="choose-degrees"/>
 		</fr:layout>
 		
 		</fr:schema>
