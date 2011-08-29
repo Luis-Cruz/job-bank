@@ -13,6 +13,25 @@
 	<div class="highlightBox"><p class="mvert025"><bean:message key="message.jobBank.process.canceled" bundle="JOB_BANK_RESOURCES"/></p></div>
 </logic:equal>
 
+
+
+<div id="graficos-processo">
+	
+	<ul>
+		<logic:iterate id="entry" name="jobBankProcessStageView" property="jobBankProcessStageStates">
+			<bean:define id="jobBankProcessStage" name="entry" property="key" type="module.jobBank.domain.utils.JobBankProcessStage"/>
+			<bean:define id="jobBankProcessStageState" name="entry" property="value" type="module.jobBank.domain.utils.JobBankProcessStageState"/>
+
+			<% final String classStyle = jobBankProcessStageState == JobBankProcessStageState.COMPLETED ? "completo"
+					: (jobBankProcessStageState == JobBankProcessStageState.UNDER_WAY ? "em-curso" : "por-iniciar"); %>
+			<li class="<%= classStyle %>"><%= jobBankProcessStage.getLocalizedName() %></li>
+		</logic:iterate>
+
+	</ul>
+	
+</div>
+
+
 <table style="text-align: center; width: 100%; margin-top: 20px;">
 	<tr>
 		<td align="center">
@@ -24,10 +43,10 @@
 
 						<% final String colorStyle = jobBankProcessStageState == JobBankProcessStageState.COMPLETED ? "background-color: #CEF6CE; border-color: #04B404; "
 								: (jobBankProcessStageState == JobBankProcessStageState.UNDER_WAY ? "background-color: #F6E3CE; border-color: #B45F04;" : ""); %>
-						<td style="<%= colorStyle + "border-style: solid; border-width: thin; width: 120px; padding: 5px; border-radius: 2em; -moz-border-radius: 2em;" %>" align="center"
-								title="<%= jobBankProcessStage.getLocalizedDescription() %>">
-							<%= jobBankProcessStage.getLocalizedName() %>
-							
+						<td style="<%= colorStyle + "border-style: solid; border-width: thin; width: 120px; padding: 5px; border-radius: 2em; -moz-border-radius: 2em;" %>"
+							align="center"
+							title="<%= jobBankProcessStage.getLocalizedDescription() %>">
+								<%= jobBankProcessStage.getLocalizedName() %>
 						</td>
 					</logic:iterate>
 				</tr>
