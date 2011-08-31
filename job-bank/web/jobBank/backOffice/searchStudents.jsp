@@ -14,13 +14,13 @@
 
 		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
+				<fr:property name="size" value="40"/>
 			</fr:slot>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveMasterFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values" />
 				<fr:property name="eachSchema" value="jobBank.enterprise.jobOffer.fenixDegree" />
 				<fr:property name="sortBy" value="name=asc" />
-				
 				<fr:property name="defaultText" value="<%= BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.degree.all") %>"/>
 			</fr:slot>
 			<fr:slot name="registrationConclued" key="label.enterprise.degree.concluded" />

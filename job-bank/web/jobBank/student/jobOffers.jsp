@@ -9,6 +9,9 @@
 <%@page import="myorg.util.BundleUtil"%>
 <%@page import="module.jobBank.domain.JobBankSystem"%>
 
+
+<h2><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/></h2>
+
 <bean:define id="searchParameters"><c:out value="${search.requestParameters}" /></bean:define>
 
 <fr:form action="/student.do?method=searchOffers">

@@ -10,6 +10,25 @@
 <bean:define id="jobOffer" name="process" property="jobOffer"/>
 <bean:define id="processId" name="process" property="externalId"/>
 
+
+<p>
+	<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
+		<span class="submit-candidacy">
+			<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
+				<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
+			</html:link>
+		</span>
+	</logic:equal>
+	<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
+		<span class="remove-candidacy">
+			<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
+				<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+			</html:link>
+		</span>
+	</logic:equal>
+</p>
+
+
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>
@@ -36,25 +55,7 @@
 <!-- </span> -->
 
 
-AAA
 
-<p>
-	<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
-		<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
-			<span class="submit-candidacy">
-				<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
-			</span>
-		</html:link>
-	</logic:equal>
-	
-	<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
-		<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
-			<span class="remove-candidacy">
-				<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
-			</span>
-		</html:link>
-	</logic:equal>
-</p>
 
 
 <div class="infobox mvert1">
@@ -76,7 +77,7 @@ AAA
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
 			
 			<fr:layout name="tabular-nonNullValues">
-				<fr:property name="classes" value="mvert05 thleft"/>
+				<fr:property name="classes" value="tview-horizontal"/>
 			</fr:layout>
 		</fr:schema>
 	</fr:view>

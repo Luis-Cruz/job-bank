@@ -14,6 +14,7 @@
 	<fr:edit id="searchStudents" name="searchStudents" >
 		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
 			<fr:slot name="username" key="label.manager.person" bundle="JOB_BANK_RESOURCES">
+				<fr:property name="size" value="40"/>
 			</fr:slot>
 			<fr:slot name="degree" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveMasterFenixDegreesProvider" />

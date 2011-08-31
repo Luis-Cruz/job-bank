@@ -14,7 +14,9 @@
 <fr:form  action="/backOffice.do?method=enterprises" >
 	<fr:edit id="enterpriseSearch" name="enterpriseSearch">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.SearchEnterprise" >
-			<fr:slot name="enterpriseName" key="label.enterprise.name" />
+			<fr:slot name="enterpriseName" key="label.enterprise.name">
+				<fr:property name="size" value="40"/>
+			</fr:slot>
 			<fr:slot name="enterpriseState" key="label.enterprise.state" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
