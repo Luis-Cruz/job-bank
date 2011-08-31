@@ -41,13 +41,17 @@ AAA
 <p>
 	<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
 		<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
-			<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
+			<span class="submit-candidacy">
+				<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
+			</span>
 		</html:link>
 	</logic:equal>
 	
 	<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
 		<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
-			<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+			<span class="remove-candidacy">
+				<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+			</span>
 		</html:link>
 	</logic:equal>
 </p>
