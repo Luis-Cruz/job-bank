@@ -113,7 +113,7 @@
 </fr:form>
 
 <fr:form action="/enterprise.do?method=enterprise">
-	<html:submit styleClass="inputbutton"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
+	<html:submit styleClass="inputbutton cancelar"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
 </fr:form>
 
 </div>
