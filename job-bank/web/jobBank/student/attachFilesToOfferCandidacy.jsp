@@ -44,7 +44,7 @@
 		<html:submit styleClass="inputbutton" onclick="this.form.method.value='candidateToJobOffer';">
 			<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit" />
 		</html:submit>
-		<html:submit styleClass="inputbutton cancelar" onclick="this.form.method.value='viewJobOffer';">
+		<html:submit styleClass="inputbutton cancel" onclick="this.form.method.value='viewJobOffer';">
 			<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel" />
 		</html:submit>
 	

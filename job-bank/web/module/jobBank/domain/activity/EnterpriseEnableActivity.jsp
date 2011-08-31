@@ -50,7 +50,7 @@
 </fr:form>
 
 <fr:form action='<%="/backOffice.do?method=Enterprise&OID="+processOID %>'>
-	<html:submit styleClass="inputbutton cancelar"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
+	<html:submit styleClass="inputbutton cancel"><bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/></html:submit>
 </fr:form>
 
 </div>

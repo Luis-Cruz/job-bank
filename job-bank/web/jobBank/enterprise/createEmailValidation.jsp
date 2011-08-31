@@ -46,7 +46,7 @@
 			</fr:form>
 		
 			<fr:form  action="/jobBank.do?method=frontPage" >
-				<html:submit styleClass="inputbutton cancelar">
+				<html:submit styleClass="inputbutton cancel">
 					<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
 				</html:submit>
 			</fr:form>

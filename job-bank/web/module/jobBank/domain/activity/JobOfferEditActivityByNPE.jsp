@@ -95,7 +95,7 @@ list-style: none;
 			<bean:message  bundle="JOB_BANK_RESOURCES" key="label.jobBank.submit"/>
 	    </html:submit>
 	
-	    <html:cancel styleClass="inputbutton cancelar">
+	    <html:cancel styleClass="inputbutton cancel">
 			<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
 	    </html:cancel>
     </p>
