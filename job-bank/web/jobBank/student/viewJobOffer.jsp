@@ -47,17 +47,19 @@
 
 <logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
 	<p>
-		<logic:equal name="jobOffer" property="externalCandidacy" value="false">
-			<html:link action="/student.do?method=attachFilesToOfferCandidacy" paramId="OID" paramName="process" paramProperty="externalId">
-				<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
-			</html:link>
-		</logic:equal>
+		<span class="submit-candidacy">
+			<logic:equal name="jobOffer" property="externalCandidacy" value="false">
+				<html:link action="/student.do?method=attachFilesToOfferCandidacy" paramId="OID" paramName="process" paramProperty="externalId">
+					<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
+				</html:link>
+			</logic:equal>
 		
-		<logic:equal name="jobOffer" property="externalCandidacy" value="true">
-			<html:link action="/student.do?method=candidateToExternalJobOffer" paramId="OID" paramName="process" paramProperty="externalId" onclick="<%= externalCandidacyConfirmationMessage %>">
-				<bean:message key="link.jobOffer.external.candidate" bundle="JOB_BANK_RESOURCES"/>
-			</html:link>
-		</logic:equal>
+			<logic:equal name="jobOffer" property="externalCandidacy" value="true">
+				<html:link action="/student.do?method=candidateToExternalJobOffer" paramId="OID" paramName="process" paramProperty="externalId" onclick="<%= externalCandidacyConfirmationMessage %>">
+					<bean:message key="link.jobOffer.external.candidate" bundle="JOB_BANK_RESOURCES"/>
+				</html:link>
+			</logic:equal>
+		</span>
 	</p>
 </logic:equal>
 
@@ -69,9 +71,11 @@
 
 <logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
 	<p>
-		<html:link action="/student.do?method=removeJobOfferCandidancy" paramId="OID" paramName="process" paramProperty="externalId" onclick="<%= removeConfirmationMessage %>">
-			<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
-		</html:link>
+		<span class="remove-candidacy">
+			<html:link action="/student.do?method=removeJobOfferCandidancy" paramId="OID" paramName="process" paramProperty="externalId" onclick="<%= removeConfirmationMessage %>">
+				<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+			</html:link>
+		</span>
 	</p>
 </logic:equal>
 

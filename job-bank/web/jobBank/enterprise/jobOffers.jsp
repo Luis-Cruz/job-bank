@@ -7,14 +7,13 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.offers"/></h2>
 
-
-<p> 
-	+
-	<html:link action="/enterprise.do?method=prepareToCreateOffer" >
-		<bean:message bundle="JOB_BANK_RESOURCES" key="link.jobBank.createOffer" />
-	</html:link>
+<p>
+	<span class="create-offer">
+		<html:link action="/enterprise.do?method=prepareToCreateOffer" >
+			<bean:message bundle="JOB_BANK_RESOURCES" key="link.jobBank.createOffer" />
+		</html:link>
+	</span>
 </p>
-
 
 <fr:form  action="/backOffice.do?method=viewAllJobOffers" >
 	<fr:edit id="offerSearch" name="offerSearch">
