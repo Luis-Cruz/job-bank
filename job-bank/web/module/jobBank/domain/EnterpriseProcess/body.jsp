@@ -15,7 +15,6 @@
 <bean:define id="enterpriseId" name="enterprise" property="externalId"/>
 
 
-
 <logic:equal name="process" property="isEnterpriseMember" value="true">
 	
 	<logic:equal name="process" property="enterprise.pendingToApproval" value="true">

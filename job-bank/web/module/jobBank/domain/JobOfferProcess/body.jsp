@@ -68,25 +68,26 @@
 	</tr> 
 </table> 
 
-
 <logic:notEmpty name="candidates">
 	<fr:view name="candidates">
 		<fr:layout name="tabular">
 	
-			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+			<fr:property name="classes" value="tview-vertical"/>
 			<fr:property name="link(view)" value="<%="/enterprise.do?method=viewStudentCurriculumForOfferCandidacy&OID="+OID %>" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="externalId/candidateOID" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
 	
-			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+			<fr:property name="classes" value="tview-vertical"/>
 			<fr:property name="link(select)" value="<%="/enterprise.do?method=selectCandidateToJobOffer&OID="+OID %>"/>
 			<fr:property name="key(select)" value="link.jobBank.selectCandidate" />
 			<fr:property name="param(select)" value="externalId/candidateOID" />
 			<fr:property name="bundle(select)" value="JOB_BANK_RESOURCES" />
 			<fr:property name="visibleIf(select)" value="canSelectCandidacy" />
 			
-			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+			<fr:property name="classes" value="tview-vertical"/>
+			<fr:property name="columnClasses" value="aleft,,,,"/>
+			<fr:property name="headerClasses" value="aleft,,,,"/>
 			<fr:property name="link(remove)" value="<%="/enterprise.do?method=removeCandidateToJobOffer&OID="+OID %>"/>
 			<fr:property name="key(remove)" value="link.jobBank.removeCandidate" />
 			<fr:property name="param(remove)" value="externalId/candidateOID" />
@@ -100,6 +101,7 @@
 		</fr:schema>
 	</fr:view>
 </logic:notEmpty>
+
 
 <logic:empty name="candidates">
 	<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.not.have.candidates"/>.</em></p>

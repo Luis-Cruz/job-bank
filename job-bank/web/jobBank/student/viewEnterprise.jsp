@@ -13,18 +13,18 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.information"/>
 </h3>
 
-<div style="float: left;">
-	<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view"/>
-</div>
+<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view">
+	<fr:layout name="tabular" >
+		<fr:property name="classes" value="tview-horizontal"/>
+	</fr:layout>
+</fr:view>
 
-<div style="float: right;padding-right: 15em;">
+<div>
 	<bean:define id="enterpriseId" name="enterprise" property="externalId"/>
 	<logic:present name="enterprise" property="logo">
-			<html:img action="<%= "/student.do?method=viewEnterpriseLogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
+		<html:img action="<%= "/student.do?method=viewEnterpriseLogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
 	</logic:present>
 </div>
-
-<div style="clear:both;"></div>
 
 <h3>
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/>
@@ -42,7 +42,7 @@
 			<fr:slot name="externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy" />
 			
 			<fr:layout name="tabular" >
-				<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+				<fr:property name="classes" value="tview-vertical"/>
 				<fr:property name="link(view)" value="/jobBank.do?method=viewJobOffer" />
 				<fr:property name="key(view)" value="link.jobBank.view" />
 				<fr:property name="param(view)" value="jobOfferProcess.externalId/OID" />

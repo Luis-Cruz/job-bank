@@ -46,7 +46,7 @@
 		<fr:slot name="average" key="label.curriculum.average"/>
 	</fr:schema>
 	<fr:layout name="tabular">
-		<fr:property name="classes" value="tview-vertical thleft tdleft"/>
+		<fr:property name="classes" value="tview-vertical thleft tdleft mtop20px"/>
 	</fr:layout>
 </fr:view>
 
