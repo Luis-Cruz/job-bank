@@ -15,10 +15,11 @@
 	<fr:edit id="search" name="search">
 		<fr:schema bundle="JOB_BANK_RESOURCES"
 			type="module.jobBank.domain.beans.SearchOffer">
-			<fr:slot name="query" key="label.enterprise.jobOffer.query" />
+			<fr:slot name="query" key="label.enterprise.jobOffer.query">
+				<fr:property name="size" value="40" />
+			</fr:slot>
 			<fr:slot name="degrees" key="label.enterprise.offer.degree" layout="menu-select">
 				<fr:property name="defaultText" value="<%= BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.degree.all") %>"/>
-
 				<fr:property name="providerClass" value="module.jobBank.presentationTier.providers.ActiveFenixDegreesProvider" />
 				<fr:property name="eachLayout" value="values"/>
 				<fr:property name="saveOptions" value="true"/>
@@ -35,17 +36,19 @@
 		
 		<fr:destination name="postback" path="/student.do?method=searchOffers" />
 	</fr:edit>
-	<html:submit styleClass="inputbutton">
-		<bean:message bundle="JOB_BANK_RESOURCES" key="link.jobBank.search" />
-	</html:submit>
+	
+	<p>
+		<html:submit styleClass="inputbutton">
+			<bean:message bundle="JOB_BANK_RESOURCES" key="link.jobBank.search" />
+		</html:submit>
+	</p>
 
-	<p><p><p>
 
 	<logic:present name="processes">
 	
 		<bean:size id="processesSize" name="processes" />
 		<logic:equal name="processesSize" value="0">
-			<bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found" />
+			<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.search.no.results.were.found" />.</em></p>
 		</logic:equal>
 	
 		<logic:notEqual name="numberOfPages" value="1">
@@ -53,21 +56,18 @@
 			<cp:collectionPages url="<%= "/student.do?method=searchOffers" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 		
-			<fr:view name="processes" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer.student" >
-				<fr:layout name="tabular">
-	
-					<fr:property name="classes"
-						value="tstyle3 mvert1 width100pc tdmiddle punits" />
-	
-					<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
-					<fr:property name="key(view)" value="link.jobBank.view" />
-					<fr:property name="param(view)" value="OID" />
-					<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
-					<fr:property name="visibleIf(view)" value="canViewJobProcess" />
-					<fr:property name="order(view)" value="1" />
-	
-				</fr:layout>
-			</fr:view>
+		<fr:view name="processes" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer.student" >
+			<fr:layout name="tabular">
+				<fr:property name="classes"	value="tview-vertical" />
+				<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
+				<fr:property name="key(view)" value="link.jobBank.view" />
+				<fr:property name="param(view)" value="OID" />
+				<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
+				<fr:property name="visibleIf(view)" value="canViewJobProcess" />
+				<fr:property name="order(view)" value="1" />
+			</fr:layout>
+		</fr:view>
+		
 	</logic:present>
 
 

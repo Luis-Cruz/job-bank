@@ -18,7 +18,9 @@
 </logic:messagesPresent>
 
 <bean:define id="OID" name="jobOfferProcess" property="externalId"/> 
-<bean:message bundle="JOB_BANK_RESOURCES" key="message.offerCandidacy.chooseFilesToAttach"/>
+
+
+<p class="mbottom5px"><bean:message bundle="JOB_BANK_RESOURCES" key="message.offerCandidacy.chooseFilesToAttach"/>:</p>
 
 
 <fr:form action='<%= "/student.do?OID=" + OID %>' >
@@ -34,13 +36,18 @@
 				<fr:property name="eachLayout" value="values" />
 			</fr:slot>
 		</fr:schema>
+		<fr:layout name="tabular">
+			<fr:property name="classes" value="list-reset"/>
+		</fr:layout>
 	</fr:edit>
 	
-	<html:submit styleClass="inputbutton" onclick="this.form.method.value='candidateToJobOffer';">
-		<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit" />
-	</html:submit>
+	<p>
+		<html:submit styleClass="inputbutton" onclick="this.form.method.value='candidateToJobOffer';">
+			<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit" />
+		</html:submit>
+		<html:submit styleClass="inputbutton" onclick="this.form.method.value='viewJobOffer';">
+			<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel" />
+		</html:submit>
+	</p>
 	
-	<html:submit styleClass="inputbutton" onclick="this.form.method.value='viewJobOffer';">
-		<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel" />
-	</html:submit>
 </fr:form>

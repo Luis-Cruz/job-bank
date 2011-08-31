@@ -7,9 +7,7 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.student"/> </h2> 
 
-(<b><bean:write name="student" property="name"/></b>)
-<br><br>
-
+<p class="mtop30px"><strong><bean:write name="student" property="name"/></strong></p>
 
 <logic:messagesPresent property="message" message="true">
 	<div class="error1">
@@ -35,7 +33,7 @@
 		<fr:slot name="phone" key="label.curriculum.phone"/>  
 	</fr:schema>
 	<fr:layout name="tabular">
-		<fr:property name="classes" value="infobox3 mbottom5px"/>
+		<fr:property name="classes" value="tview-horizontal mtop0"/>
 	</fr:layout>
 </fr:view>
 
@@ -49,7 +47,7 @@
 		<fr:slot name="average" key="label.curriculum.average"/>
 	</fr:schema>
 	<fr:layout name="tabular">
-		<fr:property name="classes" value="infobox3 mbottom5px"/>
+		<fr:property name="classes" value="tview-vertical thleft tdleft"/>
 	</fr:layout>
 </fr:view>
 </logic:equal>
@@ -71,9 +69,7 @@
 	
 	<fr:layout name="tabular">
 			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits" />
-	
-			<fr:property name="link(view)"
-					value="/workflowProcessManagement.do?method=viewProcess" />
+			<fr:property name="link(view)" value="/workflowProcessManagement.do?method=viewProcess" />
 			<fr:property name="key(view)" value="link.jobBank.view" />
 			<fr:property name="param(view)" value="jobOffer.jobOfferProcess.externalId/processId" />
 			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />

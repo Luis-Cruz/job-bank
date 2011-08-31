@@ -14,7 +14,7 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>
 
-<p> 
+
 
 <!-- UNCOMMENT IF COMMENTS ARE REQUESTED! -->
 
@@ -36,19 +36,23 @@
 <!-- </span> -->
 
 
-<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
-	<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
-		<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
-	</html:link>
-</logic:equal>
+AAA
 
-<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
-	<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
-		<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
-	</html:link>
-</logic:equal>
-
+<p>
+	<logic:equal name="jobOffer" property="canCreateOfferCandidacy" value="true">
+		<html:link page="<%= "/student.do?method=attachFilesToOfferCandidacy&OID=" + processId %>">
+			<bean:message key="link.jobOffer.candidate" bundle="JOB_BANK_RESOURCES"/>
+		</html:link>
+	</logic:equal>
+	
+	<logic:equal name="jobOffer" property="canRemoveOfferCandidacy" value="true">
+		<html:link page="<%= "/student.do?method=removeJobOfferCandidancy&OID=" + processId %>">
+			<bean:message key="link.jobBank.removeCandidancy" bundle="JOB_BANK_RESOURCES"/>
+		</html:link>
+	</logic:equal>
 </p>
+
+
 <div class="infobox mvert1">
 	<fr:view name="jobOffer">
 		<fr:schema type="module.jobBank.domain.JobOffer" bundle="JOB_BANK_RESOURCES">

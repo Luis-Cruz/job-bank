@@ -15,6 +15,7 @@
 	</div>
 </logic:messagesPresent>
 
+
 <logic:messagesPresent property="message" message="true">
 	<div class="warning1">
 		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES"> 
@@ -38,6 +39,10 @@
 				 	<fr:property name="size" value="40"/>
 				 </fr:slot>
 			</fr:schema>
+			<fr:layout name="tabular">
+				<fr:property name="classes" value="form" />
+				<fr:property name="columnClasses" value=",,tderror" />
+			</fr:layout>
 			<fr:destination name="cancel" path="/jobBank.do?method=frontPage" />
 		</fr:edit>
 	</logic:notPresent>
