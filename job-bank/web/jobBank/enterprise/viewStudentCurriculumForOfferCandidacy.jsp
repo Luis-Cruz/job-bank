@@ -24,6 +24,8 @@
 	</logic:messagesPresent>
 
 	<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
+	
+	
 		<fr:view name="student" property="curriculum">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
 				<%if (JobBankSystem.getInstance().isNPEMember()) { %>
@@ -42,7 +44,7 @@
 				<fr:slot name="phone" key="label.curriculum.phone"/>  
 			</fr:schema>
 			<fr:layout name="tabular">
-				<fr:property name="classes" value="infobox3"/>
+				<fr:property name="classes" value="tview-horizontal"/>
 			</fr:layout>
 		</fr:view>
 		
@@ -53,7 +55,7 @@
 				<fr:slot name="average" key="label.curriculum.average"/>
 			</fr:schema>
 			<fr:layout name="tabular">
-				<fr:property name="classes" value="infobox3"/>
+				<fr:property name="classes" value="tview-vertical thleft tdleft"/>
 			</fr:layout>
 		</fr:view>
 	</logic:equal>
@@ -65,7 +67,7 @@
 	<logic:present name="offercandidacy" property="processFiles"> 
 		<logic:notEqual name="offercandidacy" property="processFilesCount" value="0"> 
 
-<!--
+<%--
 
 			<p><b><bean:message key="lable.submited.files.by.student" bundle="JOB_BANK_RESOURCES"/></b></p>
 			
@@ -83,7 +85,7 @@
 				</logic:iterate>
 			</ul>
 
--->
+--%>
 
 
 			<table class="tview-horizontal">
@@ -107,8 +109,8 @@
 				</tr>
 			</table>
 
-	
-			<p><em><bean:message key="warning.submited.files.by.student" bundle="JOB_BANK_RESOURCES"/></em></p>
+			<p><em><bean:message key="warning.submited.files.by.student" bundle="JOB_BANK_RESOURCES"/>.</em></p>
+			
 		</logic:notEqual>	
 	</logic:present>
 				

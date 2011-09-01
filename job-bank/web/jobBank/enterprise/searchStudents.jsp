@@ -34,11 +34,11 @@
 		</fr:layout>
 	
 	</fr:edit>
-	<p> 
-		<html:submit styleClass="inputbutton">
-			<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
-		</html:submit>
-	</p>
+ 
+	<html:submit styleClass="inputbutton">
+		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
+	</html:submit>
+
 </fr:form>
 
 <logic:present name="results">
@@ -49,9 +49,10 @@
 	
 	<logic:notEqual name="resultsCount" value="0">	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params"><logic:present name="searchStudents" property="username">&amp;username=<bean:write name="searchStudents" property="username"/></logic:present><logic:present name="searchStudents" property="degree">&amp;degree=<bean:write name="searchStudents" property="degree.idInternal"/></logic:present><logic:present name="searchStudents" property="registrationConclued">&amp;registrationConclued=<bean:write name="searchStudents" property="registrationConclued"/></logic:present></bean:define>
-			<cp:collectionPages url="<%= "/enterprise.do?method=searchStudents" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
-			<p><p>
+			<div class="mtop15px">
+				<bean:define id="params"><logic:present name="searchStudents" property="username">&amp;username=<bean:write name="searchStudents" property="username"/></logic:present><logic:present name="searchStudents" property="degree">&amp;degree=<bean:write name="searchStudents" property="degree.idInternal"/></logic:present><logic:present name="searchStudents" property="registrationConclued">&amp;registrationConclued=<bean:write name="searchStudents" property="registrationConclued"/></logic:present></bean:define>
+				<cp:collectionPages url="<%= "/enterprise.do?method=searchStudents" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
+			</div>
 		</logic:notEqual>
 
 		<fr:view name="results">
@@ -64,7 +65,7 @@
 				</fr:schema>
 				<fr:layout name="tabular">
 					<fr:property name="classes" value="tview-vertical"/>
-					<fr:property name="columnClasses" value=",,,nowrap,,,"/>
+					<fr:property name="columnClasses" value=",,nowrap,,,,"/>
 					<fr:property name="sortBy" value="student.name,fenixDegree.name,average,isConcluded=asc"/>
 					
 					<fr:property name="link(view)" value="/enterprise.do?method=viewStudentCurriculum"/>
