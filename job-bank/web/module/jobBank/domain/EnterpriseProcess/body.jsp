@@ -31,6 +31,12 @@
 		</logic:present>
 	</logic:equal>
 	
+	<logic:equal name="process" property="enterprise.canceled" value="true">
+		<div class="warning1">
+			<bean:message key="message.enterprise.is.canceled" bundle="JOB_BANK_RESOURCES"/>
+		</div>
+	</logic:equal>
+	
 </logic:equal>
 
 
@@ -54,20 +60,26 @@
 
 
 
+<logic:equal name="process" property="enterprise.pendingToApproval" value="false">
 
-	
-<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement"/></h3> 
+	<logic:equal name="process" property="enterprise.canceled" value="false">
+
+		<h3><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement"/></h3> 
 		
-<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement.information"/></p>
-				
-<table class="tview-horizontal"> 
-	<tr> 
-		<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
-		<td><bean:write name="enterprise" property="agreementName"/></td> 
-	</tr> 
-	<tr> 
-		<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 
-		<td><bean:write name="enterprise" property="agreementDuration"/></td> 
-	</tr> 
-</table> 
-				
+		<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.enteprise.agreement.information"/></p>
+						
+		<table class="tview-horizontal"> 
+			<tr> 
+				<th><bean:message key="label.enterprise.status" bundle="JOB_BANK_RESOURCES"/>:</th> 
+				<td><bean:write name="enterprise" property="agreementName"/></td> 
+			</tr> 
+			<tr> 
+				<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 
+				<td><bean:write name="enterprise" property="agreementDuration"/></td> 
+			</tr> 
+		</table> 
+	
+	</logic:equal>
+
+</logic:equal>
+	
