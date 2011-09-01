@@ -95,6 +95,7 @@ list-style: none;
 		
 		<fr:layout name="tabular"> 
 			<fr:property name="classes" value="choose-degrees"/>
+			<fr:property name="requiredMarkShown" value="true" />
 		</fr:layout>
 		
 		</fr:schema>

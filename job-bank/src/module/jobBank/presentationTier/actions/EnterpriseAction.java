@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/enterprise")
@@ -41,9 +40,8 @@ public class EnterpriseAction extends ContextBaseAction {
 	JobOfferBean bean = getRenderedObject("jobOfferBean");
 	if (bean == null) {
 	    bean = new JobOfferBean();
-	} else {
-	    RenderUtils.invalidateViewState();
 	}
+
 	request.setAttribute("jobOfferBean", bean);
 	return forward(request, "/jobBank/enterprise/createJobOffer.jsp");
     }

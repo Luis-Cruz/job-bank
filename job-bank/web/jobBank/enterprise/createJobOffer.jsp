@@ -90,12 +90,14 @@ list-style: none;
 				<fr:property name="selectAllShown" value="true" />
 				<fr:property name="sortBy" value="name=asc"/>
 			</fr:slot>
-		</fr:schema>
+			
 		<fr:layout name="tabular"> 
 			<fr:property name="classes" value="choose-degrees"/>
 			<fr:property name="requiredMarkShown" value="true" />
 		</fr:layout>
 		<fr:destination name="postback" path="/enterprise.do?method=prepareToCreateOffer"/>
+			
+		</fr:schema>
 	</fr:edit>
 		
 	<br/>
