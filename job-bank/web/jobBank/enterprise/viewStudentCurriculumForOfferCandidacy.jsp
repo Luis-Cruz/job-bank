@@ -6,13 +6,21 @@
 
  <%@page import="module.jobBank.domain.JobBankSystem"%>
  
-<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacy"/> </h2> 
+<h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacy"/></h2> 
 
 <bean:define id="student" name="offercandidacy" property="student"/>
 
+<p>
+	<i>(<bean:message key="label.enterprise.jobOffer" bundle="JOB_BANK_RESOURCES"/>:&nbsp;
+		<b><html:link action="/jobBank.do?method=viewJobOffer" paramId="OID" paramName="jobOffer" paramProperty="jobOfferProcess.oid">
+			<bean:write name="jobOffer" property="jobOfferProcess.processIdentification"/>
+		</html:link></b>)
+	</i>
+</p>
+
 <p><b><bean:write name="student" property="name"/></b></p>
 
-
+				
 <div class="infobox mvert1">
 	
 	<logic:messagesPresent property="message" message="true">
@@ -116,8 +124,9 @@
 				
 </div>
 
-<h3>
-	<bean:message key="label.enterprise.jobOffers" bundle="JOB_BANK_RESOURCES"/>
+
+<h3 class="separator">
+	<bean:message key="label.enterprise.other.jobOffers" bundle="JOB_BANK_RESOURCES"/>
 </h3>
 
 <p class="mbottom5px"> 

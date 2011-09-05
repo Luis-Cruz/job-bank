@@ -233,6 +233,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	OfferCandidacy offerCandidacy = getDomainObject(request, "candidateOID");
 	request.setAttribute("offercandidacy", offerCandidacy);
 	request.setAttribute("enterprise", enterprise);
+	request.setAttribute("jobOffer", process.getJobOffer());
 	request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
 	return forward(request, "/jobBank/enterprise/viewStudentCurriculumForOfferCandidacy.jsp");
     }
