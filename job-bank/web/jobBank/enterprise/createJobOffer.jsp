@@ -31,16 +31,20 @@ list-style: none;
 <div class="forminline">
 
 <fr:form action="/enterprise.do?method=createOffer">
+
+	<bean:define id="candidacyType" name="jobOfferBean" property="candidacyType" />
+
 	<fr:edit id="jobOfferBean" name="jobOfferBean" > 
 		<fr:schema  type="module.jobBank.domain.beans.JobOfferBean"  bundle="JOB_BANK_RESOURCES">	    
-			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
-				<fr:property name="defaultOptionHidden" value="true"/>
-			</fr:slot>
+
 			<fr:slot name="candidacyType" key="label.enterprise.jobOffer.candidancyType" layout="menu-postback">
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 			
-			<bean:define id="candidacyType" name="jobOfferBean" property="candidacyType" />
+			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
+				<fr:property name="defaultOptionHidden" value="true"/>
+			</fr:slot>
+			
 			<logic:equal name="candidacyType" property="localizedName" value="<%= CandidacyType.External.getLocalizedName() %>"> 
 				<fr:slot name="externalLink" key="label.enterprise.JobofferExternal.externalLink">
 					<fr:property name="size" value="80" />
@@ -48,7 +52,7 @@ list-style: none;
 					<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>			
 				</fr:slot>
 			</logic:equal> 
-			 
+
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"> 
 				<fr:property name="size" value="80" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
@@ -95,7 +99,7 @@ list-style: none;
 			<fr:property name="classes" value="choose-degrees"/>
 			<fr:property name="requiredMarkShown" value="true" />
 		</fr:layout>
-		<fr:destination name="postback" path="/enterprise.do?method=prepareToCreateOffer"/>
+		<fr:destination name="postback" path="/enterprise.do?method=changeCandidacyTypeOnOfferCreation"/>
 			
 		</fr:schema>
 	</fr:edit>

@@ -40,6 +40,7 @@ public class JobOfferBean implements Serializable {
 
     private String externalLink;
     private CandidacyType candidacyType;
+    private CandidacyType previousCandidacyType;
 
     public JobOfferBean() {
 	setBasicFields();
@@ -229,6 +230,14 @@ public class JobOfferBean implements Serializable {
 
     public List<FenixDegree> getDegrees() {
 	return degrees;
+    }
+
+    public void setPreviousCandidacyType(CandidacyType previousCandidacyType) {
+	this.previousCandidacyType = previousCandidacyType;
+    }
+
+    public CandidacyType getPreviousCandidacyType() {
+	return previousCandidacyType;
     }
 
 }
