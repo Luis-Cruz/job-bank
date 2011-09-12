@@ -28,7 +28,7 @@ public class SearchEnterprise extends Search<Enterprise> {
     }
 
     public void init() {
-	setEnterpriseState(EnterpriseStateType.PENDING_REGISTER);
+	setEnterpriseState(EnterpriseStateType.ALL);
     }
 
     public void setEnterpriseState(EnterpriseStateType enterpriseState) {
@@ -106,7 +106,9 @@ public class SearchEnterprise extends Search<Enterprise> {
 		return JobBankSystem.getInstance().isNPEMember(user) && isSatisfiedEnterpriseState(enterprise)
 				&& isSatisfiedEnterpriseName(enterprise);
 	    }
+
 	});
+
 	return enterprises;
     }
 
@@ -118,7 +120,7 @@ public class SearchEnterprise extends Search<Enterprise> {
 
     public List<Enterprise> sortedSearchByEnterpriseName() {
 	ArrayList<Enterprise> results = new ArrayList<Enterprise>(search());
-	Collections.sort(results, Enterprise.COMPARATOR_BY_ENTERPRISE_NAME);
+	Collections.sort(results, Enterprise.COMPARATOR_BY_ENTERPRISE_STATE_AND_NAME);
 	return results;
     }
 

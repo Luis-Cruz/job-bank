@@ -47,7 +47,7 @@
 			<fr:property name="key(view)" value="link.jobBank.view"/>
 			<fr:property name="param(view)" value="enterpriseProcess.externalId/OID"/>
 			<fr:property name="order(view)" value="1"/>
-			<fr:property name="sortBy" value="name=asc, contactEmail=asc, nif=asc"/>
+<%-- 			<fr:property name="sortBy" value="name=asc, contactEmail=asc, nif=asc"/> --%>
 		</fr:layout>
 		</logic:notEqual>
 	</fr:view>		

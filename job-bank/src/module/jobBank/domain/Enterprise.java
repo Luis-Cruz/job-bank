@@ -34,14 +34,16 @@ import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Enterprise extends Enterprise_Base {
 
-    public static final Comparator<Enterprise> COMPARATOR_BY_ENTERPRISE_NAME = new Comparator<Enterprise>() {
+    public static final Comparator<Enterprise> COMPARATOR_BY_ENTERPRISE_STATE_AND_NAME = new Comparator<Enterprise>() {
 
 	@Override
 	public int compare(Enterprise o1, Enterprise o2) {
 	    final String n1 = o1.getName().getContent();
 	    final String n2 = o2.getName().getContent();
+	    final int stateComparation = o1.getEnterpriseState().compareto(o2.getEnterpriseState());
 
-	    return StringNormalizer.normalize(n1).compareTo(StringNormalizer.normalize(n2));
+	    return (stateComparation == 0) ? StringNormalizer.normalize(n1).compareTo(StringNormalizer.normalize(n2))
+		    : stateComparation;
 	}
 
     };
@@ -466,6 +468,31 @@ public class Enterprise extends Enterprise_Base {
 	}
 
 	return false;
+    }
+
+    public EnterpriseStateType getEnterpriseState() {
+
+	if (isCanceled()) {
+	    return EnterpriseStateType.REJECTED;
+	}
+
+	if (isDisable()) {
+	    return EnterpriseStateType.INACTIVE;
+	}
+
+	if (isChangeToRequestAgreement()) {
+	    return EnterpriseStateType.REQUEST_CHANGE_AGREEMENT;
+	}
+
+	if (isPendingToApproval()) {
+	    return EnterpriseStateType.PENDING_REGISTER;
+	}
+
+	if (isActive()) {
+	    return EnterpriseStateType.ACTIVE;
+	}
+
+	return null;
     }
 
 }

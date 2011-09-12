@@ -75,7 +75,7 @@
 			</tr> 
 			<tr> 
 				<th><bean:message key="label.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>:</th> 
-				<td><bean:write name="enterprise" property="agreementDuration"/></td> 
+				<td><bean:write name="enterprise" property="activeAccountability.beginDate"/> <bean:message key="label.to" bundle="JOB_BANK_RESOURCES"/> <bean:write name="enterprise" property="activeAccountability.endDate"/></td> 
 			</tr> 
 		</table> 
 	
