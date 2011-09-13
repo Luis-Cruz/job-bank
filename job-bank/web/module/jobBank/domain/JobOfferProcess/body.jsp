@@ -31,7 +31,10 @@
 				</fr:slot>
 			</logic:equal>
 			<fr:slot name="creationDate" key="label.enterprise.offer.creationDate"/>
-			<fr:slot name="enterpriseName" key="label.enterprise.name"/>
+			<fr:slot name="enterpriseName" layout="link" key="label.enterprise.name">
+				<fr:property name="useParent" value="true"/>
+				<fr:property name="linkFormat" value="/workflowProcessManagement.do?method=viewProcess&processId=${enterprise.enterpriseProcess.externalId}"/>
+			</fr:slot>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType"/>
 			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText"/>

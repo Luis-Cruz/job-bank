@@ -12,7 +12,7 @@ public class JobOfferEditActivityByNPE extends WorkflowActivity<JobOfferProcess,
     @Override
     public boolean isActive(JobOfferProcess process, User user) {
 	JobOffer jobOffer = process.getJobOffer();
-	return jobOffer.isActive() && JobBankSystem.getInstance().isNPEMember(user);
+	return jobOffer.isActive() && JobBankSystem.getInstance().isNPEMember(user) && !jobOffer.isEditable();
     }
 
     @Override
