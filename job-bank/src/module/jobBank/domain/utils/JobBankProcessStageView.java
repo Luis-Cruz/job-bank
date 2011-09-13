@@ -5,6 +5,8 @@ import java.util.TreeMap;
 
 import module.jobBank.domain.JobOffer;
 
+import org.joda.time.LocalDate;
+
 public class JobBankProcessStageView {
 
     private final JobOffer offer;
@@ -18,16 +20,28 @@ public class JobBankProcessStageView {
 
 	if (!offer.isCanceled()) {
 	    result.put(JobBankProcessStage.UNDER_CONTRUCTION, getEditable());
+	    result.put(JobBankProcessStage.UNDER_APPROVAL, getUnderApproval());
 	    result.put(JobBankProcessStage.APROVED, getAproved());
 	    result.put(JobBankProcessStage.PUBLISHED, getPublishedState());
 	    result.put(JobBankProcessStage.SELECTION, getCandidatedState());
 	} else {
+	    result.put(JobBankProcessStage.UNDER_APPROVAL, JobBankProcessStageState.NOT_YET_UNDER_WAY);
 	    result.put(JobBankProcessStage.APROVED, JobBankProcessStageState.NOT_YET_UNDER_WAY);
 	    result.put(JobBankProcessStage.UNDER_CONTRUCTION, JobBankProcessStageState.NOT_YET_UNDER_WAY);
 	    result.put(JobBankProcessStage.PUBLISHED, JobBankProcessStageState.NOT_YET_UNDER_WAY);
 	    result.put(JobBankProcessStage.SELECTION, JobBankProcessStageState.NOT_YET_UNDER_WAY);
 	}
 	return result;
+    }
+
+    private JobBankProcessStageState getUnderApproval() {
+	if (offer.isPendingToApproval()) {
+	    return JobBankProcessStageState.UNDER_WAY;
+	}
+	if (offer.isApproved()) {
+	    return JobBankProcessStageState.COMPLETED;
+	}
+	return JobBankProcessStageState.NOT_YET_UNDER_WAY;
     }
 
     protected JobBankProcessStageState getEditable() {
@@ -42,11 +56,18 @@ public class JobBankProcessStageView {
 
     private JobBankProcessStageState getAproved() {
 	if (offer.isPendingToApproval()) {
-	    return JobBankProcessStageState.UNDER_WAY;
+	    return JobBankProcessStageState.NOT_YET_UNDER_WAY;
 	}
-	if (offer.isApproved()) {
+
+	LocalDate now = new LocalDate();
+	if (!now.isBefore(offer.getBeginDate())) {
 	    return JobBankProcessStageState.COMPLETED;
 	}
+
+	if (offer.isApproved()) {
+	    return JobBankProcessStageState.UNDER_WAY;
+	}
+
 	return JobBankProcessStageState.NOT_YET_UNDER_WAY;
 
     }
