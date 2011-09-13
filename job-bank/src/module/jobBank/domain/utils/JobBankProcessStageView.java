@@ -55,7 +55,7 @@ public class JobBankProcessStageView {
     }
 
     private JobBankProcessStageState getAproved() {
-	if (offer.isPendingToApproval()) {
+	if (offer.isPendingToApproval() || offer.isEditable()) {
 	    return JobBankProcessStageState.NOT_YET_UNDER_WAY;
 	}
 

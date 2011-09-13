@@ -35,7 +35,7 @@
 			<fr:slot name="enterpriseBean.name" key="label.enterprise.name">
 				<fr:validator name="module.jobBank.presentationTier.validators.EnterpriseNameNotRegisteredValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
-					<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:property name="size" value="50" />
 			</fr:slot>
 			
