@@ -19,7 +19,6 @@
 </p>
 
 <p><b><bean:write name="student" property="name"/></b></p>
-
 				
 <div class="infobox mvert1">
 	
@@ -33,29 +32,38 @@
 
 	<logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="true">
 	
-	
-		<fr:view name="student" property="curriculum">
-			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
-				<%if (JobBankSystem.getInstance().isNPEMember()) { %>
-					<fr:slot name="student.person.user.username" key="label.enterprise.username"/>
-				<% } %>
-				<fr:slot name="email" key="label.curriculum.email"/>
-				<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
-				<fr:slot name="nationality" key="label.curriculum.nationality"/>
-				<fr:slot name="address" key="label.curriculum.address"/>
-				<fr:slot name="area" key="label.curriculum.area"/>
-				<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
-				<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
-					<fr:property name="nullOptionHidden" value="true"/>
-				</fr:slot>
-				<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
-				<fr:slot name="phone" key="label.curriculum.phone"/>  
-			</fr:schema>
-			<fr:layout name="tabular">
-				<fr:property name="classes" value="tview-horizontal"/>
-			</fr:layout>
-		</fr:view>
-		
+		<table>
+			<tr>
+				<td style="padding-right: 20px;">
+					<bean:define id="urlPhoto" type="java.lang.String">https://fenix.ist.utl.pt/publico/retrievePersonalPhoto.do?method=retrieveByUUID&amp;contentContextPath_PATH=/homepage&amp;uuid=<bean:write name="student" property="user.username"/></bean:define>
+					<img src="<%= urlPhoto %>">
+				</td>
+				<td style="vertical-align: top;">
+					<fr:view name="student" property="curriculum">
+						<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
+							<%if (JobBankSystem.getInstance().isNPEMember()) { %>
+								<fr:slot name="student.person.user.username" key="label.enterprise.username"/>
+							<% } %>
+							<fr:slot name="email" key="label.curriculum.email"/>
+							<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
+							<fr:slot name="nationality" key="label.curriculum.nationality"/>
+							<fr:slot name="address" key="label.curriculum.address"/>
+							<fr:slot name="area" key="label.curriculum.area"/>
+							<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
+							<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
+								<fr:property name="nullOptionHidden" value="true"/>
+							</fr:slot>
+							<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
+							<fr:slot name="phone" key="label.curriculum.phone"/>  
+						</fr:schema>
+						<fr:layout name="tabular">
+							<fr:property name="classes" value="tview-horizontal"/>
+						</fr:layout>
+					</fr:view>
+				</td>
+			</tr>
+		</table>
+
 		
 		<fr:view name="student" property="studentRegistrationSet">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">

@@ -17,25 +17,35 @@
 	</div>
 </logic:messagesPresent>
 
+<table>
+	<tr>
+		<td style="padding-right: 20px;">
+			<bean:define id="urlPhoto" type="java.lang.String">https://fenix.ist.utl.pt/publico/retrievePersonalPhoto.do?method=retrieveByUUID&amp;contentContextPath_PATH=/homepage&amp;uuid=<bean:write name="student" property="user.username"/></bean:define>
+			<img src="<%= urlPhoto %>">
+		</td>
+		<td style="vertical-align: top;">
+			<fr:view name="student" property="curriculum">
+				<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
+					<fr:slot name="email" key="label.curriculum.email"/>
+					<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
+					<fr:slot name="nationality" key="label.curriculum.nationality"/>
+					<fr:slot name="address" key="label.curriculum.address"/>
+					<fr:slot name="area" key="label.curriculum.area"/>
+					<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
+					<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
+						<fr:property name="nullOptionHidden" value="true"/>
+					</fr:slot>
+					<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
+					<fr:slot name="phone" key="label.curriculum.phone"/>  
+				</fr:schema>
+				<fr:layout name="tabular">
+					<fr:property name="classes" value="tview-horizontal mtop0"/>
+				</fr:layout>
+			</fr:view>
+		</td>
+	</tr>
+</table>
 
-<fr:view name="student" property="curriculum">
-	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
-		<fr:slot name="email" key="label.curriculum.email"/>
-		<fr:slot name="dateOfBirth" key="label.curriculum.dateOfBirth"/>
-		<fr:slot name="nationality" key="label.curriculum.nationality"/>
-		<fr:slot name="address" key="label.curriculum.address"/>
-		<fr:slot name="area" key="label.curriculum.area"/>
-		<fr:slot name="areaCode" key="label.curriculum.areaCode"/>
-		<fr:slot name="districtSubdivision" key="label.curriculum.districtSubdivision">
-			<fr:property name="nullOptionHidden" value="true"/>
-		</fr:slot>
-		<fr:slot name="mobilePhone" key="label.curriculum.mobilePhone"/>
-		<fr:slot name="phone" key="label.curriculum.phone"/>  
-	</fr:schema>
-	<fr:layout name="tabular">
-		<fr:property name="classes" value="tview-horizontal mtop0"/>
-	</fr:layout>
-</fr:view>
 
 <br>
 
