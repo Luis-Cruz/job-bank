@@ -35,8 +35,6 @@
 			<fr:property name="rows" value="8" /> 
 		</fr:slot>
 		
-		<bean:message  key="message.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>
-		
 	</fr:schema>
 </fr:edit>
 

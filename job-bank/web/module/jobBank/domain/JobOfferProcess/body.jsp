@@ -17,7 +17,6 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>
 
-
 <div class="infobox mvert1">
 	<fr:view name="jobOffer">
 		<fr:schema type="module.jobBank.domain.JobOffer" bundle="JOB_BANK_RESOURCES">

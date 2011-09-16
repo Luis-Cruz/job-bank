@@ -71,7 +71,7 @@
 	
 	<fr:view name="offerCandidacies" schema="jobBank.jobOfferProcess.jobOffer.viewJobOffer">
 		<fr:layout name="tabular">
-				<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits" />
+				<fr:property name="classes" value="tview-vertical" />
 				<fr:property name="link(view)" value="/workflowProcessManagement.do?method=viewProcess" />
 				<fr:property name="key(view)" value="link.jobBank.view" />
 				<fr:property name="param(view)" value="jobOffer.jobOfferProcess.externalId/processId" />
@@ -83,5 +83,5 @@
 </logic:notEmpty>
 
 <logic:empty name="offerCandidacies">
-	<bean:message  key="message.curriculum.list.offersCandidacies.npe.empty" bundle="JOB_BANK_RESOURCES" />
+	<p><em><bean:message  key="message.curriculum.list.offersCandidacies.npe.empty" bundle="JOB_BANK_RESOURCES" /></em></p>
 </logic:empty>

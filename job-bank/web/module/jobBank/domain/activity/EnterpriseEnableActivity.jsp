@@ -28,6 +28,7 @@
 		<fr:slot name="option" key="label.enterprise.operation">  
 			<fr:property name="defaultOptionHidden" value="true"/> 
 			<fr:property name="readOnly" value="true"/>
+			<fr:property name="disabled" value="true"/>
 		</fr:slot>
 		
 		<fr:slot name="message" key="label.enterprise.rejectMessage" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"
@@ -35,8 +36,6 @@
 			<fr:property name="columns" value="70" /> 
 			<fr:property name="rows" value="8" /> 
 		</fr:slot>
-		
-		<bean:message  key="message.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>
 		
 	</fr:schema>
 </fr:edit>

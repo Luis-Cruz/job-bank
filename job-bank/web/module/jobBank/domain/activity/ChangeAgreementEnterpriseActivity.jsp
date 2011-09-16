@@ -39,8 +39,9 @@
 			<fr:property name="excludedValues" value="PENDING" />
 			<fr:property name="defaultOptionHidden" value="true"/> 
 			<fr:property name="readOnly" value="true"/>
+			<fr:property name="disabled" value="true"/>
 		</fr:slot>
-		<bean:message  key="message.enterprise.agreement.duration" bundle="JOB_BANK_RESOURCES"/>
+
 	</fr:schema>
 </fr:edit>
 
