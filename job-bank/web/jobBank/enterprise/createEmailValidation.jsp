@@ -17,7 +17,7 @@
 
 <logic:messagesPresent property="message" message="true">
 	<div class="warning1">
-		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES"> 
+		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES">
 			<span><fr:view name="errorMessage"/></span>
 		</html:messages>
 	</div>
@@ -27,8 +27,12 @@
 <logic:present name="enterpriseBean">
 	<logic:notPresent name="enterpriseBean" property="emailValidation">
 		<div class="forminline">
+		
 			<p class="mtop30px mbottom5px"><strong><bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.emailValidation"/></strong></p>
-			 <fr:form action="/enterprise.do?method=createEmailValidation" >
+			
+			<p class="mbottom5px">Por favor, introduza o endereço de email com que deseja registar a empresa.</p>
+			
+			<fr:form action="/enterprise.do?method=createEmailValidation" >
 		
 				<fr:edit id="enterpriseBean" name="enterpriseBean">
 					<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">
@@ -38,18 +42,23 @@
 						 	<fr:validator name="module.jobBank.presentationTier.validators.EmailNotDefinedValidator"/>
 						 	<fr:property name="size" value="40"/>
 						 </fr:slot>
-					</fr:schema>				
+					</fr:schema>
+					<fr:layout name="tabular">
+						<fr:property name="columnClasses" value=",,tderror" />
+					</fr:layout>				
 				</fr:edit>
 				<html:submit styleClass="inputbutton">
 					<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
 				</html:submit>
 			</fr:form>
 		
+			<%--
 			<fr:form  action="/jobBank.do?method=frontPage" >
 				<html:submit styleClass="inputbutton cancel">
 					<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
 				</html:submit>
 			</fr:form>
+			--%>
 		</div>
 	</logic:notPresent>
 

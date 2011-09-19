@@ -14,6 +14,7 @@
 		</html:messages>
 	</div>
 </logic:messagesPresent>
+
 <logic:messagesPresent property="message" message="true">
 	<div class="warning1">
 		<html:messages id="errorMessage" property="message" message="true" bundle="JOB_BANK_RESOURCES"> 
@@ -22,14 +23,26 @@
 	</div>
 </logic:messagesPresent>
 
+<style>
+
+input[name="org.apache.struts.taglib.html.CANCEL"] {
+display: none !important;
+}
+</style>
+
 <logic:present name="passwordRecover">
-	<h3> 
-		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.recoverPassword.information"/>
-	</h3>
+	<p class="mbottom5px"> 
+		<bean:message bundle="JOB_BANK_RESOURCES" key="message.enterprise.recoverPassword.information"/>.
+	</p>
 	<fr:edit id="passwordRecover" name="passwordRecover" action="/enterprise.do?method=passwordRecover">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Curriculum">
-			<fr:slot name="string" key="label.enterprise.loginEmail" validator="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>
+			<fr:slot name="string" key="label.enterprise.loginEmail" validator="pt.ist.fenixWebFramework.renderers.validators.EmailValidator">
+				<fr:property name="size" value="40"/>
+			</fr:slot>
 		</fr:schema>
+		<fr:layout name="tabular">
+			<fr:property name="columnClasses" value=",,tderror" />
+		</fr:layout>
 		<fr:destination name="cancel" path="/jobBank.do?method=frontPage"/>
 	</fr:edit>
 </logic:present>
