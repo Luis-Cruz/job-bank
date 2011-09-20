@@ -117,7 +117,7 @@ public class Curriculum extends Curriculum_Base {
 		}
 	    }
 	} else {
-	    System.out.println("Não tem remotePerson: " + getStudent().getPerson().getUser().getUsername());
+	    System.out.println("Empty remotePerson: " + getStudent().getPerson().getUser().getUsername());
 	}
     }
 
