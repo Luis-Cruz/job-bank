@@ -80,6 +80,7 @@ public class EnterpriseAction extends ContextBaseAction {
     public ActionForward enterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
 	Enterprise enterprise = Enterprise.readEnterprise(UserView.getCurrentUser());
+	enterprise.addContactInformation(request);
 	return ProcessManagement.forwardToProcess(enterprise.getEnterpriseProcess());
     }
 
@@ -152,6 +153,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	    final HttpServletResponse response) {
 	Enterprise enterprise = getDomainObject(request, "enterpriseOID");
 	request.setAttribute("enterprise", enterprise);
+	enterprise.addContactInformation(request);
 	return forward(request, "/jobBank/enterprise/viewEnterprise.jsp");
     }
 
@@ -166,6 +168,7 @@ public class EnterpriseAction extends ContextBaseAction {
 	request.setAttribute("processes", processes);
 	return forward(request, "/jobBank/enterprise/jobOffers.jsp");
     }
+
 
     public ActionForward viewAllJobOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {

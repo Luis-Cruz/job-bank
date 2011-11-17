@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
 @Mapping(path = "/backOffice")
@@ -45,7 +46,9 @@ public class BackOfficeAction extends ContextBaseAction {
 
     public ActionForward Enterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {
+	RenderUtils.invalidateViewState();
 	EnterpriseProcess process = getDomainObject(request, "OID");
+	process.getEnterprise().addContactInformation(request);
 	return ProcessManagement.forwardToProcess(process);
     }
 

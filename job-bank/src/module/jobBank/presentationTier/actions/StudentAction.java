@@ -229,6 +229,7 @@ public class StudentAction extends ContextBaseAction {
 	    final HttpServletResponse response) {
 	Enterprise enterprise = getDomainObject(request, "OID");
 	request.setAttribute("enterprise", enterprise);
+	enterprise.addContactInformation(request);
 	return forward(request, "/jobBank/student/viewEnterprise.jsp");
     }
 

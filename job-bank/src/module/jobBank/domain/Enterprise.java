@@ -7,12 +7,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
+import javax.servlet.http.HttpServletRequest;
+
+import module.contacts.domain.ContactsConfigurator;
+import module.contacts.domain.PartyContact;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.organization.domain.Accountability;
 import module.organization.domain.AccountabilityType;
+import module.organization.domain.Party;
 import module.organization.domain.PartyType;
 import module.organization.domain.Unit;
 import module.organization.domain.UnitBean;
@@ -20,9 +26,13 @@ import myorg.applicationTier.Authenticate.UserView;
 import myorg.domain.User;
 import myorg.domain.VirtualHost;
 import myorg.domain.exceptions.DomainException;
+import myorg.domain.groups.PersistentGroup;
+import myorg.domain.groups.UserGroup;
 import myorg.domain.util.ByteArray;
 import myorg.util.BundleUtil;
 
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections.comparators.ComparatorChain;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -493,6 +503,54 @@ public class Enterprise extends Enterprise_Base {
 	}
 
 	return null;
+    }
+
+    public static boolean isEnterprise(Party party) {
+	for (Enterprise e : JobBankSystem.getInstance().getEnterprises()) {
+	    if (e.getUnit().getOid() == party.getOid()) {
+		return true;
+	    }
+	}
+
+	return false;
+    }
+
+    public void addContactInformation(HttpServletRequest request) {
+	if (getUnit() != null) {
+	    ComparatorChain chain = new ComparatorChain();
+	    chain.addComparator(new BeanComparator("class.simpleName"));
+	    chain.addComparator(new BeanComparator("externalId"));
+
+	    TreeSet<PartyContact> sortedContacts = new TreeSet<PartyContact>(chain);
+	    sortedContacts.addAll(getUnit().getPartyContacts());
+
+	    JobBankSystem jbsys = JobBankSystem.getInstance();
+	    if (!jbsys.isNPEMember() && !jbsys.isEnterpriseActiveMember()) {
+		ArrayList<PartyContact> toDelete = new ArrayList<PartyContact>();
+
+		for (PartyContact contact : sortedContacts) {
+		    boolean shouldDelete = true;
+
+		    for (PersistentGroup vg : contact.getVisibilityGroups()) {
+			if (vg.equals(UserGroup.getInstance())) {
+			    shouldDelete = false;
+			    break;
+			}
+		    }
+
+		    if (shouldDelete) {
+			toDelete.add(contact);
+		    }
+		}
+
+		sortedContacts.removeAll(toDelete);
+	    }
+
+	    request.setAttribute("sortedContacts", sortedContacts);
+
+	    request.setAttribute("visibilityGroups", new ArrayList<PersistentGroup>(ContactsConfigurator.getInstance()
+		    .getVisibilityGroups()));
+	}
     }
 
 }

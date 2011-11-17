@@ -13,6 +13,7 @@
 <bean:define id="enterprise" name="process" property="enterprise"/>
 <bean:define id="jobOfferProcesses" name="process" property="enterprise.jobOfferProcesses"/>
 <bean:define id="enterpriseId" name="enterprise" property="externalId"/>
+<bean:define id="processOID" name="process" property="externalId"/>
 
 
 <logic:equal name="process" property="isEnterpriseMember" value="true">
@@ -57,6 +58,81 @@
 		</fr:layout>
 	</fr:view>
 </div>
+
+
+<h3 class="separator">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.contacts"/>
+</h3>
+
+
+<logic:present name="sortedContacts">
+	<logic:notEmpty name="sortedContacts">
+	<br>
+	<table class="tstyle3">
+		<tr>
+			<th/>
+			<th/>
+			<%-- Print the visibility group name --%>
+			<logic:iterate id="visibilityGroup" name="visibilityGroups">
+			<%-- Print something depending on the existence of a group alias or not--%>
+				<th>
+				<logic:empty name="visibilityGroup" property="groupAlias">
+					<bean:write name="visibilityGroup" property="name"/>
+				</logic:empty>
+				<logic:notEmpty name="visibilityGroup" property="groupAlias">
+					<logic:notEmpty name="visibilityGroup" property="groupAlias.groupAlias">
+						<bean:write name="visibilityGroup" property="groupAlias.groupAlias"/>
+					</logic:notEmpty>
+					<logic:empty name="visibilityGroup" property="groupAlias.groupAlias">
+						<bean:write name="visibilityGroup" property="name"/>
+					</logic:empty>
+				</logic:notEmpty>
+				</th>
+			</logic:iterate>
+		</tr>
+		<logic:iterate id="sortedContact" name="sortedContacts">
+		<logic:present name="sortedContact">
+			<tr>
+			<%-- Use the class to write the bean:message --%>
+				<bean:define id="keyDependingOnClass" name="sortedContact" property="class.name"/>
+				<td><bean:message key="<%=keyDependingOnClass.toString()%>" bundle="CONTACTS_RESOURCES"/> (<bean:write name="sortedContact" property="type.localizedName"/>)</td>
+				<%-- showing of the contact information --%>
+				<td><bean:write name="sortedContact" property="description"/></td>
+				<%-- mark all visibilities with the given image or - case they aren't visible--%>
+						<logic:iterate id="visibilityGroup" name="visibilityGroups">
+						<td class="acenter">
+						<%if (((module.contacts.domain.PartyContact)sortedContact).isVisibleTo((myorg.domain.groups.PersistentGroup)visibilityGroup)) {%>
+	                		<img src="<%= request.getContextPath() + "/contacts/image/accept.gif" %>"/>
+						<%}else {%>
+							-
+						<%}%>
+						</td>
+						</logic:iterate>
+						<td class="tdclear">
+						<html:link action="<%= "/contacts.do?method=editPartyContact&OID=" + processOID + "&forwardToAction=" + "backOffice.do" + "&forwardToMethod=Enterprise"%>" paramId="partyContactOid" paramName="sortedContact" paramProperty="externalId">
+							<bean:message bundle="CONTACTS_RESOURCES" key="manage.contacts.edit.label"/>
+						</html:link>,
+						<html:link action="<%= "/contacts.do?method=deletePartyContact&OID=" + processOID + "&forwardToAction=" + "backOffice.do" + "&forwardToMethod=Enterprise"%>" paramId="partyContactOid" paramName="sortedContact" paramProperty="externalId">
+							<bean:message bundle="CONTACTS_RESOURCES" key="manage.contacts.remove.label"/>
+						</html:link>
+						</td>
+		</logic:present>
+		</logic:iterate>
+	</table>
+	</logic:notEmpty>
+</logic:present>
+
+
+<logic:empty name="sortedContacts">
+<br>
+<bean:message key="edit.person.information.and.contacts.no.available.contacts" bundle="CONTACTS_RESOURCES"/>
+<br>
+</logic:empty>
+
+<html:link action="<%= "/contacts.do?method=createPartyContact&OID=" + processOID + "&forwardToAction=" + "backOffice.do" + "&forwardToMethod=Enterprise" %>" paramId="personOid" paramName="enterprise" paramProperty="unit.oid">
+<br/>
+	<p><bean:message bundle="CONTACTS_RESOURCES" key="manage.contacts.addContact.label"/></p>
+</html:link>
 
 
 

@@ -13,18 +13,51 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.information"/>
 </h3>
 
-<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view">
-	<fr:layout name="tabular" >
-		<fr:property name="classes" value="tview-horizontal"/>
-	</fr:layout>
-</fr:view>
-
 <div>
 	<bean:define id="enterpriseId" name="enterprise" property="externalId"/>
 	<logic:present name="enterprise" property="logo">
 		<html:img action="<%= "/student.do?method=viewEnterpriseLogo&enterpriseId="+ enterpriseId %>" style="width: 120px; height: 120px;"/>
 	</logic:present>
 </div>
+
+<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view">
+	<fr:layout name="tabular" >
+		<fr:property name="classes" value="tview-horizontal"/>
+	</fr:layout>
+</fr:view>
+
+
+
+
+
+<h3 class="separator">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.contacts"/>
+</h3>
+
+
+<logic:present name="sortedContacts">
+	<logic:notEmpty name="sortedContacts">
+	<table class="tstyle3">
+		<logic:iterate id="sortedContact" name="sortedContacts">
+		<logic:present name="sortedContact">
+			<tr>
+			<%-- Use the class to write the bean:message --%>
+				<bean:define id="keyDependingOnClass" name="sortedContact" property="class.name"/>
+				<td><bean:message key="<%=keyDependingOnClass.toString()%>" bundle="CONTACTS_RESOURCES"/> (<bean:write name="sortedContact" property="type.localizedName"/>)</td>
+				<%-- showing of the contact information --%>
+				<td><bean:write name="sortedContact" property="description"/></td>
+		</logic:present>
+		</logic:iterate>
+	</table>
+	</logic:notEmpty>
+</logic:present>
+
+
+<logic:empty name="sortedContacts">
+<br>
+<bean:message key="edit.person.information.and.contacts.no.available.contacts" bundle="CONTACTS_RESOURCES"/>
+</logic:empty>
+
 
 <h3>
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/>
