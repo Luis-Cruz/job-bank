@@ -8,6 +8,8 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createOffer"/></h2>
 
+<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.createOffer"/></p>
+
 <logic:messagesPresent property="message" message="true">
 	<div class="error1">
 		<html:messages id="errorMessage" property="message" message="true"> 
