@@ -13,6 +13,10 @@
 <bean:define id="candidates" name="process" property="jobOffer.activeOfferCandidacies"/>
 <bean:define id="OID" name="process" property="externalId"/>
 
+<p>
+	<bean:message key="message.enterprise.view.process.help.information" bundle="JOB_BANK_RESOURCES"/>
+</p>
+
 <h3 class="separator">
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffer.information"/>
 </h3>

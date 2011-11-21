@@ -29,7 +29,11 @@
 		<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility.student.text"/>
 	</div>
 	
-	<p><a href="">Download (.PDF)</a></p>
+	<p>
+		<a href="<%= request.getContextPath() + "/jobBank/TermsAndConditions_Students_" + Language.getLocale().getLanguage() + ".pdf" %>">
+			<bean:message key="message.termsResponsibilityEnterprise.download" bundle="JOB_BANK_RESOURCES"/>
+		</a>
+	</p>
 
 	<fr:form action="/student.do?method=acceptResponsibilityTerms">
 		<html:submit styleClass="inputbutton">

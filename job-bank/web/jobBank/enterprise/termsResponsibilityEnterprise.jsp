@@ -1,3 +1,4 @@
+<%@page import="pt.utl.ist.fenix.tools.util.i18n.Language"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
@@ -15,7 +16,11 @@
 	
 <bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.termsResponsibility.text"/>
 	
-<p><a href=""><bean:message key="message.termsResponsibilityEnterprise.download" bundle="JOB_BANK_RESOURCES"/></a></p>
+<p>
+	<a href="<%= request.getContextPath() + "/jobBank/TermsAndConditions_Businesses_" + Language.getLocale().getLanguage() + ".pdf" %>">
+		<bean:message key="message.termsResponsibilityEnterprise.download" bundle="JOB_BANK_RESOURCES"/>
+	</a>
+</p>
  
 <fr:form action="/enterprise.do?method=prepareToCreateEmailValidation">
 	<html:submit styleClass="inputbutton">
