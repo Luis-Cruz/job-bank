@@ -43,11 +43,14 @@
 				<fr:property name="size" value="50" />
 			 </fr:slot>
 			 <fr:slot name="enterpriseBean.nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
-			  
-			<fr:slot name="enterpriseBean.designation" key="label.enterprise.designation" layout="area">  
-				<fr:property name="columns" value="60" />
-				<fr:property name="rows" value="6" />
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
+
+			<fr:slot name="enterpriseBean.designation" key="label.enterprise.designation" layout="autoComplete"
+					validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredAutoCompleteSelectionValidator">
+       			<fr:property name="labelField" value="description"/>
+				<fr:property name="format" value="${description}"/>
+				<fr:property name="minChars" value="3"/>
+				<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.EconomicActivityClassificationLeafProvider"/>
+				<fr:property name="size" value="60"/>
 			</fr:slot>
 			<fr:slot name="enterpriseBean.summary" key="label.enterprise.summary"  layout="area">  
 				<fr:property name="columns" value="60" />

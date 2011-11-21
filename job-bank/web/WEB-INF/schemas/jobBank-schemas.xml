@@ -16,10 +16,8 @@
 		<property name="size" value="50" />
 	 </slot>
 	 <slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>	
-	<slot name="designation" key="label.enterprise.designation" layout="area">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
+	<slot name="designation.description" key="label.enterprise.designation"/>  
+
 	<slot name="summary" key="label.enterprise.summary"  layout="area">  
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />
@@ -207,10 +205,7 @@
 	<slot name="enterpriseBean.nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>
 	<slot name="enterpriseBean.password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
 	<slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password">  </slot>
-	<slot name="enterpriseBean.designation" key="label.enterprise.designation" layout="area">  
-		<property name="columns" value="60" />
-		<property name="rows" value="6" />
-	</slot>
+	<slot name="enterpriseBean.designation.description" key="label.enterprise.designation"/>
 	<slot name="enterpriseBean.summary" key="label.enterprise.summary"  layout="area">  
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />

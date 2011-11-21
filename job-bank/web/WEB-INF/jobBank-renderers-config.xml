@@ -1,0 +1,6 @@
+    <renderer mode="input" type="pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf" layout="autoComplete" class="module.jobBank.presentationTier.renderer.EconomicClassificationAutoCompleteRenderer">
+        <property name="autoCompleteItemsStyleClass" value="autoCompleteItems"/>
+        <property name="autoCompleteStyleClass" value="autoComplete"/>
+        <property name="minChars" value="3"/>
+        <property name="valueField" value="exportAsString"/>
+    </renderer>

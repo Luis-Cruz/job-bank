@@ -33,7 +33,7 @@
 		<fr:edit id="activityBean3" name="information">
 			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 				
-					<fr:slot name="oldPassword" key="label.enterprise.old.password" layout="password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
+					<fr:slot name="oldPassword" key="label.enterprise.old.password" layout="password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  
 					
 			</fr:schema>
 			<fr:layout name="tabular">
@@ -47,31 +47,34 @@
 	
 	<h3><bean:message key="label.enterprise.createEnterprise.enterprise" bundle="JOB_BANK_RESOURCES"/></h3>
 	
-	<fr:edit id="activityBean2" name="information" >
-		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">	
-		<fr:slot name="enterpriseBean.logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
+	<fr:edit id="activityBean2" name="information" property="enterpriseBean">
+		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">	
+		<fr:slot name="logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
 			<fr:property name="fileNameSlot" value="enterpriseBean.logoFilename" />
 			<fr:property name="size" value="30"/>
 		</fr:slot>
 		
-		<fr:slot name="enterpriseBean.name" key="label.enterprise.name">
+		<fr:slot name="name" key="label.enterprise.name">
 			<fr:validator name="module.jobBank.presentationTier.validators.EnterpriseNameNotRegisteredValidator"/>
 			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			<fr:property name="size" value="50" />
 		</fr:slot>
 		
-		<fr:slot name="enterpriseBean.contactPerson" key="label.enterprise.contactPerson"> 
+		<fr:slot name="contactPerson" key="label.enterprise.contactPerson"> 
 			<fr:property name="size" value="50" />
 		 </fr:slot>
-		 <fr:slot name="enterpriseBean.nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
+		 <fr:slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
 		  
-		<fr:slot name="enterpriseBean.designation" key="label.enterprise.designation" layout="area">  
-			<fr:property name="columns" value="60" />
-			<fr:property name="rows" value="6" />
-			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
+		<fr:slot name="designation" key="label.enterprise.designation" layout="autoComplete"
+				validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredAutoCompleteSelectionValidator">
+       		<fr:property name="labelField" value="description"/>
+			<fr:property name="format" value="${description}"/>
+			<fr:property name="minChars" value="3"/>
+			<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.EconomicActivityClassificationLeafProvider"/>
+			<fr:property name="size" value="60"/>
 		</fr:slot>
-		<fr:slot name="enterpriseBean.summary" key="label.enterprise.summary"  layout="area">  
+		<fr:slot name="summary" key="label.enterprise.summary"  layout="area">  
 			<fr:property name="columns" value="60" />
 			<fr:property name="rows" value="6" />
 			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
@@ -83,7 +86,6 @@
 			<fr:property name="requiredMessageShown" value="false" />
 		</fr:layout>
 	</fr:edit>
-	
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 
 	
 	<fr:edit id="activityBean3" name="information">

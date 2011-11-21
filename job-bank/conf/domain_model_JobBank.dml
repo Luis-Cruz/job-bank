@@ -15,6 +15,13 @@ valueType java.math.BigDecimal as BigDecimal {
     }
 }
 
+valueType pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf as EconomicActivityClassificationLeaf {
+    externalizeWith {
+        String exportAsString();
+    }
+    internalizeWith pt.ist.jpdafinance.pt.EconomicActivityClassificationGroup.importFromString();
+}
+
 enum module.jobBank.domain.JobOfferType as JobOfferType;
 enum module.jobBank.domain.JobBankAccountabilityType as JobBankAccountabilityType;
 enum module.jobBank.domain.FenixDegreeType as FenixDegreeType;
@@ -51,7 +58,7 @@ class EnterpriseProcess extends .module.workflow.domain.WorkflowProcess {
 class Enterprise{
 	boolean canceled;
 	boolean blocked;
-	MultiLanguageString designation;
+	EconomicActivityClassificationLeaf designation;
 	MultiLanguageString summary;
 	String address;
 	String area;

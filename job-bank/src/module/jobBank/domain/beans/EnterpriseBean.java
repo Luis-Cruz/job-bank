@@ -12,6 +12,7 @@ import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 import myorg.util.InputStreamUtil;
 import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class EnterpriseBean implements Serializable {
@@ -35,7 +36,7 @@ public class EnterpriseBean implements Serializable {
     private String logoDisplayName;
 
     private MultiLanguageString name;
-    private MultiLanguageString designation;
+    private EconomicActivityClassificationLeaf designation;
     private MultiLanguageString summary;
     private String address;
     private String area;
@@ -149,11 +150,11 @@ public class EnterpriseBean implements Serializable {
 	this.name = name;
     }
 
-    public MultiLanguageString getDesignation() {
+    public EconomicActivityClassificationLeaf getDesignation() {
 	return designation;
     }
 
-    public void setDesignation(MultiLanguageString designation) {
+    public void setDesignation(EconomicActivityClassificationLeaf designation) {
 	this.designation = designation;
     }
 
