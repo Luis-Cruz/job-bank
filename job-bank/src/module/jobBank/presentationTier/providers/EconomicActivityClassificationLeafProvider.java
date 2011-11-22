@@ -18,7 +18,7 @@ public class EconomicActivityClassificationLeafProvider implements AutoCompleteP
 	final List<EconomicActivityClassification> classifications = new ArrayList<EconomicActivityClassification>();
 
 	final String trimmedValue = value.trim();
-	if (trimmedValue.length() > 2) {
+	if (trimmedValue.length() > 1) {
 	    final String[] input = trimmedValue.split(" ");
 	    StringNormalizer.normalize(input);
 
@@ -40,10 +40,14 @@ public class EconomicActivityClassificationLeafProvider implements AutoCompleteP
     }
 
     private boolean match(final String[] input, final EconomicActivityClassification classification) {
+	return match(input, classification.code) || match(input, classification.description);
+    }
+
+    private boolean match(final String[] input, final String stringToMatch) {
 	if (input.length == 0) {
 	    return false;
 	}
-	final String description = StringNormalizer.normalize(classification.description);
+	final String description = StringNormalizer.normalize(stringToMatch);
 	for (final String string : input) {
 	    if (description.indexOf(string) < 0) {
 		return false;
