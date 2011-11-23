@@ -47,8 +47,8 @@
 			<fr:slot name="enterpriseBean.designation" key="label.enterprise.designation" layout="autoComplete"
 					validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredAutoCompleteSelectionValidator">
        			<fr:property name="labelField" value="description"/>
-				<fr:property name="format" value="${description}"/>
-				<fr:property name="minChars" value="3"/>
+				<fr:property name="format" value="${code} - ${description} <span style='color:gray'>(${group.code} - ${group.description})</span>"/>
+				<fr:property name="minChars" value="2"/>
 				<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.EconomicActivityClassificationLeafProvider"/>
 				<fr:property name="size" value="60"/>
 			</fr:slot>
