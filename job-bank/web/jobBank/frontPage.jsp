@@ -30,24 +30,24 @@
 		<h3><bean:message key="title.frontPage.platform.advantages" bundle="JOB_BANK_RESOURCES" /></h3>
 		<div class="vantagens-linha">
 			<div class="vantagem">
-				<h2 class="oferta-de-empregos"><bean:message key="title.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></h2>
-				<p><bean:message key="message.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></p>
+				<h2 class="perfis-de-alunos"><bean:message key="title.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 			<div class="vantagem">
-				<h2 class="calendarizacao"><bean:message key="title.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></h2>
-				<p><bean:message key="message.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></p>
+				<h2 class="oferta-de-empregos"><bean:message key="title.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.jobOffer" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 		</div>
 		<!-- vantagens-linha -->
 	
 		<div class="vantagens-linha">
 			<div class="vantagem">
-				<h2 class="perfis-de-alunos"><bean:message key="title.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></h2>
-				<p><bean:message key="message.frontPage.student.profiles" bundle="JOB_BANK_RESOURCES" /></p>
-			</div>
-			<div class="vantagem">
 				<h2 class="confidencialidade"><bean:message key="title.frontPage.confidentiality" bundle="JOB_BANK_RESOURCES" /></h2>
 				<p><bean:message key="message.frontPage.confidentiality" bundle="JOB_BANK_RESOURCES" /></p>
+			</div>
+			<div class="vantagem">
+				<h2 class="calendarizacao"><bean:message key="title.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></h2>
+				<p><bean:message key="message.frontPage.schedule" bundle="JOB_BANK_RESOURCES" /></p>
 			</div>
 		</div>
 		<!-- vantagens-linha --> 
