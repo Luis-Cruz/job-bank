@@ -60,16 +60,9 @@ class Enterprise{
 	boolean blocked;
 	EconomicActivityClassificationLeaf designation;
 	MultiLanguageString summary;
-	String address;
-	String area;
 	String contactPerson;
 	String nif;
-	String phone;
-	String fax;
-	String url;
-	String contactEmail;
 	boolean confirmedEmail;
-	String areaCode;
 	ByteArray logo;
 }
 

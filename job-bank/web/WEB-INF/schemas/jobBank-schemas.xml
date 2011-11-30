@@ -7,12 +7,7 @@
 	<slot name="loginEmail" key="label.enterprise.loginEmail">
 		<property name="size" value="50" />
 	</slot>
-	<slot name="contactEmail" key="label.enterprise.contactEmail">
-		<validator class="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
-		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-		<property name="size" value="50" />
-	</slot>
-	<slot name="contactPerson" key="label.enterprise.contactPerson"> 
+	<slot name="contactPerson" key="label.enterprise.contactPerson" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
 		<property name="size" value="50" />
 	 </slot>
 	 <slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  </slot>	
@@ -22,20 +17,15 @@
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />
 	</slot>
-	<slot name="area" key="label.enterprise.area"/>
-	<slot name="areaCode" key="label.enterprise.areaCode"/>  
-	<slot name="phone" key="label.enterprise.phone"/>  
-	<slot name="fax" key="label.enterprise.fax"/> 
-	<slot name="url" key="label.enterprise.url"/>  
 </schema>
 
 
 <schema name="jobBank.enterprise.view.pendingRegister"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">
+	<slot name="loginEmail" key="label.enterprise.loginEmail"/>
 	<slot name="name" key="label.enterprise.name" />
 	<slot name="nif" key="label.enterprise.nif" />
-	<slot name="contactEmail" key="label.enterprise.contactEmail" />  
 	<slot name="agreementNameForApproval" layout="null-as-label" key="label.enterprise.status" />		
 </schema>
 
@@ -210,13 +200,8 @@
 		<property name="columns" value="60" />
 		<property name="rows" value="6" />
 	</slot>
-	<slot name="enterpriseBean.area" key="label.enterprise.area"/>  
-	<slot name="enterpriseBean.areaCode" key="label.enterprise.areaCode"/>
-	<slot name="enterpriseBean.phone" key="label.enterprise.phone"/>  
-	<slot name="enterpriseBean.fax" key="label.enterprise.fax"/>
-	<slot name="enterpriseBean.url" key="label.enterprise.url"/>
 	<slot name="enterpriseBean.contactEmail" key="label.enterprise.contactEmail"/>  
-	<slot name="enterpriseBean.contactPerson" key="label.enterprise.contactPerson"/>  	
+	<slot name="enterpriseBean.contactPerson" key="label.enterprise.contactPerson" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
 </schema>
 
 <schema name="jobBank.activityInformation.EditEnterpriseByNPEActivity" type="module.jobBank.domain.activity.EnterpriseInformation"  bundle="JOB_BANK_RESOURCES" extends="jobBank.activityInformation.EditEnterpriseActivity">

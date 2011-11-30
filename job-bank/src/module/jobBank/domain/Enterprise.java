@@ -1,6 +1,7 @@
 package module.jobBank.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -12,8 +13,14 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 
 import module.contacts.domain.ContactsConfigurator;
+import module.contacts.domain.EmailAddress;
 import module.contacts.domain.PartyContact;
+import module.contacts.domain.PartyContactType;
+import module.contacts.domain.Phone;
+import module.contacts.domain.PhoneType;
+import module.contacts.domain.WebAddress;
 import module.jobBank.domain.beans.EnterpriseBean;
+import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.organization.domain.Accountability;
@@ -79,12 +86,6 @@ public class Enterprise extends Enterprise_Base {
 	setNif(enterpriseBean.getNif());
 	setDesignation(enterpriseBean.getDesignation());
 	setSummary(enterpriseBean.getSummary());
-	setArea(enterpriseBean.getArea());
-	setAreaCode(enterpriseBean.getAreaCode());
-	setPhone(enterpriseBean.getPhone());
-	setFax(enterpriseBean.getFax());
-	setUrl(enterpriseBean.getUrl());
-	setContactEmail(enterpriseBean.getContactEmail());
 	setContactPerson(enterpriseBean.getContactPerson());
 	setLogo(enterpriseBean.getLogo());
     }
@@ -446,6 +447,28 @@ public class Enterprise extends Enterprise_Base {
 	enterpriseBean.setJobBankAccountabilityType(JobBankAccountabilityType.JOB_PROVIDER);
 	setForm(enterpriseBean);
 	setEnterpriseProcess(new EnterpriseProcess(this));
+
+	List<PersistentGroup> npeGroup = Arrays.asList((PersistentGroup) NpeGroup.getInstance());
+	List<PersistentGroup> publicGroup = Arrays.asList((PersistentGroup) UserGroup.getInstance());
+
+	EmailAddress.createNewEmailAddress(enterpriseBean.getPrivateContactEmail(), this.getUnit(), true, PartyContactType.WORK,
+		getUser(), npeGroup);
+	if (!StringUtils.isEmpty(enterpriseBean.getPublicContactEmail())) {
+	    EmailAddress.createNewEmailAddress(enterpriseBean.getPublicContactEmail(), this.getUnit(), true,
+		    PartyContactType.WORK, getUser(), publicGroup);
+	}
+	if (!StringUtils.isEmpty(enterpriseBean.getPhone())) {
+	    Phone.createNewPhone(PhoneType.REGULAR_PHONE, enterpriseBean.getPhone(), this.getUnit(), true, PartyContactType.WORK,
+		    getUser(), npeGroup);
+	}
+	if (!StringUtils.isEmpty(enterpriseBean.getMobilePhone())) {
+	    Phone.createNewPhone(PhoneType.CELLPHONE, enterpriseBean.getMobilePhone(), this.getUnit(), true,
+		    PartyContactType.WORK, getUser(), npeGroup);
+	}
+	if (!StringUtils.isEmpty(enterpriseBean.getWebAddress())) {
+	    WebAddress.createNewWebAddress(enterpriseBean.getWebAddress(), this.getUnit(), true, PartyContactType.WORK,
+		    getUser(), publicGroup);
+	}
     }
 
     private boolean isAccountabilityType(AccountabilityType accountabilityType) {

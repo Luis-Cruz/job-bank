@@ -49,12 +49,10 @@
 			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			<fr:property name="size" value="50" />
 		</fr:slot>
-		
-		<fr:slot name="contactPerson" key="label.enterprise.contactPerson"> 
+		<fr:slot name="contactPerson" key="label.enterprise.contactPerson" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
 			<fr:property name="size" value="50" />
-		 </fr:slot>
-		 <fr:slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
-
+		</fr:slot>
+	 	<fr:slot name="nif" key="label.enterprise.nif" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>  	
 		<fr:slot name="designation" key="label.enterprise.designation" layout="autoComplete"
 				validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredAutoCompleteSelectionValidator">
        		<fr:property name="labelField" value="description"/>
@@ -63,7 +61,7 @@
 			<fr:property name="args" value="provider=module.jobBank.presentationTier.providers.EconomicActivityClassificationLeafProvider"/>
 			<fr:property name="size" value="60"/>
 		</fr:slot>
-		<fr:slot name="summary" key="label.enterprise.summary"  layout="area">  
+		<fr:slot name="summary" key="label.enterprise.summary"  layout="area" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  
 			<fr:property name="columns" value="60" />
 			<fr:property name="rows" value="6" />
 			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
@@ -80,16 +78,17 @@
 	<h3><bean:message key="label.enterprise.createEnterprise.enterpriseContacts" bundle="JOB_BANK_RESOURCES"/> </h3> 
 	<fr:edit id="enterpriseBean3" name="enterpriseBean" >
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">
-		<fr:slot name="contactEmail" key="label.enterprise.contactEmail">
+		<fr:slot name="privateContactEmail" key="label.enterprise.privateContactEmail">
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.EmailValidator"/>  
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 				<fr:property name="size" value="50" />
 		</fr:slot>
-		<fr:slot name="area" key="label.enterprise.area"/>  
-		<fr:slot name="areaCode" key="label.enterprise.areaCode"/> 
-		<fr:slot name="phone" key="label.enterprise.phone"/> 
-		<fr:slot name="fax" key="label.enterprise.fax"/>
-		<fr:slot name="url" key="label.enterprise.url"/>  	
+		<fr:slot name="publicContactEmail" key="label.enterprise.publicContactEmail" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.NotRequiredEmailValidator">
+				<fr:property name="size" value="50" />
+		</fr:slot>
+		<fr:slot name="phone" key="label.enterprise.phone"/>
+		<fr:slot name="mobilePhone" key="label.enterprise.mobilePhone"/>
+		<fr:slot name="webAddress" key="label.enterprise.url"/>  	
 	</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/>

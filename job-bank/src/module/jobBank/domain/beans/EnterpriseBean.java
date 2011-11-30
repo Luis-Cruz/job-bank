@@ -23,12 +23,7 @@ public class EnterpriseBean implements Serializable {
     private String password;
     private String repeatPassword;
     private String nif;
-    private String phone;
-    private String fax;
-    private String url;
     private String loginEmail;
-    private String contactEmail;
-    private String areaCode;
 
     private ByteArray logo;
     private transient InputStream logoInputStream;
@@ -38,8 +33,7 @@ public class EnterpriseBean implements Serializable {
     private MultiLanguageString name;
     private EconomicActivityClassificationLeaf designation;
     private MultiLanguageString summary;
-    private String address;
-    private String area;
+
     private String contactPerson;
     private JobBankAccountabilityType jobBankAccountabilityType;
     private JobBankAccountabilityType notActiveAccountabilityType;
@@ -47,6 +41,12 @@ public class EnterpriseBean implements Serializable {
 
     private EnterpriseStateType enterpriseStateType;
     private EmailValidation emailValidation;
+
+    private String privateContactEmail;
+    private String publicContactEmail;
+    private String phone;
+    private String mobilePhone;
+    private String webAddress;
 
     public EnterpriseBean() {
 	super();
@@ -61,18 +61,10 @@ public class EnterpriseBean implements Serializable {
 	setUsername(enterprise.getLoginEmail());
 	setPassword(enterprise.getUser().getPassword());
 	setRepeatPassword(enterprise.getUser().getPassword());
-	setNif(enterprise.getNif());
-	setPhone(enterprise.getPhone());
-	setFax(enterprise.getFax());
-	setUrl(enterprise.getUrl());
 	setLoginEmail(enterprise.getLoginEmail());
-	setContactEmail(enterprise.getContactEmail());
-	setAreaCode(enterprise.getAreaCode());
 	setName(enterprise.getName());
 	setDesignation(enterprise.getDesignation());
 	setSummary(enterprise.getSummary());
-	setAddress(enterprise.getAddress());
-	setArea(enterprise.getArea());
 	setContactPerson(enterprise.getContactPerson());
 	setLogo(enterprise.getLogo());
 	setJobBankAccountabilityType(JobBankAccountabilityType.readAccountabilityType(enterprise.getActiveAccountabilityType()));
@@ -110,36 +102,12 @@ public class EnterpriseBean implements Serializable {
 	this.nif = nif;
     }
 
-    public String getPhone() {
-	return phone;
-    }
-
-    public void setPhone(String phone) {
-	this.phone = phone;
-    }
-
-    public String getFax() {
-	return fax;
-    }
-
-    public void setFax(String fax) {
-	this.fax = fax;
-    }
-
     public String getLoginEmail() {
 	return loginEmail;
     }
 
     public void setLoginEmail(String emailLogin) {
 	this.loginEmail = emailLogin;
-    }
-
-    public String getAreaCode() {
-	return areaCode;
-    }
-
-    public void setAreaCode(String areaCode) {
-	this.areaCode = areaCode;
     }
 
     public MultiLanguageString getName() {
@@ -164,22 +132,6 @@ public class EnterpriseBean implements Serializable {
 
     public void setSummary(MultiLanguageString summary) {
 	this.summary = summary;
-    }
-
-    public String getAddress() {
-	return address;
-    }
-
-    public void setAddress(String address) {
-	this.address = address;
-    }
-
-    public String getArea() {
-	return area;
-    }
-
-    public void setArea(String area) {
-	this.area = area;
     }
 
     public String getContactPerson() {
@@ -275,22 +227,6 @@ public class EnterpriseBean implements Serializable {
 	return emailValidation == null ? new EmailValidation(getLoginEmail()) : emailValidation;
     }
 
-    public void setContactEmail(String contactEmail) {
-	this.contactEmail = contactEmail;
-    }
-
-    public String getContactEmail() {
-	return contactEmail;
-    }
-
-    public void setUrl(String url) {
-	this.url = url;
-    }
-
-    public String getUrl() {
-	return url;
-    }
-
     public void setMessage(String message) {
 	this.message = message;
     }
@@ -310,6 +246,46 @@ public class EnterpriseBean implements Serializable {
 	    notActiveAccountabilityType = JobBankAccountabilityType.JOB_PROVIDER;
 	}
 	return notActiveAccountabilityType;
+    }
+
+    public String getPrivateContactEmail() {
+	return privateContactEmail;
+    }
+
+    public void setPrivateContactEmail(String privateContactEmail) {
+	this.privateContactEmail = privateContactEmail;
+    }
+
+    public String getPublicContactEmail() {
+	return publicContactEmail;
+    }
+
+    public void setPublicContactEmail(String publicContactEmail) {
+	this.publicContactEmail = publicContactEmail;
+    }
+
+    public String getPhone() {
+	return phone;
+    }
+
+    public void setPhone(String phone) {
+	this.phone = phone;
+    }
+
+    public String getMobilePhone() {
+	return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+	this.mobilePhone = mobilePhone;
+    }
+
+    public String getWebAddress() {
+	return webAddress;
+    }
+
+    public void setWebAddress(String webAddress) {
+	this.webAddress = webAddress;
     }
 
 }

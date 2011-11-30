@@ -3,6 +3,7 @@ package module.jobBank.domain.groups;
 import java.util.Set;
 
 import module.jobBank.domain.JobBankSystem;
+import myorg.domain.MyOrg;
 import myorg.domain.User;
 import myorg.domain.groups.PersistentGroup;
 import myorg.util.BundleUtil;
@@ -12,6 +13,7 @@ public class NpeGroup extends NpeGroup_Base {
 
     public NpeGroup() {
 	super();
+	setSystemGroupMyOrg(MyOrg.getInstance());
     }
 
     @Override
