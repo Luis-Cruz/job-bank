@@ -69,6 +69,8 @@
 	<logic:notEmpty name="sortedContacts">
 	<table class="tview-horizontal">
 		<tr>
+			<th/>
+			<th/>
 			<%-- Print the visibility group name --%>
 			<logic:iterate id="visibilityGroup" name="visibilityGroups">
 			<%-- Print something depending on the existence of a group alias or not--%>
@@ -88,26 +90,24 @@
 			</logic:iterate>
 		</tr>
 		<logic:iterate id="sortedContact" name="sortedContacts">
-		<logic:present name="sortedContact">
 			<tr>
-			<%-- Use the class to write the bean:message --%>
+				<%-- Use the class to write the bean:message --%>
 				<bean:define id="keyDependingOnClass" name="sortedContact" property="class.name"/>
 				<th>
 					<bean:message key="<%=keyDependingOnClass.toString()%>" bundle="CONTACTS_RESOURCES"/> (<bean:write name="sortedContact" property="type.localizedName"/>)
 				</th>
 				<%-- showing of the contact information --%>
-				<td>
-					<bean:write name="sortedContact" property="description"/></td>
+				<td><bean:write name="sortedContact" property="description"/></td>
 				<%-- mark all visibilities with the given image or - case they aren't visible--%>
-						<logic:iterate id="visibilityGroup" name="visibilityGroups">
-						<td class="acenter">
-						<%if (((module.contacts.domain.PartyContact)sortedContact).isVisibleTo((myorg.domain.groups.PersistentGroup)visibilityGroup)) {%>
-	                		<img src="<%= request.getContextPath() + "/contacts/image/accept.gif" %>"/>
-						<%}else {%>
-							-
-						<%}%>
-				</td>
-		</logic:iterate>
+				<logic:iterate id="visibilityGroup" name="visibilityGroups">
+					<td class="acenter">
+					<%if (((module.contacts.domain.PartyContact)sortedContact).isVisibleTo((myorg.domain.groups.PersistentGroup)visibilityGroup)) {%>
+	               		<img src="<%= request.getContextPath() + "/contacts/image/accept.gif" %>"/>
+					<%}else {%>
+						-
+					<%}%>
+					</td>
+				</logic:iterate>
 				<td class="tdclear">
 					<html:link action="<%= "/contacts.do?method=editPartyContact&OID=" + processOID + "&forwardToAction=" + "backOffice.do" + "&forwardToMethod=Enterprise"%>" paramId="partyContactOid" paramName="sortedContact" paramProperty="externalId">
 						<bean:message bundle="CONTACTS_RESOURCES" key="manage.contacts.edit.label"/>
@@ -116,7 +116,7 @@
 						<bean:message bundle="CONTACTS_RESOURCES" key="manage.contacts.remove.label"/>
 					</html:link>
 				</td>
-		</logic:present>
+			</tr>
 		</logic:iterate>
 	</table>
 	</logic:notEmpty>
