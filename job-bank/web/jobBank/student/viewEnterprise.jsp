@@ -20,7 +20,12 @@
 	</logic:present>
 </div>
 
-<fr:view name="enterprise"  schema="jobBank.enterprise.enterpriseProcess.view">
+<fr:view name="enterprise">
+	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.Enterprise">
+		<fr:slot name="name" key="label.enterprise.name"/>
+		<fr:slot name="designation.description" key="label.enterprise.designation"/> 
+		<fr:slot name="summary" key="label.enterprise.summary"/>
+	</fr:schema>
 	<fr:layout name="tabular" >
 		<fr:property name="classes" value="tview-horizontal"/>
 	</fr:layout>
