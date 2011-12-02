@@ -71,7 +71,7 @@ public abstract class JobOffer extends JobOffer_Base {
 	}
 	return OfferCandidacy.canCreateOfferCandidacy(student, this);
     }
-    
+
     public CandidacyType getCandidacyType() {
 	return isExternalCandidacy() ? CandidacyType.External : CandidacyType.Internal;
     }
@@ -198,10 +198,11 @@ public abstract class JobOffer extends JobOffer_Base {
 
 	setPlace(bean.getPlace());
 	setFunction(bean.getFunction());
+	setFunctionDescription(bean.getFunctionDescription());
 	setJobOfferType(bean.getJobOfferType());
 	setVacancies(bean.getVacancies());
 	setRemoteDegrees(bean.getDegrees());
-	setDescriptionOffer(bean.getDescriptionOffer());
+	setTerms(bean.getTerms());
 	setRequirements(bean.getRequirements());
 	setBeginDate(bean.getBeginDate());
 	setEndDate(bean.getEndDate());

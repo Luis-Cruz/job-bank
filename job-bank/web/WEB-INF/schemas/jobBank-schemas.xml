@@ -99,11 +99,15 @@
 		<property name="eachSchema" value="jobBank.enterprise.jobOffer.remoteDegree" />
 		<property name="sortBy" value="presentatioName=asc"/>
 	</slot>
-	<slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="area">  
+	<slot name="functionDescription" key="label.enterprise.jobOffer.functionDescription" layout="area">  
 			<property name="columns" value="60" />
 			<property name="rows" value="6" />
 		</slot>
 	<slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
+			<property name="columns" value="60" />
+			<property name="rows" value="6" />
+	</slot>
+	<slot name="terms" key="label.enterprise.jobOffer.terms" layout="area">  
 			<property name="columns" value="60" />
 			<property name="rows" value="6" />
 	</slot>

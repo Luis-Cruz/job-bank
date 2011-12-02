@@ -40,11 +40,12 @@
 			</fr:slot>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType"/>
-			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText"/>
-			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="longText"/>
-			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/> 
-			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
-			
+			<fr:slot name="function" key="label.enterprise.jobOffer.function"/>
+			<fr:slot name="functionDescription" key="label.enterprise.jobOffer.functionDescription"/>
+			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements"/>
+			<fr:slot name="terms" key="label.enterprise.jobOffer.terms"/>
+			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate"/> 
+			<fr:slot name="endDate" key="label.enterprise.offer.endDate"/>			
 			<fr:layout name="tabular-nonNullValues">
 				<fr:property name="classes" value="tview-horizontal"/>
 			</fr:layout>
@@ -59,7 +60,7 @@
 </h3>
 
 <p>
-	Aenean eu leo leo. Donec sem lorem, commodo vel blandit at, placerat aliquet metus. In hac habitasse platea dictumst. Donec molestie fermentum metus, non ullamcorper libero venenatis vitae. Maecenas ut libero nunc, eget malesuada est.
+	<bean:message key="message.enterprise.view.process.candidacies.help.information" bundle="JOB_BANK_RESOURCES"/>
 </p>
 
 

@@ -31,7 +31,8 @@ list-style: none;
 	<fr:edit name="information" id="activityBean"> 
 		<fr:schema  type="module.jobBank.domain.activity.JobOfferInformation"  bundle="JOB_BANK_RESOURCES">	    
 			
-			<fr:slot name="jobOfferBean.jobOfferType" key="label.enterprise.jobOffer.jobType">
+			<fr:slot name="jobOfferBean.jobOfferType" key="label.enterprise.jobOffer.jobType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+				<fr:property name="excludedValues" value="ALL"/>
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 			
@@ -42,31 +43,28 @@ list-style: none;
 					<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>			
 				</fr:slot>
 			</logic:equal> 
-			
-			<fr:slot name="jobOfferBean.place" key="label.enterprise.jobOffer.place"> 
-				<fr:property name="size" value="60" />
+			<fr:slot name="jobOfferBean.place" key="label.enterprise.jobOffer.place" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
+				<fr:property name="size" value="80" />
+			</fr:slot>
+			<fr:slot name="jobOfferBean.function" key="label.enterprise.jobOffer.function" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"> 
+				<fr:property name="size" value="80" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
-		
-			<fr:slot name="jobOfferBean.function" key="label.enterprise.jobOffer.function" layout="area">  
+			<fr:slot name="jobOfferBean.functionDescription" key="label.enterprise.jobOffer.functionDescription" layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"> 
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
-		
-			<fr:slot name="jobOfferBean.descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer"  layout="area">  
+			<fr:slot name="jobOfferBean.requirements" key="label.enterprise.jobOffer.requirements"  layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
-		
-			<fr:slot name="jobOfferBean.requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
+			<fr:slot name="jobOfferBean.terms" key="label.enterprise.jobOffer.terms" layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
-		
 			<fr:slot name="jobOfferBean.vacancies" key="label.enterprise.jobOffer.vacancies">
 			  <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.NumberValidator"/>
 			  <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>

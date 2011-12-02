@@ -71,8 +71,10 @@
 			<fr:slot name="reference" key="label.enterprise.jobOffer.reference"/>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType"/>
-			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText"/>
+			<fr:slot name="function" key="label.enterprise.jobOffer.function"/>
+			<fr:slot name="functionDescription" key="label.enterprise.jobOffer.functionDescription" layout="longText"/>
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="longText"/>
+			<fr:slot name="terms" key="label.enterprise.jobOffer.terms" layout="longText"/>
 			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
 			

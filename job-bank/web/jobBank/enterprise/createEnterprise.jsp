@@ -7,7 +7,7 @@
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createEnterprise"/></h2>
 
 
-<p class="mbottom20px">Donec sollicitudin cursus nunc vitae viverra. Proin porta massa ac nisl sollicitudin auctor volutpat augue ultrices. Cras molestie suscipit dignissim. Nam dictum iaculis consectetur. Etiam nisi dolor, posuere sed congue ut, vehicula nec mi. Vestibulum elementum iaculis nunc ut mattis.</p>
+<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.createOffer"/></p>
 
 
 <logic:messagesPresent property="message" message="true">
@@ -64,7 +64,7 @@
 		<fr:slot name="summary" key="label.enterprise.summary"  layout="area" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">  
 			<fr:property name="columns" value="60" />
 			<fr:property name="rows" value="6" />
-			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
+			<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 		</fr:slot>
 	</fr:schema>
 		<fr:layout name="tabular">

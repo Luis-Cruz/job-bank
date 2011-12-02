@@ -84,11 +84,11 @@ class JobOffer {
 	DateTime approvalDate;
 	Boolean canceled;
 	Boolean conclued;
-	
-	MultiLanguageString function;
 	String place;
-	MultiLanguageString descriptionOffer;
+	MultiLanguageString function;
+	MultiLanguageString functionDescription;
 	MultiLanguageString requirements;
+	MultiLanguageString terms;
 	JobOfferType jobOfferType;
 	Integer vacancies;
 }

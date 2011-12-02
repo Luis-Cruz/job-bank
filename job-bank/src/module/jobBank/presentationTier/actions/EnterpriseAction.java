@@ -41,8 +41,6 @@ public class EnterpriseAction extends ContextBaseAction {
 	JobOfferBean bean = getRenderedObject("jobOfferBean");
 	if (bean == null) {
 	    bean = new JobOfferBean();
-	} else {
-	    RenderUtils.invalidateViewState();
 	}
 
 	request.setAttribute("jobOfferBean", bean);
@@ -168,7 +166,6 @@ public class EnterpriseAction extends ContextBaseAction {
 	request.setAttribute("processes", processes);
 	return forward(request, "/jobBank/enterprise/jobOffers.jsp");
     }
-
 
     public ActionForward viewAllJobOffers(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
 	    final HttpServletResponse response) {

@@ -31,10 +31,11 @@ public class JobOfferBean implements Serializable {
     private Integer vacancies;
     private String reference;
     private String contactPerson;
-    private MultiLanguageString function;
     private String place;
-    private MultiLanguageString descriptionOffer;
+    private MultiLanguageString function;
+    private MultiLanguageString functionDescription;
     private MultiLanguageString requirements;
+    private MultiLanguageString terms;
     private JobOfferType jobOfferType;
     private List<FenixDegree> degrees;
 
@@ -109,12 +110,12 @@ public class JobOfferBean implements Serializable {
 	this.place = place;
     }
 
-    public MultiLanguageString getDescriptionOffer() {
-	return descriptionOffer;
+    public MultiLanguageString getTerms() {
+	return terms;
     }
 
-    public void setDescriptionOffer(MultiLanguageString descriptionOffer) {
-	this.descriptionOffer = descriptionOffer;
+    public void setTerms(MultiLanguageString terms) {
+	this.terms = terms;
     }
 
     public MultiLanguageString getRequirements() {
@@ -179,8 +180,9 @@ public class JobOfferBean implements Serializable {
 	setContactPerson(jobOffer.getContactPerson());
 	setReference(jobOffer.getReference());
 	setFunction(jobOffer.getFunction());
+	setFunctionDescription(jobOffer.getFunctionDescription());
 	setPlace(jobOffer.getPlace());
-	setDescriptionOffer(jobOffer.getDescriptionOffer());
+	setTerms(jobOffer.getTerms());
 	setRequirements(jobOffer.getRequirements());
 	setDegrees(jobOffer.getDegree());
 	setJobOfferType(jobOffer.getJobOfferType());
@@ -238,6 +240,14 @@ public class JobOfferBean implements Serializable {
 
     public CandidacyType getPreviousCandidacyType() {
 	return previousCandidacyType;
+    }
+
+    public MultiLanguageString getFunctionDescription() {
+	return functionDescription;
+    }
+
+    public void setFunctionDescription(MultiLanguageString functionDescription) {
+	this.functionDescription = functionDescription;
     }
 
 }

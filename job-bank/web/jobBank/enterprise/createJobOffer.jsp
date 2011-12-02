@@ -43,8 +43,8 @@ list-style: none;
 				<fr:property name="defaultOptionHidden" value="true"/>
 			</fr:slot>
 			
-			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType">
-				<fr:property name="defaultOptionHidden" value="true"/>
+			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
+				<fr:property name="excludedValues" value="ALL"/>
 			</fr:slot>
 			
 			<logic:equal name="candidacyType" property="localizedName" value="<%= CandidacyType.External.getLocalizedName() %>"> 
@@ -55,26 +55,27 @@ list-style: none;
 				</fr:slot>
 			</logic:equal> 
 
-			<fr:slot name="place" key="label.enterprise.jobOffer.place"> 
+			<fr:slot name="place" key="label.enterprise.jobOffer.place" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"> 
+				<fr:property name="size" value="80" />
+			</fr:slot>
+			<fr:slot name="function" key="label.enterprise.jobOffer.function" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"> 
 				<fr:property name="size" value="80" />
 				<fr:validator  name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
-			<fr:slot name="function" key="label.enterprise.jobOffer.function" layout="area">  
+			<fr:slot name="functionDescription" key="label.enterprise.jobOffer.functionDescription" layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
-			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="area">  
+			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator">  
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
 				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"/>
 			</fr:slot>
-			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="area">  
+			<fr:slot name="terms" key="label.enterprise.jobOffer.terms" layout="area" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.RequiredMultiLanguageStringValidator"> 
 				<fr:property name="columns" value="60" />
 				<fr:property name="rows" value="6" />
-				<fr:validator name="pt.ist.fenixWebFramework.rendererExtensions.validators.MultiLanguageStringValidator"/>
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 			</fr:slot>
 			<fr:slot name="vacancies" key="label.enterprise.jobOffer.vacancies">
 			  <fr:validator name="pt.ist.fenixWebFramework.renderers.validators.NumberValidator"/>
@@ -100,6 +101,7 @@ list-style: none;
 		<fr:layout name="tabular"> 
 			<fr:property name="classes" value="choose-degrees"/>
 			<fr:property name="requiredMarkShown" value="true" />
+			<fr:property name="columnClasses" value=",,tderror" />
 		</fr:layout>
 		<fr:destination name="postback" path="/enterprise.do?method=changeCandidacyTypeOnOfferCreation"/>
 			

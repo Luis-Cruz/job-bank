@@ -105,7 +105,7 @@
 								<logic:iterate id="file" name="jobOffer" property="studentFilesForJobOfferCandidacy">
 									<bean:define id="fileExternalId" name="file" property="externalId"/>
 									<li>
-										<bean:write name="file" property="displayName" />   
+										<bean:write name="file" property="presentationName" />   
 										<html:link action='<%="/student.do?method=downloadFile&amp;fileId="+fileExternalId %>'>
 											<bean:define id="filename" name="file" property="filename" />
 											<bean:message key="link.file.download" bundle="JOB_BANK_RESOURCES"/> 		
@@ -149,8 +149,10 @@
 			<fr:slot name="reference" key="label.enterprise.jobOffer.reference"/>
 			<fr:slot name="place" key="label.enterprise.jobOffer.place"/>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType"/>
-			<fr:slot name="descriptionOffer" key="label.enterprise.jobOffer.descriptionOffer" layout="longText"/>
+			<fr:slot name="function" key="label.enterprise.jobOffer.function"/>
+			<fr:slot name="functionDescription" key="label.enterprise.jobOffer.functionDescription" layout="longText"/>
 			<fr:slot name="requirements" key="label.enterprise.jobOffer.requirements" layout="longText"/>
+			<fr:slot name="terms" key="label.enterprise.jobOffer.terms" layout="longText"/>
 			<fr:slot name="beginDate" key="label.enterprise.offer.beginDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/> 
 			<fr:slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" validator="pt.ist.fenixWebFramework.rendererExtensions.validators.DateTimeValidator"/>			
 			

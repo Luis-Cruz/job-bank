@@ -17,7 +17,7 @@
 	</html:link>
 </p>
 
-<p><b><bean:write name="student" property="name"/></b></p>
+<p><b><bean:write name="student" property="name"/></b> (<bean:write name="student" property="curriculum.email"/>)</p>
 
 
 <logic:messagesPresent property="message" message="true">
@@ -91,7 +91,7 @@
 					<bean:define id="fileExternalId" name="file" property="externalId"/>
 					<bean:define id="processExternalId" name="student" property="curriculum.curriculumProcess.externalId"/>
 					<li>
-						<bean:write name="file" property="displayName" />   
+						<bean:write name="file" property="presentationName" />   
 						<html:link action='<%="/workflowProcessManagement.do?method=downloadFile&amp;fileId="+fileExternalId+"&amp;processId="+processExternalId %>'>
 							<bean:define id="filename" name="file" property="filename" />
 							<bean:message key="link.file.download" bundle="JOB_BANK_RESOURCES"/><br> 		
@@ -112,7 +112,7 @@
 				<li>
 					<html:link action='<%="/workflowProcessManagement.do?method=downloadFile&amp;fileId="+fileExternalId+"&amp;processId="+processExternalId %>'>
 						<bean:define id="filename" name="file" property="filename" />
-						<bean:write name="file" property="displayName" />
+						<bean:write name="file" property="presentationName" />
 						<%--<bean:message key="link.file.download" bundle="JOB_BANK_RESOURCES"/>--%>		
 					</html:link> 
 				</li>
