@@ -7,7 +7,7 @@
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.createEnterprise"/></h2>
 
 
-<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.createOffer"/></p>
+<p><bean:message bundle="JOB_BANK_RESOURCES" key="message.jobBank.createEnterprise"/></p>
 
 
 <logic:messagesPresent property="message" message="true">

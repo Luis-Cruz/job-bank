@@ -96,6 +96,9 @@ list-style: none;
 				<fr:property name="saveOptions" value="true" />
 				<fr:property name="selectAllShown" value="true" />
 				<fr:property name="sortBy" value="name=asc"/>
+				<fr:validator name="pt.ist.fenixWebFramework.renderers.validators.RequiredNrItemsValidator">
+					<fr:property name="nrRequiredItems" value="1"/>	
+				</fr:validator>
 			</fr:slot>
 			
 		<fr:layout name="tabular"> 

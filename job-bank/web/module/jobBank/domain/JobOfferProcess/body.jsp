@@ -59,11 +59,6 @@
 	<bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/>
 </h3>
 
-<p>
-	<bean:message key="message.enterprise.view.process.candidacies.help.information" bundle="JOB_BANK_RESOURCES"/>
-</p>
-
-
 <table class="tview-horizontal"> 
 	<tr> 
 	<th><bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.total.vacancies"/></th> 
