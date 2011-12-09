@@ -109,6 +109,11 @@ class StudentRegistration {
 	BigDecimal average;
 	Boolean isConcluded;
 	Integer curricularYear;
+}
+
+class StudentRegistrationCycleType {
+	BigDecimal average;
+	Boolean isConcluded;
 	FenixCycleType cycleType;
 }
 
@@ -258,6 +263,13 @@ relation JobBankSystemWithEmailValidation {
 relation JobBankSystemStudentRegistrations {
 	JobBankSystem playsRole jobBankSystem;
 	StudentRegistration playsRole studentRegistration{
+		multiplicity *;
+	}
+}
+
+relation StudentRegistrationCycleTypeStudentRegistrations {
+	StudentRegistration playsRole studentRegistration;
+	StudentRegistrationCycleType playsRole studentRegistrationCycleTypes{
 		multiplicity *;
 	}
 }

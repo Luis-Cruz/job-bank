@@ -23,8 +23,8 @@ public class StudentGroup extends StudentGroup_Base {
 
     @Service
     public static StudentGroup getInstance() {
-	final StudentGroup enterpriseGroupGroup = (StudentGroup) PersistentGroup.getSystemGroup(StudentGroup.class);
-	return enterpriseGroupGroup == null ? new StudentGroup() : enterpriseGroupGroup;
+	final StudentGroup studentGroup = (StudentGroup) PersistentGroup.getSystemGroup(StudentGroup.class);
+	return studentGroup == null ? new StudentGroup() : studentGroup;
     }
 
     @Override
@@ -36,7 +36,9 @@ public class StudentGroup extends StudentGroup_Base {
     public Set<User> getMembers() {
 	Set<User> users = new HashSet<User>();
 	for (Student student : JobBankSystem.getInstance().getStudents()) {
-	    users.add(student.getUser());
+	    if (student.getStudentRegistrationSet().size() != 0) {
+		users.add(student.getUser());
+	    }
 	}
 	return users;
     }

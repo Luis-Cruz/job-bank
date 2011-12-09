@@ -61,17 +61,21 @@
 			</td>
 		</tr>
 	</table>
-
-	<fr:view name="student" property="studentRegistrationSet">
-		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
-			<fr:slot name="fenixDegree.name" key="label.curriculum.degree"/>
-			<fr:slot name="average" key="label.curriculum.average"/>
-		</fr:schema>
-		<fr:layout name="tabular">
-			<fr:property name="classes" value="tview-vertical thleft tdleft"/>
-		</fr:layout>
-	</fr:view>
-	
+asd
+	<logic:iterate id="studentRegistration" name="student" property="studentRegistrationSet">
+	1asdasd
+		<fr:view name="studentRegistration" property="studentRegistrationCycleTypes">
+			<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
+				<fr:slot name="studentRegistration.fenixDegree.name" key="label.curriculum.degree"/>
+				<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
+				<fr:slot name="average" key="label.curriculum.average"/>
+			</fr:schema>
+			<fr:layout name="tabular">
+				<fr:property name="classes" value="tview-vertical thleft tdleft mtop20px"/>
+			</fr:layout>
+		</fr:view>
+	</logic:iterate>
+	asd
 </logic:equal>
 
 <logic:equal name="enterprise" property="jobProviderWithPrivilegesAgreement" value="false">

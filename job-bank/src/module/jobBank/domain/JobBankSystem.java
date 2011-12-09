@@ -101,7 +101,8 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isStudentMember(User user) {
-	return user != null && user.getPerson() != null && user.getPerson().getStudent() != null;
+	return user != null && user.getPerson() != null && user.getPerson().getStudent() != null
+		&& user.getPerson().getStudent().getStudentRegistrationSet().size() != 0;
     }
 
     public boolean isActiveStudentMember(User user) {
@@ -206,7 +207,13 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public Set<StudentRegistration> getActiveStudentRegistrationSet() {
-	return getStudentRegistrationSet();
+	Set<StudentRegistration> studentRegistrations = new HashSet<StudentRegistration>();
+	for (StudentRegistration studentRegistration : getStudentRegistrationSet()) {
+	    if (studentRegistration.hasMoreThanFirstCycle()) {
+		studentRegistrations.add(studentRegistration);
+	    }
+	}
+	return studentRegistrations;
     }
 
     public Set<FenixDegree> getActiveMasterFenixDegreeSet() {

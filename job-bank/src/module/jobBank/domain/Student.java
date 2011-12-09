@@ -115,10 +115,9 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getStudentsSet());
     }
 
-    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration, FenixCycleType cycleType) {
+    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration) {
 	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
-	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)
-		    && cycleType.equals(studentRegistration.getCycleType())) {
+	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)) {
 		return studentRegistration;
 	    }
 	}
@@ -127,7 +126,7 @@ public class Student extends Student_Base {
 
     @Override
     public List<StudentRegistration> getStudentRegistration() {
-	return (List<StudentRegistration>) getStudentRegistrationSet();
+	return new ArrayList<StudentRegistration>(getStudentRegistrationSet());
     }
 
     @Override
@@ -139,10 +138,6 @@ public class Student extends Student_Base {
 	    }
 	}
 	return result;
-    }
-
-    public Set<StudentRegistration> getAllStudentRegistrationSet() {
-	return super.getStudentRegistrationSet();
     }
 
     public boolean hasAnyConcludedRegistration() {
@@ -172,30 +167,4 @@ public class Student extends Student_Base {
 	setAcceptedTermsResponsibilityDate(new DateTime());
     }
 
-    public StudentRegistration addOrUpdateRegistration(RemoteRegistration remoteRegistration) {
-	Boolean hasPersonalDataAuthorization = remoteRegistration.getStudent()
-		.hasPersonalDataAuthorizationForProfessionalPurposesAt();
-	setHasPersonalDataAuthorization(hasPersonalDataAuthorization == null ? false : hasPersonalDataAuthorization);
-	FenixDegree fenixDegree = JobBankSystem.getInstance().getFenixDegreeFor(remoteRegistration.getDegree());
-	FenixCycleType fenixCycleType = FenixCycleType.getFenixCycleType(remoteRegistration.getCurrentCycleTypeName());
-	if (fenixDegree != null && fenixCycleType != null) {
-	    if (fenixDegree.getDegreeType().equals(FenixDegreeType.BOLONHA_INTEGRATED_MASTER_DEGREE)
-		    && fenixCycleType.equals(FenixCycleType.SECOND_CYCLE)) {
-		addOrUpdateRegistration(remoteRegistration, fenixDegree, FenixCycleType.FIRST_CYCLE);
-	    }
-	    return addOrUpdateRegistration(remoteRegistration, fenixDegree, fenixCycleType);
-	}
-	return null;
-    }
-
-    public StudentRegistration addOrUpdateRegistration(RemoteRegistration remoteRegistration, FenixDegree fenixDegree,
-	    FenixCycleType fenixCycleType) {
-	StudentRegistration studentRegistration = getRegistrationFor(remoteRegistration, fenixCycleType);
-	if (studentRegistration == null) {
-	    studentRegistration = new StudentRegistration(this, remoteRegistration, fenixDegree, fenixCycleType);
-	} else {
-	    studentRegistration.update();
-	}
-	return studentRegistration;
-    }
 }

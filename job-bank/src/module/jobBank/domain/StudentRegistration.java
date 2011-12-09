@@ -22,23 +22,21 @@ public class StudentRegistration extends StudentRegistration_Base {
 
     };
 
-    public StudentRegistration(Student student, RemoteRegistration remoteRegistration, FenixDegree fenixDegree,
-	    FenixCycleType fenixCycleType) {
+    public StudentRegistration(Student student, RemoteRegistration remoteRegistration, FenixDegree fenixDegree, Integer number,
+	    Boolean isConcluded, Integer curricularYear) {
 	super();
 	setStudent(student);
 	setRemoteRegistration(remoteRegistration);
-	setFenixDegree(fenixDegree);
-	setCycleType(fenixCycleType);
-	update();
+	update(fenixDegree, number, isConcluded, curricularYear);
     }
 
-    public void update() {
-	setNumber(getRemoteRegistration().getNumber());
-	setIsConcluded(getRemoteRegistration().isRegistrationConclusionProcessed());
-	setAverage(getRemoteRegistration().getAverage(getCycleType().name()));
-	setCurricularYear(getRemoteRegistration().getCurricularYear());
+    public void update(FenixDegree fenixDegree, Integer number, Boolean isConcluded, Integer curricularYear) {
+	setNumber(number);
+	setFenixDegree(fenixDegree);
+	setIsConcluded(isConcluded);
+	setCurricularYear(curricularYear);
 	setJobBankSystem(JobBankSystem.getInstance());
-	if ((!getStudent().getHasPersonalDataAuthorization()) || getCycleType().equals(FenixCycleType.FIRST_CYCLE)) {
+	if ((!getStudent().getHasPersonalDataAuthorization())) {
 	    setInactive();
 	}
     }
@@ -54,6 +52,40 @@ public class StudentRegistration extends StudentRegistration_Base {
 
     public boolean isActive() {
 	return hasJobBankSystem();
+    }
+
+    public StudentRegistrationCycleType getStudentRegistrationCycleType(FenixCycleType fenixCycleType) {
+	for (StudentRegistrationCycleType studentRegistrationCycleType : getStudentRegistrationCycleTypes()) {
+	    if (studentRegistrationCycleType.getCycleType().equals(fenixCycleType)) {
+		return studentRegistrationCycleType;
+	    }
+	}
+	return null;
+    }
+
+    public StudentRegistrationCycleType getLastStudentRegistrationCycleType() {
+
+	FenixCycleType[] fenixCycleTypes = FenixCycleType.values();
+	for (int i = fenixCycleTypes.length - 1; i >= 0; i--) {
+	    FenixCycleType fenixCycleType = fenixCycleTypes[i];
+	    StudentRegistrationCycleType studentRegistrationCycleType = getStudentRegistrationCycleType(fenixCycleType);
+	    if (studentRegistrationCycleType != null) {
+		return studentRegistrationCycleType;
+	    }
+	}
+	return null;
+    }
+
+    public boolean hasMoreThanFirstCycle() {
+	for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
+	    if (!fenixCycleType.equals(FenixCycleType.FIRST_CYCLE)) {
+		StudentRegistrationCycleType studentRegistrationCycleType = getStudentRegistrationCycleType(fenixCycleType);
+		if (studentRegistrationCycleType != null) {
+		    return true;
+		}
+	    }
+	}
+	return false;
     }
 
 }

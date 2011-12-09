@@ -1,30 +1,30 @@
 package module.jobBank.domain;
 
-import java.util.Collection;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
 import module.jobBank.domain.activity.CurriculumQualificationInformation;
 import module.jobBank.domain.beans.CurriculumBean;
-import net.sourceforge.fenixedu.domain.RemoteCountry;
-import net.sourceforge.fenixedu.domain.RemotePerson;
-import net.sourceforge.fenixedu.domain.contacts.RemoteEmailAddress;
-import net.sourceforge.fenixedu.domain.contacts.RemoteMobilePhone;
-import net.sourceforge.fenixedu.domain.contacts.RemotePartyContact;
-import net.sourceforge.fenixedu.domain.contacts.RemotePhone;
-import net.sourceforge.fenixedu.domain.contacts.RemotePhysicalAddress;
+import module.organizationIst.domain.listner.LoginListner;
+import myorg.domain.User;
+import net.sourceforge.fenixedu.domain.RemoteDegree;
 import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
 
-import org.joda.time.YearMonthDay;
+import org.joda.time.LocalDate;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
 
 public class Curriculum extends Curriculum_Base {
 
     public Curriculum(Student student) {
 	super();
 	setStudent(student);
-	loadExternalPersonnalData();
 	setCurriculumProcess(new CurriculumProcess(this));
     }
 
@@ -34,7 +34,6 @@ public class Curriculum extends Curriculum_Base {
 
     @Service
     public void edit(CurriculumBean curriculumBean) {
-
 	setDateOfBirth(curriculumBean.getDateOfBirth());
 	setNationality(curriculumBean.getNationality());
 	setAddress(curriculumBean.getAddress());
@@ -51,74 +50,107 @@ public class Curriculum extends Curriculum_Base {
 
     @Service
     public void loadExternalData() {
-	loadExternalPersonnalData();
-	Set<RemoteRegistration> remoteRegistrations = new HashSet<RemoteRegistration>(getStudent().getRemoteStudent()
-		.getActiveRegistrationsForCurrentExecutionYear());
-	Collection<RemoteRegistration> concludedRegistrationsForrPreviousExecutionYear = getStudent().getRemoteStudent()
-		.getConcludedRegistrationsForPreviousExecutionYear();
-	if (concludedRegistrationsForrPreviousExecutionYear != null
-		&& concludedRegistrationsForrPreviousExecutionYear.size() != 0) {
-	    remoteRegistrations.addAll(concludedRegistrationsForrPreviousExecutionYear);
+	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
+	String studentInfoForJobBank = getStudent().getRemoteStudent().readAllStudentInfoForJobBank();
+
+	JSONParser parser = new JSONParser();
+	try {
+	    JSONArray studentInfos = (JSONArray) parser.parse(studentInfoForJobBank);
+	    int i = 1;
+	    for (Object studentInfo : studentInfos) {
+		if (i % 1000 == 0) {
+		    System.out.printf("importing %d of %d\n", i, studentInfos.size());
+		}
+		i++;
+		JSONObject jsonStudentInfo = (JSONObject) studentInfo;
+		final String username = (String) jsonStudentInfo.get("username");
+		LoginListner.importUserInformation(username);
+		User user = User.findByUsername(username);
+		if (user != null && user.getPerson() != null) {
+		    loadExternalPersonnalData(jsonStudentInfo);
+		    updatedStudentRegistration.add(loadExternalCurriculumData(jsonStudentInfo));
+		}
+	    }
+	} catch (ParseException e) {
+	    e.printStackTrace();
 	}
-	Set<StudentRegistration> updatedRegistrations = new HashSet<StudentRegistration>();
-	for (RemoteRegistration remoteRegistration : remoteRegistrations) {
-	    updatedRegistrations.add(getStudent().addOrUpdateRegistration(remoteRegistration));
-	}
-	for (StudentRegistration studentRegistration : getStudent().getStudentRegistrationSet()) {
-	    if (!updatedRegistrations.contains(studentRegistration)) {
+
+	for (StudentRegistration studentRegistration : getStudent().getStudentRegistration()) {
+	    if (!updatedStudentRegistration.contains(studentRegistration)) {
 		studentRegistration.setInactive();
 	    }
 	}
     }
 
-    private void loadExternalPersonnalData() {
-	RemotePerson remotePerson = getStudent().getRemotePerson();
-	if (remotePerson != null) {
-	    YearMonthDay dateOfBirth = remotePerson.getDateOfBirthYearMonthDay();
-	    if (dateOfBirth != null) {
-		setDateOfBirth(dateOfBirth.toLocalDate());
-	    }
-	    RemoteCountry nationality = remotePerson.getNationality();
-	    if (nationality != null) {
-		setNationality(nationality.getName());
-	    }
+    private StudentRegistration loadExternalCurriculumData(JSONObject jsonStudentInfo) {
+	RemoteHost readRemoteHost = JobBankSystem.getInstance().readRemoteHost();
+	final Integer number = Integer.parseInt((String) jsonStudentInfo.get("number"));
+	final String remoteRegistrationOID = (String) jsonStudentInfo.get("remoteRegistrationOID");
+	RemoteRegistration remoteRegistration = (RemoteRegistration) readRemoteHost.getRemoteDomainObject(remoteRegistrationOID);
 
-	    for (RemotePartyContact remotePartyContact : remotePerson.getPartyContacts()) {
-		if (remotePartyContact.isPhysicalAddress()) {
-		    RemotePhysicalAddress remotePhysicalAddress = (RemotePhysicalAddress) remotePartyContact;
-		    if (remotePhysicalAddress.getDefaultContact()) {
-			setAddress(remotePhysicalAddress.getAddress());
-			setArea(remotePhysicalAddress.getArea());
-			setAreaCode(remotePhysicalAddress.getAreaCode());
-			setDistrictSubdivision(remotePhysicalAddress.getDistrictSubdivisionOfResidence());
-		    }
-		    continue;
-		}
-		if (remotePartyContact.isEmailAddress()) {
-		    RemoteEmailAddress remoteEmailAddress = (RemoteEmailAddress) remotePartyContact;
-		    if (remoteEmailAddress.getDefaultContact()) {
-			setEmail(remoteEmailAddress.getValue());
-		    }
-		    continue;
-		}
-		if (remotePartyContact.isMobile()) {
-		    RemoteMobilePhone remoteMobilePhone = (RemoteMobilePhone) remotePartyContact;
-		    if (remoteMobilePhone.getDefaultContact()) {
-			setMobilePhone(remoteMobilePhone.getNumber());
-		    }
-		    continue;
-		}
-		if (remotePartyContact.isPhone()) {
-		    RemotePhone remotePhone = (RemotePhone) remotePartyContact;
-		    if (remotePhone.getDefaultContact()) {
-			setPhone(remotePhone.getNumber());
-		    }
-		    continue;
-		}
-	    }
-	} else {
-	    System.out.println("Empty remotePerson: " + getStudent().getPerson().getUser().getUsername());
+	final String remoteDegreeOID = (String) jsonStudentInfo.get("degreeOID");
+	RemoteDegree remoteDegree = (RemoteDegree) readRemoteHost.getRemoteDomainObject(remoteDegreeOID);
+	FenixDegree fenixDegree = JobBankSystem.getInstance().getFenixDegreeFor(remoteDegree);
+	final Boolean isConcluded = Boolean.parseBoolean((String) jsonStudentInfo.get("isConcluded"));
+	final Integer curricularYear = Integer.parseInt((String) jsonStudentInfo.get("curricularYear"));
+
+	if (remoteRegistration == null || fenixDegree == null) {
+	    System.out.println(number + "NOT IMPORTED! REGISTRATION OID: " + remoteRegistrationOID + " DEGREE OID: "
+		    + remoteDegreeOID);
+	    return null;
 	}
+
+	StudentRegistration studentRegistration = getStudent().getRegistrationFor(remoteRegistration);
+	if (studentRegistration == null) {
+	    studentRegistration = new StudentRegistration(getStudent(), remoteRegistration, fenixDegree, number, isConcluded,
+		    curricularYear);
+	} else {
+	    studentRegistration.update(fenixDegree, number, isConcluded, curricularYear);
+	}
+
+	for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
+	    String averageString = (String) jsonStudentInfo.get(fenixCycleType.name());
+	    StudentRegistrationCycleType studentRegistrationCycleType = studentRegistration
+		    .getStudentRegistrationCycleType(fenixCycleType);
+	    if (averageString != null) {
+		if (studentRegistrationCycleType == null) {
+		    studentRegistrationCycleType = new StudentRegistrationCycleType(studentRegistration, fenixCycleType);
+		}
+		studentRegistrationCycleType.setAverage(new BigDecimal(averageString));
+	    } else if (studentRegistrationCycleType != null) {
+		studentRegistrationCycleType.delete();
+	    }
+	}
+	return studentRegistration;
+    }
+
+    public void loadExternalPersonnalData(JSONObject jsonStudentInfo) {
+	final Boolean hasPersonalDataAuthorization = Boolean.parseBoolean((String) jsonStudentInfo
+		.get("hasPersonalDataAuthorization"));
+
+	final String dateOfBirthString = (String) jsonStudentInfo.get("dateOfBirth");
+	final LocalDate dateOfBirth = dateOfBirthString == null ? null : new LocalDate(dateOfBirthString);
+	final String nationality = (String) jsonStudentInfo.get("nationality");
+
+	final String address = (String) jsonStudentInfo.get("address");
+	final String area = (String) jsonStudentInfo.get("area");
+	final String areaCode = (String) jsonStudentInfo.get("areaCode");
+	final String districtSubdivisionOfResidence = (String) jsonStudentInfo.get("districtSubdivisionOfResidence");
+
+	final String email = (String) jsonStudentInfo.get("email");
+	final String mobilePhone = (String) jsonStudentInfo.get("mobilePhone");
+	final String phone = (String) jsonStudentInfo.get("phone");
+
+	getStudent().setHasPersonalDataAuthorization(hasPersonalDataAuthorization);
+	setDateOfBirth(dateOfBirth);
+	setNationality(nationality);
+	setAddress(address);
+	setArea(area);
+	setAreaCode(areaCode);
+	setDistrictSubdivision(districtSubdivisionOfResidence);
+	setPhone(phone);
+	setMobilePhone(mobilePhone);
+	setEmail(email);
     }
 
     public boolean hasAnyDocument() {
