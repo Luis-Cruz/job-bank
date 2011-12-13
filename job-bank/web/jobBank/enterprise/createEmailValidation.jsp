@@ -51,19 +51,12 @@
 					<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.submit"/>
 				</html:submit>
 			</fr:form>
-		
-			<%--
-			<fr:form  action="/jobBank.do?method=frontPage" >
-				<html:submit styleClass="inputbutton cancel">
-					<bean:message bundle="JOB_BANK_RESOURCES" key="button.jobBank.cancel"/>
-				</html:submit>
-			</fr:form>
-			--%>
 		</div>
 	</logic:notPresent>
-
+<%--
 	<logic:notEmpty name="enterpriseBean" property="emailValidation">
 		<p><bean:write name="enterpriseBean" property="emailValidation.body"/></p>
 	</logic:notEmpty>
+--%>
 </logic:present>
 
