@@ -63,6 +63,7 @@ public class EnterpriseBean implements Serializable {
 	setRepeatPassword(enterprise.getUser().getPassword());
 	setLoginEmail(enterprise.getLoginEmail());
 	setName(enterprise.getName());
+	setNif(enterprise.getNif());
 	setDesignation(enterprise.getDesignation());
 	setSummary(enterprise.getSummary());
 	setContactPerson(enterprise.getContactPerson());
