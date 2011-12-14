@@ -18,6 +18,7 @@ import net.sourceforge.fenixedu.domain.student.RemoteStudent;
 import org.joda.time.DateTime;
 
 import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
 
 public class Student extends Student_Base {
 
@@ -80,14 +81,21 @@ public class Student extends Student_Base {
     }
 
     public RemoteStudent getRemoteStudent() {
-	return hasRemotePerson() == true ? getRemotePerson().getStudent() : null;
+	return hasRemotePerson() ? getRemotePerson().getStudent() : null;
     }
 
     public RemotePerson getRemotePerson() {
-	return hasRemotePerson() == true ? getPerson().getRemotePerson() : null;
+	return hasRemotePerson() ? getPerson().getRemotePerson() : null;
     }
 
     public boolean hasRemotePerson() {
+	if(getPerson() != null && getPerson().getRemotePerson() == null) {
+	    final RemoteHost remoteHost = JobBankSystem.readRemoteHost();
+	    RemotePerson remotePerson  = RemotePerson.readByUsername(remoteHost, getPerson().getUser().getUsername());
+	    if (remotePerson != null) {
+		getPerson().setRemotePerson(remotePerson);
+	    }
+	}
 	return getPerson() != null && getPerson().getRemotePerson() != null;
     }
 
