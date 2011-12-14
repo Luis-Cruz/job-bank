@@ -25,7 +25,7 @@ import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
 
-    public static final String JOB_BANK_RESOURCES = "resources/JobBankResources";
+    public static final String JOB_BANK_RESOURCES = "resources.JobBankResources";
     public static final String PARTY_TYPE_NAME = "Enterprise";
 
     private JobBankSystem() {
