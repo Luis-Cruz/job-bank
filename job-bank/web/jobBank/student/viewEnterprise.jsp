@@ -40,27 +40,28 @@
 </h3>
 
 
-<logic:present name="sortedContacts">
-	<logic:notEmpty name="sortedContacts">
-	<table class="tstyle3">
-		<logic:iterate id="sortedContact" name="sortedContacts">
-		<logic:present name="sortedContact">
-			<tr>
-			<%-- Use the class to write the bean:message --%>
-				<bean:define id="keyDependingOnClass" name="sortedContact" property="class.name"/>
-				<td><bean:message key="<%=keyDependingOnClass.toString()%>" bundle="CONTACTS_RESOURCES"/> (<bean:write name="sortedContact" property="type.localizedName"/>)</td>
-				<%-- showing of the contact information --%>
-				<td><bean:write name="sortedContact" property="description"/></td>
-		</logic:present>
-		</logic:iterate>
-	</table>
-	</logic:notEmpty>
-</logic:present>
+
+<bean:define id ="sortedContacts" name="enterprise" property="sortedContacts"/>
+	
+<logic:notEmpty name="sortedContacts">
+<table class="tstyle3">
+	<logic:iterate id="sortedContact" name="sortedContacts">
+	<logic:present name="sortedContact">
+		<tr>
+		<%-- Use the class to write the bean:message --%>
+			<bean:define id="keyDependingOnClass" name="sortedContact" property="class.name"/>
+			<td><bean:message key="<%=keyDependingOnClass.toString()%>" bundle="CONTACTS_RESOURCES"/> (<bean:write name="sortedContact" property="type.localizedName"/>)</td>
+			<%-- showing of the contact information --%>
+			<td><bean:write name="sortedContact" property="description"/></td>
+	</logic:present>
+	</logic:iterate>
+</table>
+</logic:notEmpty>
 
 
 <logic:empty name="sortedContacts">
-<br>
-<bean:message key="edit.person.information.and.contacts.no.available.contacts" bundle="CONTACTS_RESOURCES"/>
+	<br>
+	<bean:message key="edit.person.information.and.contacts.no.available.contacts" bundle="CONTACTS_RESOURCES"/>
 </logic:empty>
 
 

@@ -540,40 +540,33 @@ public class Enterprise extends Enterprise_Base {
 
     public void addContactInformation(HttpServletRequest request) {
 	if (getUnit() != null) {
-	    ComparatorChain chain = new ComparatorChain();
-	    chain.addComparator(new BeanComparator("class.simpleName"));
-	    chain.addComparator(new BeanComparator("externalId"));
-
-	    TreeSet<PartyContact> sortedContacts = new TreeSet<PartyContact>(chain);
-	    sortedContacts.addAll(getUnit().getPartyContacts());
-
-	    JobBankSystem jbsys = JobBankSystem.getInstance();
-	    if (!jbsys.isNPEMember() && !jbsys.isEnterpriseActiveMember()) {
-		ArrayList<PartyContact> toDelete = new ArrayList<PartyContact>();
-
-		for (PartyContact contact : sortedContacts) {
-		    boolean shouldDelete = true;
-
-		    for (PersistentGroup vg : contact.getVisibilityGroups()) {
-			if (vg.equals(UserGroup.getInstance())) {
-			    shouldDelete = false;
-			    break;
-			}
-		    }
-
-		    if (shouldDelete) {
-			toDelete.add(contact);
-		    }
-		}
-
-		sortedContacts.removeAll(toDelete);
-	    }
-
-	    request.setAttribute("sortedContacts", sortedContacts);
-
+	    request.setAttribute("sortedContacts", getSortedContacts());
 	    request.setAttribute("visibilityGroups", new ArrayList<PersistentGroup>(ContactsConfigurator.getInstance()
 		    .getVisibilityGroups()));
 	}
+    }
+
+    public Set<PartyContact> getSortedContacts() {
+	ComparatorChain chain = new ComparatorChain();
+	chain.addComparator(new BeanComparator("class.simpleName"));
+	chain.addComparator(new BeanComparator("externalId"));
+	TreeSet<PartyContact> sortedContacts = new TreeSet<PartyContact>(chain);
+	if (getUnit() != null) {
+	    User currentUser = UserView.getCurrentUser();
+	    if (currentUser.getEnterprise() != null && currentUser.getEnterprise().equals(this)) {
+		sortedContacts.addAll(getUnit().getPartyContacts());
+	    } else {
+		for (PartyContact contact : getUnit().getPartyContacts()) {
+		    for (PersistentGroup vg : contact.getVisibilityGroups()) {
+			if (vg.isMember(currentUser)) {
+			    sortedContacts.add(contact);
+			    continue;
+			}
+		    }
+		}
+	    }
+	}
+	return sortedContacts;
     }
 
 }
