@@ -50,7 +50,7 @@
 	<fr:edit id="activityBean2" name="information" property="enterpriseBean">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.beans.EnterpriseBean">	
 			<fr:slot name="logoInputStream" key="label.enterprise.logo" bundle="JOB_BANK_RESOURCES">
-				<fr:property name="fileNameSlot" value="enterpriseBean.logoFilename" />
+				<fr:property name="fileNameSlot" value="logoFilename" />
 				<fr:property name="size" value="30"/>
 			</fr:slot>
 			<fr:slot name="name" key="label.enterprise.name">
