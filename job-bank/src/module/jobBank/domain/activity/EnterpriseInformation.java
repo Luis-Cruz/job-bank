@@ -1,7 +1,5 @@
 package module.jobBank.domain.activity;
 
-import java.io.InputStream;
-
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.JobBankSystem;
@@ -10,7 +8,6 @@ import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
-import myorg.domain.util.ByteArray;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 
 public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess> {
@@ -33,9 +30,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	this.logoDisplayName = logoDisplayName;
     }
 
-    private ByteArray logo;
-    private transient InputStream inputStream;
-    private String filename;
     private String logoDisplayName;
 
     public EnterpriseInformation(final EnterpriseProcess process,
@@ -53,7 +47,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
     }
 
     public void checkPasswords() {
-	enterpriseBean.checkPassword();
 	checkOldPassword();
     }
 
@@ -63,6 +56,7 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	final User user = enterprise.getUser();
 
 	if (!user.matchesPassword(enterpriseBean.getPassword())) {
+	    enterpriseBean.checkPassword();
 	    if (getOldPassword().isEmpty()) {
 		cleanOldPasswordField();
 		throw new DomainException("message.error.need.old.password",
@@ -77,13 +71,11 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	setRequestOldPassword(false);
     }
 
-
     private void cleanOldPasswordField() {
 	setRequestOldPassword(true);
 	setOldPassword("");
 	RenderUtils.invalidateViewState();
     }
-
 
     public EnterpriseBean getEnterpriseBean() {
 	return enterpriseBean;

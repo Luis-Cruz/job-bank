@@ -1,7 +1,6 @@
 package module.jobBank.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -20,7 +19,6 @@ import module.contacts.domain.Phone;
 import module.contacts.domain.PhoneType;
 import module.contacts.domain.WebAddress;
 import module.jobBank.domain.beans.EnterpriseBean;
-import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.organization.domain.Accountability;
@@ -34,7 +32,6 @@ import myorg.domain.User;
 import myorg.domain.VirtualHost;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.groups.PersistentGroup;
-import myorg.domain.groups.UserGroup;
 import myorg.domain.util.ByteArray;
 import myorg.util.BundleUtil;
 
@@ -81,7 +78,9 @@ public class Enterprise extends Enterprise_Base {
 
     @Service
     public void setForm(EnterpriseBean enterpriseBean) {
-	getUser().setPassword(enterpriseBean.getPassword());
+	if (!getUser().matchesPassword(enterpriseBean.getPassword())) {
+	    getUser().setPassword(enterpriseBean.getPassword());
+	}
 	setName(enterpriseBean.getName());
 	setNif(enterpriseBean.getNif());
 	setDesignation(enterpriseBean.getDesignation());
@@ -448,22 +447,22 @@ public class Enterprise extends Enterprise_Base {
 	setForm(enterpriseBean);
 	setEnterpriseProcess(new EnterpriseProcess(this));
 
-	List<PersistentGroup> npeGroup = Arrays.asList((PersistentGroup) NpeGroup.getInstance());
-	List<PersistentGroup> publicGroup = Arrays.asList((PersistentGroup) UserGroup.getInstance());
+	List<PersistentGroup> privateGroup = new ArrayList<PersistentGroup>();
+	List<PersistentGroup> publicGroup = ContactsConfigurator.getInstance().getVisibilityGroups();
 
 	EmailAddress.createNewEmailAddress(enterpriseBean.getPrivateContactEmail(), this.getUnit(), true, PartyContactType.WORK,
-		getUser(), npeGroup);
+		getUser(), privateGroup);
 	if (!StringUtils.isEmpty(enterpriseBean.getPublicContactEmail())) {
 	    EmailAddress.createNewEmailAddress(enterpriseBean.getPublicContactEmail(), this.getUnit(), true,
 		    PartyContactType.WORK, getUser(), publicGroup);
 	}
 	if (!StringUtils.isEmpty(enterpriseBean.getPhone())) {
 	    Phone.createNewPhone(PhoneType.REGULAR_PHONE, enterpriseBean.getPhone(), this.getUnit(), true, PartyContactType.WORK,
-		    getUser(), npeGroup);
+		    getUser(), privateGroup);
 	}
 	if (!StringUtils.isEmpty(enterpriseBean.getMobilePhone())) {
 	    Phone.createNewPhone(PhoneType.CELLPHONE, enterpriseBean.getMobilePhone(), this.getUnit(), true,
-		    PartyContactType.WORK, getUser(), npeGroup);
+		    PartyContactType.WORK, getUser(), privateGroup);
 	}
 	if (!StringUtils.isEmpty(enterpriseBean.getWebAddress())) {
 	    WebAddress.createNewWebAddress(enterpriseBean.getWebAddress(), this.getUnit(), true, PartyContactType.WORK,

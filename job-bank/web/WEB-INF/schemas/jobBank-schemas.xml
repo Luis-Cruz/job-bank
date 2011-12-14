@@ -67,13 +67,9 @@
 <schema name="jobBank.enterprise.registration.view"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">
-
 	<slot name="user.username" key="label.enterprise.username">  
 		<property name="readOnly" value="true" > </property>
 	</slot>
-	<slot name="user.password" key="label.enterprise.password">
-		<property name="readOnly" value="true" > </property>  
-	</slot>	
 </schema>
 
 

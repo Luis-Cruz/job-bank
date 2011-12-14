@@ -7,8 +7,6 @@
 <bean:define id="processOID" name="process" property="externalId"/>
 <bean:define id="activityName" name="information" property="activityName"/>
 
-
-
 <div class="forminline">
 
 <fr:form action="/enterprise.do?method=processEditEnterprise" encoding="multipart/form-data" >	 
@@ -20,7 +18,7 @@
 	<fr:edit id="activityBean" name="information">
 		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.activity.EnterpriseInformation">
 			<fr:slot name="enterpriseBean.password" key="label.enterprise.password" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>  
-			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator" layout="password"/>		
+			<fr:slot name="enterpriseBean.repeatPassword" key="label.enterprise.repeatPassword" layout="password"/>		
 		</fr:schema>
 		<fr:layout name="tabular">
 			<fr:property name="classes" value="thwidth150px"/> 

@@ -92,7 +92,7 @@ public class UpdateStudents extends UpdateStudents_Base {
 	final Integer curricularYear = Integer.parseInt((String) jsonStudentInfo.get("curricularYear"));
 
 	if (remoteRegistration == null || fenixDegree == null) {
-	    System.out.println(number + "NOT IMPORTED! REGISTRATION OID: " + remoteRegistrationOID + " DEGREE OID: "
+	    System.out.println(number + " NOT IMPORTED! REGISTRATION OID: " + remoteRegistrationOID + " DEGREE OID: "
 		    + remoteDegreeOID);
 	    return null;
 	}
