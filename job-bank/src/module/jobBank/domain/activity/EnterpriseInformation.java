@@ -2,11 +2,13 @@ package module.jobBank.domain.activity;
 
 import java.io.InputStream;
 
+import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseProcess;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.beans.EnterpriseBean;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
+import myorg.domain.User;
 import myorg.domain.exceptions.DomainException;
 import myorg.domain.util.ByteArray;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
@@ -20,8 +22,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
     private EnterpriseBean enterpriseBean;
 
     private String oldPassword;
-
-    private final String realOldPassword;
 
     private boolean requestOldPassword;
 
@@ -42,7 +42,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 	    WorkflowActivity<EnterpriseProcess, ? extends ActivityInformation<EnterpriseProcess>> activity) {
 	super(process, activity);
 	setEnterpriseBean(new EnterpriseBean(process.getEnterprise()));
-	this.realOldPassword = process.getEnterprise().getUser().getPassword();
 	cleanOldPasswordField();
 	setRequestOldPassword(false);
 	setOldPassword("");
@@ -59,15 +58,22 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
     }
 
     private void checkOldPassword() {
-	if (!enterpriseBean.getPassword().equals(getRealOldPassword()) && getOldPassword().isEmpty()) {
-	    cleanOldPasswordField();
-	    throw new DomainException("message.error.need.old.password",
-		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
-	} else if (!enterpriseBean.getPassword().equals(getRealOldPassword()) && !getOldPassword().equals(getRealOldPassword())) {
-	    cleanOldPasswordField();
-	    throw new DomainException("message.error.bad.old.password",
-		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	final EnterpriseProcess process = getProcess();
+	final Enterprise enterprise = process.getEnterprise();
+	final User user = enterprise.getUser();
+
+	if (!user.matchesPassword(enterpriseBean.getPassword())) {
+	    if (getOldPassword().isEmpty()) {
+		cleanOldPasswordField();
+		throw new DomainException("message.error.need.old.password",
+			DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    } else if (!user.matchesPassword(getOldPassword())) {
+		cleanOldPasswordField();
+		throw new DomainException("message.error.bad.old.password",
+			DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    }
 	}
+
 	setRequestOldPassword(false);
     }
 
@@ -106,10 +112,6 @@ public class EnterpriseInformation extends ActivityInformation<EnterpriseProcess
 
     public String getOldPassword() {
 	return oldPassword;
-    }
-
-    public String getRealOldPassword() {
-	return realOldPassword;
     }
 
 }
