@@ -553,15 +553,13 @@ public class Enterprise extends Enterprise_Base {
 	TreeSet<PartyContact> sortedContacts = new TreeSet<PartyContact>(chain);
 	if (getUnit() != null) {
 	    User currentUser = UserView.getCurrentUser();
-	    if (currentUser.getEnterprise() != null && currentUser.getEnterprise().equals(this)) {
+	    if ((currentUser.getEnterprise() != null && currentUser.getEnterprise().equals(this))
+		    || JobBankSystem.getInstance().isNPEMember(currentUser)) {
 		sortedContacts.addAll(getUnit().getPartyContacts());
 	    } else {
 		for (PartyContact contact : getUnit().getPartyContacts()) {
-		    for (PersistentGroup vg : contact.getVisibilityGroups()) {
-			if (vg.isMember(currentUser)) {
-			    sortedContacts.add(contact);
-			    continue;
-			}
+		    if (contact.isVisibleTo(currentUser)) {
+			sortedContacts.add(contact);
 		    }
 		}
 	    }
