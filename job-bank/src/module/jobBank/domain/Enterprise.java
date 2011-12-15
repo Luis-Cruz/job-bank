@@ -393,7 +393,7 @@ public class Enterprise extends Enterprise_Base {
 	if (enterprise != null) {
 	    final User user = enterprise.getUser();
 	    if (user != null) {
-		final PasswordRecoveryRequest passwordRecoveryRequest = new PasswordRecoveryRequest(user);
+		final PasswordRecoveryRequest passwordRecoveryRequest = user.createNewPasswordRecoveryRequest();
 		List<String> toAddress = new LinkedList<String>();
 		toAddress.add(emailLogin);
 		final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
