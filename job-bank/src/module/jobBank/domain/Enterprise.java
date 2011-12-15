@@ -28,6 +28,7 @@ import module.organization.domain.PartyType;
 import module.organization.domain.Unit;
 import module.organization.domain.UnitBean;
 import myorg.applicationTier.Authenticate.UserView;
+import myorg.domain.PasswordRecoveryRequest;
 import myorg.domain.User;
 import myorg.domain.VirtualHost;
 import myorg.domain.exceptions.DomainException;
@@ -390,17 +391,18 @@ public class Enterprise extends Enterprise_Base {
     public static void passwordRecover(String emailLogin) {
 	Enterprise enterprise = Enterprise.readEnterpriseByEmailLogin(emailLogin);
 	if (enterprise != null) {
-	    final int lengthOfPassoword = 10;
-	    String password = Utils.getRandomString(lengthOfPassoword);
-	    enterprise.getUser().setPassword(password);
-	    List<String> toAddress = new LinkedList<String>();
-	    toAddress.add(emailLogin);
-	    final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	    new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-		    toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-			    JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword"),
-		    getBodyEmailPasswordRecover(enterprise.getUser()));
-	    return;
+	    final User user = enterprise.getUser();
+	    if (user != null) {
+		final PasswordRecoveryRequest passwordRecoveryRequest = new PasswordRecoveryRequest(user);
+		List<String> toAddress = new LinkedList<String>();
+		toAddress.add(emailLogin);
+		final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
+		new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+			toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
+				JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword"),
+				getBodyEmailPasswordRecover(passwordRecoveryRequest));
+		return;		
+	    }
 	}
 	throw new DomainException("message.error.enterprise.recoverPassword",
 		DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
@@ -409,14 +411,15 @@ public class Enterprise extends Enterprise_Base {
 
     /* Private Methods */
 
-    private static String getBodyEmailPasswordRecover(User user) {
-	String body = new String();
-	body += String.format("%s \n\nUser: %s \nNew Password: %s", BundleUtil.getFormattedStringFromResourceBundle(
-		JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword.body"), user.getUsername(), user
-		.getPassword());
-	body += String.format("\n\n\n %s",
-		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobBank.ist"));
-	return body.toString();
+    private static String getBodyEmailPasswordRecover(final PasswordRecoveryRequest passwordRecoveryRequest) {
+	final StringBuilder builder = new StringBuilder();
+	builder.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.enterprise.recoverPassword.body",
+		passwordRecoveryRequest.getRecoveryUrl("https://jobbank.ist.utl.pt/")));
+	builder.append("\n\n\n");
+	builder.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		"message.jobBank.ist"));
+	return builder.toString();
     }
 
     private void createUser(String email) {
