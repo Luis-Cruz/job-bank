@@ -39,8 +39,7 @@ public class EmailValidation extends EmailValidation_Base {
     }
 
     public boolean isExpired() {
-	DateTime now = new DateTime();
-	return getExpiredDate().compareTo(now) > 0 ? false : true;
+	return getExpiredDate().isBeforeNow();
     }
 
     public boolean isEmailAlreadyValidated(String checksum) {
@@ -53,9 +52,10 @@ public class EmailValidation extends EmailValidation_Base {
 	List<String> toAddress = new LinkedList<String>();
 	toAddress.add(emailToValidate);
 	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-		toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-			JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.emailValidation.subject"), getBody());
+	new Email(getJobBankSystem().getEmailValidationFromName(), getJobBankSystem().getEmailValidationFromEmail(),
+		new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+		BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+			"message.enterprise.emailValidation.subject"), getBody());
     }
 
     public String getBody() {

@@ -31,5 +31,6 @@
 </logic:present>
 
 
-
+<fr:edit id="jobBankSystem" name="jobBankSystem" schema="jobBank.emailValidationFrom.configuration">
+</fr:edit>
 

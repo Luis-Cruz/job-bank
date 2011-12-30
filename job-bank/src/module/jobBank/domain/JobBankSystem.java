@@ -54,6 +54,11 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	}
     }
 
+    public void setEmailFromConfiguration(String emailValidationFromName, String emailValidationFromEmail) {
+	setEmailValidationFromName(emailValidationFromName);
+	setEmailValidationFromEmail(emailValidationFromEmail);
+    }
+
     public boolean isEnterpriseActiveMember() {
 	User user = UserView.getCurrentUser();
 	return isEnterpriseActiveMember(user);

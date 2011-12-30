@@ -1,3 +1,9 @@
+<schema name="jobBank.emailValidationFrom.configuration"  bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobBankSystem">
+	<slot name="emailValidationFromName" key="label.name" bundle="JOB_BANK_RESOURCES"/>
+	<slot name="emailValidationFromEmail" key="label.email" bundle="JOB_BANK_RESOURCES"/>
+	<setter signature="setEmailFromConfiguration(emailValidationFromName,emailValidationFromEmail)" />
+</schema>
+	
 <schema name="jobBank.enterprise.enterpriseProcess.view" 
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.Enterprise">

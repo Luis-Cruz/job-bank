@@ -41,6 +41,8 @@ class task.UpdateStudents extends .myorg.domain.scheduler.Task {
 
 class JobBankSystem { 
 	String urlEmailValidation;
+	String emailValidationFromName;
+	String emailValidationFromEmail;
 }
 
 class CurriculumProcessFile extends .module.workflow.domain.ProcessFile {
