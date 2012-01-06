@@ -61,7 +61,8 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isSatisfiedEnterprise(JobOffer offer) {
-	return StringUtils.isEmpty(getEnterprise()) || offer.getEnterpriseName() != null
+	return StringUtils.isEmpty(getEnterprise())
+		|| offer.getEnterpriseName() != null
 		&& StringNormalizer.normalize(offer.getEnterpriseName().getContent()).contains(
 			StringNormalizer.normalize(getEnterprise()));
     }
@@ -117,8 +118,7 @@ public class SearchOfferState extends Search<JobOfferProcess> {
     }
 
     private boolean isJobOfferAll(JobOffer jobOffer) {
-	return getJobOfferState().equals(JobOfferState.ALL)
-		&& (!JobBankSystem.getInstance().isNPEMember() || !jobOffer.isUnderConstruction());
+	return getJobOfferState().equals(JobOfferState.ALL);
     }
 
     private boolean isJobOfferUnderConstruction(JobOffer jobOffer) {
