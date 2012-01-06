@@ -19,7 +19,6 @@
 			</fr:slot>
 			<fr:slot name="jobOfferState" key="label.jobOfferSearch.state" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="defaultOptionHidden" value="true"/>
-				<fr:property name="excludedValues" value="UNDER_CONSTRUCTION" />
 			</fr:slot>
 			<fr:slot name="jobOfferType" key="label.enterprise.jobOffer.jobType" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator">
 				<fr:property name="defaultOptionHidden" value="true"/>
