@@ -10,7 +10,6 @@ import module.jobBank.domain.JobBankSystem;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
-import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 
@@ -40,21 +39,18 @@ public class ApproveOrRejectEnterpriseChangeAgreementActivity extends
     private void sendEmail(Enterprise enterprise, EnterpriseAgreementApprovalInformation eaai) {
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
-	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	new Email(jobBankSystem.getEmailValidationFromName(), jobBankSystem.getEmailValidationFromEmail(), new String[] {},
 		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(eaai), eaai.getMessage());
     }
 
     private String getEmailSubject(EnterpriseAgreementApprovalInformation eaai) {
 	String bundle = "message.jobbank.message.jobbank.email.agreement.approval.subject";
-
 	if (!eaai.isApprove()) {
 	    bundle = "message.jobbank.message.jobbank.email.agreement.rejection.subject";
 	}
-
 	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle, eaai
 		.getNewAgreement().getLocalizedName());
-
 	return message;
     }
 

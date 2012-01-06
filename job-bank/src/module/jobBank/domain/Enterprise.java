@@ -397,11 +397,12 @@ public class Enterprise extends Enterprise_Base {
 		List<String> toAddress = new LinkedList<String>();
 		toAddress.add(emailLogin);
 		final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-		new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
-			toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST, BundleUtil.getFormattedStringFromResourceBundle(
-				JobBankSystem.JOB_BANK_RESOURCES, "message.enterprise.recoverPassword"),
-				getBodyEmailPasswordRecover(passwordRecoveryRequest));
-		return;		
+		JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+		new Email(jobBankSystem.getEmailValidationFromName(), jobBankSystem.getEmailValidationFromEmail(),
+			new String[] {}, toAddress, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
+			BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+				"message.enterprise.recoverPassword"), getBodyEmailPasswordRecover(passwordRecoveryRequest));
+		return;
 	    }
 	}
 	throw new DomainException("message.error.enterprise.recoverPassword",
@@ -414,11 +415,9 @@ public class Enterprise extends Enterprise_Base {
     private static String getBodyEmailPasswordRecover(final PasswordRecoveryRequest passwordRecoveryRequest) {
 	final StringBuilder builder = new StringBuilder();
 	builder.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.enterprise.recoverPassword.body",
-		passwordRecoveryRequest.getRecoveryUrl("https://jobbank.ist.utl.pt/")));
+		"message.enterprise.recoverPassword.body", passwordRecoveryRequest.getRecoveryUrl("https://jobbank.ist.utl.pt/")));
 	builder.append("\n\n\n");
-	builder.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"message.jobBank.ist"));
+	builder.append(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "message.jobBank.ist"));
 	return builder.toString();
     }
 

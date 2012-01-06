@@ -12,7 +12,6 @@ import module.jobBank.domain.beans.EnterpriseBean;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
-import myorg.domain.VirtualHost;
 import myorg.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
@@ -47,9 +46,8 @@ public class ChangeAgreementEnterpriseByNPEActivity extends WorkflowActivity<Ent
 	List<String> toAddresses = new ArrayList<String>();
 	toAddresses.add(enterprise.getLoginEmail());
 	String newContract = bean.getNotActiveAccountabilityType().getLocalizedName();
-
-	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	new Email(virtualHost.getApplicationSubTitle().getContent(), virtualHost.getSystemEmailAddress(), new String[] {},
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	new Email(jobBankSystem.getEmailValidationFromName(), jobBankSystem.getEmailValidationFromEmail(), new String[] {},
 		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(newContract), bean.getMessage());
     }
 

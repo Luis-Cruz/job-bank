@@ -1,17 +1,11 @@
 package module.jobBank.domain.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOffer;
 import module.jobBank.domain.JobOfferProcess;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import myorg.domain.User;
-import myorg.domain.VirtualHost;
-import pt.ist.emailNotifier.domain.Email;
 
 public class JobOfferApprovalActivity extends WorkflowActivity<JobOfferProcess, ActivityInformation<JobOfferProcess>> {
 
@@ -25,20 +19,6 @@ public class JobOfferApprovalActivity extends WorkflowActivity<JobOfferProcess, 
     protected void process(ActivityInformation<JobOfferProcess> activityInformation) {
 	JobOffer jobOffer = activityInformation.getProcess().getJobOffer();
 	jobOffer.approve();
-	List<String> toAddresses = new ArrayList<String>();
-	toAddresses.add(jobOffer.getEnterprise().getLoginEmail());
-	final VirtualHost virtualHost = VirtualHost.getVirtualHostForThread();
-	new Email(virtualHost.getApplicationSubTitle().getContent(),
-		    virtualHost.getSystemEmailAddress(), new String[] {}, toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST,
-		"Registration Failed - Job Bank", getBody());
-    }
-
-    private String getBody() {
-	StringBuilder body = new StringBuilder();
-	body
-		.append("Your request for registration was not approved. Contact Nucleo Parcerias Empresariais for more information.\n Thanks ");
-	body.append(String.format("\n\n\n Instituto Superior Tecnico"));
-	return body.toString();
     }
 
     @Override
