@@ -106,8 +106,11 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isStudentMember(User user) {
-	return user != null && user.getPerson() != null && user.getPerson().getStudent() != null
-		&& user.getPerson().getStudent().getStudentRegistrationSet().size() != 0;
+	return user != null
+		&& user.getPerson() != null
+		&& user.getPerson().getStudent() != null
+		&& (user.getPerson().getStudent().getStudentRegistrationSet().size() != 0 || !user.getPerson().getStudent()
+			.getHasPersonalDataAuthorization());
     }
 
     public boolean isActiveStudentMember(User user) {

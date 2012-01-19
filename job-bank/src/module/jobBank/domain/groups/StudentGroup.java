@@ -36,7 +36,7 @@ public class StudentGroup extends StudentGroup_Base {
     public Set<User> getMembers() {
 	Set<User> users = new HashSet<User>();
 	for (Student student : JobBankSystem.getInstance().getStudents()) {
-	    if (student.getStudentRegistrationSet().size() != 0) {
+	    if (student.getStudentRegistrationSet().size() != 0 || student.getHasPersonalDataAuthorization()) {
 		users.add(student.getUser());
 	    }
 	}
