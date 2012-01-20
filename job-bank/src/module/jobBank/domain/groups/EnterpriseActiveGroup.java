@@ -5,6 +5,7 @@ import java.util.Set;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobBankSystem;
+import myorg.domain.MyOrg;
 import myorg.domain.User;
 import myorg.domain.groups.PersistentGroup;
 import myorg.util.BundleUtil;
@@ -14,6 +15,7 @@ public class EnterpriseActiveGroup extends EnterpriseActiveGroup_Base {
 
     public EnterpriseActiveGroup() {
 	super();
+	setSystemGroupMyOrg(MyOrg.getInstance());
     }
 
     @Override

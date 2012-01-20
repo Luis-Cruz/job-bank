@@ -14,6 +14,7 @@ public class FenixStudentGroup extends FenixStudentGroup_Base {
 
     public FenixStudentGroup() {
 	super();
+	setSystemGroupMyOrg(MyOrg.getInstance());
     }
 
     @Override

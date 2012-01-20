@@ -5,6 +5,7 @@ import java.util.Set;
 
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.Student;
+import myorg.domain.MyOrg;
 import myorg.domain.User;
 import myorg.domain.groups.PersistentGroup;
 import myorg.util.BundleUtil;
@@ -14,6 +15,7 @@ public class StudentGroup extends StudentGroup_Base {
 
     public StudentGroup() {
 	super();
+	setSystemGroupMyOrg(MyOrg.getInstance());
     }
 
     @Override
