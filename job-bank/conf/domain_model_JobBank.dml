@@ -382,7 +382,9 @@ relation CurriculumWithCurriculumQualification{
 }
 
 relation OfferCandadicyWithProcessFile{
-	OfferCandidacy playsRole offerCandidacy;
+	OfferCandidacy playsRole offerCandidacy{
+		multiplicity *;
+	}
 	.module.workflow.domain.ProcessFile playsRole processFiles{
 		multiplicity *;
 	}
