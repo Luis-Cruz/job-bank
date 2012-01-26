@@ -1,25 +1,34 @@
 package module.jobBank.presentationTier.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.EnterpriseStateType;
+import module.jobBank.domain.FenixCycleType;
 import module.jobBank.domain.FenixDegree;
+import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.JobOfferState;
 import module.jobBank.domain.JobOfferType;
 import module.jobBank.domain.StudentRegistration;
+import module.jobBank.domain.StudentRegistrationCycleType;
 import module.jobBank.domain.beans.SearchEnterprise;
 import module.jobBank.domain.beans.SearchOffer;
 import module.jobBank.domain.beans.SearchOfferState;
 import module.jobBank.domain.beans.SearchStudentRegistrations;
 import module.jobBank.domain.utils.Utils;
 import myorg.presentationTier.actions.ContextBaseAction;
+import myorg.util.BundleUtil;
+
+import org.apache.commons.lang.StringUtils;
+
+import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
+import pt.utl.ist.fenix.tools.util.excel.Spreadsheet.Row;
 
 public class JobBankSearchActionCommons extends ContextBaseAction {
-
 
     public void processJobOffersSearch(final HttpServletRequest request) {
 	SearchOfferState offerSearch = getRenderedObject("offerSearch");
@@ -55,7 +64,6 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	request.setAttribute("offerSearch", offerSearch);
 	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
     }
-
 
     public void processStudentJobOfferSearch(final HttpServletRequest request) {
 	SearchOffer search = getRenderedObject("search");
@@ -104,7 +112,6 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	request.setAttribute("search", search);
     }
 
-
     public void processEnterprisesSearch(HttpServletRequest request) {
 	SearchEnterprise enterpriseSearch = getRenderedObject("enterpriseSearch");
 	if (enterpriseSearch == null) {
@@ -129,7 +136,6 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	request.setAttribute("enterpriseSearch", enterpriseSearch);
 	request.setAttribute("processes", Utils.doPagination(request, processes, resultsPerPage));
     }
-
 
     public void processStudentsSearch(final HttpServletRequest request) {
 	SearchStudentRegistrations search = getRenderedObject("searchStudents");
@@ -176,4 +182,71 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	request.setAttribute("searchStudents", search);
     }
 
+    public Spreadsheet exportStudentsSearch(HttpServletRequest request) {
+	Spreadsheet spreadsheet = new Spreadsheet("Alunos");
+	SearchStudentRegistrations search = getRenderedObject("searchStudents");
+	if (search != null) {
+	    List<StudentRegistration> registrations = search.sortedSearchByStudentName();
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.degree"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.name"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.dateOfBirth"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.nationality"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.email"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.phone"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.mobilePhone"));
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.curriculum.address"));
+	    spreadsheet.setHeader("Ano Curricular");
+	    spreadsheet.setHeader(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+		    "label.enterprise.degree.is.concluded"));
+
+	    for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
+		spreadsheet.setHeader(BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+			"label.curriculum.averageForCycle", fenixCycleType.getLocalizedName()));
+	    }
+
+	    for (StudentRegistration studentRegistration : registrations) {
+		Row row = spreadsheet.addRow();
+		row.setCell(studentRegistration.getFenixDegree().getName().getContent());
+		row.setCell(studentRegistration.getStudent().getPerson().getName());
+		row.setCell(studentRegistration.getStudent().getCurriculum().getDateOfBirth() == null ? null
+			: studentRegistration.getStudent().getCurriculum().getDateOfBirth().toString("dd-MM-yyyy"));
+		row.setCell(studentRegistration.getStudent().getCurriculum().getNationality());
+		row.setCell(studentRegistration.getStudent().getCurriculum().getEmail());
+		row.setCell(studentRegistration.getStudent().getCurriculum().getPhone());
+		row.setCell(studentRegistration.getStudent().getCurriculum().getMobilePhone());
+
+		List<String> address = new ArrayList<String>();
+		address.add(studentRegistration.getStudent().getCurriculum().getAddress());
+		address.add(studentRegistration.getStudent().getCurriculum().getAreaCode());
+		address.add(studentRegistration.getStudent().getCurriculum().getArea());
+
+		row.setCell(StringUtils.join(address, " "));
+
+		row.setCell(studentRegistration.getCurricularYear());
+		String isConcluded = "label.no";
+		if (studentRegistration.getIsConcluded()) {
+		    isConcluded = "label.yes";
+		}
+		row.setCell(BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, isConcluded));
+		for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
+		    StudentRegistrationCycleType studentRegistrationCycleType = studentRegistration
+			    .getStudentRegistrationCycleType(fenixCycleType);
+		    if (studentRegistrationCycleType != null) {
+			row.setCell(studentRegistrationCycleType.getAverage().toString());
+		    } else {
+			row.setCell("-");
+		    }
+		}
+	    }
+	}
+	return spreadsheet;
+    }
 }

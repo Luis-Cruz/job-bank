@@ -1,8 +1,10 @@
 package module.jobBank.presentationTier.actions;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,9 +25,11 @@ import myorg.util.VariantBean;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
+import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
 
 @Mapping(path = "/backOffice")
 public class BackOfficeAction extends ContextBaseAction {
@@ -96,6 +100,20 @@ public class BackOfficeAction extends ContextBaseAction {
 	request.setAttribute("enterprise", enterprise);
 	request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
 	return forward(request, "/jobBank/backOffice/viewStudentCurriculumForOfferCandidacy.jsp");
+    }
+
+    public ActionForward exportStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) throws IOException {
+	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+	Spreadsheet resultSheet = commons.exportStudentsSearch(request);
+	response.setContentType("application/xls ");
+	String filename = "alunos" + new DateTime().toString("yyyy-MM-dd_HH:mm") + ".xls";
+	response.setHeader("Content-disposition", "attachment; filename=" + filename);
+	ServletOutputStream outputStream = response.getOutputStream();
+	resultSheet.exportToXLSSheet(outputStream);
+	outputStream.flush();
+	outputStream.close();
+	return null;
     }
 
     /* Configuration */

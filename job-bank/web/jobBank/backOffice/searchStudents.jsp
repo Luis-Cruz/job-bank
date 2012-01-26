@@ -9,7 +9,8 @@
 <%@page import="myorg.util.BundleUtil"%>
 <%@page import="module.jobBank.domain.JobBankSystem"%>
 
-<fr:form action="/backOffice.do?method=searchStudents"> 
+<fr:form action="/backOffice.do?"> 
+	<input type="hidden" name="method" />
 	<fr:edit id="searchStudents" name="searchStudents" >
 
 		<fr:schema type="module.jobBank.domain.beans.SearchStudentRegistrations" bundle="JOB_BANK_RESOURCES">
@@ -33,8 +34,11 @@
 	
 	</fr:edit>
 
-	<html:submit styleClass="inputbutton">
+	<html:submit styleClass="inputbutton" onclick="this.form.method.value='searchStudents'">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.search"/>
+	</html:submit>
+	<html:submit styleClass="inputbutton" onclick="this.form.method.value='exportStudents'">
+		<bean:message bundle="JOB_BANK_RESOURCES" key="label.students.search.exportStudents" />
 	</html:submit>
 
 </fr:form>
@@ -46,8 +50,7 @@
 		<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="label.students.search.empty"/>.</em></p>
 	</logic:equal>
 	
-	<logic:notEqual name="resultsCount" value="0">	
-		
+	<logic:notEqual name="resultsCount" value="0">
 		<logic:notEqual name="numberOfPages" value="1">
 			<div class="mtop20px mbottom5px pagination">
 				<bean:define id="params"><logic:present name="searchStudents" property="username">&amp;username=<bean:write name="searchStudents" property="username"/></logic:present><logic:present name="searchStudents" property="degree">&amp;degree=<bean:write name="searchStudents" property="degree.idInternal"/></logic:present><logic:present name="searchStudents" property="registrationConclued">&amp;registrationConclued=<bean:write name="searchStudents" property="registrationConclued"/></logic:present></bean:define>
