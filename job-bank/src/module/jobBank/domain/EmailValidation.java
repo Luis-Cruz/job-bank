@@ -70,7 +70,7 @@ public class EmailValidation extends EmailValidation_Base {
     }
 
     private DateTime generateExpiredDate() {
-	return new DateTime().plusMinutes(30);
+	return new DateTime().plusDays(1);
     }
 
     public static EmailValidation getValidEmailValidationForEmail(String email) {
