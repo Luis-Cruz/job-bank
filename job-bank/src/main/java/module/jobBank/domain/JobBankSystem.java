@@ -6,22 +6,20 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import module.organization.domain.OrganizationalModel;
-import module.organization.domain.Party;
-import module.organization.domain.Unit;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.ModuleInitializer;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import net.sourceforge.fenixedu.domain.RemoteDegree;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
-import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
-import pt.ist.fenixframework.plugins.remote.domain.RemoteSystem;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
+
+import module.organization.domain.OrganizationalModel;
+import module.organization.domain.Party;
+import module.organization.domain.Unit;
 
 public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
 
@@ -72,15 +70,15 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return hasUser(user) && user.hasEnterprise();
     }
 
-    public Set<RemoteDegree> getRemoteDegreesFromLocalDegrees() {
-	Set<RemoteDegree> ret = new HashSet<RemoteDegree>();
-
-	for (FenixDegree degree : getFenixDegree()) {
-	    ret.add(degree.getRemoteDegree());
-	}
-
-	return ret;
-    }
+    // public Set<RemoteDegree> getRemoteDegreesFromLocalDegrees() {
+    // Set<RemoteDegree> ret = new HashSet<RemoteDegree>();
+    //
+    // for (FenixDegree degree : getFenixDegree()) {
+    // ret.add(degree.getRemoteDegree());
+    // }
+    //
+    // return ret;
+    // }
 
     public boolean isManagementMember() {
 	User user = UserView.getCurrentUser();
@@ -181,10 +179,10 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return user != null;
     }
 
-    /* Static Methods */
-    public static RemoteHost readRemoteHost() {
-	return RemoteSystem.getInstance().getRemoteHostsIterator().next();
-    }
+    // /* Static Methods */
+    // public static RemoteHost readRemoteHost() {
+    // return RemoteSystem.getInstance().getRemoteHostsIterator().next();
+    // }
 
     @Override
     @Service
@@ -192,14 +190,14 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	super.setUrlEmailValidation(urlEmailValidation);
     }
 
-    public FenixDegree getFenixDegreeFor(RemoteDegree remote) {
-	for (FenixDegree degree : getFenixDegree()) {
-	    if (degree.getRemoteDegree().equals(remote)) {
-		return degree;
-	    }
-	}
-	return null;
-    }
+    // public FenixDegree getFenixDegreeFor(RemoteDegree remote) {
+    // for (FenixDegree degree : getFenixDegree()) {
+    // if (degree.getRemoteDegree().equals(remote)) {
+    // return degree;
+    // }
+    // }
+    // return null;
+    // }
 
     public Set<FenixDegree> getActiveFenixDegreeSet() {
 	HashSet<FenixDegree> ret = new HashSet<FenixDegree>();

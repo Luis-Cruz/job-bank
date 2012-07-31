@@ -6,19 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import module.jobBank.domain.utils.IPredicate;
-import module.jobBank.domain.utils.Utils;
-import module.organization.domain.Person;
-import module.workflow.domain.ProcessFile;
-import pt.ist.bennu.core.domain.User;
-import net.sourceforge.fenixedu.domain.RemotePerson;
-import net.sourceforge.fenixedu.domain.student.RemoteRegistration;
-import net.sourceforge.fenixedu.domain.student.RemoteStudent;
-
 import org.joda.time.DateTime;
 
+import pt.ist.bennu.core.domain.User;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.ist.fenixframework.plugins.remote.domain.RemoteHost;
+
+import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
+import module.workflow.domain.ProcessFile;
 
 public class Student extends Student_Base {
 
@@ -73,31 +68,33 @@ public class Student extends Student_Base {
     }
 
     public static boolean canCreateStudent(User user) {
-	if (user.hasPerson()) {
-	    Person person = user.getPerson();
-	    return person.hasRemotePerson() && person.getRemotePerson().getStudent() != null;
-	}
+	// if (user.hasPerson()) {
+	// Person person = user.getPerson();
+	// return person.hasRemotePerson() &&
+	// person.getRemotePerson().getStudent() != null;
+	// }
 	return false;
     }
 
-    public RemoteStudent getRemoteStudent() {
-	return hasRemotePerson() ? getRemotePerson().getStudent() : null;
-    }
+    // public RemoteStudent getRemoteStudent() {
+    // return hasRemotePerson() ? getRemotePerson().getStudent() : null;
+    // }
+    //
+    // public RemotePerson getRemotePerson() {
+    // return hasRemotePerson() ? getPerson().getRemotePerson() : null;
+    // }
 
-    public RemotePerson getRemotePerson() {
-	return hasRemotePerson() ? getPerson().getRemotePerson() : null;
-    }
-
-    public boolean hasRemotePerson() {
-	if(getPerson() != null && getPerson().getRemotePerson() == null) {
-	    final RemoteHost remoteHost = JobBankSystem.readRemoteHost();
-	    RemotePerson remotePerson  = RemotePerson.readByUsername(remoteHost, getPerson().getUser().getUsername());
-	    if (remotePerson != null) {
-		getPerson().setRemotePerson(remotePerson);
-	    }
-	}
-	return getPerson() != null && getPerson().getRemotePerson() != null;
-    }
+    // public boolean hasRemotePerson() {
+    // if(getPerson() != null && getPerson().getRemotePerson() == null) {
+    // final RemoteHost remoteHost = JobBankSystem.readRemoteHost();
+    // RemotePerson remotePerson = RemotePerson.readByUsername(remoteHost,
+    // getPerson().getUser().getUsername());
+    // if (remotePerson != null) {
+    // getPerson().setRemotePerson(remotePerson);
+    // }
+    // }
+    // return getPerson() != null && getPerson().getRemotePerson() != null;
+    // }
 
     public boolean canRemoveFile(ProcessFile file) {
 	return getCurriculum().getCurriculumProcess().getFiles().contains(file);
@@ -123,14 +120,18 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getStudentsSet());
     }
 
-    public StudentRegistration getRegistrationFor(RemoteRegistration remoteRegistration) {
-	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
-	    if (studentRegistration.getRemoteRegistration().equals(remoteRegistration)) {
-		return studentRegistration;
-	    }
-	}
-	return null;
-    }
+    // public StudentRegistration getRegistrationFor(RemoteRegistration
+    // remoteRegistration) {
+    // for (StudentRegistration studentRegistration :
+    // super.getStudentRegistrationSet()) {
+    // if
+    // (studentRegistration.getRemoteRegistration().equals(remoteRegistration))
+    // {
+    // return studentRegistration;
+    // }
+    // }
+    // return null;
+    // }
 
     @Override
     public List<StudentRegistration> getStudentRegistration() {

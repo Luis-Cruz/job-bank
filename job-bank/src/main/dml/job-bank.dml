@@ -1,8 +1,5 @@
 package module.jobBank.domain; 
 
-external class .net.sourceforge.fenixedu.domain.RemoteDegree;
-external class .net.sourceforge.fenixedu.domain.student.RemoteRegistration;
-
 valueType pt.utl.ist.fenix.tools.util.ByteArray as ByteArray {
     externalizeWith {
         bytearray getBytes();
@@ -111,6 +108,7 @@ class StudentRegistration {
 	BigDecimal average;
 	Boolean isConcluded;
 	Integer curricularYear;
+	String remoteRegistrationOid;
 }
 
 class StudentRegistrationCycleType {
@@ -176,6 +174,7 @@ class FenixDegree {
 	MultiLanguageString name;
 	boolean active;
 	FenixDegreeType degreeType;
+	String remoteDegreeOid;
 }
 
 class groups.NpeGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup {
@@ -363,11 +362,6 @@ relation StudentWithOfferCandidacy{
 	}	
 }
 
-relation FenixDegreeWithRemoteDegree{
-	FenixDegree playsRole ;
-	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegree;
-}
-
 relation CurriculumWithCurriculumProcess{
 	Curriculum playsRole curriculum;
 	CurriculumProcess playsRole curriculumProcess;
@@ -404,9 +398,19 @@ relation StudentRegistrations{
 	}
 }
 
+/*
 relation StudentRegistrationWithRemoteRegistration{
 	StudentRegistration playsRole {
 		multiplicity *;
 	}
 	.net.sourceforge.fenixedu.domain.student.RemoteRegistration playsRole remoteRegistration;
 }
+*/
+
+/*
+relation FenixDegreeWithRemoteDegree{
+	FenixDegree playsRole ;
+	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegree;
+}
+*/
+
