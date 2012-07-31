@@ -20,18 +20,17 @@
    <name>organization</name>
    <name>lucene-indexing-plugin</name>
    <name>organization-ist</name>
-   <name>remote</name>
-   <name>remote-plugin</name>
    <name>expenditure-tracking</name>
    <name>meta-workflow</name>
    <name>finance</name>
    <name>external-accounting-integration</name>
    <name>db-utils</name>
-   <name>web-service-utils</name>
    <name>messaging</name>
+   <name>web-service-utils</name>
    <name>email-dispatch</name>
    <name>contacts</name>
    <name>geography</name>
+   <name>remote-plugin</name>
    <name>themes-ist</name>
    <!-- [END OF BENNU GENERATED FRAGMENT] -->
 		</after>
