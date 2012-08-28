@@ -38,4 +38,17 @@
 			<others />
 		</before>
 	</ordering>
+<!-- BugFix: Servlet mapping and listener added here to be caught by Strut's when filling pageContext, so that SERVLET_MAPPING returns *.do instead of null -->
+    <!-- Listeners -->
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>pt.ist.bennu.core.presentationTier.servlets.ActionServletWrapper</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+      <!-- Servlet Mapping -->
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>
