@@ -6,20 +6,21 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import module.organization.domain.OrganizationalModel;
+import module.organization.domain.Party;
+import module.organization.domain.Unit;
+import module.workflow.domain.WorkflowSystem;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.ModuleInitializer;
 import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
-
-import module.organization.domain.OrganizationalModel;
-import module.organization.domain.Party;
-import module.organization.domain.Unit;
 
 public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
 
@@ -50,6 +51,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	if (!myOrg.hasJobBankSystem()) {
 	    new JobBankSystem(myOrg);
 	}
+
     }
 
     public void setEmailFromConfiguration(String emailValidationFromName, String emailValidationFromEmail) {
@@ -125,6 +127,14 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 			"method=emailValidation"));
 	    }
 	});
+
+	if (WorkflowSystem.getInstance() == null) {
+	    VirtualHost currentVh = VirtualHost.getVirtualHostForThread();
+	    if (currentVh == null) {
+		currentVh = root.getVirtualHosts().get(0);
+	    }
+	    WorkflowSystem.createSystem(currentVh);
+	}
     }
 
     @Service
