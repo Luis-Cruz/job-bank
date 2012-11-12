@@ -1,5 +1,7 @@
 package module.jobBank.domain;
 
+import module.workflow.domain.ProcessDocumentMetaDataResolver;
+import module.workflow.domain.ProcessFile;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.util.ClassNameBundle;
 
@@ -11,6 +13,11 @@ public class CoverLetterProcessFile extends CoverLetterProcessFile_Base {
 	if (content != null) {
 	    init(displayName, filename, content);
 	}
+    }
+
+    @Override
+    public ProcessDocumentMetaDataResolver<? extends ProcessFile> getMetaDataResolver() {
+	return new CurriculumProcess.CurriculumRelatedFileMetadataResolver();
     }
 
     @Override
