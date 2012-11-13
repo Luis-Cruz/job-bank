@@ -3,18 +3,13 @@ package module.jobBank.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nonnull;
 
 import module.jobBank.domain.activity.CurriculumInfoActivity;
 import module.jobBank.domain.activity.CurriculumQualificationActivity;
 import module.jobBank.domain.activity.CurriculumRefreshExternalDataActivity;
 import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
-import module.workflow.domain.ProcessDocumentMetaDataResolver;
 import module.workflow.domain.ProcessFile;
-import module.workflow.domain.WFDocsDefaultWriteGroup;
 import module.workflow.domain.WorkflowProcess;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
@@ -85,28 +80,6 @@ public class CurriculumProcess extends CurriculumProcess_Base {
     @Override
     public boolean isCommentsSupportAvailable() {
 	return false;
-    }
-
-    public static class CurriculumRelatedFileMetadataResolver extends ProcessDocumentMetaDataResolver<ProcessFile> {
-
-	private final static String CURRICULUM_FILE_OWNER = "Ficheiro relativo ao currículo de";
-
-	@Override
-	public @Nonnull
-	Class<? extends module.workflow.domain.AbstractWFDocsGroup> getWriteGroupClass() {
-	    return WFDocsDefaultWriteGroup.class;
-	}
-
-	@Override
-	public Map<String, String> getMetadataKeysAndValuesMap(ProcessFile processDocument) {
-	    Map<String, String> metadataKeysAndValuesMap = super.getMetadataKeysAndValuesMap(processDocument);
-	    CurriculumProcess curriculumProcess = (CurriculumProcess) processDocument.getProcess();
-	    metadataKeysAndValuesMap.put(CURRICULUM_FILE_OWNER, curriculumProcess.getProcessCreator().getPerson()
-		    .getPresentationName());
-
-	    return metadataKeysAndValuesMap;
-	}
-
     }
 
     @Override
