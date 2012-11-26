@@ -13,6 +13,7 @@
    <name>workflow</name>
    <name>content</name>
    <name>file-management</name>
+   <name>web-service-utils</name>
    <name>lucene</name>
    <name>dashboard</name>
    <name>scheduler</name>
@@ -22,14 +23,6 @@
    <name>organization</name>
    <name>lucene-indexing-plugin</name>
    <name>bennu-vaadin</name>
-   <name>organization-ist</name>
-   <name>expenditure-tracking</name>
-   <name>meta-workflow</name>
-   <name>finance</name>
-   <name>external-accounting-integration</name>
-   <name>db-utils</name>
-   <name>messaging</name>
-   <name>web-service-utils</name>
    <name>email-dispatch</name>
    <name>contacts</name>
    <name>geography</name>

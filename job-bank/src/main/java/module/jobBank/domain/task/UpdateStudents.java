@@ -16,7 +16,7 @@ import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.Student;
 import module.jobBank.domain.StudentRegistration;
 import module.organization.domain.Person;
-import module.organizationIst.domain.listner.LoginListner;
+import module.jobBank.domain.utils.LoginListner;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
