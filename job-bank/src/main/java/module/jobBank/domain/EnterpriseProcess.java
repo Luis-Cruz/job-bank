@@ -10,8 +10,9 @@ import module.jobBank.domain.activity.ApproveOrRejectEnterpriseActivity;
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseChangeAgreementActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseByNPEActivity;
-import module.jobBank.domain.activity.EditEnterpriseActivity;
 import module.jobBank.domain.activity.EditEnterpriseByNPEActivity;
+import module.jobBank.domain.activity.EditEnterpriseInfoActivity;
+import module.jobBank.domain.activity.EditEnterprisePasswordActivity;
 import module.jobBank.domain.activity.EnterpriseDisableActivity;
 import module.jobBank.domain.activity.EnterpriseEnableActivity;
 import module.jobBank.domain.utils.IPredicate;
@@ -27,7 +28,8 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	final List<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>> activitiesAux = new ArrayList<WorkflowActivity<? extends WorkflowProcess, ? extends ActivityInformation>>();
 
 	// Enterprise Only
-	activitiesAux.add(new EditEnterpriseActivity());
+	activitiesAux.add(new EditEnterpriseInfoActivity());
+	activitiesAux.add(new EditEnterprisePasswordActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
 
 	// NPE Only
@@ -42,7 +44,6 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	// (agreements)
 	activitiesAux.add(new EnterpriseEnableActivity());
 	activitiesAux.add(new EnterpriseDisableActivity());
-
 
 	activities = Collections.unmodifiableList(activitiesAux);
     }

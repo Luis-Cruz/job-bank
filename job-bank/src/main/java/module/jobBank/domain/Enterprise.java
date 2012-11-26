@@ -79,7 +79,7 @@ public class Enterprise extends Enterprise_Base {
 
     @Service
     public void setForm(EnterpriseBean enterpriseBean) {
-	if (!getUser().matchesPassword(enterpriseBean.getPassword())) {
+	if (enterpriseBean.getPassword() != null && !getUser().matchesPassword(enterpriseBean.getPassword())) {
 	    getUser().setPassword(enterpriseBean.getPassword());
 	}
 	setName(enterpriseBean.getName());

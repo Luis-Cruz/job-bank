@@ -12,7 +12,6 @@
    <name>fenix-web-framework</name>
    <name>workflow</name>
    <name>content</name>
-   <name>bennu-vaadin</name>
    <name>file-management</name>
    <name>lucene</name>
    <name>dashboard</name>
@@ -22,6 +21,7 @@
    <name>file-support-plugin</name>
    <name>organization</name>
    <name>lucene-indexing-plugin</name>
+   <name>bennu-vaadin</name>
    <name>organization-ist</name>
    <name>expenditure-tracking</name>
    <name>meta-workflow</name>

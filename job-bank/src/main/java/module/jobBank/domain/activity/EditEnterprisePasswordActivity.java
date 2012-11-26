@@ -7,7 +7,7 @@ import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 import pt.ist.bennu.core.domain.User;
 
-public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseInformation> {
+public class EditEnterprisePasswordActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseInformation> {
 
     @Override
     public boolean isActive(EnterpriseProcess process, User user) {
@@ -35,4 +35,5 @@ public class EditEnterpriseActivity extends WorkflowActivity<EnterpriseProcess, 
     public boolean isDefaultInputInterfaceUsed() {
 	return false;
     }
+
 }
