@@ -103,6 +103,10 @@ class Student {
 	Boolean hasPersonalDataAuthorization;
 }
 
+class JobOfferNotificationFilter {
+	JobOfferType jobOfferType;
+}
+
 class StudentRegistration {
 	Integer number;
 	BigDecimal average;
@@ -199,6 +203,13 @@ class CurriculumProcess extends .module.workflow.domain.WorkflowProcess {
 }
 
 /*Relations With JobBankSystem */
+
+relation JobBankSystemWithJobOfferNotificationFilter {
+	JobBankSystem playsRole jobBankSystem;
+	JobOfferNotificationFilter playsRole jobOfferNotificationFilters {
+		multiplicity *;
+	}
+}
 
 relation JobBankSystemWithMyOrg {
 	JobBankSystem playsRole jobBankSystem;
@@ -306,6 +317,20 @@ relation EnterpriseWithAgreementTypeForApproval{
 relation StudentWithPerson{
 	Student playsRole student;
 	.module.organization.domain.Person playsRole person;
+}
+
+relation StudentWithJobOfferNotificationFilter{
+	Student playsRole student;
+	JobOfferNotificationFilter playsRole jobOfferNotificationFilter {
+		multiplicity *;
+	}
+}
+
+relation FenixDegreeWithJobOfferNotificationFilter {
+	FenixDegree playsRole fenixDegree;
+	JobOfferNotificationFilter playsRole jobOfferNotificationFilter {
+		multiplicity *;
+	}
 }
 
 relation JobOfferWithJobOfferProcess {

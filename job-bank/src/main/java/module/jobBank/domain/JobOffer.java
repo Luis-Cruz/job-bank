@@ -11,14 +11,14 @@ import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.JobBankProcessStageState;
 import module.jobBank.domain.utils.Utils;
 import module.workflow.domain.ProcessFile;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
+import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
+import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.fenixWebFramework.services.Service;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -90,6 +90,7 @@ public abstract class JobOffer extends JobOffer_Base {
 
     public void approve() {
 	setApprovalDate(new DateTime());
+	// JobBankSystem.getInstance().processNotifications(this);
     }
 
     public void unapprove() {

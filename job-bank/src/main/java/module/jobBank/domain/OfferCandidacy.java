@@ -7,10 +7,10 @@ import module.jobBank.domain.beans.OfferCandidacyBean;
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
 import module.workflow.domain.ProcessFile;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
 
 import org.joda.time.DateTime;
 
+import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.fenixWebFramework.services.Service;
 
 public class OfferCandidacy extends OfferCandidacy_Base {
@@ -62,8 +62,8 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 	if (canCreateOfferCandidacy(student, jobOffer)) {
 	    new OfferCandidacy(student.getPerson().getStudent(), jobOffer);
 	} else {
-	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
     }
 
@@ -73,8 +73,8 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 	if (canCreateOfferCandidacy(bean.getStudent(), bean.getJobOffer())) {
 	    new OfferCandidacy(bean);
 	} else {
-	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer", DomainException
-		    .getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
+	    throw new DomainException("message.error.offerCandidacy.already.applied.for.this.offer",
+		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
     }
 
@@ -120,13 +120,13 @@ public class OfferCandidacy extends OfferCandidacy_Base {
 
     public boolean getCanSelectCandidacy() {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.isEnterpriseActiveMember() && getJobOffer().hasVacancies() && getJobOfferSelectCandidacy() == null
-		&& getJobOffer().isSelectionPeriod();
+	return (jobBankSystem.isEnterpriseActiveMember() || jobBankSystem.isNPEMember()) && getJobOffer().hasVacancies()
+		&& getJobOfferSelectCandidacy() == null && getJobOffer().isSelectionPeriod();
     }
 
     public boolean getCanRemoveCandidacy() {
 	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	return jobBankSystem.isEnterpriseActiveMember() && getJobOfferSelectCandidacy() != null
+	return (jobBankSystem.isEnterpriseActiveMember() || jobBankSystem.isNPEMember()) && getJobOfferSelectCandidacy() != null
 		&& getJobOffer().isSelectionPeriod();
     }
 

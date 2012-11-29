@@ -6,14 +6,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import module.jobBank.domain.utils.IPredicate;
+import module.jobBank.domain.utils.Utils;
+import module.workflow.domain.ProcessFile;
+
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.fenixWebFramework.services.Service;
-
-import module.jobBank.domain.utils.IPredicate;
-import module.jobBank.domain.utils.Utils;
-import module.workflow.domain.ProcessFile;
 
 public class Student extends Student_Base {
 
@@ -136,6 +136,10 @@ public class Student extends Student_Base {
     @Override
     public List<StudentRegistration> getStudentRegistration() {
 	return new ArrayList<StudentRegistration>(getStudentRegistrationSet());
+    }
+
+    public List<StudentRegistration> getStudentRegistrationWithoutFiltering() {
+	return super.getStudentRegistration();
     }
 
     @Override

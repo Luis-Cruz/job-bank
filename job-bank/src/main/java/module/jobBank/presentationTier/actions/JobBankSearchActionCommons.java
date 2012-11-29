@@ -20,11 +20,11 @@ import module.jobBank.domain.beans.SearchOffer;
 import module.jobBank.domain.beans.SearchOfferState;
 import module.jobBank.domain.beans.SearchStudentRegistrations;
 import module.jobBank.domain.utils.Utils;
-import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.BundleUtil;
 
 import org.apache.commons.lang.StringUtils;
 
+import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.core.util.BundleUtil;
 import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
 import pt.utl.ist.fenix.tools.util.excel.Spreadsheet.Row;
 
@@ -81,16 +81,14 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
 	    }
 
 	    if (degreeIdInternal != null) {
-		if (degreeIdInternal != null) {
-		    try {
-			int id = Integer.valueOf(degreeIdInternal);
-			FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
-			if (degree != null) {
-			    search.setDegrees(degree);
-			}
-		    } catch (NumberFormatException e) {
-			// Do Nothing
+		try {
+		    int id = Integer.valueOf(degreeIdInternal);
+		    FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
+		    if (degree != null) {
+			search.setDegrees(degree);
 		    }
+		} catch (NumberFormatException e) {
+		    // Do Nothing
 		}
 	    }
 

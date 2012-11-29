@@ -26,7 +26,7 @@ public class EnterpriseActiveGroup extends EnterpriseActiveGroup_Base {
     @Service
     public static EnterpriseActiveGroup getInstance() {
 	final EnterpriseActiveGroup enterpriseActiveGroup = (EnterpriseActiveGroup) PersistentGroup
-		.getSystemGroup(EnterpriseGroup.class);
+		.getSystemGroup(EnterpriseActiveGroup.class);
 	return enterpriseActiveGroup == null ? new EnterpriseActiveGroup() : enterpriseActiveGroup;
     }
 

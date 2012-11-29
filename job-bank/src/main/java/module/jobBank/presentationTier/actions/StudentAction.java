@@ -1,6 +1,9 @@
 package module.jobBank.presentationTier.actions;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -10,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import module.jobBank.domain.CurriculumProcess;
 import module.jobBank.domain.Enterprise;
 import module.jobBank.domain.JobBankSystem;
+import module.jobBank.domain.JobOfferNotificationFilter;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
+import module.jobBank.domain.beans.JobOfferNotificationFilterBean;
 import module.jobBank.domain.beans.OfferCandidacyBean;
 import module.jobBank.domain.curriculumQualification.CurriculumQualification;
 import module.workflow.domain.ProcessFile;
@@ -20,17 +25,17 @@ import module.workflow.domain.WorkflowProcess;
 import module.workflow.domain.WorkflowProcessComment;
 import module.workflow.presentationTier.actions.CommentBean;
 import module.workflow.presentationTier.actions.ProcessManagement;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.utl.ist.fenix.tools.util.ByteArray;
-import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.BundleUtil;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
+import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
+import pt.utl.ist.fenix.tools.util.ByteArray;
 
 @Mapping(path = "/student")
 public class StudentAction extends ContextBaseAction {
@@ -93,6 +98,29 @@ public class StudentAction extends ContextBaseAction {
 	JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
 	commons.processStudentJobOfferSearch(request);
 	return forward(request, "/jobBank/student/jobOffers.jsp");
+    }
+
+    public ActionForward processNotifications(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobOfferNotificationFilterBean filter = getRenderedObject("filter");
+	boolean filterPresent = (filter != null);
+	Student student = UserView.getCurrentUser().getPerson().getStudent();
+
+	if (!filterPresent) {
+	    filter = new JobOfferNotificationFilterBean();
+	} else if (student != null) {
+	    JobOfferNotificationFilter.createNotification(filter, student);
+	}
+
+	if (student != null && student.getJobOfferNotificationFilterCount() > 0) {
+	    List<JobOfferNotificationFilter> filters = new LinkedList<JobOfferNotificationFilter>(
+		    student.getJobOfferNotificationFilter());
+	    Collections.sort(filters, JobOfferNotificationFilter.COMPARATOR_BY_DEGREE);
+	    request.setAttribute("filters", filters);
+	}
+
+	request.setAttribute("filter", filter);
+	return forward(request, "/jobBank/student/notifications.jsp");
     }
 
     public ActionForward viewCurriculumQualification(final ActionMapping mapping, final ActionForm form,
@@ -189,6 +217,13 @@ public class StudentAction extends ContextBaseAction {
 	JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
 	request.setAttribute("process", jobOfferProcess);
 	return forward(request, "/jobBank/student/viewJobOffer.jsp");
+    }
+
+    public ActionForward removeNotificationFilter(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	JobOfferNotificationFilter filter = getDomainObject(request, "OID");
+	filter.deleteFilter();
+	return processNotifications(mapping, form, request, response);
     }
 
     public ActionForward removeJobOfferCandidancy(final ActionMapping mapping, final ActionForm form,

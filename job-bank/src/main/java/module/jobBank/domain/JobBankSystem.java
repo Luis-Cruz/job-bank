@@ -135,6 +135,14 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	    }
 	    WorkflowSystem.createSystem(currentVh);
 	}
+
+	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+	for (Student student : jobBankSystem.getStudents()) {
+	    for (StudentRegistration studentRegistration : student.getStudentRegistrationWithoutFiltering()) {
+		studentRegistration.setJobBankSystem(jobBankSystem);
+	    }
+	}
+
     }
 
     @Service
@@ -243,6 +251,12 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	}
 
 	return ret;
+    }
+
+    public void processNotifications(JobOffer jobOffer) {
+	for (JobOfferNotificationFilter filter : getJobOfferNotificationFilters()) {
+	    filter.sendNotification(jobOffer);
+	}
     }
 
 }

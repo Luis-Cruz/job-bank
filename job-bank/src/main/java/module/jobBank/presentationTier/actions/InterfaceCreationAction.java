@@ -8,6 +8,11 @@ import module.jobBank.domain.groups.EnterpriseGroup;
 import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.groups.StudentActiveGroup;
 import module.jobBank.domain.groups.StudentGroup;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
 import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.contents.ActionNode;
@@ -19,11 +24,6 @@ import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.domain.groups.Role;
 import pt.ist.bennu.core.domain.groups.UserGroup;
 import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-
 import pt.ist.fenixWebFramework.servlets.functionalities.CreateNodeAction;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 
@@ -67,6 +67,10 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	ActionNode.createActionNode(virtualHost, homeNode, "/student", "searchOffers", "resources.JobBankResources",
 		"link.sideBar.jobBank.offers", studentActiveGroup);
 
+	/*
+	ActionNode.createActionNode(virtualHost, homeNode, "/student", "processNotifications", "resources.JobBankResources",
+		"link.sideBar.jobBank.notificationArea", studentActiveGroup);
+	*/
 	/* End Student */
 
 	/* Enterprise */

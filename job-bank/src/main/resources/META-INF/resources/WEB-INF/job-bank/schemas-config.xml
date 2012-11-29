@@ -123,6 +123,8 @@
 				<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 	</slot>	
 </schema>
+
+
 <schema name="jobBank.enterprise.jobOffer.internal"
 	bundle="JOB_BANK_RESOURCES"
 	type="module.jobBank.domain.beans.JobOfferBean" extends="jobBank.enterprise.jobOffer">
@@ -146,6 +148,25 @@
 		<slot name="jobOffer.state" key="label.enterprise.jobOffer.state" />
 		<slot name="jobOffer.externalCandidacy" key="label.enterprise.jobOffer.candidacyType.externalCandidacy" />
 </schema>
+
+<schema name="jobBank.student.notification"
+	bundle="JOB_BANK_RESOURCES"
+	type="module.jobBank.domain.JobOfferNotificationFilter">
+		<slot name="fenixDegree" key="label.enterprise.offer.degree" layout="null-as-label">
+			<property name="subLayout" value="values"/>
+        	<property name="subSchema" value="jobBank.enterprise.jobOffer.fenixDegree"/>
+        	<property name="key" value="true"/>
+			<property name="bundle" value="JOB_BANK_RESOURCES"/>
+			<property name="label" value="label.degree.all"/>
+		</slot>
+		<slot name="jobOfferType" key="label.enterprise.jobOffer.jobType" layout="null-as-label">
+			<property name="defaultOptionHidden" value="true"/>
+			<property name="key" value="true"/>
+			<property name="bundle" value="JOB_BANK_RESOURCES"/>
+			<property name="label" value="label.jobOffer.jobType.all"/>
+		</slot>
+</schema>
+
 
 <schema name="jobBank.jobOfferProcess.jobOffer.viewJobOffer.enterprise"
 	bundle="JOB_BANK_RESOURCES" extends="jobBank.jobOfferProcess.jobOffer.viewJobOffer" 
