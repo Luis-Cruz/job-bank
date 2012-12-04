@@ -3,10 +3,9 @@ package module.jobBank.domain;
 import java.util.Comparator;
 import java.util.Set;
 
-import pt.utl.ist.fenix.tools.util.StringNormalizer;
-
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
+import pt.utl.ist.fenix.tools.util.StringNormalizer;
 
 public class StudentRegistration extends StudentRegistration_Base {
 
@@ -22,14 +21,11 @@ public class StudentRegistration extends StudentRegistration_Base {
 
     };
 
-    public StudentRegistration(Student student, /*
-						 * RemoteRegistration
-						 * remoteRegistration,
-						 */FenixDegree fenixDegree, Integer number, Boolean isConcluded,
-	    Integer curricularYear) {
+    public StudentRegistration(Student student, String remoteRegistrationOid, FenixDegree fenixDegree, Integer number,
+	    Boolean isConcluded, Integer curricularYear) {
 	super();
 	setStudent(student);
-	// setRemoteRegistration(remoteRegistration);
+	setRemoteRegistrationOid(remoteRegistrationOid);
 	update(fenixDegree, number, isConcluded, curricularYear);
     }
 

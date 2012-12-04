@@ -8,6 +8,7 @@ import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
 import module.jobBank.domain.utils.Utils;
+import module.webserviceutils.client.JerseyRemoteUser;
 import module.workflow.domain.ProcessFile;
 
 import org.joda.time.DateTime;
@@ -68,33 +69,15 @@ public class Student extends Student_Base {
     }
 
     public static boolean canCreateStudent(User user) {
-	// if (user.hasPerson()) {
-	// Person person = user.getPerson();
-	// return person.hasRemotePerson() &&
-	// person.getRemotePerson().getStudent() != null;
-	// }
+	if (user.hasPerson()) {
+	    return new JerseyRemoteUser(user).hasStudent();
+	}
 	return false;
     }
 
-    // public RemoteStudent getRemoteStudent() {
-    // return hasRemotePerson() ? getRemotePerson().getStudent() : null;
-    // }
-    //
-    // public RemotePerson getRemotePerson() {
-    // return hasRemotePerson() ? getPerson().getRemotePerson() : null;
-    // }
-
-    // public boolean hasRemotePerson() {
-    // if(getPerson() != null && getPerson().getRemotePerson() == null) {
-    // final RemoteHost remoteHost = JobBankSystem.readRemoteHost();
-    // RemotePerson remotePerson = RemotePerson.readByUsername(remoteHost,
-    // getPerson().getUser().getUsername());
-    // if (remotePerson != null) {
-    // getPerson().setRemotePerson(remotePerson);
-    // }
-    // }
-    // return getPerson() != null && getPerson().getRemotePerson() != null;
-    // }
+    public boolean hasRemotePerson() {
+	return new JerseyRemoteUser(getPerson().getUser()).hasRemotePerson();
+    }
 
     public boolean canRemoveFile(ProcessFile file) {
 	return getCurriculum().getCurriculumProcess().getFiles().contains(file);
@@ -120,18 +103,14 @@ public class Student extends Student_Base {
 	return Utils.readValuesToSatisfiedPredicate(predicate, jobBankSystem.getStudentsSet());
     }
 
-    // public StudentRegistration getRegistrationFor(RemoteRegistration
-    // remoteRegistration) {
-    // for (StudentRegistration studentRegistration :
-    // super.getStudentRegistrationSet()) {
-    // if
-    // (studentRegistration.getRemoteRegistration().equals(remoteRegistration))
-    // {
-    // return studentRegistration;
-    // }
-    // }
-    // return null;
-    // }
+    public StudentRegistration getRegistrationFor(String remoteRegistrationOid) {
+	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
+	    if (studentRegistration.getRemoteRegistrationOid().equals(remoteRegistrationOid)) {
+		return studentRegistration;
+	    }
+	}
+	return null;
+    }
 
     @Override
     public List<StudentRegistration> getStudentRegistration() {

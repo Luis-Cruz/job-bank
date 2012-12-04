@@ -1,22 +1,24 @@
 package module.jobBank.domain.task;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+
+import module.jobBank.domain.FenixCycleType;
+import module.jobBank.domain.FenixDegree;
+import module.jobBank.domain.JobBankSystem;
+import module.jobBank.domain.Student;
+import module.jobBank.domain.StudentRegistration;
+import module.jobBank.domain.StudentRegistrationCycleType;
+import module.jobBank.domain.utils.LoginListner;
+import module.organization.domain.Person;
+import module.webserviceutils.domain.HostSystem;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.util.BundleUtil;
-
-import module.jobBank.domain.JobBankSystem;
-import module.jobBank.domain.Student;
-import module.jobBank.domain.StudentRegistration;
-import module.organization.domain.Person;
-import module.jobBank.domain.utils.LoginListner;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
@@ -34,13 +36,11 @@ public class UpdateStudents extends UpdateStudents_Base {
 
     @Override
     public void executeTask() {
-	// String studentsInfoForJobBank =
-	// RemoteRegistration.readAllStudentsInfoForJobBank(readRemoteHost);
 	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
-
+	String studentsInfoForJobBank = HostSystem.getFenixJerseyClient().method("readAllStudentsInfoForJobBank").get();
 	JSONParser parser = new JSONParser();
 	try {
-	    JSONArray studentInfos = (JSONArray) parser.parse(StringUtils.EMPTY);
+	    JSONArray studentInfos = (JSONArray) parser.parse(studentsInfoForJobBank);
 	    int i = 1;
 	    for (Object studentInfo : studentInfos) {
 		if (i % 1000 == 0) {
@@ -53,8 +53,7 @@ public class UpdateStudents extends UpdateStudents_Base {
 		User user = User.findByUsername(username);
 		if (user != null && user.getPerson() != null) {
 		    Student student = updateStudent(user.getPerson(), jsonStudentInfo);
-		    // updatedStudentRegistration.add(updateRegistration(readRemoteHost,
-		    // student, jsonStudentInfo));
+		    updatedStudentRegistration.add(updateRegistration(student, jsonStudentInfo));
 		}
 	    }
 	} catch (ParseException e) {
@@ -79,58 +78,41 @@ public class UpdateStudents extends UpdateStudents_Base {
 	return student;
     }
 
-    // public StudentRegistration updateRegistration(RemoteHost readRemoteHost,
-    // Student student, JSONObject jsonStudentInfo) {
-    // final Integer number = Integer.parseInt((String)
-    // jsonStudentInfo.get("number"));
-    // final String remoteRegistrationOID = (String)
-    // jsonStudentInfo.get("remoteRegistrationOID");
-    // RemoteRegistration remoteRegistration = (RemoteRegistration)
-    // readRemoteHost.getRemoteDomainObject(remoteRegistrationOID);
-    // final String remoteDegreeOID = (String) jsonStudentInfo.get("degreeOID");
-    // RemoteDegree remoteDegree = (RemoteDegree)
-    // readRemoteHost.getRemoteDomainObject(remoteDegreeOID);
-    // FenixDegree fenixDegree =
-    // JobBankSystem.getInstance().getFenixDegreeFor(remoteDegree);
-    // final Boolean isConcluded = Boolean.parseBoolean((String)
-    // jsonStudentInfo.get("isConcluded"));
-    // final Integer curricularYear = Integer.parseInt((String)
-    // jsonStudentInfo.get("curricularYear"));
-    //
-    // if (remoteRegistration == null || fenixDegree == null) {
-    // System.out.println(number + " NOT IMPORTED! REGISTRATION OID: " +
-    // remoteRegistrationOID + " DEGREE OID: "
-    // + remoteDegreeOID);
-    // return null;
-    // }
-    //
-    // StudentRegistration studentRegistration =
-    // student.getRegistrationFor(remoteRegistration);
-    // if (studentRegistration == null) {
-    // studentRegistration = new StudentRegistration(student,
-    // remoteRegistration, fenixDegree, number, isConcluded,
-    // curricularYear);
-    // } else {
-    // studentRegistration.update(fenixDegree, number, isConcluded,
-    // curricularYear);
-    // }
-    //
-    // for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
-    // String averageString = (String)
-    // jsonStudentInfo.get(fenixCycleType.name());
-    // StudentRegistrationCycleType studentRegistrationCycleType =
-    // studentRegistration
-    // .getStudentRegistrationCycleType(fenixCycleType);
-    // if (averageString != null) {
-    // if (studentRegistrationCycleType == null) {
-    // studentRegistrationCycleType = new
-    // StudentRegistrationCycleType(studentRegistration, fenixCycleType);
-    // }
-    // studentRegistrationCycleType.setAverage(new BigDecimal(averageString));
-    // } else if (studentRegistrationCycleType != null) {
-    // studentRegistrationCycleType.delete();
-    // }
-    // }
-    // return studentRegistration;
-    // }
+    public StudentRegistration updateRegistration(Student student, JSONObject jsonStudentInfo) {
+	final Integer number = Integer.parseInt((String) jsonStudentInfo.get("number"));
+	final String remoteRegistrationOID = (String) jsonStudentInfo.get("remoteRegistrationOID");
+	final String remoteDegreeOID = (String) jsonStudentInfo.get("degreeOID");
+	FenixDegree fenixDegree = FenixDegree.getFenixDegreeByExternalId(remoteDegreeOID);
+	final Boolean isConcluded = Boolean.parseBoolean((String) jsonStudentInfo.get("isConcluded"));
+	final Integer curricularYear = Integer.parseInt((String) jsonStudentInfo.get("curricularYear"));
+
+	if (StringUtils.isEmpty(remoteRegistrationOID) || fenixDegree == null) {
+	    System.out.println(number + " NOT IMPORTED! REGISTRATION OID: " + remoteRegistrationOID + " DEGREE OID: "
+		    + remoteDegreeOID);
+	    return null;
+	}
+
+	StudentRegistration studentRegistration = student.getRegistrationFor(remoteRegistrationOID);
+	if (studentRegistration == null) {
+	    studentRegistration = new StudentRegistration(student, remoteRegistrationOID, fenixDegree, number, isConcluded,
+		    curricularYear);
+	} else {
+	    studentRegistration.update(fenixDegree, number, isConcluded, curricularYear);
+	}
+
+	for (FenixCycleType fenixCycleType : FenixCycleType.values()) {
+	    String averageString = (String) jsonStudentInfo.get(fenixCycleType.name());
+	    StudentRegistrationCycleType studentRegistrationCycleType = studentRegistration
+		    .getStudentRegistrationCycleType(fenixCycleType);
+	    if (averageString != null) {
+		if (studentRegistrationCycleType == null) {
+		    studentRegistrationCycleType = new StudentRegistrationCycleType(studentRegistration, fenixCycleType);
+		}
+		studentRegistrationCycleType.setAverage(new BigDecimal(averageString));
+	    } else if (studentRegistrationCycleType != null) {
+		studentRegistrationCycleType.delete();
+	    }
+	}
+	return studentRegistration;
+    }
 }

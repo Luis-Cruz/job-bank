@@ -72,16 +72,6 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return hasUser(user) && user.hasEnterprise();
     }
 
-    // public Set<RemoteDegree> getRemoteDegreesFromLocalDegrees() {
-    // Set<RemoteDegree> ret = new HashSet<RemoteDegree>();
-    //
-    // for (FenixDegree degree : getFenixDegree()) {
-    // ret.add(degree.getRemoteDegree());
-    // }
-    //
-    // return ret;
-    // }
-
     public boolean isManagementMember() {
 	User user = UserView.getCurrentUser();
 	return isManagementMember(user);
@@ -134,13 +124,6 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 		currentVh = root.getVirtualHosts().get(0);
 	    }
 	    WorkflowSystem.createSystem(currentVh);
-	}
-
-	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	for (Student student : jobBankSystem.getStudents()) {
-	    for (StudentRegistration studentRegistration : student.getStudentRegistrationWithoutFiltering()) {
-		studentRegistration.setJobBankSystem(jobBankSystem);
-	    }
 	}
 
     }
@@ -197,25 +180,11 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 	return user != null;
     }
 
-    // /* Static Methods */
-    // public static RemoteHost readRemoteHost() {
-    // return RemoteSystem.getInstance().getRemoteHostsIterator().next();
-    // }
-
     @Override
     @Service
     public void setUrlEmailValidation(String urlEmailValidation) {
 	super.setUrlEmailValidation(urlEmailValidation);
     }
-
-    // public FenixDegree getFenixDegreeFor(RemoteDegree remote) {
-    // for (FenixDegree degree : getFenixDegree()) {
-    // if (degree.getRemoteDegree().equals(remote)) {
-    // return degree;
-    // }
-    // }
-    // return null;
-    // }
 
     public Set<FenixDegree> getActiveFenixDegreeSet() {
 	HashSet<FenixDegree> ret = new HashSet<FenixDegree>();

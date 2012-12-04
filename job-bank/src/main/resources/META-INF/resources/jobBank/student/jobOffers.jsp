@@ -12,8 +12,6 @@
 
 <h2><bean:message bundle="JOB_BANK_RESOURCES" key="label.enterprise.jobOffers"/></h2>
 
-<bean:define id="searchParameters"><c:out value="${search.requestParameters}" /></bean:define>
-
 <fr:form action="/student.do?method=searchOffers">
 	<fr:edit id="search" name="search">
 		<fr:schema bundle="JOB_BANK_RESOURCES"

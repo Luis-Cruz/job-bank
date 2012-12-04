@@ -9,14 +9,19 @@ public class FenixDegree extends FenixDegree_Base {
 	super();
     }
 
-    public FenixDegree(String presentationName, String degreeTypeName) {
-	updateName(presentationName);
-	setActive(true);
-	setDegreeType(FenixDegreeType.getByFenixDegreeTypeByName(degreeTypeName));
+    public FenixDegree(String remoteDegreeOid, String presentationName, String degreeTypeName) {
+	setRemoteDegreeOid(remoteDegreeOid);
+	update(presentationName, degreeTypeName);
     }
 
     public void updateName(String presentationName) {
 	setName(new MultiLanguageString(Language.pt, presentationName));
+    }
+
+    public void update(String presentationName, String degreeTypeName) {
+	updateName(presentationName);
+	setDegreeType(FenixDegreeType.getByFenixDegreeTypeByName(degreeTypeName));
+	setActive(true);
     }
 
     public boolean isBolonhaMasterDegree() {
@@ -33,6 +38,16 @@ public class FenixDegree extends FenixDegree_Base {
 	    }
 	}
 
+	return null;
+    }
+
+    public static FenixDegree getFenixDegreeByExternalId(String externalId) {
+	JobBankSystem jobBank = JobBankSystem.getInstance();
+	for (FenixDegree degree : jobBank.getFenixDegreeSet()) {
+	    if (degree.getRemoteDegreeOid().equals(externalId)) {
+		return degree;
+	    }
+	}
 	return null;
     }
 
