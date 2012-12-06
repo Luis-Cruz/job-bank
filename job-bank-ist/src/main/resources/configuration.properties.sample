@@ -1,0 +1,25 @@
+################################################################################
+# Application Configuration Properties                                         #
+# - Set properties needed at runtime, this will be included in the             #
+#   configuration.properties file included in the deploy.                      #
+################################################################################
+db.alias=//localhost:3306/jobbank?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
+db.user=
+db.pass=
+app.name=job-bank-ist
+error.if.changing.deleted.object=true
+language=pt
+location=PT
+variant=
+errorPage=/error.jsp
+app.context=jobbank
+filter.request.with.digest=true
+digest.tampering.url=http://localhost:8080/jobbank
+allow.user.self.registry=true
+localhost.cas.enable=false
+localhost.cas.loginUrl=https://login.ist.utl.pt/login?service=
+localhost.cas.ValidateUrl=https://login.ist.utl.pt/serviceValidate
+localhost.cas.logoutUrl=https://login.ist.utl.pt/logout
+manager.usernames=manager
+
+check.login.password=false
