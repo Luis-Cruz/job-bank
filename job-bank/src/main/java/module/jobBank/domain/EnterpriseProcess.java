@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import module.jobBank.domain.activity.AcceptTermsOfResponsibilityActivity;
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseActivity;
 import module.jobBank.domain.activity.ApproveOrRejectEnterpriseChangeAgreementActivity;
 import module.jobBank.domain.activity.ChangeAgreementEnterpriseActivity;
@@ -31,6 +32,7 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
 	activitiesAux.add(new EditEnterpriseInfoActivity());
 	activitiesAux.add(new EditEnterprisePasswordActivity());
 	activitiesAux.add(new ChangeAgreementEnterpriseActivity());
+	activitiesAux.add(new AcceptTermsOfResponsibilityActivity());
 
 	// NPE Only
 	// (enterprise)

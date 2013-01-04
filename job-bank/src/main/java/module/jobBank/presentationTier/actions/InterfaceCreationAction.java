@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import module.jobBank.domain.groups.EnterpriseActiveGroup;
 import module.jobBank.domain.groups.EnterpriseGroup;
+import module.jobBank.domain.groups.EnterprisePendingAcceptanceTermsGroup;
 import module.jobBank.domain.groups.NpeGroup;
 import module.jobBank.domain.groups.StudentActiveGroup;
 import module.jobBank.domain.groups.StudentGroup;
@@ -37,8 +38,13 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	final Node node = getDomainObject(request, "parentOfNodesToManageId");
 
 	final PersistentGroup npeGroup = NpeGroup.getInstance();
-	final PersistentGroup entrepriseGroup = EnterpriseGroup.getInstance();
-	final PersistentGroup entrepriseActiveGroup = EnterpriseActiveGroup.getInstance();
+
+	final PersistentGroup entreprisePendingAcceptanceTermsGroup = EnterprisePendingAcceptanceTermsGroup.getInstance();
+
+	final PersistentGroup entrepriseGroup = IntersectionGroup.createIntersectionGroup(
+		NegationGroup.createNegationGroup(entreprisePendingAcceptanceTermsGroup), EnterpriseGroup.getInstance());
+	final PersistentGroup entrepriseActiveGroup = IntersectionGroup.createIntersectionGroup(
+		NegationGroup.createNegationGroup(entreprisePendingAcceptanceTermsGroup), EnterpriseActiveGroup.getInstance());
 	final PersistentGroup studentGroup = StudentGroup.getInstance();
 	final StudentActiveGroup studentActiveGroup = StudentActiveGroup.getInstance();
 
@@ -74,6 +80,10 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	/* End Student */
 
 	/* Enterprise */
+
+	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "termsResponsibilityEnterprise",
+		"resources.JobBankResources", "link.sideBar.jobBank.acceptResponsibilityTerms",
+		entreprisePendingAcceptanceTermsGroup);
 
 	ActionNode.createActionNode(virtualHost, homeNode, "/enterprise", "termsResponsibilityEnterprise",
 		"resources.JobBankResources", "link.sideBar.jobBank.createEnterprise",

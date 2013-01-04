@@ -35,6 +35,9 @@ class task.CreateOrUpdateFenixDegreesTask extends .pt.ist.bennu.core.domain.sche
 
 class task.UpdateStudents extends .pt.ist.bennu.core.domain.scheduler.Task {
 }
+						   
+class task.ExpireEnterpriseTermsOfResponsibilityTask extends .pt.ist.bennu.core.domain.scheduler.Task {
+}
 
 class JobBankSystem { 
 	String urlEmailValidation;
@@ -63,6 +66,7 @@ class Enterprise{
 	String nif;
 	boolean confirmedEmail;
 	ByteArray logo;
+	boolean acceptedTermsOfResponsibilityForCurrentYear;
 }
 
 class JobBankYear {
@@ -188,6 +192,9 @@ class groups.EnterpriseGroup extends .pt.ist.bennu.core.domain.groups.Persistent
 }
 
 class groups.EnterpriseActiveGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup {
+}
+
+class groups.EnterprisePendingAcceptanceTermsGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup {
 }
 
 class groups.StudentGroup extends .pt.ist.bennu.core.domain.groups.PersistentGroup {

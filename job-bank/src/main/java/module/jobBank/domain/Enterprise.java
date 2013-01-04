@@ -27,14 +27,9 @@ import module.organization.domain.Party;
 import module.organization.domain.PartyType;
 import module.organization.domain.Unit;
 import module.organization.domain.UnitBean;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.domain.PasswordRecoveryRequest;
-import pt.ist.bennu.core.domain.User;
-import pt.ist.bennu.core.domain.VirtualHost;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.bennu.core.domain.groups.PersistentGroup;
-import pt.utl.ist.fenix.tools.util.ByteArray;
-import pt.ist.bennu.core.util.BundleUtil;
+import module.workflow.activities.ActivityInformation;
+import module.workflow.activities.WorkflowActivity;
+import module.workflow.domain.WorkflowProcess;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ComparatorChain;
@@ -42,8 +37,16 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
+import pt.ist.bennu.core.domain.PasswordRecoveryRequest;
+import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.domain.VirtualHost;
+import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.domain.groups.PersistentGroup;
+import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 import pt.ist.fenixWebFramework.services.Service;
+import pt.utl.ist.fenix.tools.util.ByteArray;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -141,16 +144,6 @@ public class Enterprise extends Enterprise_Base {
 	    return true;
 	}
 	return false;
-    }
-
-    @Service
-    public void renewAndChangeToBasicAgreement() {
-	if (!hasActiveAccountability()) {
-	    LocalDate now = new LocalDate();
-	    Unit rootUnit = getJobBankSystem().getTopLevelUnit();
-	    AccountabilityType basicAccountability = JobBankAccountabilityType.JOB_PROVIDER.readAccountabilityType();
-	    rootUnit.addChild(getUnit(), basicAccountability, now, now.plusYears(VALID_CONTRACT));
-	}
     }
 
     @Service
@@ -269,26 +262,23 @@ public class Enterprise extends Enterprise_Base {
 	return null;
     }
 
-    public AccountabilityType getLastAccountabilityType() {
-	Integer mostRecent = null;
-	Accountability ret = null;
-
+    public Accountability getLastAccountability() {
+	Accountability lastAccountability = null;
 	for (Accountability accountability : getUnit().getParentAccountabilities()) {
-	    if (mostRecent == null) {
-		mostRecent = accountability.getIdInternal();
-		ret = accountability;
-	    } else if (accountability.getIdInternal() > mostRecent) {
-		mostRecent = accountability.getIdInternal();
-		ret = accountability;
+	    if (lastAccountability == null || accountability.getBeginDate().isAfter(lastAccountability.getBeginDate())) {
+		lastAccountability = accountability;
 	    }
 	}
-	return ret.getAccountabilityType();
+	return lastAccountability;
+    }
+
+    public AccountabilityType getLastAccountabilityType() {
+	Accountability lastAccountability = getLastAccountability();
+	return lastAccountability == null ? null : lastAccountability.getAccountabilityType();
     }
 
     public AccountabilityType getActiveAccountabilityType() {
-	if (hasActiveAccountability())
-	    return getActiveAccountability().getAccountabilityType();
-	return null;
+	return hasActiveAccountability() ? getActiveAccountability().getAccountabilityType() : null;
     }
 
     public void enable() {
@@ -470,13 +460,11 @@ public class Enterprise extends Enterprise_Base {
 	    WebAddress.createNewWebAddress(enterpriseBean.getWebAddress(), this.getUnit(), true, PartyContactType.WORK,
 		    getUser(), publicGroup);
 	}
+	acceptedTermsOfResponsibilityForCurrentYear();
     }
 
     private boolean isAccountabilityType(AccountabilityType accountabilityType) {
-	if (hasActiveAccountability()) {
-	    return getActiveAccountabilityType().equals(accountabilityType);
-	}
-	return false;
+	return hasActiveAccountability() ? getActiveAccountabilityType().equals(accountabilityType) : false;
     }
 
     private void checks(EnterpriseBean enterpriseBean) {
@@ -489,19 +477,6 @@ public class Enterprise extends Enterprise_Base {
 		    DomainException.getResourceFor(JobBankSystem.JOB_BANK_RESOURCES));
 	}
 
-    }
-
-    public boolean expiresIn(int months) {
-	if (hasActiveAccountability()) {
-	    LocalDate now = new LocalDate();
-	    LocalDate nowPlusMonths = now.plusMonths(months);
-
-	    if (getActiveAccountability().getEndDate() != null && getActiveAccountability().getEndDate().isEqual(nowPlusMonths)) {
-		return true;
-	    }
-	}
-
-	return false;
     }
 
     public EnterpriseStateType getEnterpriseState() {
@@ -566,6 +541,12 @@ public class Enterprise extends Enterprise_Base {
 	    }
 	}
 	return sortedContacts;
+    }
+
+    public void acceptedTermsOfResponsibilityForCurrentYear() {
+	WorkflowActivity<WorkflowProcess, ActivityInformation<WorkflowProcess>> activity = getEnterpriseProcess().getActivity(
+		"AcceptTermsOfResponsibilityActivity");
+	activity.execute(activity.getActivityInformation(getEnterpriseProcess()));
     }
 
 }

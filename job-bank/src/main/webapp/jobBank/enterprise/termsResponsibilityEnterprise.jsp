@@ -22,7 +22,7 @@
 	</a>
 </p>
  
-<fr:form action="/enterprise.do?method=prepareToCreateEmailValidation">
+<fr:form action="/enterprise.do?method=acceptTerms">
 	<html:submit styleClass="inputbutton">
 		<bean:message  bundle="JOB_BANK_RESOURCES" key="button.jobBank.acceptTerms"/>
 	</html:submit>

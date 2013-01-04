@@ -16,18 +16,19 @@ import module.jobBank.domain.beans.EnterpriseBean;
 import module.jobBank.domain.beans.JobOfferBean;
 import module.jobBank.domain.utils.IPredicate;
 import module.workflow.presentationTier.actions.ProcessManagement;
-import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
-import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.utl.ist.fenix.tools.util.ByteArray;
-import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.VariantBean;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
+import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
+import pt.ist.bennu.core.domain.User;
+import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.core.util.VariantBean;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
+import pt.utl.ist.fenix.tools.util.ByteArray;
 
 @Mapping(path = "/enterprise")
 public class EnterpriseAction extends ContextBaseAction {
@@ -80,6 +81,19 @@ public class EnterpriseAction extends ContextBaseAction {
 	Enterprise enterprise = Enterprise.readEnterprise(UserView.getCurrentUser());
 	enterprise.addContactInformation(request);
 	return ProcessManagement.forwardToProcess(enterprise.getEnterpriseProcess());
+    }
+
+    public ActionForward acceptTerms(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+	    final HttpServletResponse response) {
+	User user = UserView.getCurrentUser();
+	if (user == null) {
+	    return prepareToCreateEmailValidation(mapping, form, request, response);
+	}
+	if (user.hasEnterprise()) {
+	    user.getEnterprise().acceptedTermsOfResponsibilityForCurrentYear();
+	}
+	request.setAttribute("user", user);
+	return forward(request, "/jobBank/frontPage.jsp");
     }
 
     public ActionForward prepareToCreateEmailValidation(final ActionMapping mapping, final ActionForm form,
