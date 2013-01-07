@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.fenixWebFramework.services.ServiceManager;
 
 public class UpdateStudents extends UpdateStudents_Base {
 
@@ -40,32 +41,36 @@ public class UpdateStudents extends UpdateStudents_Base {
 	String studentsInfoForJobBank = HostSystem.getFenixJerseyClient().method("readAllStudentsInfoForJobBank").get();
 	JSONParser parser = new JSONParser();
 	try {
-	    JSONArray studentInfos = (JSONArray) parser.parse(studentsInfoForJobBank);
-	    int i = 1;
-	    for (Object studentInfo : studentInfos) {
-		if (i % 1000 == 0) {
-		    System.out.printf("importing %d of %d\n", i, studentInfos.size());
+	    ServiceManager.enterAnnotationService();
+	    try {
+		JSONArray studentInfos = (JSONArray) parser.parse(studentsInfoForJobBank);
+		int i = 1;
+		for (Object studentInfo : studentInfos) {
+		    if (i % 1000 == 0) {
+			System.out.printf("importing %d of %d\n", i, studentInfos.size());
+		    }
+		    i++;
+		    JSONObject jsonStudentInfo = (JSONObject) studentInfo;
+		    final String username = (String) jsonStudentInfo.get("username");
+		    LoginListner.importUserInformation(username);
+		    User user = User.findByUsername(username);
+		    if (user != null && user.getPerson() != null) {
+			Student student = updateStudent(user.getPerson(), jsonStudentInfo);
+			updatedStudentRegistration.add(updateRegistration(student, jsonStudentInfo));
+		    }
 		}
-		i++;
-		JSONObject jsonStudentInfo = (JSONObject) studentInfo;
-		final String username = (String) jsonStudentInfo.get("username");
-		LoginListner.importUserInformation(username);
-		User user = User.findByUsername(username);
-		if (user != null && user.getPerson() != null) {
-		    Student student = updateStudent(user.getPerson(), jsonStudentInfo);
-		    updatedStudentRegistration.add(updateRegistration(student, jsonStudentInfo));
+	    } catch (ParseException e) {
+		e.printStackTrace();
+	    }
+
+	    for (StudentRegistration studentRegistration : JobBankSystem.getInstance().getStudentRegistration()) {
+		if (!updatedStudentRegistration.contains(studentRegistration)) {
+		    studentRegistration.setInactive();
 		}
 	    }
-	} catch (ParseException e) {
-	    e.printStackTrace();
+	} finally {
+	    ServiceManager.exitAnnotationService();
 	}
-
-	for (StudentRegistration studentRegistration : JobBankSystem.getInstance().getStudentRegistration()) {
-	    if (!updatedStudentRegistration.contains(studentRegistration)) {
-		studentRegistration.setInactive();
-	    }
-	}
-
     }
 
     private Student updateStudent(Person person, JSONObject jsonStudentInfo) {
