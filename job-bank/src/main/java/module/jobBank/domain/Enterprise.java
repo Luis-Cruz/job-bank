@@ -460,7 +460,7 @@ public class Enterprise extends Enterprise_Base {
 	    WebAddress.createNewWebAddress(enterpriseBean.getWebAddress(), this.getUnit(), true, PartyContactType.WORK,
 		    getUser(), publicGroup);
 	}
-	acceptedTermsOfResponsibilityForCurrentYear();
+	setAcceptedTermsOfResponsibilityForCurrentYear(false);
     }
 
     private boolean isAccountabilityType(AccountabilityType accountabilityType) {
