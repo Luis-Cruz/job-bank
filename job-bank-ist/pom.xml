@@ -12,7 +12,7 @@
   <name>job-bank-ist</name>
   <properties>
     <version.pt.ist.bennu.core>1.0-SNAPSHOT</version.pt.ist.bennu.core>
-    <version.pt.ist.job.bank>1.0-SNAPSHOT</version.pt.ist.job.bank>
+    <version.pt.ist.job.bank>1.1-SNAPSHOT</version.pt.ist.job.bank>
     <version.pt.ist.themes.ist>1.0-SNAPSHOT</version.pt.ist.themes.ist>
   </properties>
   <dependencies>
