@@ -120,7 +120,7 @@
 		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 	</slot> 
 	<slot name="endDate" key="label.enterprise.offer.endDate" layout="picker" >
-				<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
+		<validator class="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
 	</slot>	
 </schema>
 
@@ -241,6 +241,15 @@
 	<slot name="process.enterprise.activeAccountabilityType.name.content" key="label.enterprise.accountabilityType" required="true" layout="area">
 		<property name="size" value="50" />
 		<property name="readOnly" value="true" />
+	</slot>
+</schema>
+
+<schema name="jobBank.activityInformation.EditStudentAuthorizationActivity" type="module.jobBank.domain.activity.StudentAuthorizationInformation"  bundle="JOB_BANK_RESOURCES">
+	<slot name="process.studentAuthorization.student.person.user.username" key="label.manager.person.username" read-only="true"/>
+	<slot name="process.studentAuthorization.student.person.name" key="label.manager.person.name" read-only="true"/>
+	<slot name="process.studentAuthorization.beginDate" key="label.beginDate" read-only="true"/>
+	<slot name="endDate" key="label.endDate" required="true" layout="picker">
+		<validator class="pt.ist.fenixWebFramework.rendererExtensions.validators.FutureLocalDateValidator"/>
 	</slot>
 </schema>
 

@@ -107,6 +107,14 @@ class Student {
 	Boolean hasPersonalDataAuthorization;
 }
 
+class StudentAuthorization {
+	LocalDate beginDate;
+	LocalDate endDate;
+}
+
+class StudentAuthorizationProcess extends .module.workflow.domain.WorkflowProcess {
+}
+
 class JobOfferNotificationFilter {
 	JobOfferType jobOfferType;
 }
@@ -445,4 +453,24 @@ relation FenixDegreeWithRemoteDegree{
 	.net.sourceforge.fenixedu.domain.RemoteDegree playsRole remoteDegree;
 }
 */
+
+relation JobBankSystemStudentAuthorizations{
+	JobBankSystem playsRole jobBankSystem;
+	StudentAuthorization playsRole studentAuthorization{
+		multiplicity *;
+	}
+}
+
+relation StudentAuthorizationsStudent{
+	Student playsRole student;
+	StudentAuthorization playsRole studentAuthorization{
+		multiplicity *;
+	}
+}
+
+relation StudentAuthorizationsStudentAuthorizationProcess{
+	StudentAuthorizationProcess playsRole StudentAuthorizationProcess;
+	StudentAuthorization playsRole studentAuthorization;
+}
+
 

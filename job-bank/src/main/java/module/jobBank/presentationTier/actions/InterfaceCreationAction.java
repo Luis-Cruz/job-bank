@@ -111,6 +111,9 @@ public class InterfaceCreationAction extends ContextBaseAction {
 	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "searchStudents", "resources.JobBankResources",
 		"link.sideBar.jobBank.searchStudents", npeGroup);
 
+	ActionNode.createActionNode(virtualHost, homeNode, "/backOffice", "studentAuthorizations", "resources.JobBankResources",
+		"link.sideBar.jobBank.studentAuthorizations", npeGroup);
+
 	/* End Back Office */
 
 	return forwardToMuneConfiguration(request, virtualHost, node);

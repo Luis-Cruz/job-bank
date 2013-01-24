@@ -8,8 +8,10 @@ import module.jobBank.domain.FenixCycleType;
 import module.jobBank.domain.FenixDegree;
 import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.Student;
+import module.jobBank.domain.StudentAuthorization;
 import module.jobBank.domain.StudentRegistration;
 import module.jobBank.domain.StudentRegistrationCycleType;
+import module.jobBank.domain.beans.StudentAuthorizationBean;
 import module.jobBank.domain.utils.LoginListner;
 import module.organization.domain.Person;
 import module.webserviceutils.domain.HostSystem;
@@ -39,28 +41,14 @@ public class UpdateStudents extends UpdateStudents_Base {
     public void executeTask() {
 	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
 	String studentsInfoForJobBank = HostSystem.getFenixJerseyClient().method("readAllStudentsInfoForJobBank").get();
-	JSONParser parser = new JSONParser();
 	try {
 	    ServiceManager.enterAnnotationService();
-	    try {
-		JSONArray studentInfos = (JSONArray) parser.parse(studentsInfoForJobBank);
-		int i = 1;
-		for (Object studentInfo : studentInfos) {
-		    if (i % 1000 == 0) {
-			System.out.printf("importing %d of %d\n", i, studentInfos.size());
-		    }
-		    i++;
-		    JSONObject jsonStudentInfo = (JSONObject) studentInfo;
-		    final String username = (String) jsonStudentInfo.get("username");
-		    LoginListner.importUserInformation(username);
-		    User user = User.findByUsername(username);
-		    if (user != null && user.getPerson() != null) {
-			Student student = updateStudent(user.getPerson(), jsonStudentInfo);
-			updatedStudentRegistration.add(updateRegistration(student, jsonStudentInfo));
-		    }
-		}
-	    } catch (ParseException e) {
-		e.printStackTrace();
+	    updatedStudentRegistration.addAll(updateStudents(studentsInfoForJobBank));
+
+	    for (StudentAuthorization studentAuthorization : new StudentAuthorizationBean().search()) {
+		String authorizedStudentInfoForJobBank = HostSystem.getFenixJerseyClient().method("readStudentInfoForJobBank")
+			.arg("username", studentAuthorization.getStudent().getPerson().getUser().getUsername()).get();
+		updatedStudentRegistration.addAll(updateStudents(authorizedStudentInfoForJobBank));
 	    }
 
 	    for (StudentRegistration studentRegistration : JobBankSystem.getInstance().getStudentRegistration()) {
@@ -71,6 +59,32 @@ public class UpdateStudents extends UpdateStudents_Base {
 	} finally {
 	    ServiceManager.exitAnnotationService();
 	}
+    }
+
+    protected Set<StudentRegistration> updateStudents(String studentsInfoForJobBank) {
+	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
+	try {
+	    JSONParser parser = new JSONParser();
+	    JSONArray studentInfos = (JSONArray) parser.parse(studentsInfoForJobBank);
+	    int i = 1;
+	    for (Object studentInfo : studentInfos) {
+		if (i % 1000 == 0) {
+		    System.out.printf("importing %d of %d\n", i, studentInfos.size());
+		}
+		i++;
+		JSONObject jsonStudentInfo = (JSONObject) studentInfo;
+		final String username = (String) jsonStudentInfo.get("username");
+		LoginListner.importUserInformation(username);
+		User user = User.findByUsername(username);
+		if (user != null && user.getPerson() != null) {
+		    Student student = updateStudent(user.getPerson(), jsonStudentInfo);
+		    updatedStudentRegistration.add(updateRegistration(student, jsonStudentInfo));
+		}
+	    }
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
+	return updatedStudentRegistration;
     }
 
     private Student updateStudent(Person person, JSONObject jsonStudentInfo) {

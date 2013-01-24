@@ -1,5 +1,8 @@
 package module.jobBank.domain;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -42,13 +45,22 @@ public class FenixDegree extends FenixDegree_Base {
     }
 
     public static FenixDegree getFenixDegreeByExternalId(String externalId) {
+	String externalIdToCompare = getJobBankRemoteDegreeId(externalId);
 	JobBankSystem jobBank = JobBankSystem.getInstance();
 	for (FenixDegree degree : jobBank.getFenixDegreeSet()) {
-	    if (degree.getRemoteDegreeOid().equals(externalId)) {
+	    if (degree.getRemoteDegreeOid().equals(externalIdToCompare)) {
 		return degree;
 	    }
 	}
 	return null;
+    }
+
+    protected static String getJobBankRemoteDegreeId(String externalId) {
+	Map<String, String> equalDegrees = new HashMap<String, String>();
+	equalDegrees.put("2761663971567", "2761663971474");
+	equalDegrees.put("2761663971585", "2761663971475");
+	String externalIdToCompare = equalDegrees.get(externalId);
+	return externalIdToCompare == null ? externalId : externalIdToCompare;
     }
 
 }

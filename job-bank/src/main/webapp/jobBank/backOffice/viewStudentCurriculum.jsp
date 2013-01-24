@@ -47,18 +47,16 @@
 	</tr>
 </table>
 
-<logic:iterate id="studentRegistration" name="student" property="studentRegistrationSet">
-	<fr:view name="studentRegistration" property="studentRegistrationCycleTypes">
-		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
-			<fr:slot name="studentRegistration.fenixDegree.name" key="label.curriculum.degree"/>
-			<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
-			<fr:slot name="average" key="label.curriculum.average"/>
-		</fr:schema>
-		<fr:layout name="tabular">
-			<fr:property name="classes" value="tview-vertical thleft tdleft mtop20px"/>
-		</fr:layout>
-	</fr:view>
-</logic:iterate>
+<fr:view name="student" property="studentRegistrationCycleTypes">
+	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
+		<fr:slot name="studentRegistration.fenixDegree.name" key="label.curriculum.degree"/>
+		<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
+		<fr:slot name="average" key="label.curriculum.average"/>
+	</fr:schema>
+	<fr:layout name="tabular">
+		<fr:property name="classes" value="tview-vertical thleft tdleft mtop20px"/>
+	</fr:layout>
+</fr:view>
 
 
 <h3>

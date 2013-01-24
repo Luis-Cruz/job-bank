@@ -31,7 +31,7 @@ public class CreateOrUpdateFenixDegreesTask extends UpdateExpiredEnterpriseAgree
 	    for (Object degreeInfo : degreesInfos) {
 		JSONObject jsonDegreeInfo = (JSONObject) degreeInfo;
 		final String degreeOid = (String) jsonDegreeInfo.get("degreeOid");
-		final String name = (String) jsonDegreeInfo.get("name");
+		final String name = getName((String) jsonDegreeInfo.get("name"));
 		String degreeTypeString = (String) jsonDegreeInfo.get("degreeType");
 		FenixDegree fenixDegreeByExternalId = FenixDegree.getFenixDegreeByExternalId(degreeOid);
 		if (fenixDegreeByExternalId != null) {
@@ -53,6 +53,10 @@ public class CreateOrUpdateFenixDegreesTask extends UpdateExpiredEnterpriseAgree
 		degree.setActive(false);
 	    }
 	}
+    }
+
+    private String getName(String name) {
+	return name.replaceAll(" - Alameda", "").replaceAll(" - Taguspark", "");
     }
 
     private boolean equals(FenixDegree fenixDegreeByExternalId, String name, String degreeTypeString) {

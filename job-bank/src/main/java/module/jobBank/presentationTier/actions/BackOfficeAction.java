@@ -14,19 +14,24 @@ import module.jobBank.domain.JobBankSystem;
 import module.jobBank.domain.JobOfferProcess;
 import module.jobBank.domain.OfferCandidacy;
 import module.jobBank.domain.Student;
+import module.jobBank.domain.StudentAuthorization;
 import module.jobBank.domain.activity.EnterpriseInformation;
+import module.jobBank.domain.beans.StudentAuthorizationBean;
 import module.organization.domain.OrganizationalModel;
 import module.organization.presentationTier.actions.OrganizationModelAction.OrganizationalModelChart;
 import module.workflow.presentationTier.actions.ProcessManagement;
-import pt.ist.bennu.core.domain.MyOrg;
-import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
-import pt.ist.bennu.core.util.VariantBean;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 
+import pt.ist.bennu.core.domain.MyOrg;
+import pt.ist.bennu.core.domain.exceptions.DomainException;
+import pt.ist.bennu.core.presentationTier.actions.ContextBaseAction;
+import pt.ist.bennu.core.util.BundleUtil;
+import pt.ist.bennu.core.util.VariantBean;
 import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 import pt.ist.fenixWebFramework.struts.annotations.Mapping;
 import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
@@ -168,6 +173,58 @@ public class BackOfficeAction extends ContextBaseAction {
 	}
 	return beanUrlEmailValidation;
     }
+
     /* End Configuration */
 
+    public ActionForward studentAuthorizations(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	StudentAuthorizationBean studentAuthorizationBean = getRenderedObject("studentAuthorizationBean");
+	RenderUtils.invalidateViewState();
+	if (studentAuthorizationBean == null) {
+	    studentAuthorizationBean = new StudentAuthorizationBean();
+	} else {
+	    if (!StringUtils.isBlank(studentAuthorizationBean.getUsername()) && !studentAuthorizationBean.getIsStudent()) {
+		addLocalizedMessage(request, BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+			"message.error.studentAuthorization.invalidUser"));
+	    }
+	}
+	request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+	return forward(request, "/jobBank/backOffice/studentAuthorizations.jsp");
+    }
+
+    public ActionForward prepareCreateStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
+	if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
+	    return studentAuthorizations(mapping, form, request, response);
+	}
+	//RenderUtils.invalidateViewState();
+	request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+	return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
+    }
+
+    public ActionForward createStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
+	if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
+	    return studentAuthorizations(mapping, form, request, response);
+	}
+	try {
+	    StudentAuthorization studentAuthorization = studentAuthorizationBean.createStudentAuthorization();
+	    RenderUtils.invalidateViewState();
+	    return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
+	} catch (DomainException e) {
+	    RenderUtils.invalidateViewState();
+	    addLocalizedMessage(request, e.getLocalizedMessage());
+	    request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+	    return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
+	}
+
+    }
+
+    public ActionForward viewStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+	    final HttpServletRequest request, final HttpServletResponse response) {
+	StudentAuthorization studentAuthorization = getDomainObject(request, "studentAuthorizationOID");
+	return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
+    }
 }

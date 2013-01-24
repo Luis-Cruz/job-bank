@@ -34,10 +34,6 @@ public class Student extends Student_Base {
 	return getPerson().getName();
     }
 
-    public Integer getNumber() {
-	return 0;
-    }
-
     public Set<OfferCandidacy> getActiveOfferCandidacies() {
 	return Utils.readValuesToSatisfiedPredicate(new IPredicate<OfferCandidacy>() {
 	    @Override
@@ -117,6 +113,11 @@ public class Student extends Student_Base {
 	return new ArrayList<StudentRegistration>(getStudentRegistrationSet());
     }
 
+    @Override
+    public int getStudentRegistrationCount() {
+	return getStudentRegistration().size();
+    }
+
     public List<StudentRegistration> getStudentRegistrationWithoutFiltering() {
 	return super.getStudentRegistration();
     }
@@ -127,6 +128,16 @@ public class Student extends Student_Base {
 	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
 	    if (studentRegistration.hasJobBankSystem()) {
 		result.add(studentRegistration);
+	    }
+	}
+	return result;
+    }
+
+    public Set<StudentRegistrationCycleType> getStudentRegistrationCycleTypes() {
+	Set<StudentRegistrationCycleType> result = new HashSet<StudentRegistrationCycleType>();
+	for (StudentRegistration studentRegistration : super.getStudentRegistrationSet()) {
+	    if (studentRegistration.hasJobBankSystem()) {
+		result.addAll(studentRegistration.getStudentRegistrationCycleTypes());
 	    }
 	}
 	return result;
@@ -157,6 +168,15 @@ public class Student extends Student_Base {
     @Service
     public void acceptTermsResponsibility() {
 	setAcceptedTermsResponsibilityDate(new DateTime());
+    }
+
+    public StudentAuthorization getActiveStudentAuthorization() {
+	for (StudentAuthorization studentAuthorization : getStudentAuthorizationSet()) {
+	    if (studentAuthorization.getIsActive()) {
+		return studentAuthorization;
+	    }
+	}
+	return null;
     }
 
 }

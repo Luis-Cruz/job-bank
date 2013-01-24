@@ -50,9 +50,25 @@ public class Curriculum extends Curriculum_Base {
     @Service
     public void loadExternalData() {
 	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
-	String studentInfoForJobBank = HostSystem.getFenixJerseyClient().method("readAllStudentInfoForJobBank")
+	String studentInfoForJobBank = HostSystem.getFenixJerseyClient().method("readActiveStudentInfoForJobBank")
 		.arg("username", getStudent().getPerson().getUser().getUsername()).get();
+	updatedStudentRegistration.addAll(updateStudent(studentInfoForJobBank));
 
+	if (getStudent().getActiveStudentAuthorization() != null) {
+	    String authorizedStudentInfoForJobBank = HostSystem.getFenixJerseyClient().method("readStudentInfoForJobBank")
+		    .arg("username", getStudent().getPerson().getUser().getUsername()).get();
+	    updatedStudentRegistration.addAll(updateStudent(authorizedStudentInfoForJobBank));
+	}
+
+	for (StudentRegistration studentRegistration : getStudent().getStudentRegistration()) {
+	    if (!updatedStudentRegistration.contains(studentRegistration)) {
+		studentRegistration.setInactive();
+	    }
+	}
+    }
+
+    protected Set<StudentRegistration> updateStudent(String studentInfoForJobBank) {
+	Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
 	JSONParser parser = new JSONParser();
 	try {
 	    JSONArray studentInfos = (JSONArray) parser.parse(studentInfoForJobBank);
@@ -74,12 +90,7 @@ public class Curriculum extends Curriculum_Base {
 	} catch (ParseException e) {
 	    e.printStackTrace();
 	}
-
-	for (StudentRegistration studentRegistration : getStudent().getStudentRegistration()) {
-	    if (!updatedStudentRegistration.contains(studentRegistration)) {
-		studentRegistration.setInactive();
-	    }
-	}
+	return updatedStudentRegistration;
     }
 
     private StudentRegistration loadExternalCurriculumData(JSONObject jsonStudentInfo) {

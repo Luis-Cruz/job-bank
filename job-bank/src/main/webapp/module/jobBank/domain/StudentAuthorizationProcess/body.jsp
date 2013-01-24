@@ -5,14 +5,27 @@
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/fenix-renderers" prefix="fr"%>
 <%@ taglib uri="http://fenix-ashes.ist.utl.pt/workflow" prefix="wf"%>
 
-<%@page import="module.organization.domain.OrganizationalModel"%>
-<%@page import="pt.ist.bennu.core.domain.MyOrg"%>
 
+<h3 class="separator">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.studentAuthorization"/>
+</h3>
 
-<%@page import="module.jobBank.domain.OfferCandidacy"%>
-<bean:define id="student" name="process" property="curriculum.student"/>
-<bean:define id="person" name="student" property="person"/>
-<bean:define id="activeOfferCandidacies" name="student" property="activeOfferCandidacies"></bean:define>
+<bean:define id="studentAuthorization" name="process" property="studentAuthorization"/>
+
+<div class="infobox mvert1">
+	<fr:view name="studentAuthorization">
+		<fr:schema type="module.jobBank.domain.StudentAuthorization" bundle="JOB_BANK_RESOURCES">
+			<fr:slot name="studentAuthorizationProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification"/>
+			<fr:slot name="student.person.user.username" key="label.manager.person.username"/>
+			<fr:slot name="student.person.name" key="label.manager.person.name"/>
+			<fr:slot name="beginDate" key="label.beginDate"/>
+			<fr:slot name="endDate" key="label.endDate"/>
+			<fr:layout name="tabular-nonNullValues">
+				<fr:property name="classes" value="tview-horizontal"/>
+			</fr:layout>
+		</fr:schema>
+	</fr:view>
+</div>
 
 <h3>
 	<bean:message bundle="JOB_BANK_RESOURCES" key="label.curriculum.personal.information"/>
@@ -22,11 +35,11 @@
 	<table>
 		<tr>
 			<td style="padding-right: 20px;">
-				<bean:define id="urlPhoto" type="java.lang.String">https://fenix.ist.utl.pt/publico/retrievePersonalPhoto.do?method=retrieveByUUID&amp;contentContextPath_PATH=/homepage&amp;uuid=<bean:write name="person" property="user.username"/></bean:define>
+				<bean:define id="urlPhoto" type="java.lang.String">https://fenix.ist.utl.pt/publico/retrievePersonalPhoto.do?method=retrieveByUUID&amp;contentContextPath_PATH=/homepage&amp;uuid=<bean:write name="studentAuthorization" property="student.person.user.username"/></bean:define>
 				<img src="<%= urlPhoto %>">
 			</td>
 			<td style="vertical-align: top;">
-				<fr:view name="student">
+				<fr:view name="studentAuthorization" property="student">
 					<fr:schema type="module.jobBank.domain.Student" bundle="JOB_BANK_RESOURCES">
 						<fr:slot name="person.name" key="label.curriculum.name"/>
 						<fr:slot name="person.user.username" key="label.enterprise.username"/>
@@ -49,10 +62,9 @@
 	</table>
 </div>
 
-
 <h3><bean:message bundle="JOB_BANK_RESOURCES" key="label.registrations"/></h3>
 
-<fr:view name="student" property="studentRegistrationCycleTypes">
+<fr:view name="studentAuthorization" property="student.studentRegistrationCycleTypes">
 	<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.StudentRegistration">
 		<fr:slot name="studentRegistration.fenixDegree.name" key="label.curriculum.degree"/>
 		<fr:slot name="cycleType" key="label.curriculumQualification.cycle"/>
@@ -63,34 +75,20 @@
 	</fr:layout>
 </fr:view>
 
-	
-						
-<h3><bean:message bundle="JOB_BANK_RESOURCES" key="title.jobBank.candidacies"/></h3>
+<h3 class="separator">
+	<bean:message bundle="JOB_BANK_RESOURCES" key="label.jobBank.allStudentAuthorizations"/>
+</h3>
 
-<logic:present name ="activeOfferCandidacies">
-	<fr:view name="activeOfferCandidacies">
+<fr:view name="studentAuthorization" property="student.studentAuthorizationSet">
+	<fr:schema type="module.jobBank.domain.StudentAuthorization" bundle="JOB_BANK_RESOURCES">
+		<fr:slot name="studentAuthorizationProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification"/>
+		<fr:slot name="student.person.user.username" key="label.manager.person.username"/>
+		<fr:slot name="student.person.name" key="label.manager.person.name"/>
+		<fr:slot name="beginDate" key="label.beginDate"/>
+		<fr:slot name="endDate" key="label.endDate"/>
 		<fr:layout name="tabular">
-			<fr:property name="classes" value="tview-vertical"/>
-			<fr:property name="link(view)" value="/student.do?method=viewJobOffer" />
-			<fr:property name="key(view)" value="link.jobBank.view" />
-			<fr:property name="param(view)" value="jobOffer.jobOfferProcess.externalId/OID" />
-			<fr:property name="bundle(view)" value="JOB_BANK_RESOURCES" />
-			<fr:property name="order(view)" value="1" />
-			<fr:property name="sortBy" value="creationDate=asc" />
+			<fr:property name="classes" value="tstyle3 mvert1 width100pc tdmiddle punits"/>
+			<fr:property name="sortBy" value="beginDate=asc"/>
 		</fr:layout>
-		<fr:schema bundle="JOB_BANK_RESOURCES" type="module.jobBank.domain.JobOfferProcess">
-			<fr:slot name="jobOffer.jobOfferProcess.processIdentification" key="label.enterprise.jobOfferProcess.processIdentification" />
-			<fr:slot name="jobOffer.enterprise.name" key="label.enterprise.name" />
-			<fr:slot name="jobOffer.function" key="label.enterprise.jobOffer.function" />
-			<fr:slot name="jobOffer.presentationPeriod" key="label.enterprise.jobOffer.candidacyPeriod" />
-			<fr:slot name="jobOffer.state" key="label.enterprise.offer.state" />
-		</fr:schema>
-	</fr:view>
-</logic:present>
-
-
-<logic:empty name="activeOfferCandidacies">
-	<p><em><bean:message bundle="JOB_BANK_RESOURCES" key="message.curriculum.there.are.no.candidacies"/>.</em></p>
-</logic:empty> 
-
-
+	</fr:schema>
+</fr:view>
