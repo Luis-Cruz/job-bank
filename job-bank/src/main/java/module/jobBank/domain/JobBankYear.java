@@ -4,43 +4,43 @@ import org.joda.time.DateTime;
 
 public class JobBankYear extends JobBankYear_Base {
 
-    private JobBankYear(final int year) {
-	super();
-	if (findJobBankYearByYearAux(year) != null) {
-	    throw new Error("There can only be one! (JobBankYear object for each year)");
+	private JobBankYear(final int year) {
+		super();
+		if (findJobBankYearByYearAux(year) != null) {
+			throw new Error("There can only be one! (JobBankYear object for each year)");
+		}
+		setJobBankSystem(JobBankSystem.getInstance());
+		setYear(new Integer(year));
+		setCounter(Integer.valueOf(0));
 	}
-	setJobBankSystem(JobBankSystem.getInstance());
-	setYear(new Integer(year));
-	setCounter(Integer.valueOf(0));
-    }
 
-    private static JobBankYear findJobBankYearByYearAux(final int year) {
-	final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	for (final JobBankYear jobBankYear : jobBankSystem.getJobBankYearSet()) {
-	    if (jobBankYear.getYear().intValue() == year) {
-		return jobBankYear;
-	    }
+	private static JobBankYear findJobBankYearByYearAux(final int year) {
+		final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+		for (final JobBankYear jobBankYear : jobBankSystem.getJobBankYearSet()) {
+			if (jobBankYear.getYear().intValue() == year) {
+				return jobBankYear;
+			}
+		}
+		return null;
 	}
-	return null;
-    }
 
-    public static JobBankYear findJobBankYear(final int year) {
-	final JobBankYear jobBankYear = findJobBankYearByYearAux(year);
-	return jobBankYear == null ? new JobBankYear(year) : jobBankYear;
-    }
+	public static JobBankYear findJobBankYear(final int year) {
+		final JobBankYear jobBankYear = findJobBankYearByYearAux(year);
+		return jobBankYear == null ? new JobBankYear(year) : jobBankYear;
+	}
 
-    public Integer nextNumber() {
-	return getNextNumber();
-    }
+	public Integer nextNumber() {
+		return getNextNumber();
+	}
 
-    private Integer getNextNumber() {
-	setCounter(getCounter().intValue() + 1);
-	return getCounter();
-    }
+	private Integer getNextNumber() {
+		setCounter(getCounter().intValue() + 1);
+		return getCounter();
+	}
 
-    public static JobBankYear getCurrentYear() {
-	final int year = new DateTime().getYear();
-	return findJobBankYear(year);
-    }
+	public static JobBankYear getCurrentYear() {
+		final int year = new DateTime().getYear();
+		return findJobBankYear(year);
+	}
 
 }

@@ -14,42 +14,42 @@ import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class CreateBootstrapJobBankTask extends CreateBootstrapJobBankTask_Base {
 
-    public CreateBootstrapJobBankTask() {
-	super();
-    }
-
-    @Override
-    public void executeTask() {
-
-	JobBankAccountabilityType[] accountabilityTypes = JobBankAccountabilityType.values();
-	for (int i = 0; i < accountabilityTypes.length; i++) {
-	    accountabilityTypes[i].createAccountabilityType();
+	public CreateBootstrapJobBankTask() {
+		super();
 	}
 
-	PartyTypeBean bean = new PartyTypeBean();
-	bean.setType(JobBankSystem.PARTY_TYPE_NAME);
-	bean.setName(new MultiLanguageString("Empresa"));
-	PartyType.create(bean);
+	@Override
+	public void executeTask() {
 
-	OrganizationalModelBean organizationalModelBean = new OrganizationalModelBean();
-	organizationalModelBean.setName(new MultiLanguageString("Banco de Empregos"));
-	OrganizationalModel orgModel = OrganizationalModel.createNewModel(organizationalModelBean);
+		JobBankAccountabilityType[] accountabilityTypes = JobBankAccountabilityType.values();
+		for (JobBankAccountabilityType accountabilityType : accountabilityTypes) {
+			accountabilityType.createAccountabilityType();
+		}
 
-	// Get party NPE (Nucleo Parcerias Empresariais)
-	Party party = (Party) AbstractDomainObject.fromOID(450971740485l);
-	final PartySearchBean partySearchBean = new PartySearchBean(party);
-	orgModel.addPartyService(partySearchBean.getParty());
+		PartyTypeBean bean = new PartyTypeBean();
+		bean.setType(JobBankSystem.PARTY_TYPE_NAME);
+		bean.setName(new MultiLanguageString("Empresa"));
+		PartyType.create(bean);
 
-	final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	jobBankSystem.setOrganizationalModel(orgModel);
+		OrganizationalModelBean organizationalModelBean = new OrganizationalModelBean();
+		organizationalModelBean.setName(new MultiLanguageString("Banco de Empregos"));
+		OrganizationalModel orgModel = OrganizationalModel.createNewModel(organizationalModelBean);
 
-	jobBankSystem.setUrlEmailValidation("http://localhost:8080/myorg/enterprise.do?method=emailValidation");
+		// Get party NPE (Nucleo Parcerias Empresariais)
+		Party party = (Party) AbstractDomainObject.fromOID(450971740485l);
+		final PartySearchBean partySearchBean = new PartySearchBean(party);
+		orgModel.addPartyService(partySearchBean.getParty());
 
-    }
+		final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+		jobBankSystem.setOrganizationalModel(orgModel);
 
-    @Override
-    public String getLocalizedName() {
-	return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, getClass().getName());
-    }
+		jobBankSystem.setUrlEmailValidation("http://localhost:8080/myorg/enterprise.do?method=emailValidation");
+
+	}
+
+	@Override
+	public String getLocalizedName() {
+		return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, getClass().getName());
+	}
 
 }

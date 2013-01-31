@@ -7,25 +7,25 @@ import module.workflow.activities.WorkflowActivity;
 import pt.ist.bennu.core.domain.User;
 
 public class CurriculumRefreshExternalDataActivity extends
-	WorkflowActivity<CurriculumProcess, ActivityInformation<CurriculumProcess>> {
+		WorkflowActivity<CurriculumProcess, ActivityInformation<CurriculumProcess>> {
 
-    @Override
-    public boolean isActive(CurriculumProcess process, User user) {
-	return true;
-    }
+	@Override
+	public boolean isActive(CurriculumProcess process, User user) {
+		return true;
+	}
 
-    @Override
-    protected void process(ActivityInformation<CurriculumProcess> activityInformation) {
-	activityInformation.getProcess().getCurriculum().loadExternalData();
-    }
+	@Override
+	protected void process(ActivityInformation<CurriculumProcess> activityInformation) {
+		activityInformation.getProcess().getCurriculum().loadExternalData();
+	}
 
-    @Override
-    public ActivityInformation<CurriculumProcess> getActivityInformation(CurriculumProcess process) {
-	return new ActivityInformation(process, this);
-    }
+	@Override
+	public ActivityInformation<CurriculumProcess> getActivityInformation(CurriculumProcess process) {
+		return new ActivityInformation(process, this);
+	}
 
-    @Override
-    public String getUsedBundle() {
-	return JobBankSystem.JOB_BANK_RESOURCES;
-    }
+	@Override
+	public String getUsedBundle() {
+		return JobBankSystem.JOB_BANK_RESOURCES;
+	}
 }

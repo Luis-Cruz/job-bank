@@ -7,15 +7,16 @@ import pt.ist.bennu.core.util.ClassNameBundle;
 @ClassNameBundle(bundle = "resources/JobBankResources")
 public class LetterRecomendationProcessFile extends LetterRecomendationProcessFile_Base {
 
-    @Override
-    public ProcessDocumentMetaDataResolver<? extends ProcessFile> getMetaDataResolver() {
-	return new CurriculumProcess.CurriculumRelatedFileMetadataResolver();
-    }
-    public LetterRecomendationProcessFile(String displayName, String filename, byte[] content) {
-	super();
-	if (content != null) {
-	    init(displayName, filename, content);
+	@Override
+	public ProcessDocumentMetaDataResolver<? extends ProcessFile> getMetaDataResolver() {
+		return new CurriculumProcess.CurriculumRelatedFileMetadataResolver();
 	}
-    }
+
+	public LetterRecomendationProcessFile(String displayName, String filename, byte[] content) {
+		super();
+		if (content != null) {
+			init(displayName, filename, content);
+		}
+	}
 
 }

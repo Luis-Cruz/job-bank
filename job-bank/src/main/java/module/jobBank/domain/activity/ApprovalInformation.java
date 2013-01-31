@@ -10,99 +10,99 @@ import pt.ist.fenixWebFramework.renderers.utils.RenderUtils;
 
 public abstract class ApprovalInformation extends ActivityInformation<EnterpriseProcess> {
 
-    public enum ApprovalOption implements IPresentableEnum {
-	APPROVE("approve", "label.enterprise.approve"), REJECT("reject", "label.enterprise.reject");
+	public enum ApprovalOption implements IPresentableEnum {
+		APPROVE("approve", "label.enterprise.approve"), REJECT("reject", "label.enterprise.reject");
 
-	private final String type;
-	private final String nameKey;
-	private final String bundle;
+		private final String type;
+		private final String nameKey;
+		private final String bundle;
 
-	private ApprovalOption(final String type, final String nameKey, final String bundle) {
-	    this.type = type;
-	    this.nameKey = nameKey;
-	    this.bundle = bundle;
+		private ApprovalOption(final String type, final String nameKey, final String bundle) {
+			this.type = type;
+			this.nameKey = nameKey;
+			this.bundle = bundle;
+		}
+
+		private ApprovalOption(final String type, final String nameKey) {
+			this(type, nameKey, JobBankSystem.JOB_BANK_RESOURCES);
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		@Override
+		public String getLocalizedName() {
+			return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
+		}
 	}
 
-	private ApprovalOption(final String type, final String nameKey) {
-	    this(type, nameKey, JobBankSystem.JOB_BANK_RESOURCES);
+	/**
+     * 
+     */
+	private static final long serialVersionUID = 1L;
+
+	private String message;
+
+	private ApprovalOption option;
+
+	private ApprovalOption previousOption;
+
+	public ApprovalInformation(final EnterpriseProcess process,
+			WorkflowActivity<EnterpriseProcess, ? extends ActivityInformation<EnterpriseProcess>> activity) {
+		super(process, activity);
+		setOption(ApprovalOption.APPROVE);
+		setPreviousOption(ApprovalOption.APPROVE);
 	}
 
-	public String getType() {
-	    return type;
+	abstract void updateMessage();
+
+	@Override
+	public boolean hasAllneededInfo() {
+		if (decisionChanged()) {
+			updateMessage();
+			setPreviousOption(option);
+			RenderUtils.invalidateViewState();
+			return false;
+		}
+		return isForwardedFromInput();
+	}
+
+	private boolean decisionChanged() {
+		return !option.equals(previousOption);
 	}
 
 	@Override
-	public String getLocalizedName() {
-	    return BundleUtil.getStringFromResourceBundle(bundle, nameKey);
+	public String getUsedSchema() {
+		return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
 	}
-    }
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-
-    private String message;
-
-    private ApprovalOption option;
-
-    private ApprovalOption previousOption;
-
-    public ApprovalInformation(final EnterpriseProcess process,
-	    WorkflowActivity<EnterpriseProcess, ? extends ActivityInformation<EnterpriseProcess>> activity) {
-	super(process, activity);
-	setOption(ApprovalOption.APPROVE);
-	setPreviousOption(ApprovalOption.APPROVE);
-    }
-
-    abstract void updateMessage();
-
-    @Override
-    public boolean hasAllneededInfo() {
-	if (decisionChanged()) {
-	    updateMessage();
-	    setPreviousOption(option);
-	    RenderUtils.invalidateViewState();
-	    return false;
+	public void setMessage(String message) {
+		this.message = message;
 	}
-	return isForwardedFromInput();
-    }
 
-    private boolean decisionChanged() {
-	return !option.equals(previousOption);
-    }
+	public String getMessage() {
+		return message;
+	}
 
-    @Override
-    public String getUsedSchema() {
-	return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
-    }
+	public void setOption(ApprovalOption option) {
+		this.option = option;
+	}
 
-    public void setMessage(String message) {
-	this.message = message;
-    }
+	public ApprovalOption getOption() {
+		return option;
+	}
 
-    public String getMessage() {
-	return message;
-    }
+	public void setPreviousOption(ApprovalOption previousOption) {
+		this.previousOption = previousOption;
+	}
 
-    public void setOption(ApprovalOption option) {
-	this.option = option;
-    }
+	public ApprovalOption getPreviousOption() {
+		return previousOption;
+	}
 
-    public ApprovalOption getOption() {
-	return option;
-    }
-
-    public void setPreviousOption(ApprovalOption previousOption) {
-	this.previousOption = previousOption;
-    }
-
-    public ApprovalOption getPreviousOption() {
-	return previousOption;
-    }
-
-    public boolean isApprove() {
-	return option.equals(ApprovalOption.APPROVE);
-    }
+	public boolean isApprove() {
+		return option.equals(ApprovalOption.APPROVE);
+	}
 
 }

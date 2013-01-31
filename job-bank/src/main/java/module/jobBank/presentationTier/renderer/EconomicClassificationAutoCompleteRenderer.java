@@ -6,34 +6,34 @@ import pt.ist.jpdafinance.pt.EconomicActivityClassificationGroup;
 
 public class EconomicClassificationAutoCompleteRenderer extends AutoCompleteInputRenderer {
 
-    @Override
-    protected Converter createConverter() {
-	return new EconomicClassificationAutoCompleteConverter();
-    }
-
-    protected static class EconomicClassificationAutoCompleteConverter extends Converter {
-
-	public EconomicClassificationAutoCompleteConverter() {
-	    super();
-
-	}
-
 	@Override
-	public Object convert(Class type, Object value) {
-	    if (value == null || "".equals(value)) {
-		return null;
-	    }
-
-	    String text = (String) value;
-
-	    if (text.equals(TYPING_VALUE)) {
-		return null;
-	    }
-
-	    String key = text;
-	    return EconomicActivityClassificationGroup.importFromString(key);
+	protected Converter createConverter() {
+		return new EconomicClassificationAutoCompleteConverter();
 	}
 
-    }
+	protected static class EconomicClassificationAutoCompleteConverter extends Converter {
+
+		public EconomicClassificationAutoCompleteConverter() {
+			super();
+
+		}
+
+		@Override
+		public Object convert(Class type, Object value) {
+			if (value == null || "".equals(value)) {
+				return null;
+			}
+
+			String text = (String) value;
+
+			if (text.equals(TYPING_VALUE)) {
+				return null;
+			}
+
+			String key = text;
+			return EconomicActivityClassificationGroup.importFromString(key);
+		}
+
+	}
 
 }

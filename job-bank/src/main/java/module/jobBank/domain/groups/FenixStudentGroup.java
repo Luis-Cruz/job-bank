@@ -13,44 +13,44 @@ import pt.ist.fenixWebFramework.services.Service;
 
 public class FenixStudentGroup extends FenixStudentGroup_Base {
 
-    public FenixStudentGroup() {
-	super();
-	setSystemGroupMyOrg(MyOrg.getInstance());
-    }
-
-    @Override
-    public boolean isMember(User user) {
-	return isStudent(user);
-    }
-
-    @Service
-    private Boolean isStudent(User user) {
-	if (user != null && user.getPerson() != null) {
-	    return new JerseyRemoteUser(user).hasStudent();
+	public FenixStudentGroup() {
+		super();
+		setSystemGroupMyOrg(MyOrg.getInstance());
 	}
-	return false;
-    }
 
-    @Service
-    public static FenixStudentGroup getInstance() {
-	final FenixStudentGroup fenixStudentGroup = (FenixStudentGroup) PersistentGroup.getSystemGroup(FenixStudentGroup.class);
-	return fenixStudentGroup == null ? new FenixStudentGroup() : fenixStudentGroup;
-    }
-
-    @Override
-    public String getName() {
-	return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-		"label.jobBank.group.fenixStudentGroup.name");
-    }
-
-    @Override
-    public Set<User> getMembers() {
-	Set<User> users = new HashSet<User>();
-	for (User user : MyOrg.getInstance().getUserSet()) {
-	    if (user.getPerson() != null && new JerseyRemoteUser(user).hasStudent()) {
-		users.add(user);
-	    }
+	@Override
+	public boolean isMember(User user) {
+		return isStudent(user);
 	}
-	return users;
-    }
+
+	@Service
+	private Boolean isStudent(User user) {
+		if (user != null && user.getPerson() != null) {
+			return new JerseyRemoteUser(user).hasStudent();
+		}
+		return false;
+	}
+
+	@Service
+	public static FenixStudentGroup getInstance() {
+		final FenixStudentGroup fenixStudentGroup = (FenixStudentGroup) PersistentGroup.getSystemGroup(FenixStudentGroup.class);
+		return fenixStudentGroup == null ? new FenixStudentGroup() : fenixStudentGroup;
+	}
+
+	@Override
+	public String getName() {
+		return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+				"label.jobBank.group.fenixStudentGroup.name");
+	}
+
+	@Override
+	public Set<User> getMembers() {
+		Set<User> users = new HashSet<User>();
+		for (User user : MyOrg.getInstance().getUserSet()) {
+			if (user.getPerson() != null && new JerseyRemoteUser(user).hasStudent()) {
+				users.add(user);
+			}
+		}
+		return users;
+	}
 }

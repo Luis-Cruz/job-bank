@@ -9,31 +9,31 @@ import pt.ist.bennu.core.domain.User;
 
 public class CancelJobOfferActivity extends WorkflowActivity<JobOfferProcess, ActivityInformation<JobOfferProcess>> {
 
-    @Override
-    public boolean isActive(JobOfferProcess process, User user) {
-	JobOffer jobOffer = process.getJobOffer();
-	return !jobOffer.isCanceled() && !(jobOffer.isEditable() && JobBankSystem.getInstance().isNPEMember(user))
-		&& (process.isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user))
-		&& (jobOffer.isPendingToApproval() || jobOffer.isUnderConstruction()) && !jobOffer.hasCandidacies();
-    }
+	@Override
+	public boolean isActive(JobOfferProcess process, User user) {
+		JobOffer jobOffer = process.getJobOffer();
+		return !jobOffer.isCanceled() && !(jobOffer.isEditable() && JobBankSystem.getInstance().isNPEMember(user))
+				&& (process.isProcessOwner(user) || JobBankSystem.getInstance().isNPEMember(user))
+				&& (jobOffer.isPendingToApproval() || jobOffer.isUnderConstruction()) && !jobOffer.hasCandidacies();
+	}
 
-    @Override
-    protected void process(ActivityInformation<JobOfferProcess> activityInformation) {
-	activityInformation.getProcess().getJobOffer().setCanceled(true);
-    }
+	@Override
+	protected void process(ActivityInformation<JobOfferProcess> activityInformation) {
+		activityInformation.getProcess().getJobOffer().setCanceled(true);
+	}
 
-    @Override
-    public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
-	return new ActivityInformation(process, this);
-    }
+	@Override
+	public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
+		return new ActivityInformation(process, this);
+	}
 
-    @Override
-    public boolean isConfirmationNeeded(JobOfferProcess process) {
-	return true;
-    }
+	@Override
+	public boolean isConfirmationNeeded(JobOfferProcess process) {
+		return true;
+	}
 
-    @Override
-    public String getUsedBundle() {
-	return JobBankSystem.JOB_BANK_RESOURCES;
-    }
+	@Override
+	public String getUsedBundle() {
+		return JobBankSystem.JOB_BANK_RESOURCES;
+	}
 }

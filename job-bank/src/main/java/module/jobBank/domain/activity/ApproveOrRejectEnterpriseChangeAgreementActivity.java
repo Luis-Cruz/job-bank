@@ -14,61 +14,62 @@ import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
 
 public class ApproveOrRejectEnterpriseChangeAgreementActivity extends
-	WorkflowActivity<EnterpriseProcess, EnterpriseAgreementApprovalInformation> {
+		WorkflowActivity<EnterpriseProcess, EnterpriseAgreementApprovalInformation> {
 
-    @Override
-    public boolean isActive(EnterpriseProcess process, User user) {
-	Enterprise enterprise = process.getEnterprise();
-	return JobBankSystem.getInstance().isNPEMember(user) && enterprise.hasAgreementForApproval()
-		&& enterprise.hasBeenAcceptedBefore();
-    }
-
-    @Override
-    protected void process(EnterpriseAgreementApprovalInformation activityInformation) {
-	Enterprise enterprise = activityInformation.getProcess().getEnterprise();
-
-	if (activityInformation.isApprove()) {
-	    enterprise.approve();
-	} else {
-	    enterprise.rejectChangeAgreement();
+	@Override
+	public boolean isActive(EnterpriseProcess process, User user) {
+		Enterprise enterprise = process.getEnterprise();
+		return JobBankSystem.getInstance().isNPEMember(user) && enterprise.hasAgreementForApproval()
+				&& enterprise.hasBeenAcceptedBefore();
 	}
 
-	sendEmail(enterprise, activityInformation);
-    }
+	@Override
+	protected void process(EnterpriseAgreementApprovalInformation activityInformation) {
+		Enterprise enterprise = activityInformation.getProcess().getEnterprise();
 
-    private void sendEmail(Enterprise enterprise, EnterpriseAgreementApprovalInformation eaai) {
-	List<String> toAddresses = new ArrayList<String>();
-	toAddresses.add(enterprise.getLoginEmail());
-	JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-	new Email(jobBankSystem.getEmailValidationFromName(), jobBankSystem.getEmailValidationFromEmail(), new String[] {},
-		toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(eaai), eaai.getMessage());
-    }
+		if (activityInformation.isApprove()) {
+			enterprise.approve();
+		} else {
+			enterprise.rejectChangeAgreement();
+		}
 
-    private String getEmailSubject(EnterpriseAgreementApprovalInformation eaai) {
-	String bundle = "message.jobbank.message.jobbank.email.agreement.approval.subject";
-	if (!eaai.isApprove()) {
-	    bundle = "message.jobbank.message.jobbank.email.agreement.rejection.subject";
+		sendEmail(enterprise, activityInformation);
 	}
-	String message = BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle, eaai
-		.getNewAgreement().getLocalizedName());
-	return message;
-    }
 
-    @Override
-    public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
-	Enterprise enterprise = process.getEnterprise();
-	return new EnterpriseAgreementApprovalInformation(process, this, enterprise.getName(),
-		enterprise.getAgreementForApproval());
-    }
+	private void sendEmail(Enterprise enterprise, EnterpriseAgreementApprovalInformation eaai) {
+		List<String> toAddresses = new ArrayList<String>();
+		toAddresses.add(enterprise.getLoginEmail());
+		JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+		new Email(jobBankSystem.getEmailValidationFromName(), jobBankSystem.getEmailValidationFromEmail(), new String[] {},
+				toAddresses, Collections.EMPTY_LIST, Collections.EMPTY_LIST, getEmailSubject(eaai), eaai.getMessage());
+	}
 
-    @Override
-    public String getUsedBundle() {
-	return JobBankSystem.JOB_BANK_RESOURCES;
-    }
+	private String getEmailSubject(EnterpriseAgreementApprovalInformation eaai) {
+		String bundle = "message.jobbank.message.jobbank.email.agreement.approval.subject";
+		if (!eaai.isApprove()) {
+			bundle = "message.jobbank.message.jobbank.email.agreement.rejection.subject";
+		}
+		String message =
+				BundleUtil.getFormattedStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, bundle, eaai.getNewAgreement()
+						.getLocalizedName());
+		return message;
+	}
 
-    @Override
-    public boolean isDefaultInputInterfaceUsed() {
-	return false;
-    }
+	@Override
+	public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
+		Enterprise enterprise = process.getEnterprise();
+		return new EnterpriseAgreementApprovalInformation(process, this, enterprise.getName(),
+				enterprise.getAgreementForApproval());
+	}
+
+	@Override
+	public String getUsedBundle() {
+		return JobBankSystem.JOB_BANK_RESOURCES;
+	}
+
+	@Override
+	public boolean isDefaultInputInterfaceUsed() {
+		return false;
+	}
 
 }

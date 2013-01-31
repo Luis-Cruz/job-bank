@@ -9,20 +9,21 @@ import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumF
 
 public class JobBankInitializer implements ModuleInitializer {
 
-    public JobBankInitializer() {
-	super();
-	// setMyorg(MyOrg.getInstance());
-    }
+	public JobBankInitializer() {
+		super();
+		// setMyorg(MyOrg.getInstance());
+	}
 
-    @Override
-    public void init(MyOrg root) {
-	RequestChecksumFilter.registerFilterRule(new ChecksumPredicate() {
-	    public boolean shouldFilter(HttpServletRequest httpServletRequest) {
-		return !(httpServletRequest.getRequestURI().endsWith("jobBank/enterprise/emailValidation.do"));
-		// && httpServletRequest.getQueryString() != null &&
-		// httpServletRequest.getQueryString().contains(
-		// "method=emailValidation"));
-	    }
-	});
-    }
+	@Override
+	public void init(MyOrg root) {
+		RequestChecksumFilter.registerFilterRule(new ChecksumPredicate() {
+			@Override
+			public boolean shouldFilter(HttpServletRequest httpServletRequest) {
+				return !(httpServletRequest.getRequestURI().endsWith("jobBank/enterprise/emailValidation.do"));
+				// && httpServletRequest.getQueryString() != null &&
+				// httpServletRequest.getQueryString().contains(
+				// "method=emailValidation"));
+			}
+		});
+	}
 }

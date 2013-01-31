@@ -8,29 +8,29 @@ import org.joda.time.LocalDate;
 
 public class StudentAuthorizationInformation extends ActivityInformation<StudentAuthorizationProcess> {
 
-    private LocalDate endDate;
+	private LocalDate endDate;
 
-    public StudentAuthorizationInformation(final StudentAuthorizationProcess process,
-	    WorkflowActivity<StudentAuthorizationProcess, ? extends ActivityInformation<StudentAuthorizationProcess>> activity) {
-	super(process, activity);
-	setEndDate(process.getStudentAuthorization().getEndDate());
-    }
+	public StudentAuthorizationInformation(final StudentAuthorizationProcess process,
+			WorkflowActivity<StudentAuthorizationProcess, ? extends ActivityInformation<StudentAuthorizationProcess>> activity) {
+		super(process, activity);
+		setEndDate(process.getStudentAuthorization().getEndDate());
+	}
 
-    @Override
-    public boolean hasAllneededInfo() {
-	return isForwardedFromInput();
-    }
+	@Override
+	public boolean hasAllneededInfo() {
+		return isForwardedFromInput();
+	}
 
-    @Override
-    public String getUsedSchema() {
-	return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
-    }
+	@Override
+	public String getUsedSchema() {
+		return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
+	}
 
-    public LocalDate getEndDate() {
-	return endDate;
-    }
+	public LocalDate getEndDate() {
+		return endDate;
+	}
 
-    public void setEndDate(LocalDate endDate) {
-	this.endDate = endDate;
-    }
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
 }
