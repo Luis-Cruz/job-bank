@@ -6,35 +6,35 @@ import module.workflow.activities.ActivityInformation;
 import module.workflow.activities.WorkflowActivity;
 
 public class JobOfferInformation extends ActivityInformation<JobOfferProcess> {
-	/**
+    /**
      * 
      */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private JobOfferBean jobOfferBean;
+    private JobOfferBean jobOfferBean;
 
-	public JobOfferInformation(final JobOfferProcess jobOfferProcess,
-			WorkflowActivity<JobOfferProcess, ? extends ActivityInformation<JobOfferProcess>> activity) {
-		super(jobOfferProcess, activity);
-		setJobOfferBean(JobOfferBean.createJobOfferBean(jobOfferProcess.getJobOffer()));
-	}
+    public JobOfferInformation(final JobOfferProcess jobOfferProcess,
+            WorkflowActivity<JobOfferProcess, ? extends ActivityInformation<JobOfferProcess>> activity) {
+        super(jobOfferProcess, activity);
+        setJobOfferBean(JobOfferBean.createJobOfferBean(jobOfferProcess.getJobOffer()));
+    }
 
-	@Override
-	public boolean hasAllneededInfo() {
-		return getProcess().getJobOffer() != null && isForwardedFromInput();
-	}
+    @Override
+    public boolean hasAllneededInfo() {
+        return getProcess().getJobOffer() != null && isForwardedFromInput();
+    }
 
-	public JobOfferBean getJobOfferBean() {
-		return jobOfferBean;
-	}
+    public JobOfferBean getJobOfferBean() {
+        return jobOfferBean;
+    }
 
-	public void setJobOfferBean(JobOfferBean jobOfferBean) {
-		this.jobOfferBean = jobOfferBean;
-	}
+    public void setJobOfferBean(JobOfferBean jobOfferBean) {
+        this.jobOfferBean = jobOfferBean;
+    }
 
-	@Override
-	public String getUsedSchema() {
-		return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
-	}
+    @Override
+    public String getUsedSchema() {
+        return "jobBank.activityInformation." + getActivity().getClass().getSimpleName();
+    }
 
 }

@@ -4,12 +4,12 @@ import module.jobBank.domain.beans.curriculumQualification.InternacionalExperien
 
 public class InternacionalExperience extends InternacionalExperience_Base {
 
-	public InternacionalExperience(InternacionalExperienceBean bean) {
-		super();
-		setBasicFields(bean);
-		setCountry(bean.getCountry());
-		setMainActivities(bean.getMainActivities());
-		setProgram(bean.getProgram());
-	}
+    public InternacionalExperience(InternacionalExperienceBean bean) {
+        super();
+        setBasicFields(bean);
+        setCountry(bean.getCountry());
+        setMainActivities(bean.getMainActivities());
+        setProgram(bean.getProgram());
+    }
 
 }

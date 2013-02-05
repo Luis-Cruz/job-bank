@@ -25,77 +25,77 @@ import pt.utl.ist.fenix.tools.util.ByteArray;
 @Mapping(path = "/jobBank")
 public class JobBankAction extends ContextBaseAction {
 
-	public ActionForward frontPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		request.setAttribute("user", UserView.getCurrentUser());
-		return forward(request, "/jobBank/frontPage.jsp");
-	}
+    public ActionForward frontPage(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        request.setAttribute("user", UserView.getCurrentUser());
+        return forward(request, "/jobBank/frontPage.jsp");
+    }
 
-	public ActionForward viewJobOffer(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
-		if (jobOfferProcess.getCanManageJobProcess()) {
-			return viewJobOfferProcessToManage(mapping, form, request, response);
-		}
-		request.setAttribute("process", jobOfferProcess);
-		return forward(request, "/jobBank/viewJobOffer.jsp");
-	}
+    public ActionForward viewJobOffer(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
+        if (jobOfferProcess.getCanManageJobProcess()) {
+            return viewJobOfferProcessToManage(mapping, form, request, response);
+        }
+        request.setAttribute("process", jobOfferProcess);
+        return forward(request, "/jobBank/viewJobOffer.jsp");
+    }
 
-	public ActionForward viewJobOfferProcessToManage(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
-		return ProcessManagement.forwardToProcess(jobOfferProcess);
-	}
+    public ActionForward viewJobOfferProcessToManage(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        JobOfferProcess jobOfferProcess = getDomainObject(request, "OID");
+        return ProcessManagement.forwardToProcess(jobOfferProcess);
+    }
 
-	public ActionForward manageRoles(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		SearchUsers searchUsers = getRenderedObject("searchUsers");
-		if (searchUsers == null) {
-			searchUsers = new SearchUsers();
-		}
-		request.setAttribute("searchUsers", searchUsers);
-		request.setAttribute("managementUsers", JobBankSystem.getInstance().getManagementUsers());
-		return forward(request, "/jobBank/manageRoles.jsp");
-	}
+    public ActionForward manageRoles(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        SearchUsers searchUsers = getRenderedObject("searchUsers");
+        if (searchUsers == null) {
+            searchUsers = new SearchUsers();
+        }
+        request.setAttribute("searchUsers", searchUsers);
+        request.setAttribute("managementUsers", JobBankSystem.getInstance().getManagementUsers());
+        return forward(request, "/jobBank/manageRoles.jsp");
+    }
 
-	public ActionForward addManagement(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		try {
-			SearchUsers searchUsers = getRenderedObject("searchUsers");
-			Person person = searchUsers.getPerson();
-			JobBankSystem.getInstance().addManagementUsers(person.getUser());
-		} catch (DomainException e) {
-			addLocalizedMessage(request, e.getLocalizedMessage());
-		}
+    public ActionForward addManagement(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        try {
+            SearchUsers searchUsers = getRenderedObject("searchUsers");
+            Person person = searchUsers.getPerson();
+            JobBankSystem.getInstance().addManagementUsers(person.getUser());
+        } catch (DomainException e) {
+            addLocalizedMessage(request, e.getLocalizedMessage());
+        }
 
-		return manageRoles(mapping, form, request, response);
-	}
+        return manageRoles(mapping, form, request, response);
+    }
 
-	public ActionForward removeManagement(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
+    public ActionForward removeManagement(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
 
-		try {
-			User user = getDomainObject(request, "OID");
-			JobBankSystem.getInstance().removeManagementUsers(user);
-		} catch (DomainException e) {
-			addLocalizedMessage(request, e.getLocalizedMessage());
-		}
+        try {
+            User user = getDomainObject(request, "OID");
+            JobBankSystem.getInstance().removeManagementUsers(user);
+        } catch (DomainException e) {
+            addLocalizedMessage(request, e.getLocalizedMessage());
+        }
 
-		return manageRoles(mapping, form, request, response);
-	}
+        return manageRoles(mapping, form, request, response);
+    }
 
-	public static ActionForward outputImage(final HttpServletResponse response, final ByteArray byteArray) throws Exception {
-		OutputStream outputStream = null;
-		try {
-			outputStream = response.getOutputStream();
-			if (byteArray != null) {
-				outputStream.write(byteArray.getBytes());
-			}
-		} finally {
-			if (outputStream != null) {
-				outputStream.close();
-			}
-		}
-		return null;
-	}
+    public static ActionForward outputImage(final HttpServletResponse response, final ByteArray byteArray) throws Exception {
+        OutputStream outputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+            if (byteArray != null) {
+                outputStream.write(byteArray.getBytes());
+            }
+        } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+        return null;
+    }
 }

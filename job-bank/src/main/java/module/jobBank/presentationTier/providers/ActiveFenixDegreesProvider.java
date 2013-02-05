@@ -6,14 +6,14 @@ import pt.ist.fenixWebFramework.renderers.components.converters.Converter;
 
 public class ActiveFenixDegreesProvider implements DataProvider {
 
-	@Override
-	public Object provide(final Object source, final Object currentValue) {
-		return Degree.readActiveFenixDegreeSet();
-	}
+    @Override
+    public Object provide(final Object source, final Object currentValue) {
+        return Degree.readActiveFenixDegreeSet();
+    }
 
-	@Override
-	public Converter getConverter() {
-		return null;
-	}
+    @Override
+    public Converter getConverter() {
+        return null;
+    }
 
 }

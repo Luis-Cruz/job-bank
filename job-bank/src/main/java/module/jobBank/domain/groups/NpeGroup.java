@@ -11,30 +11,30 @@ import pt.ist.fenixWebFramework.services.Service;
 
 public class NpeGroup extends NpeGroup_Base {
 
-	public NpeGroup() {
-		super();
-		setSystemGroupMyOrg(MyOrg.getInstance());
-	}
+    public NpeGroup() {
+        super();
+        setSystemGroupMyOrg(MyOrg.getInstance());
+    }
 
-	@Override
-	public boolean isMember(User user) {
-		return JobBankSystem.getInstance().isNPEMember(user);
-	}
+    @Override
+    public boolean isMember(User user) {
+        return JobBankSystem.getInstance().isNPEMember(user);
+    }
 
-	@Service
-	public static NpeGroup getInstance() {
-		final NpeGroup npeGroup = (NpeGroup) PersistentGroup.getSystemGroup(NpeGroup.class);
-		return npeGroup == null ? new NpeGroup() : npeGroup;
-	}
+    @Service
+    public static NpeGroup getInstance() {
+        final NpeGroup npeGroup = (NpeGroup) PersistentGroup.getSystemGroup(NpeGroup.class);
+        return npeGroup == null ? new NpeGroup() : npeGroup;
+    }
 
-	@Override
-	public String getName() {
-		return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.jobBank.group.jobBankGroup.name");
-	}
+    @Override
+    public String getName() {
+        return BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES, "label.jobBank.group.jobBankGroup.name");
+    }
 
-	@Override
-	public Set<User> getMembers() {
-		return JobBankSystem.getInstance().getManagementUsersSet();
-	}
+    @Override
+    public Set<User> getMembers() {
+        return JobBankSystem.getInstance().getManagementUsersSet();
+    }
 
 }

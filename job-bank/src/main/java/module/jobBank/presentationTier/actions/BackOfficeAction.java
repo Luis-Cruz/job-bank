@@ -39,192 +39,192 @@ import pt.utl.ist.fenix.tools.util.excel.Spreadsheet;
 @Mapping(path = "/backOffice")
 public class BackOfficeAction extends ContextBaseAction {
 
-	public ActionForward jobOffers(final ActionMapping mapping, final ActionForm foStudentrm, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
-		commons.processJobOffersSearch(request);
-		return forward(request, "/jobBank/backOffice/jobOffers.jsp");
-	}
+    public ActionForward jobOffers(final ActionMapping mapping, final ActionForm foStudentrm, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+        commons.processJobOffersSearch(request);
+        return forward(request, "/jobBank/backOffice/jobOffers.jsp");
+    }
 
-	public ActionForward enterprises(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
-		commons.processEnterprisesSearch(request);
-		return forward(request, "/jobBank/backOffice/enterprises.jsp");
-	}
+    public ActionForward enterprises(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+        commons.processEnterprisesSearch(request);
+        return forward(request, "/jobBank/backOffice/enterprises.jsp");
+    }
 
-	public ActionForward Enterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		RenderUtils.invalidateViewState();
-		EnterpriseProcess process = getDomainObject(request, "OID");
-		process.getEnterprise().addContactInformation(request);
-		return ProcessManagement.forwardToProcess(process);
-	}
+    public ActionForward Enterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        RenderUtils.invalidateViewState();
+        EnterpriseProcess process = getDomainObject(request, "OID");
+        process.getEnterprise().addContactInformation(request);
+        return ProcessManagement.forwardToProcess(process);
+    }
 
-	public ActionForward approveEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		Enterprise enterprise = getDomainObject(request, "enterpriseOID");
-		enterprise.changeAgreement(enterprise.getAgreementForApproval());
-		return enterprises(mapping, form, request, response);
-	}
+    public ActionForward approveEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        Enterprise enterprise = getDomainObject(request, "enterpriseOID");
+        enterprise.changeAgreement(enterprise.getAgreementForApproval());
+        return enterprises(mapping, form, request, response);
+    }
 
-	public ActionForward rejectEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		Enterprise enterprise = getDomainObject(request, "enterpriseOID");
-		enterprise.reject();
-		return enterprises(mapping, form, request, response);
-	}
+    public ActionForward rejectEnterprise(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        Enterprise enterprise = getDomainObject(request, "enterpriseOID");
+        enterprise.reject();
+        return enterprises(mapping, form, request, response);
+    }
 
-	public ActionForward processEditEnterprise(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		EnterpriseInformation information = getRenderedObject("activityBean");
-		return ProcessManagement.forwardToActivity(information.getProcess(), information.getActivity());
-	}
+    public ActionForward processEditEnterprise(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        EnterpriseInformation information = getRenderedObject("activityBean");
+        return ProcessManagement.forwardToActivity(information.getProcess(), information.getActivity());
+    }
 
-	public ActionForward searchStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
-		commons.processStudentsSearch(request);
-		return forward(request, "/jobBank/backOffice/searchStudents.jsp");
-	}
+    public ActionForward searchStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+        commons.processStudentsSearch(request);
+        return forward(request, "/jobBank/backOffice/searchStudents.jsp");
+    }
 
-	public ActionForward viewStudentCurriculum(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		Student student = getDomainObject(request, "studentOID");
-		request.setAttribute("student", student);
-		request.setAttribute("offerCandidacies", student.getSortedActiveOfferCandidacies());
-		return forward(request, "/jobBank/backOffice/viewStudentCurriculum.jsp");
-	}
+    public ActionForward viewStudentCurriculum(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        Student student = getDomainObject(request, "studentOID");
+        request.setAttribute("student", student);
+        request.setAttribute("offerCandidacies", student.getSortedActiveOfferCandidacies());
+        return forward(request, "/jobBank/backOffice/viewStudentCurriculum.jsp");
+    }
 
-	public ActionForward viewStudentCurriculumForOfferCandidacy(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		JobOfferProcess process = getDomainObject(request, "OID");
-		Enterprise enterprise = process.getJobOffer().getEnterprise();
-		OfferCandidacy offerCandidacy = getDomainObject(request, "candidateOID");
-		request.setAttribute("offercandidacy", offerCandidacy);
-		request.setAttribute("enterprise", enterprise);
-		request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
-		return forward(request, "/jobBank/backOffice/viewStudentCurriculumForOfferCandidacy.jsp");
-	}
+    public ActionForward viewStudentCurriculumForOfferCandidacy(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        JobOfferProcess process = getDomainObject(request, "OID");
+        Enterprise enterprise = process.getJobOffer().getEnterprise();
+        OfferCandidacy offerCandidacy = getDomainObject(request, "candidateOID");
+        request.setAttribute("offercandidacy", offerCandidacy);
+        request.setAttribute("enterprise", enterprise);
+        request.setAttribute("offerCandidacies", offerCandidacy.getStudent().getOfferCandidaciesOfEnterprise(enterprise));
+        return forward(request, "/jobBank/backOffice/viewStudentCurriculumForOfferCandidacy.jsp");
+    }
 
-	public ActionForward exportStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) throws IOException {
-		JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
-		Spreadsheet resultSheet = commons.exportStudentsSearch(request);
-		response.setContentType("application/xls ");
-		String filename = "alunos" + new DateTime().toString("yyyy-MM-dd_HH:mm") + ".xls";
-		response.setHeader("Content-disposition", "attachment; filename=" + filename);
-		ServletOutputStream outputStream = response.getOutputStream();
-		resultSheet.exportToXLSSheet(outputStream);
-		outputStream.flush();
-		outputStream.close();
-		return null;
-	}
+    public ActionForward exportStudents(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) throws IOException {
+        JobBankSearchActionCommons commons = new JobBankSearchActionCommons();
+        Spreadsheet resultSheet = commons.exportStudentsSearch(request);
+        response.setContentType("application/xls ");
+        String filename = "alunos" + new DateTime().toString("yyyy-MM-dd_HH:mm") + ".xls";
+        response.setHeader("Content-disposition", "attachment; filename=" + filename);
+        ServletOutputStream outputStream = response.getOutputStream();
+        resultSheet.exportToXLSSheet(outputStream);
+        outputStream.flush();
+        outputStream.close();
+        return null;
+    }
 
-	/* Configuration */
+    /* Configuration */
 
-	public ActionForward configuration(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
-			final HttpServletResponse response) {
-		JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-		VariantBean beanUrlEmailValidation = getUrlEmailValidationBean();
-		beanUrlEmailValidation.setString(jobBankSystem.getUrlEmailValidation());
-		request.setAttribute("beanUrlEmailValidation", beanUrlEmailValidation);
-		request.setAttribute("jobBankSystem", jobBankSystem);
-		return forward(request, "/jobBank/backOffice/configuration.jsp");
-	}
+    public ActionForward configuration(final ActionMapping mapping, final ActionForm form, final HttpServletRequest request,
+            final HttpServletResponse response) {
+        JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+        VariantBean beanUrlEmailValidation = getUrlEmailValidationBean();
+        beanUrlEmailValidation.setString(jobBankSystem.getUrlEmailValidation());
+        request.setAttribute("beanUrlEmailValidation", beanUrlEmailValidation);
+        request.setAttribute("jobBankSystem", jobBankSystem);
+        return forward(request, "/jobBank/backOffice/configuration.jsp");
+    }
 
-	public ActionForward updateUrlEmailValidation(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-		VariantBean variantBean = getRenderedObject("beanUrlEmailValidation");
-		if (variantBean != null) {
-			jobBankSystem.setUrlEmailValidation(variantBean.getString());
-		}
-		return configuration(mapping, form, request, response);
-	}
+    public ActionForward updateUrlEmailValidation(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+        VariantBean variantBean = getRenderedObject("beanUrlEmailValidation");
+        if (variantBean != null) {
+            jobBankSystem.setUrlEmailValidation(variantBean.getString());
+        }
+        return configuration(mapping, form, request, response);
+    }
 
-	public ActionForward prepareSelectOrganizationalModel(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		viewModels(request);
-		return forward(request, "/jobBank/backOffice/selectOrganizationalModel.jsp");
-	}
+    public ActionForward prepareSelectOrganizationalModel(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        viewModels(request);
+        return forward(request, "/jobBank/backOffice/selectOrganizationalModel.jsp");
+    }
 
-	public ActionForward selectOrganizationalModel(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
-		final OrganizationalModel organizationalModel = getDomainObject(request, "organizationalModelOid");
-		jobBankSystem.setOrganizationalModel(organizationalModel);
-		return configuration(mapping, form, request, response);
-	}
+    public ActionForward selectOrganizationalModel(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        final JobBankSystem jobBankSystem = JobBankSystem.getInstance();
+        final OrganizationalModel organizationalModel = getDomainObject(request, "organizationalModelOid");
+        jobBankSystem.setOrganizationalModel(organizationalModel);
+        return configuration(mapping, form, request, response);
+    }
 
-	public static void viewModels(final HttpServletRequest request) {
-		final Set<OrganizationalModel> organizationalModels =
-				new TreeSet<OrganizationalModel>(OrganizationalModel.COMPARATORY_BY_NAME);
-		organizationalModels.addAll(MyOrg.getInstance().getOrganizationalModelsSet());
-		request.setAttribute("organizationalModels", organizationalModels);
-		final OrganizationalModelChart organizationalModelChart = new OrganizationalModelChart(organizationalModels);
-		request.setAttribute("organizationalModelChart", organizationalModelChart);
-	}
+    public static void viewModels(final HttpServletRequest request) {
+        final Set<OrganizationalModel> organizationalModels =
+                new TreeSet<OrganizationalModel>(OrganizationalModel.COMPARATORY_BY_NAME);
+        organizationalModels.addAll(MyOrg.getInstance().getOrganizationalModelsSet());
+        request.setAttribute("organizationalModels", organizationalModels);
+        final OrganizationalModelChart organizationalModelChart = new OrganizationalModelChart(organizationalModels);
+        request.setAttribute("organizationalModelChart", organizationalModelChart);
+    }
 
-	private VariantBean getUrlEmailValidationBean() {
-		VariantBean beanUrlEmailValidation = getRenderedObject("beanUrlEmailValidation");
-		if (beanUrlEmailValidation == null) {
-			beanUrlEmailValidation = new VariantBean();
-		}
-		return beanUrlEmailValidation;
-	}
+    private VariantBean getUrlEmailValidationBean() {
+        VariantBean beanUrlEmailValidation = getRenderedObject("beanUrlEmailValidation");
+        if (beanUrlEmailValidation == null) {
+            beanUrlEmailValidation = new VariantBean();
+        }
+        return beanUrlEmailValidation;
+    }
 
-	/* End Configuration */
+    /* End Configuration */
 
-	public ActionForward studentAuthorizations(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		StudentAuthorizationBean studentAuthorizationBean = getRenderedObject("studentAuthorizationBean");
-		RenderUtils.invalidateViewState();
-		if (studentAuthorizationBean == null) {
-			studentAuthorizationBean = new StudentAuthorizationBean();
-		} else {
-			if (!StringUtils.isBlank(studentAuthorizationBean.getUsername()) && !studentAuthorizationBean.getIsStudent()) {
-				addLocalizedMessage(request, BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
-						"message.error.studentAuthorization.invalidUser"));
-			}
-		}
-		request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
-		return forward(request, "/jobBank/backOffice/studentAuthorizations.jsp");
-	}
+    public ActionForward studentAuthorizations(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        StudentAuthorizationBean studentAuthorizationBean = getRenderedObject("studentAuthorizationBean");
+        RenderUtils.invalidateViewState();
+        if (studentAuthorizationBean == null) {
+            studentAuthorizationBean = new StudentAuthorizationBean();
+        } else {
+            if (!StringUtils.isBlank(studentAuthorizationBean.getUsername()) && !studentAuthorizationBean.getIsStudent()) {
+                addLocalizedMessage(request, BundleUtil.getStringFromResourceBundle(JobBankSystem.JOB_BANK_RESOURCES,
+                        "message.error.studentAuthorization.invalidUser"));
+            }
+        }
+        request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+        return forward(request, "/jobBank/backOffice/studentAuthorizations.jsp");
+    }
 
-	public ActionForward prepareCreateStudentAuthorization(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
-		if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
-			return studentAuthorizations(mapping, form, request, response);
-		}
-		//RenderUtils.invalidateViewState();
-		request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
-		return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
-	}
+    public ActionForward prepareCreateStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
+        if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
+            return studentAuthorizations(mapping, form, request, response);
+        }
+        //RenderUtils.invalidateViewState();
+        request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+        return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
+    }
 
-	public ActionForward createStudentAuthorization(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
-		if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
-			return studentAuthorizations(mapping, form, request, response);
-		}
-		try {
-			StudentAuthorization studentAuthorization = studentAuthorizationBean.createStudentAuthorization();
-			RenderUtils.invalidateViewState();
-			return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
-		} catch (DomainException e) {
-			RenderUtils.invalidateViewState();
-			addLocalizedMessage(request, e.getLocalizedMessage());
-			request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
-			return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
-		}
+    public ActionForward createStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        StudentAuthorizationBean studentAuthorizationBean = getRenderedObject();
+        if (studentAuthorizationBean == null || StringUtils.isEmpty(studentAuthorizationBean.getUsername())) {
+            return studentAuthorizations(mapping, form, request, response);
+        }
+        try {
+            StudentAuthorization studentAuthorization = studentAuthorizationBean.createStudentAuthorization();
+            RenderUtils.invalidateViewState();
+            return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
+        } catch (DomainException e) {
+            RenderUtils.invalidateViewState();
+            addLocalizedMessage(request, e.getLocalizedMessage());
+            request.setAttribute("studentAuthorizationBean", studentAuthorizationBean);
+            return forward(request, "/jobBank/backOffice/createStudentAuthorization.jsp");
+        }
 
-	}
+    }
 
-	public ActionForward viewStudentAuthorization(final ActionMapping mapping, final ActionForm form,
-			final HttpServletRequest request, final HttpServletResponse response) {
-		StudentAuthorization studentAuthorization = getDomainObject(request, "studentAuthorizationOID");
-		return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
-	}
+    public ActionForward viewStudentAuthorization(final ActionMapping mapping, final ActionForm form,
+            final HttpServletRequest request, final HttpServletResponse response) {
+        StudentAuthorization studentAuthorization = getDomainObject(request, "studentAuthorizationOID");
+        return ProcessManagement.forwardToProcess(studentAuthorization.getStudentAuthorizationProcess());
+    }
 }

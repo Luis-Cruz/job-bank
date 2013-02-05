@@ -9,31 +9,31 @@ import pt.ist.bennu.core.domain.User;
 
 public class EditEnterprisePasswordActivity extends WorkflowActivity<EnterpriseProcess, EnterpriseInformation> {
 
-	@Override
-	public boolean isActive(EnterpriseProcess process, User user) {
-		Enterprise enterprise = process.getEnterprise();
-		return (enterprise.isActive() || enterprise.isPendingToApproval()) && process.isProcessOwner(user);
-	}
+    @Override
+    public boolean isActive(EnterpriseProcess process, User user) {
+        Enterprise enterprise = process.getEnterprise();
+        return (enterprise.isActive() || enterprise.isPendingToApproval()) && process.isProcessOwner(user);
+    }
 
-	@Override
-	protected void process(EnterpriseInformation activityInformation) {
-		activityInformation.checkPasswords();
-		activityInformation.getProcess().getEnterprise().edit(activityInformation.getEnterpriseBean());
-	}
+    @Override
+    protected void process(EnterpriseInformation activityInformation) {
+        activityInformation.checkPasswords();
+        activityInformation.getProcess().getEnterprise().edit(activityInformation.getEnterpriseBean());
+    }
 
-	@Override
-	public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
-		return new EnterpriseInformation(process, this);
-	}
+    @Override
+    public ActivityInformation<EnterpriseProcess> getActivityInformation(EnterpriseProcess process) {
+        return new EnterpriseInformation(process, this);
+    }
 
-	@Override
-	public String getUsedBundle() {
-		return JobBankSystem.JOB_BANK_RESOURCES;
-	}
+    @Override
+    public String getUsedBundle() {
+        return JobBankSystem.JOB_BANK_RESOURCES;
+    }
 
-	@Override
-	public boolean isDefaultInputInterfaceUsed() {
-		return false;
-	}
+    @Override
+    public boolean isDefaultInputInterfaceUsed() {
+        return false;
+    }
 
 }

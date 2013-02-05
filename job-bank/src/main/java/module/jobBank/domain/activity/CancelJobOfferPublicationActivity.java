@@ -9,25 +9,25 @@ import pt.ist.bennu.core.domain.User;
 
 public class CancelJobOfferPublicationActivity extends WorkflowActivity<JobOfferProcess, ActivityInformation<JobOfferProcess>> {
 
-	@Override
-	public boolean isActive(JobOfferProcess process, User user) {
-		JobOffer jobOffer = process.getJobOffer();
-		return jobOffer.isActive() && jobOffer.isApproved() && jobOffer.isCandidancyPeriod() && !jobOffer.isSelectionPeriod()
-				&& !jobOffer.hasCandidacies() && JobBankSystem.getInstance().isNPEMember(user);
-	}
+    @Override
+    public boolean isActive(JobOfferProcess process, User user) {
+        JobOffer jobOffer = process.getJobOffer();
+        return jobOffer.isActive() && jobOffer.isApproved() && jobOffer.isCandidancyPeriod() && !jobOffer.isSelectionPeriod()
+                && !jobOffer.hasCandidacies() && JobBankSystem.getInstance().isNPEMember(user);
+    }
 
-	@Override
-	protected void process(ActivityInformation<JobOfferProcess> activityInformation) {
-		activityInformation.getProcess().getJobOffer().unapprove();
-	}
+    @Override
+    protected void process(ActivityInformation<JobOfferProcess> activityInformation) {
+        activityInformation.getProcess().getJobOffer().unapprove();
+    }
 
-	@Override
-	public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
-		return new ActivityInformation(process, this);
-	}
+    @Override
+    public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
+        return new ActivityInformation(process, this);
+    }
 
-	@Override
-	public String getUsedBundle() {
-		return JobBankSystem.JOB_BANK_RESOURCES;
-	}
+    @Override
+    public String getUsedBundle() {
+        return JobBankSystem.JOB_BANK_RESOURCES;
+    }
 }

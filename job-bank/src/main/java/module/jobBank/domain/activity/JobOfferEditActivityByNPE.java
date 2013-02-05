@@ -9,29 +9,29 @@ import pt.ist.bennu.core.domain.User;
 
 public class JobOfferEditActivityByNPE extends WorkflowActivity<JobOfferProcess, JobOfferInformation> {
 
-	@Override
-	public boolean isActive(JobOfferProcess process, User user) {
-		JobOffer jobOffer = process.getJobOffer();
-		return jobOffer.isActive() && JobBankSystem.getInstance().isNPEMember(user) && !jobOffer.isEditable();
-	}
+    @Override
+    public boolean isActive(JobOfferProcess process, User user) {
+        JobOffer jobOffer = process.getJobOffer();
+        return jobOffer.isActive() && JobBankSystem.getInstance().isNPEMember(user) && !jobOffer.isEditable();
+    }
 
-	@Override
-	protected void process(JobOfferInformation activityInformation) {
-		activityInformation.getProcess().getJobOffer().edit(activityInformation.getJobOfferBean());
-	}
+    @Override
+    protected void process(JobOfferInformation activityInformation) {
+        activityInformation.getProcess().getJobOffer().edit(activityInformation.getJobOfferBean());
+    }
 
-	@Override
-	public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
-		return new JobOfferInformation(process, this);
-	}
+    @Override
+    public ActivityInformation<JobOfferProcess> getActivityInformation(JobOfferProcess process) {
+        return new JobOfferInformation(process, this);
+    }
 
-	@Override
-	public String getUsedBundle() {
-		return JobBankSystem.JOB_BANK_RESOURCES;
-	}
+    @Override
+    public String getUsedBundle() {
+        return JobBankSystem.JOB_BANK_RESOURCES;
+    }
 
-	@Override
-	public boolean isDefaultInputInterfaceUsed() {
-		return false;
-	}
+    @Override
+    public boolean isDefaultInputInterfaceUsed() {
+        return false;
+    }
 }

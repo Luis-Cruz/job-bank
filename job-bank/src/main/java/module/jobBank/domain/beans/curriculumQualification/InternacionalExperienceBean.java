@@ -8,43 +8,43 @@ import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class InternacionalExperienceBean extends CurriculumQualificationBean implements Serializable {
 
-	private MultiLanguageString country;
-	private MultiLanguageString program;
-	private MultiLanguageString mainActivities;
+    private MultiLanguageString country;
+    private MultiLanguageString program;
+    private MultiLanguageString mainActivities;
 
-	public MultiLanguageString getCountry() {
-		return country;
-	}
+    public MultiLanguageString getCountry() {
+        return country;
+    }
 
-	public void setCountry(MultiLanguageString country) {
-		this.country = country;
-	}
+    public void setCountry(MultiLanguageString country) {
+        this.country = country;
+    }
 
-	public MultiLanguageString getProgram() {
-		return program;
-	}
+    public MultiLanguageString getProgram() {
+        return program;
+    }
 
-	public void setProgram(MultiLanguageString program) {
-		this.program = program;
-	}
+    public void setProgram(MultiLanguageString program) {
+        this.program = program;
+    }
 
-	public MultiLanguageString getMainActivities() {
-		return mainActivities;
-	}
+    public MultiLanguageString getMainActivities() {
+        return mainActivities;
+    }
 
-	public void setMainActivities(MultiLanguageString mainActivities) {
-		this.mainActivities = mainActivities;
-	}
+    public void setMainActivities(MultiLanguageString mainActivities) {
+        this.mainActivities = mainActivities;
+    }
 
-	@Override
-	public CurriculumQualification create() {
-		return new InternacionalExperience(this);
+    @Override
+    public CurriculumQualification create() {
+        return new InternacionalExperience(this);
 
-	}
+    }
 
-	@Override
-	public boolean hasNeededInfo() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+    @Override
+    public boolean hasNeededInfo() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 }
