@@ -15,7 +15,7 @@ import org.json.simple.parser.ParseException;
 
 import pt.ist.bennu.core.util.BundleUtil;
 
-public class CreateOrUpdateFenixDegreesTask extends UpdateExpiredEnterpriseAgreementsTask_Base {
+public class CreateOrUpdateFenixDegreesTask extends CreateOrUpdateFenixDegreesTask_Base {
 
     public CreateOrUpdateFenixDegreesTask() {
         super();
