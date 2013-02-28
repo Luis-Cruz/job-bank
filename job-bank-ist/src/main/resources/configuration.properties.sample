@@ -4,10 +4,11 @@
 #   configuration.properties file included in the deploy.                      #
 ################################################################################
 db.alias=//localhost:3306/jobbank?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
-db.user=
+db.user=root
 db.pass=
 app.name=job-bank-ist
 error.if.changing.deleted.object=true
+can.create.domain.meta.objects=false
 language=pt
 location=PT
 variant=
