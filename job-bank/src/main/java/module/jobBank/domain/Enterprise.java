@@ -45,7 +45,7 @@ import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.ByteArray;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -74,12 +74,12 @@ public class Enterprise extends Enterprise_Base {
         setFields(enterpriseBean);
     }
 
-    @Service
+    @Atomic
     public void edit(EnterpriseBean enterpriseBean) {
         setForm(enterpriseBean);
     }
 
-    @Service
+    @Atomic
     public void setForm(EnterpriseBean enterpriseBean) {
         if (enterpriseBean.getPassword() != null && !getUser().matchesPassword(enterpriseBean.getPassword())) {
             getUser().setPassword(enterpriseBean.getPassword());
@@ -92,14 +92,14 @@ public class Enterprise extends Enterprise_Base {
         setLogo(enterpriseBean.getLogo());
     }
 
-    @Service
+    @Atomic
     public void approve() {
         if (getAgreementForApproval() != null) {
             changeAgreement(getAgreementForApproval());
         }
     }
 
-    @Service
+    @Atomic
     public void acceptRegister() {
         // Only get the first!! -> Registration
         if (getUnit().getParentAccountabilities().size() == 1) {
@@ -114,7 +114,7 @@ public class Enterprise extends Enterprise_Base {
         }
     }
 
-    @Service
+    @Atomic
     public void changeAgreement(AccountabilityType accountabilityType) {
         closeActiveAgreement();
         Unit rootUnit = getJobBankSystem().getTopLevelUnit();
@@ -123,7 +123,7 @@ public class Enterprise extends Enterprise_Base {
         setAgreementForApproval(null);
     }
 
-    @Service
+    @Atomic
     public void changeRequestAgreement(AccountabilityType accountabilityType) {
         if (!accountabilityType.equals(getActiveAccountability().getAccountabilityType())) {
             setAgreementForApproval(accountabilityType);
@@ -132,7 +132,7 @@ public class Enterprise extends Enterprise_Base {
         }
     }
 
-    @Service
+    @Atomic
     public Boolean changeRequestAgreementByNPE(AccountabilityType accountabilityType) {
         if (accountabilityType != null && !getActiveAccountability().getAccountabilityType().equals(accountabilityType)) {
             LocalDate now = new LocalDate();
@@ -145,17 +145,17 @@ public class Enterprise extends Enterprise_Base {
         return false;
     }
 
-    @Service
+    @Atomic
     public void renewContract() {
         changeAgreement(getActiveAccountabilityType());
     }
 
-    @Service
+    @Atomic
     public void setName(MultiLanguageString enterpriseName) {
         getUnit().setPartyName(enterpriseName);
     }
 
-    @Service
+    @Atomic
     public void reject() {
         setCanceled(true);
     }
@@ -165,7 +165,7 @@ public class Enterprise extends Enterprise_Base {
     }
 
     @Override
-    @Service
+    @Atomic
     public void setLogo(ByteArray logo) {
         super.setLogo(logo);
     }
@@ -376,7 +376,7 @@ public class Enterprise extends Enterprise_Base {
 
     }
 
-    @Service
+    @Atomic
     public static void passwordRecover(String emailLogin) {
         Enterprise enterprise = Enterprise.readEnterpriseByEmailLogin(emailLogin);
         if (enterprise != null) {
@@ -439,7 +439,7 @@ public class Enterprise extends Enterprise_Base {
         setEnterpriseProcess(new EnterpriseProcess(this));
 
         List<PersistentGroup> privateGroup = new ArrayList<PersistentGroup>();
-        List<PersistentGroup> publicGroup = ContactsConfigurator.getInstance().getVisibilityGroups();
+        List<PersistentGroup> publicGroup = new ArrayList<>(ContactsConfigurator.getInstance().getVisibilityGroups());
 
         EmailAddress.createNewEmailAddress(enterpriseBean.getPrivateContactEmail(), this.getUnit(), true, PartyContactType.WORK,
                 getUser(), privateGroup);

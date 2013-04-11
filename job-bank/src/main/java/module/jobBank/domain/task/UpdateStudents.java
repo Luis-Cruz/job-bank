@@ -24,7 +24,6 @@ import org.json.simple.parser.ParseException;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.ServiceManager;
 
 public class UpdateStudents extends UpdateStudents_Base {
 
@@ -42,7 +41,6 @@ public class UpdateStudents extends UpdateStudents_Base {
         Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
         String studentsInfoForJobBank = HostSystem.getFenixJerseyClient().method("readAllStudentsInfoForJobBank").get();
         try {
-            ServiceManager.enterAnnotationService();
             updatedStudentRegistration.addAll(updateStudents(studentsInfoForJobBank));
 
             for (StudentAuthorization studentAuthorization : new StudentAuthorizationBean().search()) {
@@ -58,7 +56,6 @@ public class UpdateStudents extends UpdateStudents_Base {
                 }
             }
         } finally {
-            ServiceManager.exitAnnotationService();
         }
     }
 

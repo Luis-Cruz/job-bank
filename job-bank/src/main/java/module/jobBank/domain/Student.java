@@ -3,7 +3,6 @@ package module.jobBank.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
@@ -14,7 +13,7 @@ import module.workflow.domain.ProcessFile;
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class Student extends Student_Base {
 
@@ -109,8 +108,8 @@ public class Student extends Student_Base {
     }
 
     @Override
-    public List<StudentRegistration> getStudentRegistration() {
-        return new ArrayList<StudentRegistration>(getStudentRegistrationSet());
+    public Set<StudentRegistration> getStudentRegistration() {
+        return new HashSet<StudentRegistration>(super.getStudentRegistration());
     }
 
     @Override
@@ -118,7 +117,7 @@ public class Student extends Student_Base {
         return getStudentRegistration().size();
     }
 
-    public List<StudentRegistration> getStudentRegistrationWithoutFiltering() {
+    public Set<StudentRegistration> getStudentRegistrationWithoutFiltering() {
         return super.getStudentRegistration();
     }
 
@@ -165,7 +164,7 @@ public class Student extends Student_Base {
         return false;
     }
 
-    @Service
+    @Atomic
     public void acceptTermsResponsibility() {
         setAcceptedTermsResponsibilityDate(new DateTime());
     }

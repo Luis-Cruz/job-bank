@@ -1,7 +1,7 @@
 package module.jobBank.domain.curriculumQualification;
 
 import module.jobBank.domain.beans.curriculumQualification.CurriculumQualificationBean;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public abstract class CurriculumQualification extends CurriculumQualification_Base {
 
@@ -14,7 +14,7 @@ public abstract class CurriculumQualification extends CurriculumQualification_Ba
         setBasicFields(bean);
     }
 
-    @Service
+    @Atomic
     public void removeQualification() {
         removeCurriculum();
     }

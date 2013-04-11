@@ -7,7 +7,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class StudentAuthorization extends StudentAuthorization_Base {
 
@@ -62,7 +62,7 @@ public class StudentAuthorization extends StudentAuthorization_Base {
         return interval.containsNow();
     }
 
-    @Service
+    @Atomic
     public void editEndDate(LocalDate endDate) {
         checkValues(getStudent(), getBeginDate(), endDate);
         setEndDate(endDate);

@@ -19,7 +19,7 @@ import org.joda.time.LocalDate;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -113,7 +113,7 @@ public abstract class JobOffer extends JobOffer_Base {
         return !isCanceled() && !isConclued();
     }
 
-    @Service
+    @Atomic
     public void conclued() {
         setConclued(true);
     }
@@ -278,7 +278,7 @@ public abstract class JobOffer extends JobOffer_Base {
         return isApproved() && getTotalNumberCandidacies() > 0;
     }
 
-    @Service
+    @Atomic
     public void selectCandidacy(OfferCandidacy offerCandidacy) {
         if (hasVacancies()) {
             addSelectCandidacies(offerCandidacy);
@@ -286,7 +286,7 @@ public abstract class JobOffer extends JobOffer_Base {
         }
     }
 
-    @Service
+    @Atomic
     public void removeCandidacy(OfferCandidacy offerCandidacy) {
         removeSelectCandidacies(offerCandidacy);
         offerCandidacy.setJobOfferSelectCandidacy(null);

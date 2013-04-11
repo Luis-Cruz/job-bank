@@ -9,7 +9,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class EnterpriseActiveGroup extends EnterpriseActiveGroup_Base {
 
@@ -23,7 +23,7 @@ public class EnterpriseActiveGroup extends EnterpriseActiveGroup_Base {
         return JobBankSystem.getInstance().isEnterpriseActiveMember(user);
     }
 
-    @Service
+    @Atomic
     public static EnterpriseActiveGroup getInstance() {
         final EnterpriseActiveGroup enterpriseActiveGroup =
                 (EnterpriseActiveGroup) PersistentGroup.getSystemGroup(EnterpriseActiveGroup.class);

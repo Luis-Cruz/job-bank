@@ -17,7 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class Curriculum extends Curriculum_Base {
 
@@ -31,7 +31,7 @@ public class Curriculum extends Curriculum_Base {
         addCurriculumQualification(information.getCurriculumQualficationBean().create());
     }
 
-    @Service
+    @Atomic
     public void edit(CurriculumBean curriculumBean) {
         setDateOfBirth(curriculumBean.getDateOfBirth());
         setNationality(curriculumBean.getNationality());
@@ -47,7 +47,7 @@ public class Curriculum extends Curriculum_Base {
 
     }
 
-    @Service
+    @Atomic
     public void loadExternalData() {
         Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
         String studentInfoForJobBank =

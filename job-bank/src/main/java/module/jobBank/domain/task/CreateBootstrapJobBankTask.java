@@ -9,7 +9,7 @@ import module.organization.domain.PartyType.PartyTypeBean;
 import module.organization.domain.dto.OrganizationalModelBean;
 import module.organization.domain.search.PartySearchBean;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixframework.pstm.AbstractDomainObject;
+import pt.ist.fenixframework.FenixFramework;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class CreateBootstrapJobBankTask extends CreateBootstrapJobBankTask_Base {
@@ -36,7 +36,7 @@ public class CreateBootstrapJobBankTask extends CreateBootstrapJobBankTask_Base 
         OrganizationalModel orgModel = OrganizationalModel.createNewModel(organizationalModelBean);
 
         // Get party NPE (Nucleo Parcerias Empresariais)
-        Party party = (Party) AbstractDomainObject.fromOID(450971740485l);
+        Party party = (Party) FenixFramework.getDomainObject("450971740485");
         final PartySearchBean partySearchBean = new PartySearchBean(party);
         orgModel.addPartyService(partySearchBean.getParty());
 

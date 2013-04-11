@@ -73,22 +73,17 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
             search = new SearchOffer();
 
             String query = request.getParameter("query");
-            String degreeIdInternal = request.getParameter("degrees");
+            String degreeId = request.getParameter("degrees");
             String jobOfferType = request.getParameter("jobOfferType");
 
             if (query != null) {
                 search.setQuery(query);
             }
 
-            if (degreeIdInternal != null) {
-                try {
-                    int id = Integer.valueOf(degreeIdInternal);
-                    FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
-                    if (degree != null) {
-                        search.setDegrees(degree);
-                    }
-                } catch (NumberFormatException e) {
-                    // Do Nothing
+            if (degreeId != null) {
+                FenixDegree degree = FenixDegree.getFenixDegreeBy(degreeId);
+                if (degree != null) {
+                    search.setDegrees(degree);
                 }
             }
 
@@ -147,16 +142,11 @@ public class JobBankSearchActionCommons extends ContextBaseAction {
                 search.setUsername(username);
             }
 
-            String degreeIdInternal = request.getParameter("degree");
-            if (degreeIdInternal != null) {
-                try {
-                    int id = Integer.valueOf(degreeIdInternal);
-                    FenixDegree degree = FenixDegree.getFenixDegreeByIdInternal(id);
-                    if (degree != null) {
-                        search.setDegree(degree);
-                    }
-                } catch (NumberFormatException e) {
-                    // Do Nothing
+            String degreeId = request.getParameter("degree");
+            if (degreeId != null) {
+                FenixDegree degree = FenixDegree.getFenixDegreeBy(degreeId);
+                if (degree != null) {
+                    search.setDegree(degree);
                 }
             }
 

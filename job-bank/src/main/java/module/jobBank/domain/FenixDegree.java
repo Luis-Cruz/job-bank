@@ -32,11 +32,11 @@ public class FenixDegree extends FenixDegree_Base {
                 || getDegreeType().equals(FenixDegreeType.BOLONHA_INTEGRATED_MASTER_DEGREE);
     }
 
-    public static FenixDegree getFenixDegreeByIdInternal(int IdInternal) {
+    public static FenixDegree getFenixDegreeBy(String externalId) {
         JobBankSystem jobBank = JobBankSystem.getInstance();
 
         for (FenixDegree degree : jobBank.getActiveFenixDegreeSet()) {
-            if (degree.getIdInternal() == IdInternal) {
+            if (degree.getExternalId() == externalId) {
                 return degree;
             }
         }

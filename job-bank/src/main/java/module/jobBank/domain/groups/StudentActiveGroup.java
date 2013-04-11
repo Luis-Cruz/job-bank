@@ -9,7 +9,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class StudentActiveGroup extends StudentActiveGroup_Base {
 
@@ -23,7 +23,7 @@ public class StudentActiveGroup extends StudentActiveGroup_Base {
         return JobBankSystem.getInstance().isActiveStudentMember(user);
     }
 
-    @Service
+    @Atomic
     public static StudentActiveGroup getInstance() {
         final StudentActiveGroup studentGroupGroup =
                 (StudentActiveGroup) PersistentGroup.getSystemGroup(StudentActiveGroup.class);

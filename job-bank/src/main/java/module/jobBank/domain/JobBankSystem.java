@@ -17,9 +17,9 @@ import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
@@ -45,7 +45,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 
     }
 
-    @Service
+    @Atomic
     private synchronized static void initialize() {
         final MyOrg myOrg = MyOrg.getInstance();
         if (!myOrg.hasJobBankSystem()) {
@@ -121,20 +121,20 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
         if (WorkflowSystem.getInstance() == null) {
             VirtualHost currentVh = VirtualHost.getVirtualHostForThread();
             if (currentVh == null) {
-                currentVh = root.getVirtualHosts().get(0);
+                currentVh = root.getVirtualHosts().iterator().next();
             }
             WorkflowSystem.createSystem(currentVh);
         }
 
     }
 
-    @Service
+    @Atomic
     @Override
     public void setOrganizationalModel(final OrganizationalModel organizationalModel) {
         super.setOrganizationalModel(organizationalModel);
     }
 
-    @Service
+    @Atomic
     public Unit getTopLevelUnit() {
         OrganizationalModel organizationalModel = getOrganizationalModel();
 
@@ -157,7 +157,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void addManagementUsers(User user) {
         if (getManagementUsers().contains(user)) {
             throw new DomainException("message.error.user.was.added.to.management",
@@ -167,7 +167,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void removeManagementUsers(User user) {
         if (!getManagementUsers().contains(user)) {
             throw new DomainException("message.error.user.was.not.exists",
@@ -181,7 +181,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void setUrlEmailValidation(String urlEmailValidation) {
         super.setUrlEmailValidation(urlEmailValidation);
     }

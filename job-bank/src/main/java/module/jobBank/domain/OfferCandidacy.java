@@ -11,7 +11,7 @@ import module.workflow.domain.ProcessFile;
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class OfferCandidacy extends OfferCandidacy_Base {
 
@@ -57,7 +57,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
         return true;
     }
 
-    @Service
+    @Atomic
     public static void createOfferCandidacy(Student student, JobOffer jobOffer) {
         if (canCreateOfferCandidacy(student, jobOffer)) {
             new OfferCandidacy(student.getPerson().getStudent(), jobOffer);
@@ -107,7 +107,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
         return getJobOfferSelectCandidacy() != null;
     }
 
-    @Service
+    @Atomic
     public void removeCandidacy() {
         setCanceled(true);
         setModifiedDate(new DateTime());
