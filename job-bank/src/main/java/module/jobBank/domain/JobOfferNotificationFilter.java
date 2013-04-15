@@ -92,4 +92,24 @@ public class JobOfferNotificationFilter extends JobOfferNotificationFilter_Base 
         deleteDomainObject();
     }
 
+    @Deprecated
+    public boolean hasJobOfferType() {
+        return getJobOfferType() != null;
+    }
+
+    @Deprecated
+    public boolean hasFenixDegree() {
+        return getFenixDegree() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
+    }
+
 }

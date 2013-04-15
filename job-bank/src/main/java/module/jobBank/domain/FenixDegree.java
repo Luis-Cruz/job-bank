@@ -63,4 +63,44 @@ public class FenixDegree extends FenixDegree_Base {
         return externalIdToCompare == null ? externalId : externalIdToCompare;
     }
 
+    @Deprecated
+    public boolean hasName() {
+        return getName() != null;
+    }
+
+    @Deprecated
+    public boolean hasDegreeType() {
+        return getDegreeType() != null;
+    }
+
+    @Deprecated
+    public boolean hasRemoteDegreeOid() {
+        return getRemoteDegreeOid() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOfferNotificationFilter> getJobOfferNotificationFilter() {
+        return getJobOfferNotificationFilterSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOfferNotificationFilter() {
+        return !getJobOfferNotificationFilterSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentRegistration> getStudentRegistration() {
+        return getStudentRegistrationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistration() {
+        return !getStudentRegistrationSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
 }

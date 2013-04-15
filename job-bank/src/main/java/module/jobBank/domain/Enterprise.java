@@ -321,7 +321,7 @@ public class Enterprise extends Enterprise_Base {
 
     /* Static Methods */
     public static Enterprise readEnterprise(User user) {
-        if (user != null && user.hasEnterprise()) {
+        if (user != null && user.getEnterprise() != null) {
             return user.getEnterprise();
         }
         return null;
@@ -530,9 +530,9 @@ public class Enterprise extends Enterprise_Base {
             User currentUser = UserView.getCurrentUser();
             if ((currentUser.getEnterprise() != null && currentUser.getEnterprise().equals(this))
                     || JobBankSystem.getInstance().isNPEMember(currentUser)) {
-                sortedContacts.addAll(getUnit().getPartyContacts());
+                sortedContacts.addAll(getUnit().getPartyContactsSet());
             } else {
-                for (PartyContact contact : getUnit().getPartyContacts()) {
+                for (PartyContact contact : getUnit().getPartyContactsSet()) {
                     if (contact.isVisibleTo(currentUser)) {
                         sortedContacts.add(contact);
                     }
@@ -546,6 +546,66 @@ public class Enterprise extends Enterprise_Base {
         WorkflowActivity<WorkflowProcess, ActivityInformation<WorkflowProcess>> activity =
                 getEnterpriseProcess().getActivity("AcceptTermsOfResponsibilityActivity");
         activity.execute(activity.getActivityInformation(getEnterpriseProcess()));
+    }
+
+    @Deprecated
+    public boolean hasDesignation() {
+        return getDesignation() != null;
+    }
+
+    @Deprecated
+    public boolean hasSummary() {
+        return getSummary() != null;
+    }
+
+    @Deprecated
+    public boolean hasContactPerson() {
+        return getContactPerson() != null;
+    }
+
+    @Deprecated
+    public boolean hasNif() {
+        return getNif() != null;
+    }
+
+    @Deprecated
+    public boolean hasLogo() {
+        return getLogo() != null;
+    }
+
+    @Deprecated
+    public boolean hasUnit() {
+        return getUnit() != null;
+    }
+
+    @Deprecated
+    public boolean hasUser() {
+        return getUser() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOffer> getJobOffer() {
+        return getJobOfferSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOffer() {
+        return !getJobOfferSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasEnterpriseProcess() {
+        return getEnterpriseProcess() != null;
+    }
+
+    @Deprecated
+    public boolean hasAgreementForApproval() {
+        return getAgreementForApproval() != null;
     }
 
 }

@@ -16,4 +16,19 @@ public class Extracurricular extends Extracurricular_Base {
     public void removeQualification() {
 
     }
+    @Deprecated
+    public boolean hasBusinessArea() {
+        return getBusinessArea() != null;
+    }
+
+    @Deprecated
+    public boolean hasFunction() {
+        return getFunction() != null;
+    }
+
+    @Deprecated
+    public boolean hasMainActivities() {
+        return getMainActivities() != null;
+    }
+
 }

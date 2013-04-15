@@ -137,4 +137,9 @@ public class EnterpriseProcess extends EnterpriseProcess_Base {
         return enterprises;
 
     }
+    @Deprecated
+    public boolean hasEnterprise() {
+        return getEnterprise() != null;
+    }
+
 }

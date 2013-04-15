@@ -68,4 +68,29 @@ public class StudentAuthorization extends StudentAuthorization_Base {
         setEndDate(endDate);
     }
 
+    @Deprecated
+    public boolean hasBeginDate() {
+        return getBeginDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasEndDate() {
+        return getEndDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudentAuthorizationProcess() {
+        return getStudentAuthorizationProcess() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
+    }
+
 }

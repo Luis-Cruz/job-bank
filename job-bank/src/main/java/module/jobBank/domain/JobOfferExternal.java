@@ -19,4 +19,9 @@ public class JobOfferExternal extends JobOfferExternal_Base {
         return this;
     }
 
+    @Deprecated
+    public boolean hasExternalLink() {
+        return getExternalLink() != null;
+    }
+
 }

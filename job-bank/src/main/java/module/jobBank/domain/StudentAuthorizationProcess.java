@@ -25,7 +25,7 @@ public class StudentAuthorizationProcess extends StudentAuthorizationProcess_Bas
     public StudentAuthorizationProcess(StudentAuthorization studentAuthorization) {
         super();
         setStudentAuthorization(studentAuthorization);
-        setProcessNumber(String.valueOf(studentAuthorization.getStudent().getStudentAuthorizationCount()));
+        setProcessNumber(String.valueOf(studentAuthorization.getStudent().getStudentAuthorizationSet().size()));
     }
 
     public String getProcessIdentification() {
@@ -55,6 +55,11 @@ public class StudentAuthorizationProcess extends StudentAuthorizationProcess_Bas
     @Override
     public boolean isTicketSupportAvailable() {
         return false;
+    }
+
+    @Deprecated
+    public boolean hasStudentAuthorization() {
+        return getStudentAuthorization() != null;
     }
 
 }

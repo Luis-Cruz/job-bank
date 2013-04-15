@@ -144,4 +144,44 @@ public class OfferCandidacy extends OfferCandidacy_Base {
         return candidacy.getProcessFilesSet();
     }
 
+    @Deprecated
+    public boolean hasCreationDate() {
+        return getCreationDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasModifiedDate() {
+        return getModifiedDate() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.workflow.domain.ProcessFile> getProcessFiles() {
+        return getProcessFilesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyProcessFiles() {
+        return !getProcessFilesSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasJobOffer() {
+        return getJobOffer() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobOfferSelectCandidacy() {
+        return getJobOfferSelectCandidacy() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
+    }
+
 }

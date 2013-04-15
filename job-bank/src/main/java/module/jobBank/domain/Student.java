@@ -64,7 +64,7 @@ public class Student extends Student_Base {
     }
 
     public static boolean canCreateStudent(User user) {
-        if (user.hasPerson()) {
+        if (user.getPerson() != null) {
             return new JerseyRemoteUser(user).hasStudent();
         }
         return false;
@@ -107,18 +107,12 @@ public class Student extends Student_Base {
         return null;
     }
 
-    @Override
     public Set<StudentRegistration> getStudentRegistration() {
-        return new HashSet<StudentRegistration>(super.getStudentRegistration());
-    }
-
-    @Override
-    public int getStudentRegistrationCount() {
-        return getStudentRegistration().size();
+        return new HashSet<StudentRegistration>(super.getStudentRegistrationSet());
     }
 
     public Set<StudentRegistration> getStudentRegistrationWithoutFiltering() {
-        return super.getStudentRegistration();
+        return super.getStudentRegistrationSet();
     }
 
     @Override
@@ -176,6 +170,76 @@ public class Student extends Student_Base {
             }
         }
         return null;
+    }
+
+    @Deprecated
+    public boolean hasAcceptedTermsResponsibilityDate() {
+        return getAcceptedTermsResponsibilityDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasHasPersonalDataAuthorization() {
+        return getHasPersonalDataAuthorization() != null;
+    }
+
+    @Deprecated
+    public boolean hasCurriculum() {
+        return getCurriculum() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOfferNotificationFilter> getJobOfferNotificationFilter() {
+        return getJobOfferNotificationFilterSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOfferNotificationFilter() {
+        return !getJobOfferNotificationFilterSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistration() {
+        return !getStudentRegistrationSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOffer> getJobOffer() {
+        return getJobOfferSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOffer() {
+        return !getJobOfferSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasPerson() {
+        return getPerson() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentAuthorization> getStudentAuthorization() {
+        return getStudentAuthorizationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentAuthorization() {
+        return !getStudentAuthorizationSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.OfferCandidacy> getOfferCandidacy() {
+        return getOfferCandidacySet();
+    }
+
+    @Deprecated
+    public boolean hasAnyOfferCandidacy() {
+        return !getOfferCandidacySet().isEmpty();
     }
 
 }

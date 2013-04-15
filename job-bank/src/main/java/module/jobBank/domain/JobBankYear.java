@@ -43,4 +43,29 @@ public class JobBankYear extends JobBankYear_Base {
         return findJobBankYear(year);
     }
 
+    @Deprecated
+    public boolean hasYear() {
+        return getYear() != null;
+    }
+
+    @Deprecated
+    public boolean hasCounter() {
+        return getCounter() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOffer> getJobOffer() {
+        return getJobOfferSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOffer() {
+        return !getJobOfferSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
 }
