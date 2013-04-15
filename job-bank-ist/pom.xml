@@ -18,6 +18,8 @@
 		<version.pt.ist.bennu.core>1.0.0</version.pt.ist.bennu.core>
 		<version.pt.ist.job.bank>1.1-SNAPSHOT</version.pt.ist.job.bank>
 		<version.pt.ist.themes.ist>1.0.0</version.pt.ist.themes.ist>
+		<maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
 	</properties>
 
 	<dependencies>
