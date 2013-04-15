@@ -1,0 +1,109 @@
+A	Agricultura, produção animal, caça, floresta e pesca 	
+	01	Agricultura, produção animal, caça e actividades dos serviços relacionados
+	02	Silvicultura e exploração florestal 
+	03	Pesca e aquicultura 
+B	Indústrias extractivas 	
+	05	Extracção de hulha e lenhite 
+	06	Extracção de petróleo bruto e gás natural 
+	07	Extracção e preparação de minérios metálicos 
+	08	Outras indústrias extractivas 
+	09	Actividades dos serviços relacionados com as indústrias extractivas
+C	Indústrias transformadoras 	
+	10	Indústrias alimentares 
+	11	Indústria das bebidas 
+	12	Indústria do tabaco 
+	13	Fabricação de têxteis 
+	14	Indústria do vestuário 
+	15	Indústria do couro e dos produtos do couro 
+	16	Indústrias da madeira e da cortiça e suas obras, excepto mobiliário;fabricação de obras de cestaria e de espartaria
+	17	Fabricação de pasta, de papel, cartão e seus artigos 
+	18	Impressão e reprodução de suportes gravados 
+	19	Fabricação de coque, de produtos petrolíferos refinados e de aglomerados de combustíveis
+	20	Fabricação de produtos químicos e de fibras sintéticas ou artificiais, excepto produtos farmacêuticos
+	21	Fabricação de produtos farmacêuticos de base e de preparações farmacêuticas
+	22	Fabricação de artigos de borracha e de matérias plásticas
+	23	Fabricação de outros produtos minerais não metálicos
+	24	Indústrias metalúrgicas de base 
+	25	Fabricação de produtos metálicos, excepto máquinas e equipamentos
+	26	Fabricação de equipamentos informáticos, equipamento para comunicações e produtos electrónicos e ópticos
+	27	Fabricação de equipamento eléctrico
+	28	Fabricação de máquinas e de equipamentos, n.e. 
+	29	Fabricação de veículos automóveis, reboques, semi-reboques e componentes para veículos automóveis
+	30	Fabricação de outro equipamento de transporte
+	31	Fabricação de mobiliário e de colchões
+	32	Outras indústrias transformadoras 
+	33	Reparação, manutenção e instalação de máquinas e equipamentos 
+D	Electricidade, gás, vapor, água quente e fria e ar frio	
+	35	Electricidade, gás, vapor, água quente e fria e ar frio
+E	Captação, tratamento e distribuição de água; saneamento, gestão de resíduos e despoluição	
+	36	Captação, tratamento e distribuição de água 
+	37	Recolha, drenagem e tratamento de águas residuais 
+	38	Recolha, tratamento e eliminação de resíduos; valorização de materiais 
+	39	Descontaminação e actividades similares 
+F	Construção	
+	41	Promoção imobiliária (desenvolvimento de projectos de edifícios); construção de edifícios
+	42	Engenharia civil 
+	43	Actividades especializadas de construção 
+G	Comércio por grosso e a retalho; reparação de veículos automóveis e motociclos	
+	45	Comércio, manutenção e reparação, de veículos automóveis e motociclos
+	46	Comércio por grosso (inclui agentes), excepto de veículos automóveis e motociclos
+	47	Comércio a retalho, excepto de veículos automóveis e motociclos
+H	Transportes e armazenagem	
+	49	Transportes terrestres e transportes por oleodutos ou gasodutos 
+	50	Transportes por água
+	51	Transportes aéreos
+	52	Armazenagem e actividades auxiliares dos transportes(inclui manuseamento)
+	53	Actividades postais e de courier
+I	Alojamento, restauração e similares	
+	55	Alojamento
+	56	Restauração e similares
+J	Actividades de informação e de comunicação	
+	58	Actividades de edição 
+	59	Actividades cinematográficas, de vídeo, de produção de programas de televisão, de gravação de som e de edição de música
+	60	Actividades de rádio e de televisão
+	61	Telecomunicações 
+	62	Consultoria e programação informática e actividades relacionadas
+	63	Actividades dos serviços de informação
+K	Actividades financeiras e de seguros	
+	64	Actividades de serviços financeiros, excepto seguros e fundos de pensões
+	65	Seguros, resseguros e fundos de pensões, excepto segurança social obrigatória
+	66	Actividades auxiliares de serviços financeiros e dos seguros
+L	Actividades imobiliárias	
+	68	Actividades imobiliárias
+M	Actividades de consultoria, científicas, técnicas e similares 	
+	69	Actividades jurídicas e de contabilidade 
+	70	Actividades das sedes sociais e de consultoria para a gestão 
+	71	Actividades de arquitectura, de engenharia e técnicas afins; actividades de ensaios e de análises técnicas
+	72	Actividades de Investigação científica e de desenvolvimento
+	73	Publicidade, estudos de mercado e sondagens de opinião
+	74	Outras actividades de consultoria, científicas, técnicas e similares
+	75	Actividades veterinárias
+N	Actividades administrativas e dos serviços de apoio	
+	77	Actividades de aluguer
+	78	Actividades de emprego
+	79	Agências de viagem, operadores turísticos, outros serviços de reservas e actividades relacionadas
+	80	Actividades de investigação e segurança
+	81	Actividades relacionadas com edifícios, plantação e manutenção de jardins
+	82	 Actividades de serviços administrativos e de apoio prestados às empresas 
+O	Administração Pública e Defesa; Segurança Social Obrigatória 	
+	84	Administração Pública e Defesa; Segurança Social Obrigatória
+P	Educação 	
+	85	Educação 
+Q	Actividades de saúde humana e apoio social 	
+	86	Actividades de saúde humana
+	87	Actividades de apoio social com alojamento
+	88	Actividades de apoio social sem alojamento
+R	Actividades artísticas, de espectáculos, desportivas e recreativas	
+	90	Actividades de teatro, de música, de dança e outras actividades artísticas e literárias
+	91	Actividades das bibliotecas, arquivos, museus e outras actividades culturais
+	92	Lotarias e outros jogos de aposta
+	93	Actividades desportivas, de diversão e recreativas
+S	Outras actividades de serviços	
+	94	Actividades das organizações associativas 
+	95	Reparação de computadores e de bens de uso pessoal e doméstico
+	96	Outras actividades de serviços pessoais
+T	Actividades das famílias empregadoras de pessoal doméstico e actividades de produção das famílias para uso próprio	
+	97	Actividades das famílias empregadoras de pessoal doméstico
+	98	Actividades de produção de bens e serviços pelas famílias para uso próprio
+U	Actividades dos organismos internacionais e outras instituições extra-territoriais	
+	99	Actividades dos organismos internacionais e outras instituições extraterritoriais
