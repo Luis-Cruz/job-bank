@@ -1,11 +1,5 @@
 package module.jobBank.domain; 
 
-valueType java.math.BigDecimal as BigDecimal {
-    externalizeWith {
-        String toString();
-    }
-}
-
 valueType pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf as EconomicActivityClassificationLeaf {
     externalizeWith {
         String exportAsString();
