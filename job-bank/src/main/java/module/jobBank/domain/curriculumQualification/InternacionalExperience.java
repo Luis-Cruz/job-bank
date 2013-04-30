@@ -12,4 +12,19 @@ public class InternacionalExperience extends InternacionalExperience_Base {
         setProgram(bean.getProgram());
     }
 
+    @Deprecated
+    public boolean hasCountry() {
+        return getCountry() != null;
+    }
+
+    @Deprecated
+    public boolean hasProgram() {
+        return getProgram() != null;
+    }
+
+    @Deprecated
+    public boolean hasMainActivities() {
+        return getMainActivities() != null;
+    }
+
 }

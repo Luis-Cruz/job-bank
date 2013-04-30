@@ -11,3 +11,11 @@ configuration.properties
 # Maven #
 target/
 bin/
+.project
+.classpath
+
+# Configuration #
+
+configuration.properties
+fenix-framework.properties
+

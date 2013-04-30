@@ -12,7 +12,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.util.Search;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class StudentAuthorizationBean extends Search<StudentAuthorization> {
 
@@ -68,7 +68,7 @@ public class StudentAuthorizationBean extends Search<StudentAuthorization> {
                 || studentAuthorization.getStudent().getPerson().getUser().getUsername().equals(getUsername());
     }
 
-    @Service
+    @Atomic
     public StudentAuthorization createStudentAuthorization() {
         return new StudentAuthorization(getUsername(), getBeginDate(), getEndDate());
     }

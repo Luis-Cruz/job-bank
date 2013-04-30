@@ -53,7 +53,7 @@
 		</logic:equal>
 	
 		<logic:notEqual name="numberOfPages" value="1">
-			<bean:define id="params">&amp;query=<logic:present name="search" property="query"><bean:write name="search" property="query"/></logic:present>&amp;degrees=<logic:present name="search" property="degrees"><bean:write name="search" property="degrees.idInternal"/></logic:present>&amp;jobOfferType=<logic:present name="search" property="jobOfferType"><bean:write name="search" property="jobOfferType"/></logic:present></bean:define>
+			<bean:define id="params">&amp;query=<logic:present name="search" property="query"><bean:write name="search" property="query"/></logic:present>&amp;degrees=<logic:present name="search" property="degrees"><bean:write name="search" property="degrees.externalId"/></logic:present>&amp;jobOfferType=<logic:present name="search" property="jobOfferType"><bean:write name="search" property="jobOfferType"/></logic:present></bean:define>
 			<cp:collectionPages url="<%= "/student.do?method=searchOffers" + params %>" pageNumberAttributeName="pageNumber" numberOfPagesAttributeName="numberOfPages" numberOfVisualizedPages="10"/>
 		</logic:notEqual>
 		

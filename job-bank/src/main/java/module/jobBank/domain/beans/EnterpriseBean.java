@@ -10,7 +10,7 @@ import module.jobBank.domain.JobBankAccountabilityType;
 import module.jobBank.domain.JobBankSystem;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.util.InputStreamUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf;
 import pt.utl.ist.fenix.tools.util.ByteArray;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -149,7 +149,7 @@ public class EnterpriseBean implements Serializable {
         this.jobBankAccountabilityType = jobBankAccountabilityType;
     }
 
-    @Service
+    @Atomic
     public Enterprise create() {
         checkPassword();
         return new Enterprise(this);
@@ -220,7 +220,7 @@ public class EnterpriseBean implements Serializable {
         return emailValidation;
     }
 
-    @Service
+    @Atomic
     public EmailValidation createEmailValidation() {
         EmailValidation emailValidation = EmailValidation.getValidEmailValidationForEmail(getLoginEmail());
         return emailValidation == null ? new EmailValidation(getLoginEmail()) : emailValidation;

@@ -2,6 +2,7 @@ package module.jobBank.domain.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import module.jobBank.domain.Degree;
@@ -18,7 +19,7 @@ import org.joda.time.LocalDate;
 
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class JobOfferBean implements Serializable {
@@ -158,7 +159,7 @@ public class JobOfferBean implements Serializable {
         return externalLink;
     }
 
-    @Service
+    @Atomic
     public JobOffer create() {
         if (getCandidacyType() == null) {
             return new JobOfferInternal(this);
@@ -226,7 +227,7 @@ public class JobOfferBean implements Serializable {
         return reference;
     }
 
-    public void setDegrees(List<FenixDegree> degrees) {
+    public void setDegrees(Collection<FenixDegree> degrees) {
         this.degrees = new ArrayList(degrees);
     }
 

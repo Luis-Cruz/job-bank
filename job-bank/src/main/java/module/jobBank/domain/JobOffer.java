@@ -19,7 +19,7 @@ import org.joda.time.LocalDate;
 import pt.ist.bennu.core.applicationTier.Authenticate.UserView;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -113,7 +113,7 @@ public abstract class JobOffer extends JobOffer_Base {
         return !isCanceled() && !isConclued();
     }
 
-    @Service
+    @Atomic
     public void conclued() {
         setConclued(true);
     }
@@ -266,11 +266,11 @@ public abstract class JobOffer extends JobOffer_Base {
     }
 
     public boolean hasVacancies() {
-        return getSelectCandidaciesCount() < getVacancies();
+        return getSelectCandidaciesSet().size() < getVacancies();
     }
 
     public Integer getNumberOfFreeVacancies() {
-        int vacancies = getVacancies() - getSelectCandidaciesCount();
+        int vacancies = getVacancies() - getSelectCandidaciesSet().size();
         return vacancies < 0 ? 0 : vacancies;
     }
 
@@ -278,7 +278,7 @@ public abstract class JobOffer extends JobOffer_Base {
         return isApproved() && getTotalNumberCandidacies() > 0;
     }
 
-    @Service
+    @Atomic
     public void selectCandidacy(OfferCandidacy offerCandidacy) {
         if (hasVacancies()) {
             addSelectCandidacies(offerCandidacy);
@@ -286,7 +286,7 @@ public abstract class JobOffer extends JobOffer_Base {
         }
     }
 
-    @Service
+    @Atomic
     public void removeCandidacy(OfferCandidacy offerCandidacy) {
         removeSelectCandidacies(offerCandidacy);
         offerCandidacy.setJobOfferSelectCandidacy(null);
@@ -361,4 +361,130 @@ public abstract class JobOffer extends JobOffer_Base {
     public boolean isResearch() {
         return getJobOfferType().equals(JobOfferType.RESEARCH);
     }
+
+    @Deprecated
+    public boolean hasCreationDate() {
+        return getCreationDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasBeginDate() {
+        return getBeginDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasEndDate() {
+        return getEndDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasSubmittedForApprovalDate() {
+        return getSubmittedForApprovalDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasApprovalDate() {
+        return getApprovalDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasCanceled() {
+        return getCanceled() != null;
+    }
+
+    @Deprecated
+    public boolean hasConclued() {
+        return getConclued() != null;
+    }
+
+    @Deprecated
+    public boolean hasPlace() {
+        return getPlace() != null;
+    }
+
+    @Deprecated
+    public boolean hasFunction() {
+        return getFunction() != null;
+    }
+
+    @Deprecated
+    public boolean hasFunctionDescription() {
+        return getFunctionDescription() != null;
+    }
+
+    @Deprecated
+    public boolean hasRequirements() {
+        return getRequirements() != null;
+    }
+
+    @Deprecated
+    public boolean hasTerms() {
+        return getTerms() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobOfferType() {
+        return getJobOfferType() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankYear() {
+        return getJobBankYear() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobOfferProcess() {
+        return getJobOfferProcess() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.FenixDegree> getDegree() {
+        return getDegreeSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyDegree() {
+        return !getDegreeSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.OfferCandidacy> getOfferCandidacy() {
+        return getOfferCandidacySet();
+    }
+
+    @Deprecated
+    public boolean hasAnyOfferCandidacy() {
+        return !getOfferCandidacySet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasEnterprise() {
+        return getEnterprise() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.Student> getStudent() {
+        return getStudentSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudent() {
+        return !getStudentSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.OfferCandidacy> getSelectCandidacies() {
+        return getSelectCandidaciesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnySelectCandidacies() {
+        return !getSelectCandidaciesSet().isEmpty();
+    }
+
 }

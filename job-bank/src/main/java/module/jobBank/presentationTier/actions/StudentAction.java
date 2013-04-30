@@ -112,7 +112,7 @@ public class StudentAction extends ContextBaseAction {
             JobOfferNotificationFilter.createNotification(filter, student);
         }
 
-        if (student != null && student.getJobOfferNotificationFilterCount() > 0) {
+        if (student != null && student.getJobOfferNotificationFilterSet().size() > 0) {
             List<JobOfferNotificationFilter> filters =
                     new LinkedList<JobOfferNotificationFilter>(student.getJobOfferNotificationFilter());
             Collections.sort(filters, JobOfferNotificationFilter.COMPARATOR_BY_DEGREE);

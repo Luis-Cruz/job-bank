@@ -1,0 +1,6 @@
+db.alias = //localhost:3306/jobbank?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
+
+db.user = root
+db.pass = 
+
+canCreateDomainMetaObjects = true

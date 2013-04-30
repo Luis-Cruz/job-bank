@@ -12,4 +12,19 @@ public class Formation extends Formation_Base {
         setAcquiredSkills(bean.getAcquiredSkills());
     }
 
+    @Deprecated
+    public boolean hasFormationArea() {
+        return getFormationArea() != null;
+    }
+
+    @Deprecated
+    public boolean hasDegree() {
+        return getDegree() != null;
+    }
+
+    @Deprecated
+    public boolean hasAcquiredSkills() {
+        return getAcquiredSkills() != null;
+    }
+
 }

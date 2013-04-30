@@ -11,7 +11,7 @@ import module.workflow.domain.ProcessFile;
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class OfferCandidacy extends OfferCandidacy_Base {
 
@@ -57,7 +57,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
         return true;
     }
 
-    @Service
+    @Atomic
     public static void createOfferCandidacy(Student student, JobOffer jobOffer) {
         if (canCreateOfferCandidacy(student, jobOffer)) {
             new OfferCandidacy(student.getPerson().getStudent(), jobOffer);
@@ -107,7 +107,7 @@ public class OfferCandidacy extends OfferCandidacy_Base {
         return getJobOfferSelectCandidacy() != null;
     }
 
-    @Service
+    @Atomic
     public void removeCandidacy() {
         setCanceled(true);
         setModifiedDate(new DateTime());
@@ -142,6 +142,46 @@ public class OfferCandidacy extends OfferCandidacy_Base {
     public static Set<ProcessFile> getStudentFilesForJobOfferCandidacy(Student student, JobOffer jobOffer) {
         OfferCandidacy candidacy = getOfferCandidacy(student, jobOffer);
         return candidacy.getProcessFilesSet();
+    }
+
+    @Deprecated
+    public boolean hasCreationDate() {
+        return getCreationDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasModifiedDate() {
+        return getModifiedDate() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.workflow.domain.ProcessFile> getProcessFiles() {
+        return getProcessFilesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyProcessFiles() {
+        return !getProcessFilesSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasJobOffer() {
+        return getJobOffer() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobOfferSelectCandidacy() {
+        return getJobOfferSelectCandidacy() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
     }
 
 }

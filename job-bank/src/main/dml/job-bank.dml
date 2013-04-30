@@ -1,17 +1,5 @@
 package module.jobBank.domain; 
 
-valueType pt.utl.ist.fenix.tools.util.ByteArray as ByteArray {
-    externalizeWith {
-        bytearray getBytes();
-    }
-}
-
-valueType java.math.BigDecimal as BigDecimal {
-    externalizeWith {
-        String toString();
-    }
-}
-
 valueType pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf as EconomicActivityClassificationLeaf {
     externalizeWith {
         String exportAsString();

@@ -12,4 +12,19 @@ public class ProfissionalExperience extends ProfissionalExperience_Base {
         setBusinessArea(bean.getBusinessArea());
     }
 
+    @Deprecated
+    public boolean hasBusinessArea() {
+        return getBusinessArea() != null;
+    }
+
+    @Deprecated
+    public boolean hasFunction() {
+        return getFunction() != null;
+    }
+
+    @Deprecated
+    public boolean hasMainActivities() {
+        return getMainActivities() != null;
+    }
+
 }

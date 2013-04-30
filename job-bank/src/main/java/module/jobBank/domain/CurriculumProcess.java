@@ -119,4 +119,9 @@ public class CurriculumProcess extends CurriculumProcess_Base {
         return list;
     }
 
+    @Deprecated
+    public boolean hasCurriculum() {
+        return getCurriculum() != null;
+    }
+
 }

@@ -7,7 +7,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class NpeGroup extends NpeGroup_Base {
 
@@ -21,7 +21,7 @@ public class NpeGroup extends NpeGroup_Base {
         return JobBankSystem.getInstance().isNPEMember(user);
     }
 
-    @Service
+    @Atomic
     public static NpeGroup getInstance() {
         final NpeGroup npeGroup = (NpeGroup) PersistentGroup.getSystemGroup(NpeGroup.class);
         return npeGroup == null ? new NpeGroup() : npeGroup;
