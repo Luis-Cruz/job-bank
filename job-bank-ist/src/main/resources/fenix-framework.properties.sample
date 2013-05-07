@@ -1,6 +1,8 @@
-db.alias = //localhost:3306/jobbank?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
+dbAlias = //localhost:3306/jobbank?useUnicode=true&amp;characterEncoding=UTF-8&amp;clobCharacterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull
 
-db.user = root
-db.pass = 
+dbUsername = root
+dbPassword =
 
-canCreateDomainMetaObjects = true
+updateRepositoryStructureIfNeeded=true
+
+canCreateDomainMetaObjects = false
