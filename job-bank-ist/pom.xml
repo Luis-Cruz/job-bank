@@ -5,19 +5,19 @@
     <parent>
         <groupId>pt.ist</groupId>
         <artifactId>bennu-project</artifactId>
-        <version>1.1.0-rc1</version>
+        <version>1.1.0-rc2</version>
         <relativePath />
     </parent>
 
     <groupId>pt.ist</groupId>
     <artifactId>job-bank-ist</artifactId>
-    <version>1.1.0-rc1</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>job-bank-ist</name>
 
     <properties>
-        <version.pt.ist.bennu.core>1.1.0-rc1</version.pt.ist.bennu.core>
-        <version.pt.ist.themes.ist>1.1.0-rc1</version.pt.ist.themes.ist>
+        <version.pt.ist.bennu.core>1.1.0-rc2</version.pt.ist.bennu.core>
+        <version.pt.ist.themes.ist>1.1.0-rc2</version.pt.ist.themes.ist>
         <maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
     </properties>
