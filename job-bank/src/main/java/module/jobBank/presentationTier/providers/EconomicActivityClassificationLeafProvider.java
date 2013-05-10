@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import pt.ist.bennu.core.presentationTier.renderers.autoCompleteProvider.AutoCompleteProvider;
-import pt.ist.jpdafinance.pt.EconomicActivityClassification;
-import pt.ist.jpdafinance.pt.EconomicActivityClassificationGroup;
+import pt.ist.standards.economic.pt.EconomicActivityClassification;
+import pt.ist.standards.economic.pt.EconomicActivityClassificationGroup;
 import pt.utl.ist.fenix.tools.util.StringNormalizer;
 
 public class EconomicActivityClassificationLeafProvider implements AutoCompleteProvider {

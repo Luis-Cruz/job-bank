@@ -2,7 +2,7 @@ package module.jobBank.presentationTier.renderer;
 
 import pt.ist.fenixWebFramework.rendererExtensions.AutoCompleteInputRenderer;
 import pt.ist.fenixWebFramework.renderers.components.converters.Converter;
-import pt.ist.jpdafinance.pt.EconomicActivityClassificationGroup;
+import pt.ist.standards.economic.pt.EconomicActivityClassificationGroup;
 
 public class EconomicClassificationAutoCompleteRenderer extends AutoCompleteInputRenderer {
 

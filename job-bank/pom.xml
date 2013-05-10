@@ -20,7 +20,7 @@
 		<version.pt.ist.organization>1.0.0</version.pt.ist.organization>
 		<version.pt.ist.email.dispatch>1.0.0</version.pt.ist.email.dispatch>
 		<version.pt.ist.contacts>1.0.0</version.pt.ist.contacts>
-		<version.pt.ist.jodafinance>1.0.0</version.pt.ist.jodafinance>
+		<version.pt.ist.standards>1.0.0</version.pt.ist.standards>
 	</properties>
 
 	<dependencies>
@@ -51,8 +51,8 @@
 		</dependency>
 		<dependency>
 			<groupId>pt.ist</groupId>
-			<artifactId>jodafinance</artifactId>
-			<version>${version.pt.ist.jodafinance}</version>
+			<artifactId>standards</artifactId>
+			<version>${version.pt.ist.standards}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>

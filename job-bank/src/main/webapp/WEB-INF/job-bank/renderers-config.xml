@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE renderers-config SYSTEM "../fenix-renderers-config.dtd" []>
 <renderers-config>
-    <renderer mode="input" type="pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf" layout="autoComplete" class="module.jobBank.presentationTier.renderer.EconomicClassificationAutoCompleteRenderer">
+    <renderer mode="input" type="pt.ist.standards.economic.pt.EconomicActivityClassificationLeaf" layout="autoComplete" class="module.jobBank.presentationTier.renderer.EconomicClassificationAutoCompleteRenderer">
         <property name="autoCompleteItemsStyleClass" value="autoCompleteItems"/>
         <property name="autoCompleteStyleClass" value="autoComplete"/>
         <property name="minChars" value="3"/>

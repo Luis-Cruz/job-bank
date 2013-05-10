@@ -11,7 +11,7 @@ import module.jobBank.domain.JobBankSystem;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
 import pt.ist.bennu.core.util.InputStreamUtil;
 import pt.ist.fenixWebFramework.services.Service;
-import pt.ist.jpdafinance.pt.EconomicActivityClassificationLeaf;
+import pt.ist.standards.economic.pt.EconomicActivityClassificationLeaf;
 import pt.utl.ist.fenix.tools.util.ByteArray;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
