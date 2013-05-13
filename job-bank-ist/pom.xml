@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,18 +9,47 @@
         <relativePath />
     </parent>
 
-    <groupId>pt.ist</groupId>
     <artifactId>job-bank-ist</artifactId>
     <version>1.1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>job-bank-ist</name>
 
     <properties>
         <version.pt.ist.bennu.core>1.1.0-rc2</version.pt.ist.bennu.core>
         <version.pt.ist.themes.ist>1.1.0-rc2</version.pt.ist.themes.ist>
+
+        <fenix.framework.codeGeneratorClassName>pt.ist.bennu.backend.codeGenerator.VirtualHostAwareCodeGenerator</fenix.framework.codeGeneratorClassName>
+        <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
+
         <maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
         <timestamp>${maven.build.timestamp}</timestamp>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pt.ist</groupId>
+                <artifactId>bennu-maven-plugin</artifactId>
+                <configuration>
+                    <webFragment>src/main/webapp/WEB-INF/web.xml</webFragment>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>pt.ist</groupId>
+                <artifactId>ff-maven-plugin</artifactId>
+                <configuration>
+                    <codeGeneratorClassName>${fenix.framework.codeGeneratorClassName}</codeGeneratorClassName>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>pt.ist</groupId>
+                        <artifactId>fenix-framework-backend-${fenix.framework.backend}-code-generator</artifactId>
+                        <version>${version.fenix.framework}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -36,6 +66,17 @@
             <groupId>pt.ist</groupId>
             <artifactId>themes-ist</artifactId>
             <version>${version.pt.ist.themes.ist}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.ch.qos.logback.logback.classic}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>fenix-framework-backend-${fenix.framework.backend}-runtime</artifactId>
+            <version>${version.fenix.framework}</version>
         </dependency>
     </dependencies>
 
