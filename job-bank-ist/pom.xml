@@ -5,7 +5,7 @@
     <parent>
         <groupId>pt.ist</groupId>
         <artifactId>bennu-project</artifactId>
-        <version>1.1.0-rc2</version>
+        <version>1.1.1</version>
         <relativePath />
     </parent>
 
@@ -15,8 +15,8 @@
     <name>job-bank-ist</name>
 
     <properties>
-        <version.pt.ist.bennu.core>1.1.0-rc2</version.pt.ist.bennu.core>
-        <version.pt.ist.themes.ist>1.1.0-rc2</version.pt.ist.themes.ist>
+        <version.pt.ist.bennu.core>1.1.1</version.pt.ist.bennu.core>
+        <version.pt.ist.themes.ist>1.1.0</version.pt.ist.themes.ist>
 
         <fenix.framework.codeGeneratorClassName>pt.ist.bennu.backend.codeGenerator.VirtualHostAwareCodeGenerator</fenix.framework.codeGeneratorClassName>
         <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
@@ -71,7 +71,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${version.ch.qos.logback.logback.classic}</version>
         </dependency>
         <dependency>
             <groupId>pt.ist</groupId>
