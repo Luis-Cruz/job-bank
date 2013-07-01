@@ -9,7 +9,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class EnterprisePendingAcceptanceTermsGroup extends EnterprisePendingAcceptanceTermsGroup_Base {
 
@@ -18,7 +18,7 @@ public class EnterprisePendingAcceptanceTermsGroup extends EnterprisePendingAcce
         setSystemGroupMyOrg(MyOrg.getInstance());
     }
 
-    @Service
+    @Atomic
     public static EnterprisePendingAcceptanceTermsGroup getInstance() {
         final EnterprisePendingAcceptanceTermsGroup enterprisePendingAcceptanceTermsGroup =
                 (EnterprisePendingAcceptanceTermsGroup) PersistentGroup

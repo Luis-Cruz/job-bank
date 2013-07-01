@@ -166,4 +166,9 @@ public class JobOfferProcess extends JobOfferProcess_Base {
      * super.getAvailableFileTypes(); list.add(0, Curriculum.class); return
      * list; }
      */
+    @Deprecated
+    public boolean hasJobOffer() {
+        return getJobOffer() != null;
+    }
+
 }

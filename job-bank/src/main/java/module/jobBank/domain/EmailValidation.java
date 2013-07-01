@@ -82,4 +82,24 @@ public class EmailValidation extends EmailValidation_Base {
         return null;
     }
 
+    @Deprecated
+    public boolean hasExpiredDate() {
+        return getExpiredDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasChecksum() {
+        return getChecksum() != null;
+    }
+
+    @Deprecated
+    public boolean hasEmail() {
+        return getEmail() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
 }

@@ -46,7 +46,7 @@ public class StudentRegistration extends StudentRegistration_Base {
     }
 
     public void setInactive() {
-        removeJobBankSystem();
+        setJobBankSystem(null);
     }
 
     public boolean isActive() {
@@ -85,6 +85,56 @@ public class StudentRegistration extends StudentRegistration_Base {
             }
         }
         return false;
+    }
+
+    @Deprecated
+    public boolean hasNumber() {
+        return getNumber() != null;
+    }
+
+    @Deprecated
+    public boolean hasAverage() {
+        return getAverage() != null;
+    }
+
+    @Deprecated
+    public boolean hasIsConcluded() {
+        return getIsConcluded() != null;
+    }
+
+    @Deprecated
+    public boolean hasCurricularYear() {
+        return getCurricularYear() != null;
+    }
+
+    @Deprecated
+    public boolean hasRemoteRegistrationOid() {
+        return getRemoteRegistrationOid() != null;
+    }
+
+    @Deprecated
+    public boolean hasFenixDegree() {
+        return getFenixDegree() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentRegistrationCycleType> getStudentRegistrationCycleTypes() {
+        return getStudentRegistrationCycleTypesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistrationCycleTypes() {
+        return !getStudentRegistrationCycleTypesSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
     }
 
 }

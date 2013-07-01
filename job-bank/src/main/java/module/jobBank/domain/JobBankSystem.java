@@ -17,9 +17,9 @@ import pt.ist.bennu.core.domain.RoleType;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.domain.exceptions.DomainException;
-import pt.ist.fenixWebFramework.services.Service;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter;
 import pt.ist.fenixWebFramework.servlets.filters.contentRewrite.RequestChecksumFilter.ChecksumPredicate;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializer {
@@ -38,17 +38,17 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
 
     public static module.jobBank.domain.JobBankSystem getInstance() {
         final MyOrg myOrg = MyOrg.getInstance();
-        if (!myOrg.hasJobBankSystem()) {
+        if (myOrg.getJobBankSystem() == null) {
             initialize();
         }
         return myOrg.getJobBankSystem();
 
     }
 
-    @Service
+    @Atomic
     private synchronized static void initialize() {
         final MyOrg myOrg = MyOrg.getInstance();
-        if (!myOrg.hasJobBankSystem()) {
+        if (myOrg.getJobBankSystem() == null) {
             new JobBankSystem(myOrg);
         }
 
@@ -69,7 +69,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     public boolean isEnterpriseMember(User user) {
-        return hasUser(user) && user.hasEnterprise();
+        return hasUser(user) && user.getEnterprise() != null;
     }
 
     public boolean isManagementMember() {
@@ -121,20 +121,20 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
         if (WorkflowSystem.getInstance() == null) {
             VirtualHost currentVh = VirtualHost.getVirtualHostForThread();
             if (currentVh == null) {
-                currentVh = root.getVirtualHosts().get(0);
+                currentVh = root.getVirtualHosts().iterator().next();
             }
             WorkflowSystem.createSystem(currentVh);
         }
 
     }
 
-    @Service
+    @Atomic
     @Override
     public void setOrganizationalModel(final OrganizationalModel organizationalModel) {
         super.setOrganizationalModel(organizationalModel);
     }
 
-    @Service
+    @Atomic
     public Unit getTopLevelUnit() {
         OrganizationalModel organizationalModel = getOrganizationalModel();
 
@@ -143,7 +143,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
                     ResourceBundle.getBundle(JobBankSystem.JOB_BANK_RESOURCES, Language.getLocale()));
         }
 
-        if (organizationalModel.getPartiesCount() > 2) {
+        if (organizationalModel.getPartiesSet().size() > 2) {
             throw new DomainException("error.jobBankSystem.organizationalModel.not.have.root.organic.unit.or.exceed",
                     ResourceBundle.getBundle(JobBankSystem.JOB_BANK_RESOURCES, Language.getLocale()));
         }
@@ -157,7 +157,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void addManagementUsers(User user) {
         if (getManagementUsers().contains(user)) {
             throw new DomainException("message.error.user.was.added.to.management",
@@ -167,7 +167,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void removeManagementUsers(User user) {
         if (!getManagementUsers().contains(user)) {
             throw new DomainException("message.error.user.was.not.exists",
@@ -181,7 +181,7 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
     }
 
     @Override
-    @Service
+    @Atomic
     public void setUrlEmailValidation(String urlEmailValidation) {
         super.setUrlEmailValidation(urlEmailValidation);
     }
@@ -226,6 +226,141 @@ public class JobBankSystem extends JobBankSystem_Base implements ModuleInitializ
         for (JobOfferNotificationFilter filter : getJobOfferNotificationFilters()) {
             filter.sendNotification(jobOffer);
         }
+    }
+
+    @Deprecated
+    public boolean hasUrlEmailValidation() {
+        return getUrlEmailValidation() != null;
+    }
+
+    @Deprecated
+    public boolean hasEmailValidationFromName() {
+        return getEmailValidationFromName() != null;
+    }
+
+    @Deprecated
+    public boolean hasEmailValidationFromEmail() {
+        return getEmailValidationFromEmail() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOffer> getJobOffers() {
+        return getJobOffersSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOffers() {
+        return !getJobOffersSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasOrganizationalModel() {
+        return getOrganizationalModel() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOfferNotificationFilter> getJobOfferNotificationFilters() {
+        return getJobOfferNotificationFiltersSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOfferNotificationFilters() {
+        return !getJobOfferNotificationFiltersSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentRegistration> getStudentRegistration() {
+        return getStudentRegistrationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistration() {
+        return !getStudentRegistrationSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.Student> getStudents() {
+        return getStudentsSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudents() {
+        return !getStudentsSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentAuthorization> getStudentAuthorization() {
+        return getStudentAuthorizationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentAuthorization() {
+        return !getStudentAuthorizationSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasMyOrg() {
+        return getMyOrg() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.Enterprise> getEnterprises() {
+        return getEnterprisesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyEnterprises() {
+        return !getEnterprisesSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.FenixDegree> getFenixDegree() {
+        return getFenixDegreeSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyFenixDegree() {
+        return !getFenixDegreeSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<pt.ist.bennu.core.domain.User> getManagementUsers() {
+        return getManagementUsersSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyManagementUsers() {
+        return !getManagementUsersSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.EmailValidation> getEmailValidations() {
+        return getEmailValidationsSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyEmailValidations() {
+        return !getEmailValidationsSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.OfferCandidacy> getOfferCandidacies() {
+        return getOfferCandidaciesSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyOfferCandidacies() {
+        return !getOfferCandidaciesSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobBankYear> getJobBankYear() {
+        return getJobBankYearSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobBankYear() {
+        return !getJobBankYearSet().isEmpty();
     }
 
 }

@@ -1,7 +1,7 @@
 package module.jobBank.domain.curriculumQualification;
 
 import module.jobBank.domain.beans.curriculumQualification.CurriculumQualificationBean;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public abstract class CurriculumQualification extends CurriculumQualification_Base {
 
@@ -14,9 +14,9 @@ public abstract class CurriculumQualification extends CurriculumQualification_Ba
         setBasicFields(bean);
     }
 
-    @Service
+    @Atomic
     public void removeQualification() {
-        removeCurriculum();
+        setCurriculum(null);
     }
 
     public void setBasicFields(CurriculumQualificationBean bean) {
@@ -24,6 +24,31 @@ public abstract class CurriculumQualification extends CurriculumQualification_Ba
         setEndDate(bean.getEndDate());
         setCity(bean.getCity());
         setInstitute(bean.getInstitute());
+    }
+
+    @Deprecated
+    public boolean hasBeginDate() {
+        return getBeginDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasEndDate() {
+        return getEndDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasInstitute() {
+        return getInstitute() != null;
+    }
+
+    @Deprecated
+    public boolean hasCity() {
+        return getCity() != null;
+    }
+
+    @Deprecated
+    public boolean hasCurriculum() {
+        return getCurriculum() != null;
     }
 
 }

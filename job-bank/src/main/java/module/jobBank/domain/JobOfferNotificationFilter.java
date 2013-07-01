@@ -10,7 +10,7 @@ import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.VirtualHost;
 import pt.ist.bennu.core.util.BundleUtil;
 import pt.ist.emailNotifier.domain.Email;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 import pt.utl.ist.fenix.tools.util.i18n.Language;
 
 public class JobOfferNotificationFilter extends JobOfferNotificationFilter_Base {
@@ -69,7 +69,7 @@ public class JobOfferNotificationFilter extends JobOfferNotificationFilter_Base 
                 .equals(getJobOfferType()) || getJobOfferType() == null));
     }
 
-    @Service
+    @Atomic
     public static JobOfferNotificationFilter createNotification(JobOfferNotificationFilterBean bean, Student student) {
         JobOfferNotificationFilter filter = new JobOfferNotificationFilter();
         filter.setFenixDegree(bean.getDegree());
@@ -79,7 +79,7 @@ public class JobOfferNotificationFilter extends JobOfferNotificationFilter_Base 
         return filter;
     }
 
-    @Service
+    @Atomic
     public void deleteFilter() {
         getStudent().removeJobOfferNotificationFilter(this);
         setStudent(null);
@@ -90,6 +90,26 @@ public class JobOfferNotificationFilter extends JobOfferNotificationFilter_Base 
         getJobBankSystem().removeJobOfferNotificationFilters(this);
         setJobBankSystem(null);
         deleteDomainObject();
+    }
+
+    @Deprecated
+    public boolean hasJobOfferType() {
+        return getJobOfferType() != null;
+    }
+
+    @Deprecated
+    public boolean hasFenixDegree() {
+        return getFenixDegree() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
     }
 
 }

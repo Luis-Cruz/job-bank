@@ -1,56 +1,120 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>pt.ist</groupId>
-		<artifactId>bennu-project</artifactId>
-		<version>1.0.0</version>
-	</parent>
+    <parent>
+        <groupId>pt.ist</groupId>
+        <artifactId>bennu-project</artifactId>
+        <version>1.1.0</version>
+        <relativePath />
+    </parent>
 
-	<groupId>pt.ist</groupId>
-	<artifactId>job-bank-ist</artifactId>
-	<version>1.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
-	<name>job-bank-ist</name>
+    <artifactId>job-bank-ist</artifactId>
+    <version>1.1.0</version>
+    <packaging>war</packaging>
+    <name>job-bank-ist</name>
 
-	<properties>
-		<version.pt.ist.bennu.core>1.0.0</version.pt.ist.bennu.core>
-		<version.pt.ist.job.bank>1.1-SNAPSHOT</version.pt.ist.job.bank>
-		<version.pt.ist.themes.ist>1.0.0</version.pt.ist.themes.ist>
-		<maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
-		<timestamp>${maven.build.timestamp}</timestamp>
-	</properties>
+    <properties>
+        <!-- Version-forced libs -->
+        <version.pt.ist.fenix-web-framework>2.1.1</version.pt.ist.fenix-web-framework>
+        <version.pt.ist.workflow>1.1.2</version.pt.ist.workflow>
+        <version.pt.ist.fenix.framework>2.2.0</version.pt.ist.fenix.framework>
+        <version.pt.ist.ff.maven.plugin>2.2.0</version.pt.ist.ff.maven.plugin>
+        <version.fenix.framework>2.2.0</version.fenix.framework>
+        <version.pt.ist.bennu.file.management>1.1.1</version.pt.ist.bennu.file.management>
 
-	<dependencies>
-		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>bennu-core</artifactId>
-			<version>${version.pt.ist.bennu.core}</version>
-		</dependency>
-		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>job-bank</artifactId>
-			<version>${version.pt.ist.job.bank}</version>
-		</dependency>
-		<dependency>
-			<groupId>pt.ist</groupId>
-			<artifactId>themes-ist</artifactId>
-			<version>${version.pt.ist.themes.ist}</version>
-		</dependency>
-	</dependencies>
+        <version.pt.ist.bennu.core>1.1.0</version.pt.ist.bennu.core>
+        <version.pt.ist.themes.ist>1.1.0</version.pt.ist.themes.ist>
 
-	<repositories>
-		<repository>
-			<id>fenix-ashes-private</id>
-			<url>https://fenix-ashes.ist.utl.pt/nexus/content/groups/fenix-ashes-private</url>
-		</repository>
-	</repositories>
+        <fenix.framework.codeGeneratorClassName>pt.ist.bennu.backend.codeGenerator.VirtualHostAwareCodeGenerator</fenix.framework.codeGeneratorClassName>
+        <fenix.framework.backend>jvstm-ojb</fenix.framework.backend>
 
-	<distributionManagement>
-		<repository>
-			<id>fenix-core-releases</id>
-			<url>https://fenix-ashes.ist.utl.pt/nexus/content/repositories/fenix-core-releases/</url>
-		</repository>
-	</distributionManagement>
+        <maven.build.timestamp.format>yyyy/MM/dd HH:mm:ss</maven.build.timestamp.format>
+        <timestamp>${maven.build.timestamp}</timestamp>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>pt.ist</groupId>
+                <artifactId>bennu-maven-plugin</artifactId>
+                <configuration>
+                    <webFragment>src/main/webapp/WEB-INF/web.xml</webFragment>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>pt.ist</groupId>
+                <artifactId>ff-maven-plugin</artifactId>
+                <configuration>
+                    <codeGeneratorClassName>${fenix.framework.codeGeneratorClassName}</codeGeneratorClassName>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>pt.ist</groupId>
+                        <artifactId>fenix-framework-backend-${fenix.framework.backend}-code-generator</artifactId>
+                        <version>${version.fenix.framework}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Version-forced libs -->
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>fenix-web-framework</artifactId>
+            <version>${version.pt.ist.fenix-web-framework}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>workflow</artifactId>
+            <version>${version.pt.ist.workflow}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>file-management</artifactId>
+            <version>${version.pt.ist.bennu.file.management}</version>
+        </dependency>
+
+        <!-- Installed modules -->
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>bennu-core</artifactId>
+            <version>${version.pt.ist.bennu.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>job-bank</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>themes-ist</artifactId>
+            <version>${version.pt.ist.themes.ist}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>fenix-framework-backend-${fenix.framework.backend}-runtime</artifactId>
+            <version>${version.fenix.framework}</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>fenix-ashes-private</id>
+            <url>https://fenix-ashes.ist.utl.pt/nexus/content/groups/fenix-ashes-private</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>fenix-core-releases</id>
+            <url>https://fenix-ashes.ist.utl.pt/nexus/content/repositories/fenix-core-releases/</url>
+        </repository>
+    </distributionManagement>
 </project>

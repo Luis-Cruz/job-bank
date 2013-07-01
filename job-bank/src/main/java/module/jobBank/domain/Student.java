@@ -3,7 +3,6 @@ package module.jobBank.domain;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import module.jobBank.domain.utils.IPredicate;
@@ -14,7 +13,7 @@ import module.workflow.domain.ProcessFile;
 import org.joda.time.DateTime;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class Student extends Student_Base {
 
@@ -65,7 +64,7 @@ public class Student extends Student_Base {
     }
 
     public static boolean canCreateStudent(User user) {
-        if (user.hasPerson()) {
+        if (user.getPerson() != null) {
             return new JerseyRemoteUser(user).hasStudent();
         }
         return false;
@@ -108,18 +107,12 @@ public class Student extends Student_Base {
         return null;
     }
 
-    @Override
-    public List<StudentRegistration> getStudentRegistration() {
-        return new ArrayList<StudentRegistration>(getStudentRegistrationSet());
+    public Set<StudentRegistration> getStudentRegistration() {
+        return new HashSet<StudentRegistration>(super.getStudentRegistrationSet());
     }
 
-    @Override
-    public int getStudentRegistrationCount() {
-        return getStudentRegistration().size();
-    }
-
-    public List<StudentRegistration> getStudentRegistrationWithoutFiltering() {
-        return super.getStudentRegistration();
+    public Set<StudentRegistration> getStudentRegistrationWithoutFiltering() {
+        return super.getStudentRegistrationSet();
     }
 
     @Override
@@ -165,7 +158,7 @@ public class Student extends Student_Base {
         return false;
     }
 
-    @Service
+    @Atomic
     public void acceptTermsResponsibility() {
         setAcceptedTermsResponsibilityDate(new DateTime());
     }
@@ -177,6 +170,76 @@ public class Student extends Student_Base {
             }
         }
         return null;
+    }
+
+    @Deprecated
+    public boolean hasAcceptedTermsResponsibilityDate() {
+        return getAcceptedTermsResponsibilityDate() != null;
+    }
+
+    @Deprecated
+    public boolean hasHasPersonalDataAuthorization() {
+        return getHasPersonalDataAuthorization() != null;
+    }
+
+    @Deprecated
+    public boolean hasCurriculum() {
+        return getCurriculum() != null;
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOfferNotificationFilter> getJobOfferNotificationFilter() {
+        return getJobOfferNotificationFilterSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOfferNotificationFilter() {
+        return !getJobOfferNotificationFilterSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistration() {
+        return !getStudentRegistrationSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOffer> getJobOffer() {
+        return getJobOfferSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOffer() {
+        return !getJobOfferSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasPerson() {
+        return getPerson() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentAuthorization> getStudentAuthorization() {
+        return getStudentAuthorizationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentAuthorization() {
+        return !getStudentAuthorizationSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.OfferCandidacy> getOfferCandidacy() {
+        return getOfferCandidacySet();
+    }
+
+    @Deprecated
+    public boolean hasAnyOfferCandidacy() {
+        return !getOfferCandidacySet().isEmpty();
     }
 
 }

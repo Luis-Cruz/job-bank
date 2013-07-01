@@ -17,7 +17,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import pt.ist.bennu.core.domain.User;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class Curriculum extends Curriculum_Base {
 
@@ -31,7 +31,7 @@ public class Curriculum extends Curriculum_Base {
         addCurriculumQualification(information.getCurriculumQualficationBean().create());
     }
 
-    @Service
+    @Atomic
     public void edit(CurriculumBean curriculumBean) {
         setDateOfBirth(curriculumBean.getDateOfBirth());
         setNationality(curriculumBean.getNationality());
@@ -47,7 +47,7 @@ public class Curriculum extends Curriculum_Base {
 
     }
 
-    @Service
+    @Atomic
     public void loadExternalData() {
         Set<StudentRegistration> updatedStudentRegistration = new HashSet<StudentRegistration>();
         String studentInfoForJobBank =
@@ -165,8 +165,84 @@ public class Curriculum extends Curriculum_Base {
     public boolean hasAnyDocument() {
         if (hasCurriculumProcess()) {
             CurriculumProcess process = getCurriculumProcess();
-            return process.getFilesCount() > 0;
+            return process.getFilesSet().size() > 0;
         }
         return false;
     }
+
+    @Deprecated
+    public boolean hasDateOfBirth() {
+        return getDateOfBirth() != null;
+    }
+
+    @Deprecated
+    public boolean hasNationality() {
+        return getNationality() != null;
+    }
+
+    @Deprecated
+    public boolean hasAddress() {
+        return getAddress() != null;
+    }
+
+    @Deprecated
+    public boolean hasArea() {
+        return getArea() != null;
+    }
+
+    @Deprecated
+    public boolean hasAreaCode() {
+        return getAreaCode() != null;
+    }
+
+    @Deprecated
+    public boolean hasDistrictSubdivision() {
+        return getDistrictSubdivision() != null;
+    }
+
+    @Deprecated
+    public boolean hasMobilePhone() {
+        return getMobilePhone() != null;
+    }
+
+    @Deprecated
+    public boolean hasPhone() {
+        return getPhone() != null;
+    }
+
+    @Deprecated
+    public boolean hasEmail() {
+        return getEmail() != null;
+    }
+
+    @Deprecated
+    public boolean hasProfessionalStatus() {
+        return getProfessionalStatus() != null;
+    }
+
+    @Deprecated
+    public boolean hasGeographicAvailability() {
+        return getGeographicAvailability() != null;
+    }
+
+    @Deprecated
+    public boolean hasCurriculumProcess() {
+        return getCurriculumProcess() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudent() {
+        return getStudent() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.curriculumQualification.CurriculumQualification> getCurriculumQualification() {
+        return getCurriculumQualificationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyCurriculumQualification() {
+        return !getCurriculumQualificationSet().isEmpty();
+    }
+
 }

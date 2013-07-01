@@ -1,6 +1,7 @@
 package module.jobBank.domain.task;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UpdateExpiredEnterpriseAgreementsTask extends UpdateExpiredEnterpri
     public void executeTask() {
         LocalDate oneMonthFromNow = new LocalDate().plusMonths(monthsToExpire);
         LocalDate tomorow = new LocalDate().plusDays(1);
-        List<Enterprise> enterprises = JobBankSystem.getInstance().getEnterprises();
+        Collection<Enterprise> enterprises = JobBankSystem.getInstance().getEnterprises();
         for (Enterprise enterprise : enterprises) {
             if (!enterprise.isCanceled() && !enterprise.isDisable() && !enterprise.isPendingAgreementToApprove()) {
 

@@ -9,8 +9,28 @@ public class StudentRegistrationCycleType extends StudentRegistrationCycleType_B
     }
 
     public void delete() {
-        removeStudentRegistration();
+        setStudentRegistration(null);
         super.deleteDomainObject();
+    }
+
+    @Deprecated
+    public boolean hasAverage() {
+        return getAverage() != null;
+    }
+
+    @Deprecated
+    public boolean hasIsConcluded() {
+        return getIsConcluded() != null;
+    }
+
+    @Deprecated
+    public boolean hasCycleType() {
+        return getCycleType() != null;
+    }
+
+    @Deprecated
+    public boolean hasStudentRegistration() {
+        return getStudentRegistration() != null;
     }
 
 }

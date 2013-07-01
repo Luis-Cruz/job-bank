@@ -32,11 +32,11 @@ public class FenixDegree extends FenixDegree_Base {
                 || getDegreeType().equals(FenixDegreeType.BOLONHA_INTEGRATED_MASTER_DEGREE);
     }
 
-    public static FenixDegree getFenixDegreeByIdInternal(int IdInternal) {
+    public static FenixDegree getFenixDegreeBy(String externalId) {
         JobBankSystem jobBank = JobBankSystem.getInstance();
 
         for (FenixDegree degree : jobBank.getActiveFenixDegreeSet()) {
-            if (degree.getIdInternal() == IdInternal) {
+            if (degree.getExternalId() == externalId) {
                 return degree;
             }
         }
@@ -61,6 +61,46 @@ public class FenixDegree extends FenixDegree_Base {
         equalDegrees.put("2761663971585", "2761663971475");
         String externalIdToCompare = equalDegrees.get(externalId);
         return externalIdToCompare == null ? externalId : externalIdToCompare;
+    }
+
+    @Deprecated
+    public boolean hasName() {
+        return getName() != null;
+    }
+
+    @Deprecated
+    public boolean hasDegreeType() {
+        return getDegreeType() != null;
+    }
+
+    @Deprecated
+    public boolean hasRemoteDegreeOid() {
+        return getRemoteDegreeOid() != null;
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.JobOfferNotificationFilter> getJobOfferNotificationFilter() {
+        return getJobOfferNotificationFilterSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyJobOfferNotificationFilter() {
+        return !getJobOfferNotificationFilterSet().isEmpty();
+    }
+
+    @Deprecated
+    public java.util.Set<module.jobBank.domain.StudentRegistration> getStudentRegistration() {
+        return getStudentRegistrationSet();
+    }
+
+    @Deprecated
+    public boolean hasAnyStudentRegistration() {
+        return !getStudentRegistrationSet().isEmpty();
+    }
+
+    @Deprecated
+    public boolean hasJobBankSystem() {
+        return getJobBankSystem() != null;
     }
 
 }

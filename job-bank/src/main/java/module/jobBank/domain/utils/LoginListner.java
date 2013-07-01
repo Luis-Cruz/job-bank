@@ -26,7 +26,7 @@ public class LoginListner implements AuthenticationListner {
     }
 
     private static void importUserInformation(final User user) {
-        if (!user.hasPerson()) {
+        if (user.getPerson() == null) {
             updateUserInformation(user);
         }
     }

@@ -89,7 +89,7 @@ public class EnterpriseAction extends ContextBaseAction {
         if (user == null) {
             return prepareToCreateEmailValidation(mapping, form, request, response);
         }
-        if (user.hasEnterprise()) {
+        if (user.getEnterprise() != null) {
             user.getEnterprise().acceptedTermsOfResponsibilityForCurrentYear();
         }
         request.setAttribute("user", user);

@@ -9,7 +9,7 @@ import pt.ist.bennu.core.domain.MyOrg;
 import pt.ist.bennu.core.domain.User;
 import pt.ist.bennu.core.domain.groups.PersistentGroup;
 import pt.ist.bennu.core.util.BundleUtil;
-import pt.ist.fenixWebFramework.services.Service;
+import pt.ist.fenixframework.Atomic;
 
 public class FenixStudentGroup extends FenixStudentGroup_Base {
 
@@ -23,7 +23,7 @@ public class FenixStudentGroup extends FenixStudentGroup_Base {
         return isStudent(user);
     }
 
-    @Service
+    @Atomic
     private Boolean isStudent(User user) {
         if (user != null && user.getPerson() != null) {
             return new JerseyRemoteUser(user).hasStudent();
@@ -31,7 +31,7 @@ public class FenixStudentGroup extends FenixStudentGroup_Base {
         return false;
     }
 
-    @Service
+    @Atomic
     public static FenixStudentGroup getInstance() {
         final FenixStudentGroup fenixStudentGroup = (FenixStudentGroup) PersistentGroup.getSystemGroup(FenixStudentGroup.class);
         return fenixStudentGroup == null ? new FenixStudentGroup() : fenixStudentGroup;
