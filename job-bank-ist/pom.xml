@@ -5,7 +5,7 @@
     <parent>
         <groupId>pt.ist</groupId>
         <artifactId>bennu-project</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.0</version>
         <relativePath />
     </parent>
 
@@ -15,7 +15,15 @@
     <name>job-bank-ist</name>
 
     <properties>
-        <version.pt.ist.bennu.core>1.1.1</version.pt.ist.bennu.core>
+        <!-- Version-forced libs -->
+        <version.pt.ist.fenix-web-framework>2.1.1</version.pt.ist.fenix-web-framework>
+        <version.pt.ist.workflow>1.1.2</version.pt.ist.workflow>
+        <version.pt.ist.fenix.framework>2.2.0</version.pt.ist.fenix.framework>
+        <version.pt.ist.ff.maven.plugin>2.2.0</version.pt.ist.ff.maven.plugin>
+        <version.fenix.framework>2.2.0</version.fenix.framework>
+        <version.pt.ist.bennu.file.management>1.1.1</version.pt.ist.bennu.file.management>
+
+        <version.pt.ist.bennu.core>1.1.0</version.pt.ist.bennu.core>
         <version.pt.ist.themes.ist>1.1.0</version.pt.ist.themes.ist>
 
         <fenix.framework.codeGeneratorClassName>pt.ist.bennu.backend.codeGenerator.VirtualHostAwareCodeGenerator</fenix.framework.codeGeneratorClassName>
@@ -52,6 +60,24 @@
     </build>
 
     <dependencies>
+        <!-- Version-forced libs -->
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>fenix-web-framework</artifactId>
+            <version>${version.pt.ist.fenix-web-framework}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>workflow</artifactId>
+            <version>${version.pt.ist.workflow}</version>
+        </dependency>
+        <dependency>
+            <groupId>pt.ist</groupId>
+            <artifactId>file-management</artifactId>
+            <version>${version.pt.ist.bennu.file.management}</version>
+        </dependency>
+
+        <!-- Installed modules -->
         <dependency>
             <groupId>pt.ist</groupId>
             <artifactId>bennu-core</artifactId>
